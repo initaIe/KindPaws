@@ -11,13 +11,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\KindPaws.Application\KindPaws.Application.csproj" />
-      <ProjectReference Include="..\KindPaws.Domain\KindPaws.Domain.csproj" />
-      <ProjectReference Include="..\KindPaws.Infrastructure\KindPaws.Infrastructure.csproj" />
+        <ProjectReference Include="..\KindPaws.Application\KindPaws.Application.csproj"/>
+        <ProjectReference Include="..\KindPaws.Domain\KindPaws.Domain.csproj"/>
+        <ProjectReference Include="..\KindPaws.Infrastructure\KindPaws.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+        <Folder Include="Controllers\"/>
     </ItemGroup>
 
 </Project>
