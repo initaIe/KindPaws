@@ -62,6 +62,9 @@ public class Volunteer
     {
         List<string> errors = [];
 
+        id.Validate()
+            .AddErrorIfFailure(errors);
+
         description.DefaultValidate(
                 VolunteerRules.MinDescriptionLength,
                 VolunteerRules.MaxDescriptionLength)

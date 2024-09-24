@@ -7,6 +7,8 @@ namespace KindPaws.Domain;
 
 public class Pet
 {
+    private readonly List<PetPhoto> _petPhotos;
+
     private Pet(
         Guid id,
         string name,
@@ -17,7 +19,8 @@ public class Pet
         AgeInfo ageInfo,
         HelpInfo helpInfo,
         Breed breed,
-        BreedColor breedColor)
+        BreedColor breedColor,
+        List<PetPhoto> petPhotos)
     {
         Id = id;
         Name = name;
@@ -29,6 +32,7 @@ public class Pet
         HelpInfo = helpInfo;
         Breed = breed;
         BreedColor = breedColor;
+        _petPhotos = petPhotos;
     }
 
     public Guid Id { get; private set; }
@@ -42,6 +46,7 @@ public class Pet
     public AgeInfo AgeInfo { get; private set; }
     public HelpInfo HelpInfo { get; private set; }
     public DateOnly CreationDate { get; private set; } = DateOnly.FromDateTime(DateTime.Now);
+    public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
 
     public static Result<Pet, IEnumerable<string>> Create(
         Guid id,
@@ -53,7 +58,8 @@ public class Pet
         AgeInfo ageInfo,
         HelpInfo helpInfo,
         Breed breed,
-        BreedColor breedColor)
+        BreedColor breedColor,
+        List<PetPhoto> petPhotos)
     {
         List<string> errors = [];
 
@@ -75,7 +81,8 @@ public class Pet
             ageInfo,
             helpInfo,
             breed,
-            breedColor);
+            breedColor,
+            petPhotos);
 
         return Result.Success<Pet, IEnumerable<string>>(pet);
     }
