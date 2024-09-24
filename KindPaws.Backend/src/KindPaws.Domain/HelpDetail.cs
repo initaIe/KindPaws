@@ -27,12 +27,12 @@ public class HelpDetail
         name.DefaultValidate(
                 HelpDetailRules.MinNameLength,
                 HelpDetailRules.MaxNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         description.DefaultValidate(
                 HelpDetailRules.MinDescriptionLength,
                 HelpDetailRules.MaxDescriptionLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<HelpDetail, IEnumerable<string>>(errors);
 

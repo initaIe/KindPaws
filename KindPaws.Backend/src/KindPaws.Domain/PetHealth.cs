@@ -55,7 +55,7 @@ public class PetHealth
         description.DefaultValidate(
                 PetHealthRules.MinDescriptionLength,
                 PetHealthRules.MaxDescriptionLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<PetHealth, IEnumerable<string>>(errors);
 

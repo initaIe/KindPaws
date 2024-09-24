@@ -10,7 +10,7 @@ public class FullName
     private FullName(
         string firstName,
         string lastName,
-        string patronymic)
+        string? patronymic)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -19,29 +19,30 @@ public class FullName
 
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public string Patronymic { get; private set; }
+    public string? Patronymic { get; private set; }
 
     public static Result<FullName, IEnumerable<string>> Create(
         string firstName,
         string lastName,
-        string patronymic)
+        string? patronymic)
     {
         List<string> errors = [];
 
         firstName.DefaultValidate(
                 FullNameRules.MinNameLength,
                 FullNameRules.MaxNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         lastName.DefaultValidate(
                 FullNameRules.MinLastNameLength,
                 FullNameRules.MaxLastNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
+        
         patronymic.DefaultValidate(
                 FullNameRules.MinPatronymicLength,
                 FullNameRules.MaxPatronymicLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0)
             return Result.Failure<FullName, IEnumerable<string>>(errors);

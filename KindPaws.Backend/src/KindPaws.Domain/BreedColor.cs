@@ -21,7 +21,7 @@ public class BreedColor
         name.DefaultValidate(
                 BreedColorRules.MinNameLength,
                 BreedColorRules.MaxNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0)
             return Result.Failure<BreedColor, IEnumerable<string>>(errors);

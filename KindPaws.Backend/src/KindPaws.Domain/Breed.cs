@@ -33,12 +33,12 @@ public class Breed
         name.DefaultValidate(
                 BreedRules.MinNameLength,
                 BreedRules.MaxNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         description.DefaultValidate(
                 BreedRules.MinDescriptionLength,
                 BreedRules.MaxDescriptionLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0)
             return Result.Failure<Breed, IEnumerable<string>>(errors);

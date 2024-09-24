@@ -61,7 +61,7 @@ public class Pet
             .AddErrorIfFailure(errors);
 
         name.DefaultValidate(PetRules.MinNameLength, PetRules.MaxNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<Pet, IEnumerable<string>>(errors);
 
