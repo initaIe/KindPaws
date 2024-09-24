@@ -40,12 +40,14 @@ public class PetHealth
 
         height.MinValueValidate(PetHealthRules.MinHeightValue)
             .AddErrorIfFailure(errors);
+
         height = height.Round(
             PetHealthRules.HeightPrecision,
             PetHealthRules.IsHeightRoundUp);
 
         weight.MinValueValidate(PetHealthRules.MinWeightValue)
             .AddErrorIfFailure(errors);
+
         weight = weight.Round(
             PetHealthRules.WeightPrecision,
             PetHealthRules.IsWeightRoundUp);

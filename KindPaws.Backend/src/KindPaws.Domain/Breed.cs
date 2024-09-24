@@ -34,6 +34,7 @@ public class Breed
                 BreedRules.MinNameLength,
                 BreedRules.MaxNameLength)
             .AddErrorsIfFailure(errors);
+
         description.DefaultValidate(
                 BreedRules.MinDescriptionLength,
                 BreedRules.MaxDescriptionLength)

@@ -37,12 +37,16 @@ public class Address
 
         country.DefaultValidate(1, 30)
             .AddErrorsIfFailure(errors);
+
         city.DefaultValidate(1, 30)
             .AddErrorsIfFailure(errors);
+
         street.DefaultValidate(1, 30)
             .AddErrorsIfFailure(errors);
+
         houseNumber.DefaultValidate(1, 10)
             .AddErrorsIfFailure(errors);
+
         apartmentNumber.DefaultValidate(1, 10)
             .AddErrorsIfFailure(errors);
 

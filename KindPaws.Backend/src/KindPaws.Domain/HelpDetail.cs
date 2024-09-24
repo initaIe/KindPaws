@@ -28,6 +28,7 @@ public class HelpDetail
                 HelpDetailRules.MinNameLength,
                 HelpDetailRules.MaxNameLength)
             .AddErrorsIfFailure(errors);
+
         description.DefaultValidate(
                 HelpDetailRules.MinDescriptionLength,
                 HelpDetailRules.MaxDescriptionLength)

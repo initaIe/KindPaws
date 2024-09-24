@@ -34,6 +34,7 @@ public class PetSpecie
                 PetSpecieRules.MinNameLength,
                 PetSpecieRules.MaxNameLength)
             .AddErrorsIfFailure(errors);
+
         description.DefaultValidate(
                 PetSpecieRules.MinDescriptionLength,
                 PetSpecieRules.MaxDescriptionLength)

@@ -13,7 +13,7 @@ public class Pet
         PetSpecie specie,
         PetHealth health,
         Address address,
-        string ownerPhoneNumber,
+        PhoneNumber ownerPhoneNumber,
         AgeInfo ageInfo,
         HelpInfo helpInfo,
         Breed breed,
@@ -38,7 +38,7 @@ public class Pet
     public BreedColor BreedColor { get; private set; }
     public PetHealth Health { get; private set; }
     public Address Address { get; private set; }
-    public string OwnerPhoneNumber { get; private set; }
+    public PhoneNumber OwnerPhoneNumber { get; private set; }
     public AgeInfo AgeInfo { get; private set; }
     public HelpInfo HelpInfo { get; private set; }
     public DateOnly CreationDate { get; private set; } = DateOnly.FromDateTime(DateTime.Now);
@@ -49,7 +49,7 @@ public class Pet
         PetSpecie specie,
         PetHealth health,
         Address address,
-        string ownerPhoneNumber,
+        PhoneNumber ownerPhoneNumber,
         AgeInfo ageInfo,
         HelpInfo helpInfo,
         Breed breed,
@@ -59,10 +59,9 @@ public class Pet
 
         id.Validate()
             .AddErrorIfFailure(errors);
+
         name.DefaultValidate(PetRules.MinNameLength, PetRules.MaxNameLength)
             .AddErrorsIfFailure(errors);
-        ownerPhoneNumber.PhoneNumberValidate()
-            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<Pet, IEnumerable<string>>(errors);
 
