@@ -36,15 +36,19 @@ public class Address
         List<string> errors = [];
 
         country.DefaultValidate(1, 30)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
+
         city.DefaultValidate(1, 30)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
+
         street.DefaultValidate(1, 30)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
+
         houseNumber.DefaultValidate(1, 10)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
+
         apartmentNumber.DefaultValidate(1, 10)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0)
             return Result.Failure<Address, IEnumerable<string>>(errors);

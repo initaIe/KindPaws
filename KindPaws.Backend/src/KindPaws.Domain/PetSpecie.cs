@@ -33,11 +33,12 @@ public class PetSpecie
         name.DefaultValidate(
                 PetSpecieRules.MinNameLength,
                 PetSpecieRules.MaxNameLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
+
         description.DefaultValidate(
                 PetSpecieRules.MinDescriptionLength,
                 PetSpecieRules.MaxDescriptionLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<PetSpecie, IEnumerable<string>>(errors);
 

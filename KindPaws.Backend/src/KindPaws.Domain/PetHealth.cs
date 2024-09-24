@@ -40,12 +40,14 @@ public class PetHealth
 
         height.MinValueValidate(PetHealthRules.MinHeightValue)
             .AddErrorIfFailure(errors);
+
         height = height.Round(
             PetHealthRules.HeightPrecision,
             PetHealthRules.IsHeightRoundUp);
 
         weight.MinValueValidate(PetHealthRules.MinWeightValue)
             .AddErrorIfFailure(errors);
+
         weight = weight.Round(
             PetHealthRules.WeightPrecision,
             PetHealthRules.IsWeightRoundUp);
@@ -53,7 +55,7 @@ public class PetHealth
         description.DefaultValidate(
                 PetHealthRules.MinDescriptionLength,
                 PetHealthRules.MaxDescriptionLength)
-            .AddErrorsIfFailure(errors);
+            .AddErrorIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<PetHealth, IEnumerable<string>>(errors);
 

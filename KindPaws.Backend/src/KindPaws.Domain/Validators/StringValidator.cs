@@ -88,17 +88,29 @@ public static class StringValidator
         return Result.Success<string, string>(input);
     }
 
-    public static Result<string, List<string>> DefaultValidate(this string input, int minLength, int maxLength)
+    public static Result<string, string> NullEmptyWhiteSpacesValidate(this string? input)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            var error = "Cannot be null, empty or consist only of whitespace.";
+            return Result.Failure<string, string>(error);
+        }
 
-        input.NullValidate().AddErrorIfFailure(errors);
-        input.EmptyValidate().AddErrorIfFailure(errors);
-        input.WhiteSpacesValidate().AddErrorIfFailure(errors);
-        input.MinMaxLengthValidate(minLength, maxLength).AddErrorIfFailure(errors);
+        return Result.Success<string, string>(input);
+    }
 
-        return errors.Count > 0
-            ? Result.Failure<string, List<string>>(errors)
-            : Result.Success<string, List<string>>(input);
+    public static Result<string, string> DefaultValidate(this string? input, int minLength, int maxLength)
+    {
+        var nullEmptyWhiteSpacesValidate = input.NullEmptyWhiteSpacesValidate();
+
+        if (nullEmptyWhiteSpacesValidate.IsFailure)
+            return Result.Failure<string, string>(nullEmptyWhiteSpacesValidate.Error);
+
+        var minMaxLengthValidation = input!.MinMaxLengthValidate(minLength, maxLength);
+        
+        if (minMaxLengthValidation.IsFailure)
+            return Result.Failure<string, string>(minMaxLengthValidation.Error);
+        
+        return Result.Success<string, string>(input!);
     }
 }
