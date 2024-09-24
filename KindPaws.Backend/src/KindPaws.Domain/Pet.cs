@@ -7,6 +7,8 @@ namespace KindPaws.Domain;
 
 public class Pet
 {
+    private readonly List<PetPhoto> _petPhotos;
+
     private Pet(
         Guid id,
         string name,
@@ -32,8 +34,6 @@ public class Pet
         BreedColor = breedColor;
         _petPhotos = petPhotos;
     }
-
-    private readonly List<PetPhoto> _petPhotos;
 
     public Guid Id { get; private set; }
     public string Name { get; private set; }
