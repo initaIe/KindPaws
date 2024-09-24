@@ -1,38 +1,41 @@
 using CSharpFunctionalExtensions;
 using KindPaws.Domain.Helpers;
+using KindPaws.Domain.ValidationRules;
 using KindPaws.Domain.Validators;
 
 namespace KindPaws.Domain;
 
 public class HelpDetail
 {
-    public const int MinNameLength = 1;
-    public const int MaxNameLength = 25;
-    public const int MinDescriptionLength = 1;
-    public const int MaxDescriptionLength = 250;
-
-    private HelpDetail(Guid helpInfoId, string name, string description)
+    private HelpDetail(
+        string name,
+        string description)
     {
-        HelpInfoId = helpInfoId;
         Name = name;
         Description = description;
     }
 
-    public Guid HelpInfoId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
 
-    public static Result<HelpDetail, IEnumerable<string>> Create(Guid helpInfoId, string name, string description)
+    public static Result<HelpDetail, IEnumerable<string>> Create(
+        string name,
+        string description)
     {
         List<string> errors = [];
 
-        helpInfoId.Validate().AddErrorIfFailure(errors);
-        name.DefaultValidate(MinNameLength, MaxNameLength);
-        description.DefaultValidate(MinDescriptionLength, MaxDescriptionLength);
+        name.DefaultValidate(
+                HelpDetailRules.MinNameLength,
+                HelpDetailRules.MaxNameLength)
+            .AddErrorsIfFailure(errors);
+        description.DefaultValidate(
+                HelpDetailRules.MinDescriptionLength,
+                HelpDetailRules.MaxDescriptionLength)
+            .AddErrorsIfFailure(errors);
 
         if (errors.Count > 0) return Result.Failure<HelpDetail, IEnumerable<string>>(errors);
 
-        var helpDetail = new HelpDetail(helpInfoId, name, description);
+        var helpDetail = new HelpDetail(name, description);
 
         return Result.Success<HelpDetail, IEnumerable<string>>(helpDetail);
     }
