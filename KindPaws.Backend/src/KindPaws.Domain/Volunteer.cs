@@ -38,7 +38,7 @@ public class Volunteer
     public FullName FullName { get; private set; }
     public Email EmailAddress { get; private set; }
     public string Description { get; private set; }
-    
+
     // TODO: create Experience class
     public int YearsExperience { get; private set; }
     public int GetCountPetsAlreadyFoundHome => _pets.Count(x => x.HelpInfo.Status == HelpStatus.AlreadyFoundHome);

@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using KindPaws.Domain.Helpers;
 
 namespace KindPaws.Domain.Validators;
 
@@ -107,10 +106,10 @@ public static class StringValidator
             return Result.Failure<string, string>(nullEmptyWhiteSpacesValidate.Error);
 
         var minMaxLengthValidation = input!.MinMaxLengthValidate(minLength, maxLength);
-        
+
         if (minMaxLengthValidation.IsFailure)
             return Result.Failure<string, string>(minMaxLengthValidation.Error);
-        
+
         return Result.Success<string, string>(input!);
     }
 }

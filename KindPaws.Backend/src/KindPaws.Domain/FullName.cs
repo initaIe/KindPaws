@@ -38,7 +38,7 @@ public class FullName
                 FullNameRules.MaxLastNameLength)
             .AddErrorIfFailure(errors);
 
-        
+
         patronymic.DefaultValidate(
                 FullNameRules.MinPatronymicLength,
                 FullNameRules.MaxPatronymicLength)
