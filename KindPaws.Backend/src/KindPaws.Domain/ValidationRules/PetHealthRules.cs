@@ -11,5 +11,5 @@ public static class PetHealthRules
     public const bool IsWeightRoundUp = true;
 
     public const int MinDescriptionLength = 10;
-    public const int MaxDescriptionLength = 250;
+    public const int MaxDescriptionLength = 500;
 }

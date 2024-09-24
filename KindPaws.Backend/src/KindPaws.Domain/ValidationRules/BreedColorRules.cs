@@ -2,6 +2,6 @@
 
 public static class BreedColorRules
 {
-    public const int MinNameLength = 1;
-    public const int MaxNameLength = 25;
+    public const int MinNameLength = 3;
+    public const int MaxNameLength = 100;
 }
