@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CSharpFunctionalExtensions" Version="3.0.0"/>
+      <Folder Include="Managements\VolunteerManagement\VOs\" />
     </ItemGroup>
 
 </Project>
