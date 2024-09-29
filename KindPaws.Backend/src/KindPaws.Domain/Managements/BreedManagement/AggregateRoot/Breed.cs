@@ -1,7 +1,5 @@
 using KindPaws.Domain.Managements.BreedManagement.Constraints;
 using KindPaws.Domain.Managements.BreedManagement.ValueObjects.Lists;
-using KindPaws.Domain.Managements.PetManagement.AggregateRoot;
-using KindPaws.Domain.Managements.SpecieManagement.AggregateRoot;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Extensions;

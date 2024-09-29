@@ -1,9 +1,6 @@
-﻿using KindPaws.Domain.Managements.BreedManagement.AggregateRoot;
-using KindPaws.Domain.Managements.PetManagement.Constraints;
+﻿using KindPaws.Domain.Managements.PetManagement.Constraints;
 using KindPaws.Domain.Managements.PetManagement.ValueObjects;
 using KindPaws.Domain.Managements.PetManagement.ValueObjects.Lists;
-using KindPaws.Domain.Managements.SpecieManagement.AggregateRoot;
-using KindPaws.Domain.Managements.VolunteerManagement.AggregateRoot;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Extensions;
@@ -23,8 +20,7 @@ public class Pet : Entity<PetId>
         PetId id,
         string name,
         string description,
-        SpecieId specieId,
-        BreedId breedId,
+        PetType petType,
         string color,
         HealthDetails healthDetails,
         BiometricDetails characteristicsDetails,
@@ -36,8 +32,7 @@ public class Pet : Entity<PetId>
     {
         Name = name;
         Description = description;
-        SpecieId = specieId;
-        BreedId = breedId;
+        PetType = petType;
         Color = color;
         HealthDetails = healthDetails;
         CharacteristicsDetails = characteristicsDetails;
@@ -49,8 +44,7 @@ public class Pet : Entity<PetId>
 
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public SpecieId SpecieId { get; private set; }
-    public BreedId BreedId { get; private set; }
+    public PetType PetType { get; private set; }
     public string Color { get; private set; }
     public HealthDetails HealthDetails { get; private set; }
     public BiometricDetails CharacteristicsDetails { get; private set; }
@@ -64,8 +58,7 @@ public class Pet : Entity<PetId>
         PetId id,
         string name,
         string description,
-        SpecieId specieId,
-        BreedId breedId,
+        PetType petType,
         string color,
         HealthDetails healthDetails,
         BiometricDetails characteristicsDetails,
@@ -93,8 +86,7 @@ public class Pet : Entity<PetId>
             id,
             name,
             description,
-            specieId,
-            breedId,
+            petType,
             color,
             healthDetails,
             characteristicsDetails,

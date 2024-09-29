@@ -46,7 +46,7 @@ public class Volunteer : Entity<VolunteerId>
     public PhoneNumber PhoneNumber { get; private set; }
     public SocialNetworkList SocialNetworks { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
-    
+
     public int GetCountPetsAlreadyFoundHome =>
         _pets.Count(x => x.SupportDetails.Status == SupportStatus.AlreadyFoundHome);
 

@@ -28,9 +28,20 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("description")
             .IsRequired();
 
-        builder.Property(pet => pet.SpecieId);
+        builder.ComplexProperty(pet => pet.PetType, petType =>
+        {
+            petType.Property(x => x.SpecieId)
+                .HasConversion(
+                    specieId => specieId.Value,
+                    value => SpecieId.Create(value))
+                .HasColumnName("specie_id");
 
-        builder.Property(pet => pet.BreedId);
+            petType.Property(x => x.BreedId)
+                .HasConversion(
+                    breedId => breedId.Value,
+                    value => BreedId.Create(value))
+                .HasColumnName("breed_id");
+        });
 
         builder.OwnsOne(pet => pet.HealthDetails, healthDetails =>
         {

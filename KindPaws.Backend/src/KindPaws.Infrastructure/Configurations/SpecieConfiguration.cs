@@ -21,7 +21,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .WithOne()
             .HasForeignKey("specie_id")
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Property(specie => specie.Name)
             .HasMaxLength(SpecieConstraints.MaxNameLength)
             .IsRequired();
