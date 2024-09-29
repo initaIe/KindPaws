@@ -19,8 +19,8 @@ public record PetPhoto
         IsMain = isMain;
     }
 
-    public string PathToStorage { get; private set; }
-    public bool IsMain { get; private set; }
+    public string PathToStorage { get; }
+    public bool IsMain { get; }
 
     public static Result<PetPhoto, IEnumerable<string>> Create(
         string pathToStorage,

@@ -17,9 +17,9 @@ public record FullName
         Patronymic = patronymic;
     }
 
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string? Patronymic { get; private set; }
+    public string FirstName { get; }
+    public string LastName { get; }
+    public string? Patronymic { get; }
 
     public static Result<FullName, IEnumerable<string>> Create(
         string firstName,

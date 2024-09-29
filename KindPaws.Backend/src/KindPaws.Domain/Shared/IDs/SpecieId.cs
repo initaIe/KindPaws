@@ -7,7 +7,7 @@ public record SpecieId
         Value = value;
     }
 
-    public Guid Value { get; private set; }
+    public Guid Value { get; }
 
     public static SpecieId NewPetId()
     {

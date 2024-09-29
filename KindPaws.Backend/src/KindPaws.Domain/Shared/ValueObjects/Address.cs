@@ -21,9 +21,9 @@ public record Address
         Street = street;
     }
 
-    public string Country { get; private set; }
-    public string City { get; private set; }
-    public string Street { get; private set; }
+    public string Country { get; }
+    public string City { get; }
+    public string Street { get; }
 
     public static Result<Address, IEnumerable<string>> Create(
         string country,

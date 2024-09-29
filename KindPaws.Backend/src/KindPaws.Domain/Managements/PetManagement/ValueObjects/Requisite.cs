@@ -17,8 +17,8 @@ public record Requisite
         Description = description;
     }
 
-    public string Name { get; private set; }
-    public string Description { get; init; }
+    public string Name { get; }
+    public string Description { get; }
 
     public static Result<Requisite, IEnumerable<string>> Create(string name, string description)
     {

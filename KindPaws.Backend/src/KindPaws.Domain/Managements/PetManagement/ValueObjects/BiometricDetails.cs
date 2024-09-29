@@ -22,9 +22,9 @@ public record BiometricDetails
         Gender = gender;
     }
 
-    public float Height { get; private set; }
-    public float Weight { get; private set; }
-    public Gender Gender { get; private set; }
+    public float Height { get; }
+    public float Weight { get; }
+    public Gender Gender { get; }
 
     public static Result<BiometricDetails, IEnumerable<string>> Create(
         float height,

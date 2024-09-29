@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Domain.Managements.BreedManagement.ValuseObjects.Lists;
+﻿namespace KindPaws.Domain.Managements.BreedManagement.ValueObjects.Lists;
 
 public record BreedColorList
 {

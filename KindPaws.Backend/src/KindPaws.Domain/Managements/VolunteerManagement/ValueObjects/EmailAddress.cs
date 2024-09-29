@@ -15,7 +15,7 @@ public record EmailAddress
         Value = value;
     }
 
-    public string Value { get; private set; }
+    public string Value { get; }
 
     public static Result<EmailAddress, IEnumerable<string>> Create(string value)
     {

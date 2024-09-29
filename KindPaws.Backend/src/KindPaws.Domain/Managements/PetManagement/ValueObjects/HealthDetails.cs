@@ -25,11 +25,11 @@ public record HealthDetails
         IsNeutered = isNeutered;
     }
 
-    public string Description { get; private set; }
-    public List<Vaccine> Vaccines { get; private set; }
-    public List<Disease> Diseases { get; private set; }
-    public HealthStatus HealthStatus { get; private set; }
-    public bool IsNeutered { get; private set; }
+    public string Description { get; }
+    public List<Vaccine> Vaccines { get; }
+    public List<Disease> Diseases { get; }
+    public HealthStatus HealthStatus { get; }
+    public bool IsNeutered { get; }
 
     public static Result<HealthDetails, IEnumerable<string>> Create(
         string description,

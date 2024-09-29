@@ -20,8 +20,8 @@ public record SocialNetwork
         Link = link;
     }
 
-    public string Name { get; private set; }
-    public string Link { get; private set; }
+    public string Name { get; }
+    public string Link { get; }
 
     public static Result<SocialNetwork, IEnumerable<string>> Create(
         string name,

@@ -3,7 +3,7 @@ using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
 
-namespace KindPaws.Domain.Managements.BreedManagement.ValuseObjects;
+namespace KindPaws.Domain.Managements.BreedManagement.ValueObjects;
 
 public record BreedColor
 {
@@ -16,7 +16,7 @@ public record BreedColor
         Value = value;
     }
 
-    public string Value { get; private set; }
+    public string Value { get; }
 
     public static Result<BreedColor, IEnumerable<string>> Create(string value)
     {

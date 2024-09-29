@@ -14,6 +14,6 @@ public record SupportDetails
         Requisites = requisites;
     }
 
-    public SupportStatus Status { get; private set; }
-    public List<Requisite> Requisites { get; private set; }
+    public SupportStatus Status { get; }
+    public List<Requisite> Requisites { get; }
 }
