@@ -1,76 +1,93 @@
 ﻿using KindPaws.Domain.Managements.PetManagement.AggregateRoot;
-using KindPaws.Domain.Managements.PetManagement.Enums;
-using KindPaws.Domain.Managements.VolunteerManagement.ValidationRules;
-using KindPaws.Domain.Shared;
+using KindPaws.Domain.Managements.PetManagement.ValueObjects;
+using KindPaws.Domain.Managements.VolunteerManagement.Constraints;
+using KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
+using KindPaws.Domain.Managements.VolunteerManagement.ValueObjects.Lists;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.VOs;
-using KindPaws.Domain.Shared.VOs.Constraints;
+using KindPaws.Domain.Shared.Others.Extensions;
+using KindPaws.Domain.Shared.Others.Validators;
+using KindPaws.Domain.Shared.ValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteerManagement.AggregateRoot;
 
 public class Volunteer : Entity<VolunteerId>
 {
-    private readonly List<Requisite> _helpDetails;
     private readonly List<Pet> _pets;
-    private readonly List<SocialNetwork> _socialNetworks;
 
-    public Volunteer(
-        VolunteerId id,
-        List<Requisite> helpDetails,
-        List<Pet> pets,
-        List<SocialNetwork> socialNetworks,
-        FullName fullName,
-        EmailAddress emailAddressAddress,
-        DescriptionConstraints description,
-        Experience experience,
-        PhoneNumber phoneNumber) : base(id)
+    public Volunteer(VolunteerId id) : base(id)
     {
-        _helpDetails = helpDetails;
+    }
+
+    private Volunteer(
+        VolunteerId id,
+        List<Pet> pets,
+        FullName fullName,
+        EmailAddress emailAddress,
+        string description,
+        int experience,
+        PhoneNumber phoneNumber,
+        SocialNetworkList socialNetworks)
+        : base(id)
+    {
         _pets = pets;
-        _socialNetworks = socialNetworks;
         FullName = fullName;
-        EmailAddressAddress = emailAddressAddress;
+        EmailAddress = emailAddress;
         Description = description;
         Experience = experience;
         PhoneNumber = phoneNumber;
+        SocialNetworks = socialNetworks;
     }
 
     public FullName FullName { get; private set; }
-    public EmailAddress EmailAddressAddress { get; private set; }
-    public DescriptionConstraints Description { get; private set; }
+    public EmailAddress EmailAddress { get; private set; }
+    public string Description { get; private set; }
+    public int Experience { get; private set; }
 
-    public Experience Experience { get; private set; }
-    public int GetCountPetsAlreadyFoundHome => _pets.Count(x => x.HelpInfo.Status == HelpStatus.AlreadyFoundHome);
-    public int GetCountPetsLookingHome => _pets.Count(x => x.HelpInfo.Status == HelpStatus.LookingHome);
-    public int GetCountPetsNeedHelp => _pets.Count(x => x.HelpInfo.Status == HelpStatus.NeedHelp);
+    public int GetCountPetsAlreadyFoundHome =>
+        _pets.Count(x => x.SupportDetails.Status == SupportStatus.AlreadyFoundHome);
+
+    public int GetCountPetsLookingHome =>
+        _pets.Count(x => x.SupportDetails.Status == SupportStatus.LookingHome);
+
+    public int GetCountPetsNeedHelp =>
+        _pets.Count(x => x.SupportDetails.Status == SupportStatus.NeedSupport);
+
     public PhoneNumber PhoneNumber { get; private set; }
-    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
-    public IReadOnlyList<Requisite> HelpDetails => _helpDetails;
+    public SocialNetworkList SocialNetworks { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
 
     public static Result<Volunteer, IEnumerable<string>> Create(
         VolunteerId id,
-        List<Requisite> helpDetails,
         List<Pet> pets,
-        List<SocialNetwork> socialNetworks,
         FullName fullName,
-        EmailAddress emailAddressAddress,
-        DescriptionConstraints description,
-        Experience experience,
-        PhoneNumber phoneNumber)
+        EmailAddress emailAddress,
+        string description,
+        int experience,
+        PhoneNumber phoneNumber,
+        SocialNetworkList socialNetworks)
     {
-        var volunteer = new Volunteer(
+        List<string> errors = [];
+
+        description.DefaultValidate(
+                VolunteerConstraints.MinDescriptionLength,
+                VolunteerConstraints.MaxDescriptionLength)
+            .AddErrorIfFailure(errors);
+
+        if (experience < VolunteerConstraints.MinExperienceValue)
+            errors.Add("Experience can not be smaller than 0.");
+
+        if (errors.Count > 0)
+            return errors;
+
+        return new Volunteer(
             id,
-            helpDetails,
             pets,
-            socialNetworks,
             fullName,
-            emailAddressAddress,
+            emailAddress,
             description,
             experience,
-            phoneNumber);
-
-        return volunteer;
+            phoneNumber,
+            socialNetworks);
     }
 }

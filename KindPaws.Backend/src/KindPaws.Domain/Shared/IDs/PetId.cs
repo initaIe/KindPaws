@@ -9,18 +9,18 @@ public record PetId
 
     public Guid Value { get; private set; }
 
-    public static PetId Create(Guid value)
+    public static PetId NewPetId()
     {
-        return new PetId(value);
+        return new PetId(Guid.NewGuid());
     }
 
-    public static PetId RandomPetId()
+    public static PetId Empty()
     {
-        return Create(Guid.NewGuid());
+        return new PetId(Guid.Empty);
     }
-    
-    public static PetId EmptyPetId()
+
+    public static PetId Create(Guid id)
     {
-        return Create(Guid.Empty);
+        return new PetId(id);
     }
 }

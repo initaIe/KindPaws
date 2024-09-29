@@ -1,84 +1,126 @@
-﻿using KindPaws.Domain.Managements.PetManagement.VOs;
-using KindPaws.Domain.Shared;
+﻿using KindPaws.Domain.Managements.BreedManagement.AggregateRoot;
+using KindPaws.Domain.Managements.PetManagement.Constraints;
+using KindPaws.Domain.Managements.PetManagement.ValueObjects;
+using KindPaws.Domain.Managements.PetManagement.ValueObjects.Lists;
+using KindPaws.Domain.Managements.SpecieManagement.AggregateRoot;
+using KindPaws.Domain.Managements.VolunteerManagement.AggregateRoot;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.VOs;
-using KindPaws.Domain.Shared.VOs.Constraints;
+using KindPaws.Domain.Shared.Others.Extensions;
+using KindPaws.Domain.Shared.Others.Helpers;
+using KindPaws.Domain.Shared.Others.Validators;
+using KindPaws.Domain.Shared.ValueObjects;
 
 namespace KindPaws.Domain.Managements.PetManagement.AggregateRoot;
 
 public class Pet : Entity<PetId>
 {
-    private readonly List<PetPhoto> _petPhotos;
+    public Pet(PetId id) : base(id)
+    {
+    }
 
-    private Pet(
+    public Pet(
         PetId id,
-        Name name,
-        Description description,
-        PetSpecie specie,//
-        PetHealth health,//
+        string name,
+        string description,
+        VolunteerId volunteerId,
+        Volunteer volunteer,
+        SpecieId specieId,
+        Specie specie,
+        BreedId breedId,
+        Breed breed,
+        string color,
+        HealthDetails healthDetails,
+        BiometricDetails characteristicsDetails,
         Address address,
-        PhoneNumber ownerPhoneNumber,
         Age age,
-        HelpInfo helpInfo,
-        PetBreed petBreed,
-        BreedColor breedColor,
-        List<PetPhoto> petPhotos) : base(id)
+        SupportDetails supportDetails,
+        PetPhotoList photosList)
+        : base(id)
     {
         Name = name;
         Description = description;
+        VolunteerId = volunteerId;
+        Volunteer = volunteer;
+        SpecieId = specieId;
         Specie = specie;
-        Health = health;
+        BreedId = breedId;
+        Breed = breed;
+        Color = color;
+        HealthDetails = healthDetails;
+        CharacteristicsDetails = characteristicsDetails;
         Address = address;
-        OwnerPhoneNumber = ownerPhoneNumber;
         Age = age;
-        HelpInfo = helpInfo;
-        PetBreed = petBreed;
-        BreedColor = breedColor;
-        _petPhotos = petPhotos;
+        SupportDetails = supportDetails;
+        PhotosList = photosList;
     }
 
-    public Name Name { get; private set; }
-    public Description Description { get; private set; }
-    public PetSpecie Specie { get; private set; }
-    public PetBreed PetBreed { get; private set; }
-    public BreedColor BreedColor { get; private set; }
-    public PetHealth Health { get; private set; }
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public VolunteerId VolunteerId { get; private set; }
+    public Volunteer Volunteer { get; private set; }
+    public SpecieId SpecieId { get; private set; }
+    public Specie Specie { get; private set; }
+    public BreedId BreedId { get; private set; }
+    public Breed Breed { get; private set; }
+    public string Color { get; private set; }
+    public HealthDetails HealthDetails { get; private set; }
+    public BiometricDetails CharacteristicsDetails { get; private set; }
     public Address Address { get; private set; }
-    public PhoneNumber OwnerPhoneNumber { get; private set; }
     public Age Age { get; private set; }
-    public HelpInfo HelpInfo { get; private set; }
-    public DateOnly CreationDate { get; private set; } = DateOnly.FromDateTime(DateTime.Now);
-    public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+    public SupportDetails SupportDetails { get; private set; }
+    public PetPhotoList PhotosList { get; private set; }
+    public DateOnly CreationDate { get; private set; } = DateOnlyHelper.GetDateOnlyNow();
 
     public static Result<Pet, IEnumerable<string>> Create(
-        PetId petId,
-        Name name,
-        Description description,
-        PetSpecie specie,
-        PetHealth health,
+        PetId id,
+        string name,
+        string description,
+        VolunteerId volunteerId,
+        Volunteer volunteer,
+        SpecieId specieId,
+        Specie specie,
+        BreedId breedId,
+        Breed breed,
+        string color,
+        HealthDetails healthDetails,
+        BiometricDetails characteristicsDetails,
         Address address,
-        PhoneNumber ownerPhoneNumber,
         Age age,
-        HelpInfo helpInfo,
-        PetBreed petBreed,
-        BreedColor breedColor,
-        List<PetPhoto> petPhotos)
+        SupportDetails supportDetails,
+        PetPhotoList photosList)
     {
-        var pet = new Pet(
-            petId,
+        List<string> errors = [];
+
+        name.DefaultValidate(
+                PetConstraints.MinNameLength,
+                PetConstraints.MaxNameLength)
+            .AddErrorIfFailure(errors);
+
+        description.DefaultValidate(
+                PetConstraints.MinDescriptionLength,
+                PetConstraints.MaxDescriptionLength)
+            .AddErrorIfFailure(errors);
+
+        if (errors.Count > 0)
+            return errors;
+
+        return new Pet(
+            id,
             name,
             description,
+            volunteerId,
+            volunteer,
+            specieId,
             specie,
-            health,
+            breedId,
+            breed,
+            color,
+            healthDetails,
+            characteristicsDetails,
             address,
-            ownerPhoneNumber,
             age,
-            helpInfo,
-            petBreed,
-            breedColor,
-            petPhotos);
-
-        return pet;
+            supportDetails,
+            photosList);
     }
 }

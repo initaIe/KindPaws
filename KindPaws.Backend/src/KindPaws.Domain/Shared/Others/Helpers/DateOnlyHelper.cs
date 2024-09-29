@@ -6,32 +6,31 @@ public static class DateOnlyHelper
     public static int CalculateYearsPassed(DateOnly startDate, DateOnly endDate)
     {
         if (endDate < startDate)
-            throw new ArgumentException("End date must be greater than or equal to start date.");
+            throw new InvalidOperationException("End date must be greater than or equal to start date.");
 
-        int years = endDate.Year - startDate.Year;
+        var years = endDate.Year - startDate.Year;
 
-        if (endDate < startDate.AddYears(years))
-        {
-            years--;
-        }
+        if (endDate < startDate.AddYears(years)) years--;
 
         return years;
     }
-    
+
     public static int CalculateYearsSince(DateOnly startDate)
     {
-        DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+        var nowDate = GetDateOnlyNow();
 
-        if (endDate < startDate)
-            throw new ArgumentException("Start date must be in the past.");
+        if (nowDate < startDate)
+            throw new ArgumentException("End date must be greater than or equal to start date.");
 
-        int years = endDate.Year - startDate.Year;
+        var years = nowDate.Year - startDate.Year;
 
-        if (endDate < startDate.AddYears(years))
-        {
-            years--;
-        }
+        if (nowDate < startDate.AddYears(years)) years--;
 
         return years;
+    }
+
+    public static DateOnly GetDateOnlyNow()
+    {
+        return DateOnly.FromDateTime(DateTime.Now);
     }
 }

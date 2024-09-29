@@ -18,7 +18,7 @@ public record VolunteerId
     {
         return Create(Guid.NewGuid());
     }
-    
+
     public static VolunteerId EmptyVolunteerId()
     {
         return Create(Guid.Empty);

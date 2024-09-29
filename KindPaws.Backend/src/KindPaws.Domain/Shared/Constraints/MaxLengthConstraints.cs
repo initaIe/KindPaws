@@ -1,39 +1,13 @@
 ﻿namespace KindPaws.Domain.Shared.Constraints;
 
-public static class MaxLengthConstraints
+public class MaxLengthConstraints
 {
-    /// <summary>
-    /// Max length 100
-    /// </summary>
-    public const int MaxLengthExtraSmall = 100;
-    
-    /// <summary>
-    /// Max length 150
-    /// </summary>
-    public const int MaxLengthSmall = 150;
-
-    /// <summary>
-    /// Max length 300
-    /// </summary>
-    public const int MaxLengthMediumSmall = 300;
-
-    /// <summary>
-    /// Max length 750
-    /// </summary>
-    public const int MaxLengthMedium = 750;
-
-    /// <summary>
-    /// Max length 1000
-    /// </summary>
-    public const int MaxLengthMediumLarge = 750;
-
-    /// <summary>
-    /// Max length 1500
-    /// </summary>
-    public const int MaxLengthLarge = 1500;
-    
-    /// <summary>
-    /// Max length 1500
-    /// </summary>
-    public const int MaxLengthExtraLarge = 2500;
+    public const int ExtraShort = 20;
+    public const int Short = 50;
+    public const int Medium = 100;
+    public const int Long = 250;
+    public const int ExtraLong = 500;
+    public const int VeryLong = 1000;
+    public const int Extreme = 2000;
+    public const int Huge = 5000;
 }
