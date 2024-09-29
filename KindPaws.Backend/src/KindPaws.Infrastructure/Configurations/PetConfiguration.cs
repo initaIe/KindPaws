@@ -28,20 +28,9 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("description")
             .IsRequired();
 
-        builder.HasOne(pet => pet.Volunteer)
-            .WithMany(volunteer => volunteer.Pets)
-            .HasForeignKey(pet => pet.VolunteerId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.Property(pet => pet.SpecieId);
 
-        builder.HasOne(pet => pet.Specie)
-            .WithMany(specie => specie.Pets)
-            .HasForeignKey(pet => pet.SpecieId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        builder.HasOne(pet => pet.Breed)
-            .WithMany(breed => breed.Pets)
-            .HasForeignKey(pet => pet.BreedId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.Property(pet => pet.BreedId);
 
         builder.OwnsOne(pet => pet.HealthDetails, healthDetails =>
         {

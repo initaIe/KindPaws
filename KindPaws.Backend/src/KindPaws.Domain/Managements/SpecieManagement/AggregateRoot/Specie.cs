@@ -12,7 +12,6 @@ namespace KindPaws.Domain.Managements.SpecieManagement.AggregateRoot;
 public class Specie : Entity<SpecieId>
 {
     private readonly List<Breed> _breeds;
-    private readonly List<Pet> _pets;
 
     public Specie(SpecieId id) : base(id)
     {
@@ -21,26 +20,22 @@ public class Specie : Entity<SpecieId>
     public Specie(
         SpecieId id,
         List<Breed> breeds,
-        List<Pet> pets,
         string name,
         string description)
         : base(id)
     {
         _breeds = breeds;
-        _pets = pets;
         Name = name;
         Description = description;
     }
 
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public IReadOnlyList<Pet> Pets => _pets;
     public IReadOnlyList<Breed> Breeds => _breeds;
 
     public static Result<Specie, IEnumerable<string>> Create(
         SpecieId id,
         List<Breed> breeds,
-        List<Pet> pets,
         string name,
         string description)
     {
@@ -62,7 +57,6 @@ public class Specie : Entity<SpecieId>
         return new Specie(
             id,
             breeds,
-            pets,
             name,
             description);
     }

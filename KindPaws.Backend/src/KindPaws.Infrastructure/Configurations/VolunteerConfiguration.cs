@@ -19,8 +19,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 value => VolunteerId.Create(value));
 
         builder.HasMany(volunteer => volunteer.Pets)
-            .WithOne(pet => pet.Volunteer)
-            .HasForeignKey(pet => pet.VolunteerId)
+            .WithOne()
+            .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.ComplexProperty(volunteer => volunteer.FullName, fullName =>

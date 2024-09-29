@@ -43,7 +43,10 @@ public class Volunteer : Entity<VolunteerId>
     public EmailAddress EmailAddress { get; private set; }
     public string Description { get; private set; }
     public int Experience { get; private set; }
-
+    public PhoneNumber PhoneNumber { get; private set; }
+    public SocialNetworkList SocialNetworks { get; private set; }
+    public IReadOnlyList<Pet> Pets => _pets;
+    
     public int GetCountPetsAlreadyFoundHome =>
         _pets.Count(x => x.SupportDetails.Status == SupportStatus.AlreadyFoundHome);
 
@@ -52,10 +55,6 @@ public class Volunteer : Entity<VolunteerId>
 
     public int GetCountPetsNeedHelp =>
         _pets.Count(x => x.SupportDetails.Status == SupportStatus.NeedSupport);
-
-    public PhoneNumber PhoneNumber { get; private set; }
-    public SocialNetworkList SocialNetworks { get; private set; }
-    public IReadOnlyList<Pet> Pets => _pets;
 
     public static Result<Volunteer, IEnumerable<string>> Create(
         VolunteerId id,

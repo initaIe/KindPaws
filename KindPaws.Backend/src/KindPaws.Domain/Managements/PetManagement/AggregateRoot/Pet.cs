@@ -23,12 +23,8 @@ public class Pet : Entity<PetId>
         PetId id,
         string name,
         string description,
-        VolunteerId volunteerId,
-        Volunteer volunteer,
         SpecieId specieId,
-        Specie specie,
         BreedId breedId,
-        Breed breed,
         string color,
         HealthDetails healthDetails,
         BiometricDetails characteristicsDetails,
@@ -40,12 +36,8 @@ public class Pet : Entity<PetId>
     {
         Name = name;
         Description = description;
-        VolunteerId = volunteerId;
-        Volunteer = volunteer;
         SpecieId = specieId;
-        Specie = specie;
         BreedId = breedId;
-        Breed = breed;
         Color = color;
         HealthDetails = healthDetails;
         CharacteristicsDetails = characteristicsDetails;
@@ -57,12 +49,8 @@ public class Pet : Entity<PetId>
 
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public VolunteerId VolunteerId { get; private set; }
-    public Volunteer Volunteer { get; private set; }
     public SpecieId SpecieId { get; private set; }
-    public Specie Specie { get; private set; }
     public BreedId BreedId { get; private set; }
-    public Breed Breed { get; private set; }
     public string Color { get; private set; }
     public HealthDetails HealthDetails { get; private set; }
     public BiometricDetails CharacteristicsDetails { get; private set; }
@@ -76,12 +64,8 @@ public class Pet : Entity<PetId>
         PetId id,
         string name,
         string description,
-        VolunteerId volunteerId,
-        Volunteer volunteer,
         SpecieId specieId,
-        Specie specie,
         BreedId breedId,
-        Breed breed,
         string color,
         HealthDetails healthDetails,
         BiometricDetails characteristicsDetails,
@@ -109,12 +93,8 @@ public class Pet : Entity<PetId>
             id,
             name,
             description,
-            volunteerId,
-            volunteer,
             specieId,
-            specie,
             breedId,
-            breed,
             color,
             healthDetails,
             characteristicsDetails,

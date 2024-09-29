@@ -25,11 +25,6 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasMaxLength(BreedConstraints.MaxDescriptionLength)
             .IsRequired();
 
-        builder.HasOne(breed => breed.Specie)
-            .WithMany(specie => specie.Breeds)
-            .HasForeignKey(breed => breed.SpecieId)
-            .OnDelete(DeleteBehavior.NoAction);
-
         builder.OwnsOne(breed => breed.ColorList, colorList =>
         {
             colorList.ToJson("colors");

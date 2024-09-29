@@ -13,9 +13,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
     private const string Postgres = nameof(Postgres);
 
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-    public DbSet<Pet> Pets => Set<Pet>();
     public DbSet<Specie> Species => Set<Specie>();
-    public DbSet<Breed> Breeds => Set<Breed>();
 
     private ILoggerFactory CreateFactory()
     {

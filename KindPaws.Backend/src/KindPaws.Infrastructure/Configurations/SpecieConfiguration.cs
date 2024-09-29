@@ -18,15 +18,10 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
                 value => SpecieId.Create(value));
 
         builder.HasMany(specie => specie.Breeds)
-            .WithOne(breed => breed.Specie)
-            .HasForeignKey(breed => breed.SpecieId)
+            .WithOne()
+            .HasForeignKey("specie_id")
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(specie => specie.Pets)
-            .WithOne(pet => pet.Specie)
-            .HasForeignKey(pet => pet.SpecieId)
-            .OnDelete(DeleteBehavior.Cascade);
-
+        
         builder.Property(specie => specie.Name)
             .HasMaxLength(SpecieConstraints.MaxNameLength)
             .IsRequired();
