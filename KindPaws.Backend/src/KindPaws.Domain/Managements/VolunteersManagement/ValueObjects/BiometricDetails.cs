@@ -8,7 +8,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record BiometricDetails
 {
-    public BiometricDetails()
+    private BiometricDetails()
     {
     }
 

@@ -8,7 +8,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 // TODO: in future add entity SocialNetwork with ID mb
 public record SocialNetwork
 {
-    public SocialNetwork()
+    private SocialNetwork()
     {
     }
 

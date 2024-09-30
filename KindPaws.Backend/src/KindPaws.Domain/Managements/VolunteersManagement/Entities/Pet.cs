@@ -12,7 +12,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 
 public class Pet : Entity<PetId>
 {
-    public Pet(PetId id) : base(id)
+    private Pet(PetId id) : base(id)
     {
     }
 

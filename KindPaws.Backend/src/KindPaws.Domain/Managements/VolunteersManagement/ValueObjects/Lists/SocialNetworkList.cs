@@ -4,7 +4,7 @@ public record SocialNetworkList
 {
     private readonly List<SocialNetwork> _socialNetworks;
 
-    public SocialNetworkList()
+    private SocialNetworkList()
     {
     }
 

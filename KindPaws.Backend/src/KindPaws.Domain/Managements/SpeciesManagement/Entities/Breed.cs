@@ -10,7 +10,7 @@ namespace KindPaws.Domain.Managements.SpeciesManagement.Entities;
 
 public class Breed : Entity<BreedId>
 {
-    public Breed(BreedId id) : base(id)
+    private Breed(BreedId id) : base(id)
     {
     }
 

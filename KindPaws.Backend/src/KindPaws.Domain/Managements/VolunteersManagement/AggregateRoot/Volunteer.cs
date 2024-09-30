@@ -14,7 +14,7 @@ public class Volunteer : Entity<VolunteerId>
 {
     private readonly List<Pet> _pets;
 
-    public Volunteer(VolunteerId id) : base(id)
+    private Volunteer(VolunteerId id) : base(id)
     {
     }
 

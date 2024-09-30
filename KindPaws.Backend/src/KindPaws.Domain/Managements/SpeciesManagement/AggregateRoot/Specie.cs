@@ -12,7 +12,7 @@ public class Specie : Entity<SpecieId>
 {
     private readonly List<Breed> _breeds;
 
-    public Specie(SpecieId id) : base(id)
+    private Specie(SpecieId id) : base(id)
     {
     }
 

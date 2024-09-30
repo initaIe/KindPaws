@@ -7,7 +7,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record HealthDetails
 {
-    public HealthDetails()
+    private HealthDetails()
     {
     }
 

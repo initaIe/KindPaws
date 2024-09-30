@@ -4,7 +4,7 @@ public record BreedColorList
 {
     private readonly List<BreedColor> _breedColors;
 
-    public BreedColorList()
+    private BreedColorList()
     {
     }
 

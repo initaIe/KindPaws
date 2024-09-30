@@ -4,7 +4,7 @@ public record PetPhotoList
 {
     private readonly List<PetPhoto> _petPhotos;
 
-    public PetPhotoList()
+    private PetPhotoList()
     {
     }
 

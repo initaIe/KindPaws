@@ -2,7 +2,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record SupportDetails
 {
-    public SupportDetails()
+    private SupportDetails()
     {
     }
 
