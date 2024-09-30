@@ -1,5 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteerManagement.AggregateRoot;
-using KindPaws.Domain.Managements.VolunteerManagement.Constraints;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.ValueObjects.Constraints;
 using Microsoft.EntityFrameworkCore;

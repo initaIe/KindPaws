@@ -1,5 +1,5 @@
-﻿using KindPaws.Domain.Managements.SpecieManagement.AggregateRoot;
-using KindPaws.Domain.Managements.SpecieManagement.Constraints;
+﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
+using KindPaws.Domain.Managements.SpeciesManagement.Constraints;
 using KindPaws.Domain.Shared.IDs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
