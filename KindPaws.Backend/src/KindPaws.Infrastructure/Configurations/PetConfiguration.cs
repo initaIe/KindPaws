@@ -18,7 +18,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(pet => pet.Id)
             .HasConversion(
                 petId => petId.Value,
-                value => PetId.Create(value));
+                value => PetId.Create(value))
+            .HasColumnName("id");
 
         builder.Property(pet => pet.Name)
             .HasMaxLength(PetConstraints.MaxNameLength)

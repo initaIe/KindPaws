@@ -17,7 +17,8 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
         builder.Property(specie => specie.Id)
             .HasConversion(
                 specieId => specieId.Value,
-                value => SpecieId.Create(value));
+                value => SpecieId.Create(value))
+            .HasColumnName("id");
 
         builder.HasMany(specie => specie.Breeds)
             .WithOne()
@@ -26,10 +27,12 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
 
         builder.Property(specie => specie.Name)
             .HasMaxLength(SpecieConstraints.MaxNameLength)
+            .HasColumnName("name")
             .IsRequired();
 
         builder.Property(specie => specie.Description)
             .HasMaxLength(SpecieConstraints.MaxDescriptionLength)
+            .HasColumnName("description")
             .IsRequired();
     }
 }
