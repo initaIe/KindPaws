@@ -7,10 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
 
 public record PetPhoto
 {
-    public PetPhoto()
-    {
-    }
-
     private PetPhoto(
         string pathToStorage,
         bool isMain)

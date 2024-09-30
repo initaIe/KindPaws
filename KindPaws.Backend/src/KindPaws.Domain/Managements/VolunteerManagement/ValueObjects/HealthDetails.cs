@@ -11,7 +11,7 @@ public record HealthDetails
     {
     }
 
-    public HealthDetails(
+    private HealthDetails(
         string description,
         List<Vaccine> vaccines,
         List<Disease> diseases,

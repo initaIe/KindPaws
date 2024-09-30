@@ -7,10 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
 
 public record Requisite
 {
-    public Requisite()
-    {
-    }
-
     private Requisite(string name, string description)
     {
         Name = name;

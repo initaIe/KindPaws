@@ -7,10 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
 
 public record Disease
 {
-    public Disease()
-    {
-    }
-
     private Disease(string value)
     {
         Value = value;

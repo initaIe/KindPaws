@@ -7,11 +7,7 @@ public record HealthStatus
     public static readonly HealthStatus Stable = new(nameof(Stable));
     public static readonly HealthStatus Healthy = new(nameof(Healthy));
     public static readonly HealthStatus Energetic = new(nameof(Energetic));
-
-    public HealthStatus()
-    {
-    }
-
+    
     private HealthStatus(string value)
     {
         Value = value;

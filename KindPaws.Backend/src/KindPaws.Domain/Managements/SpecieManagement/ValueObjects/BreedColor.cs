@@ -7,10 +7,6 @@ namespace KindPaws.Domain.Managements.SpecieManagement.ValueObjects;
 
 public record BreedColor
 {
-    public BreedColor()
-    {
-    }
-
     private BreedColor(string value)
     {
         Value = value;

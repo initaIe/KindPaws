@@ -6,10 +6,6 @@ public record SupportStatus
     public static readonly SupportStatus LookingHome = new(nameof(LookingHome));
     public static readonly SupportStatus AlreadyFoundHome = new(nameof(AlreadyFoundHome));
 
-    public SupportStatus()
-    {
-    }
-
     private SupportStatus(string value)
     {
         Value = value;

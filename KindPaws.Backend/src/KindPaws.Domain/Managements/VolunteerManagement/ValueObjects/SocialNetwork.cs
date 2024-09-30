@@ -12,7 +12,7 @@ public record SocialNetwork
     {
     }
 
-    public SocialNetwork(
+    private SocialNetwork(
         string name,
         string link)
     {

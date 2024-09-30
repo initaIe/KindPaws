@@ -6,10 +6,6 @@ namespace KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
 
 public record EmailAddress
 {
-    public EmailAddress()
-    {
-    }
-
     private EmailAddress(string value)
     {
         Value = value;

@@ -4,10 +4,6 @@ namespace KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
 
 public record PetType
 {
-    public PetType()
-    {
-    }
-
     public PetType(SpecieId specieId, BreedId breedId)
     {
         SpecieId = specieId;
