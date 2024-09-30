@@ -1,0 +1,43 @@
+﻿using KindPaws.Domain.Managements.VolunteerManagement.Constraints;
+using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.Others.Extensions;
+using KindPaws.Domain.Shared.Others.Validators;
+
+namespace KindPaws.Domain.Managements.VolunteerManagement.ValueObjects;
+
+public record PetPhoto
+{
+    public PetPhoto()
+    {
+    }
+
+    private PetPhoto(
+        string pathToStorage,
+        bool isMain)
+    {
+        PathToStorage = pathToStorage;
+        IsMain = isMain;
+    }
+
+    public string PathToStorage { get; }
+    public bool IsMain { get; }
+
+    public static Result<PetPhoto, IEnumerable<string>> Create(
+        string pathToStorage,
+        bool isMain)
+    {
+        List<string> errors = [];
+
+        pathToStorage.DefaultValidate(
+                PetPhotoConstraints.MinLength,
+                PetPhotoConstraints.MaxLength)
+            .AddErrorIfFailure(errors);
+
+        if (errors.Count > 0)
+            return errors;
+
+        return new PetPhoto(
+            pathToStorage,
+            isMain);
+    }
+}

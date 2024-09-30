@@ -1,5 +1,5 @@
-using KindPaws.Domain.Managements.BreedManagement.AggregateRoot;
 using KindPaws.Domain.Managements.SpecieManagement.Constraints;
+using KindPaws.Domain.Managements.SpecieManagement.Entities;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Extensions;
