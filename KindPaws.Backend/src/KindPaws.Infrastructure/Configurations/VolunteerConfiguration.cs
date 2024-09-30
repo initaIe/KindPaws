@@ -55,11 +55,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(volunteer => volunteer.Description)
             .HasMaxLength(VolunteerConstraints.MaxDescriptionLength)
             .HasColumnName("description")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(volunteer => volunteer.Experience)
             .HasColumnName("experience")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>
         {

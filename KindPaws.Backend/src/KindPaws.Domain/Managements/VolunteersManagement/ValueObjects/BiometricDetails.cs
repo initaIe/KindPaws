@@ -12,9 +12,9 @@ public record BiometricDetails
     {
     }
 
-    private BiometricDetails(
-        float height,
-        float weight,
+    public BiometricDetails(
+        float? height,
+        float? weight,
         Gender gender)
     {
         Height = height;
@@ -22,28 +22,28 @@ public record BiometricDetails
         Gender = gender;
     }
 
-    public float Height { get; }
-    public float Weight { get; }
+    public float? Height { get; }
+    public float? Weight { get; }
     public Gender Gender { get; }
 
     public static Result<BiometricDetails, IEnumerable<string>> Create(
-        float height,
-        float weight,
+        float? height,
+        float? weight,
         Gender gender)
     {
         List<string> errors = [];
 
-        height.MinValueValidate(BiometricDetailsConstraints.MinHeightValue)
+        height?.MinValueValidate(BiometricDetailsConstraints.MinHeightValue)
             .AddErrorIfFailure(errors);
 
-        height = height.Round(
+        height = height?.Round(
             BiometricDetailsConstraints.HeightPrecision,
             BiometricDetailsConstraints.IsHeightRoundUp);
 
-        weight.MinValueValidate(BiometricDetailsConstraints.MinWeightValue)
+        weight?.MinValueValidate(BiometricDetailsConstraints.MinWeightValue)
             .AddErrorIfFailure(errors);
 
-        weight = weight.Round(
+        weight = weight?.Round(
             BiometricDetailsConstraints.WeightPrecision,
             BiometricDetailsConstraints.IsWeightRoundUp);
 

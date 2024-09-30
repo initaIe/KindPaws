@@ -1,8 +1,8 @@
 ﻿using KindPaws.Domain.Shared.Constraints;
 
-namespace KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+namespace KindPaws.Domain.Shared.ValueObjects.Constraints;
 
-public static class PetPhotoConstraints
+public static class PhotoConstraints
 {
     public const int MinLength = MinLengthConstraints.One;
     public const int MaxLength = MaxLengthConstraints.VeryLong;

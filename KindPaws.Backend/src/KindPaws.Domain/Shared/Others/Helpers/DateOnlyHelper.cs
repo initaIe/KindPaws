@@ -15,16 +15,19 @@ public static class DateOnlyHelper
         return years;
     }
 
-    public static int CalculateYearsSince(DateOnly startDate)
+    public static int CalculateYearsSince(DateOnly? currentDate)
     {
+        if (currentDate is null)
+            throw new ArgumentException("Current date can not be null.");
+        
         var nowDate = GetDateOnlyNow();
 
-        if (nowDate < startDate)
-            throw new ArgumentException("End date must be greater than or equal to start date.");
+        if (nowDate < currentDate)
+            throw new ArgumentException("Current date can not be from the future.");
 
-        var years = nowDate.Year - startDate.Year;
+        var years = nowDate.Year - currentDate.Value.Year;
 
-        if (nowDate < startDate.AddYears(years)) years--;
+        if (nowDate < currentDate.Value.AddYears(years)) years--;
 
         return years;
     }

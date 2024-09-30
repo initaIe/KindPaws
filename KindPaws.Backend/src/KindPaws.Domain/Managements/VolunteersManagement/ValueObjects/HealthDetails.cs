@@ -12,11 +12,11 @@ public record HealthDetails
     }
 
     private HealthDetails(
-        string description,
+        string? description,
         List<Vaccine> vaccines,
         List<Disease> diseases,
         HealthStatus healthStatus,
-        bool isNeutered)
+        bool? isNeutered)
     {
         Description = description;
         Vaccines = vaccines;
@@ -25,18 +25,18 @@ public record HealthDetails
         IsNeutered = isNeutered;
     }
 
-    public string Description { get; }
+    public string? Description { get; }
     public List<Vaccine> Vaccines { get; }
     public List<Disease> Diseases { get; }
     public HealthStatus HealthStatus { get; }
-    public bool IsNeutered { get; }
+    public bool? IsNeutered { get; }
 
     public static Result<HealthDetails, IEnumerable<string>> Create(
-        string description,
+        string? description,
         List<Vaccine> vaccines,
         List<Disease> diseases,
         HealthStatus healthStatus,
-        bool isNeutered)
+        bool? isNeutered)
     {
         List<string> errors = [];
 

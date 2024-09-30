@@ -23,7 +23,7 @@ public class Pet : Entity<PetId>
         PetType petType,
         string color,
         HealthDetails healthDetails,
-        BiometricDetails characteristicsDetails,
+        BiometricDetails biometricDetails,
         Address address,
         Age age,
         SupportDetails supportDetails,
@@ -35,7 +35,7 @@ public class Pet : Entity<PetId>
         PetType = petType;
         Color = color;
         HealthDetails = healthDetails;
-        CharacteristicsDetails = characteristicsDetails;
+        BiometricDetails = biometricDetails;
         Address = address;
         Age = age;
         SupportDetails = supportDetails;
@@ -47,7 +47,8 @@ public class Pet : Entity<PetId>
     public PetType PetType { get; private set; }
     public string Color { get; private set; }
     public HealthDetails HealthDetails { get; private set; }
-    public BiometricDetails CharacteristicsDetails { get; private set; }
+    public BiometricDetails BiometricDetails { get; private set; }
+    // TODO: replace to volunteer???
     public Address Address { get; private set; }
     public Age Age { get; private set; }
     public SupportDetails SupportDetails { get; private set; }

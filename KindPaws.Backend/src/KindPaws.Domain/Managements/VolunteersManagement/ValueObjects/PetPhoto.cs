@@ -2,38 +2,22 @@
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
+using KindPaws.Domain.Shared.ValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record PetPhoto
 {
-    private PetPhoto(
-        string pathToStorage,
-        bool isMain)
+    private PetPhoto()
     {
-        PathToStorage = pathToStorage;
+    }
+
+    public PetPhoto(Photo photo, bool isMain)
+    {
+        Photo = photo;
         IsMain = isMain;
     }
 
-    public string PathToStorage { get; }
+    public Photo Photo { get; }
     public bool IsMain { get; }
-
-    public static Result<PetPhoto, IEnumerable<string>> Create(
-        string pathToStorage,
-        bool isMain)
-    {
-        List<string> errors = [];
-
-        pathToStorage.DefaultValidate(
-                PetPhotoConstraints.MinLength,
-                PetPhotoConstraints.MaxLength)
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
-
-        return new PetPhoto(
-            pathToStorage,
-            isMain);
-    }
 }

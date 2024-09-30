@@ -23,8 +23,8 @@ public class Volunteer : Entity<VolunteerId>
         List<Pet> pets,
         FullName fullName,
         EmailAddress emailAddress,
-        string description,
-        int experience,
+        string? description,
+        int? experience,
         PhoneNumber phoneNumber,
         SocialNetworkList socialNetworks)
         : base(id)
@@ -40,8 +40,8 @@ public class Volunteer : Entity<VolunteerId>
 
     public FullName FullName { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
-    public string Description { get; private set; }
-    public int Experience { get; private set; }
+    public string? Description { get; private set; }
+    public int? Experience { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
     public SocialNetworkList SocialNetworks { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
@@ -60,14 +60,14 @@ public class Volunteer : Entity<VolunteerId>
         List<Pet> pets,
         FullName fullName,
         EmailAddress emailAddress,
-        string description,
-        int experience,
+        string? description,
+        int? experience,
         PhoneNumber phoneNumber,
         SocialNetworkList socialNetworks)
     {
         List<string> errors = [];
 
-        description.DefaultValidate(
+        description?.DefaultValidate(
                 VolunteerConstraints.MinDescriptionLength,
                 VolunteerConstraints.MaxDescriptionLength)
             .AddErrorIfFailure(errors);

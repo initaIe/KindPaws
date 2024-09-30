@@ -4,9 +4,9 @@ public record HealthStatus
 {
     public static readonly HealthStatus Critical = new(nameof(Critical));
     public static readonly HealthStatus Weak = new(nameof(Weak));
+    public static readonly HealthStatus Normal = new(nameof(Normal));
     public static readonly HealthStatus Stable = new(nameof(Stable));
     public static readonly HealthStatus Healthy = new(nameof(Healthy));
-    public static readonly HealthStatus Energetic = new(nameof(Energetic));
     
     private HealthStatus(string value)
     {

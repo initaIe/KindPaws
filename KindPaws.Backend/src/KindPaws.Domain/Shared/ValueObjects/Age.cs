@@ -11,19 +11,19 @@ public record Age
     {
     }
 
-    private Age(DateOnly birthDate)
+    private Age(DateOnly? birthDate)
     {
         DateBirth = birthDate;
     }
 
-    public DateOnly DateBirth { get; }
+    public DateOnly? DateBirth { get; }
     public int YearsOld => DateOnlyHelper.CalculateYearsSince(DateBirth);
 
-    public static Result<Age, IEnumerable<string>> Create(DateOnly birthDate)
+    public static Result<Age, IEnumerable<string>> Create(DateOnly? birthDate)
     {
         List<string> errors = [];
 
-        birthDate.PastDateOnlyValidate()
+        birthDate?.PastDateOnlyValidate()
             .AddErrorIfFailure(errors);
 
         if (errors.Count > 0)

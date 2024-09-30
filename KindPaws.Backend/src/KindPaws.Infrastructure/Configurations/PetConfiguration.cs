@@ -50,7 +50,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         {
             healthDetails.ToJson("health_details");
 
-            healthDetails.Property(x => x.Description);
+            healthDetails.Property(x => x.Description)
+                .IsRequired(false);
 
             healthDetails.OwnsMany(x => x.Vaccines)
                 .Property(x => x.Value);
@@ -61,20 +62,21 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             healthDetails.OwnsOne(x => x.HealthStatus)
                 .Property(x => x.Value);
 
-            healthDetails.Property(x => x.IsNeutered);
+            healthDetails.Property(x => x.IsNeutered)
+                .IsRequired(false);
         });
 
-        builder.ComplexProperty(pet => pet.CharacteristicsDetails, characteristicsDetails =>
+        builder.ComplexProperty(pet => pet.BiometricDetails, biometricDetails =>
         {
-            characteristicsDetails.Property(x => x.Height)
+            biometricDetails.Property(x => x.Height)
                 .HasColumnName("height")
-                .IsRequired();
+                .IsRequired(false);
 
-            characteristicsDetails.Property(x => x.Weight)
+            biometricDetails.Property(x => x.Weight)
                 .HasColumnName("weight")
-                .IsRequired();
+                .IsRequired(false);
 
-            characteristicsDetails.ComplexProperty(x => x.Gender, gender =>
+            biometricDetails.ComplexProperty(x => x.Gender, gender =>
             {
                 gender.Property(x => x.Value)
                     .HasColumnName("gender")
@@ -104,7 +106,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         {
             age.Property(x => x.DateBirth)
                 .HasColumnName("date_birth")
-                .IsRequired();
+                .IsRequired(false);
         });
 
         builder.OwnsOne(pet => pet.SupportDetails, helpDetails =>
@@ -125,8 +127,13 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         {
             photosDetails.ToJson("photos_details");
 
-            photosDetails.OwnsMany(x => x.Photos)
-                .Property(x => x.PathToStorage);
+            photosDetails.OwnsMany(x => x.Photos, photos =>
+            {
+                photos.OwnsOne(x => x.Photo, photo =>
+                {
+                    photo.Property(x => x.PathToStorage);
+                });
+            });
 
             photosDetails.OwnsMany(x => x.Photos)
                 .Property(x => x.IsMain);
