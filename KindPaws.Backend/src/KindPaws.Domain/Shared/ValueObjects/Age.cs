@@ -7,7 +7,7 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Age
 {
-    public Age()
+    private Age()
     {
     }
 

@@ -1,5 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteerManagement.AggregateRoot;
-using KindPaws.Domain.Managements.VolunteerManagement.Constraints;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.ValueObjects.Constraints;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +11,15 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
+        builder.ToTable("volunteers");
+        
         builder.HasKey(volunteer => volunteer.Id);
 
         builder.Property(volunteer => volunteer.Id)
             .HasConversion(
                 petId => petId.Value,
-                value => VolunteerId.Create(value));
+                value => VolunteerId.Create(value))
+            .HasColumnName("id");
 
         builder.HasMany(volunteer => volunteer.Pets)
             .WithOne()
@@ -51,9 +54,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         builder.Property(volunteer => volunteer.Description)
             .HasMaxLength(VolunteerConstraints.MaxDescriptionLength)
+            .HasColumnName("description")
             .IsRequired();
 
         builder.Property(volunteer => volunteer.Experience)
+            .HasColumnName("experience")
             .IsRequired();
 
         builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>

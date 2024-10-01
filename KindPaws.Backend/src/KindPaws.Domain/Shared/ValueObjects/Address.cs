@@ -7,10 +7,6 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Address
 {
-    public Address()
-    {
-    }
-
     private Address(
         string country,
         string city,
