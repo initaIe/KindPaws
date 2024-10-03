@@ -7,9 +7,9 @@ public record PetPhotoList
     {
     }
 
-    public PetPhotoList(List<PetPhoto> petPhotos)
+    public PetPhotoList(IEnumerable<PetPhoto> petPhotos)
     {
-        Photos = petPhotos;
+        Photos = petPhotos.ToList();
     }
 
     public IReadOnlyList<PetPhoto> Photos { get; }

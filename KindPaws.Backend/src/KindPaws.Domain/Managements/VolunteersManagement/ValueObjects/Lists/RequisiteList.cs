@@ -7,9 +7,9 @@ public record RequisiteList
     {
     }
 
-    public RequisiteList(List<Requisite> requisites)
+    public RequisiteList(IEnumerable<Requisite> requisites)
     {
-        Requisites = requisites;
+        Requisites = requisites.ToList();
     }
 
     public IReadOnlyList<Requisite> Requisites { get; }

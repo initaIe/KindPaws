@@ -13,14 +13,14 @@ public record HealthDetails
     }
 
     private HealthDetails(
-        List<Vaccine>? vaccines,
-        List<Disease>? diseases,
+        IEnumerable<Vaccine>? vaccines,
+        IEnumerable<Disease>? diseases,
         MediumDescription? description,
         HealthStatus? healthStatus,
         bool? isNeutered)
     {
-        Vaccines = vaccines ?? [];
-        Diseases = diseases ?? [];
+        Vaccines = vaccines?.ToList() ?? [];
+        Diseases = diseases?.ToList() ?? [];
         Description = description ?? MediumDescription.CreateEmpty();
         HealthStatus = healthStatus ?? HealthStatus.CreateEmpty();
         IsNeutered = isNeutered;
@@ -33,8 +33,8 @@ public record HealthDetails
     public bool? IsNeutered { get; }
 
     public static Result<HealthDetails, Error> Create(
-        List<Vaccine> vaccines,
-        List<Disease> diseases,
+        IEnumerable<Vaccine> vaccines,
+        IEnumerable<Disease> diseases,
         MediumDescription description,
         HealthStatus healthStatus,
         bool isNeutered)

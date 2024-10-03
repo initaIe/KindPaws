@@ -15,12 +15,12 @@ public class Specie : Entity<SpecieId>
 
     public Specie(
         SpecieId id,
-        List<Breed> breeds,
+        IEnumerable<Breed> breeds,
         ShortName name,
         MediumDescription description)
         : base(id)
     {
-        _breeds = breeds;
+        _breeds = breeds.ToList();
         Name = name;
         Description = description;
     }

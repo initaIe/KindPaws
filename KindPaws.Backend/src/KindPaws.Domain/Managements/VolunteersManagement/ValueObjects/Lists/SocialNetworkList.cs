@@ -7,9 +7,9 @@ public record SocialNetworkList
     {
     }
 
-    public SocialNetworkList(List<SocialNetwork> socialNetworks)
+    public SocialNetworkList(IEnumerable<SocialNetwork> socialNetworks)
     {
-        SocialNetworks = socialNetworks;
+        SocialNetworks = socialNetworks.ToList();
     }
 
     public IReadOnlyList<SocialNetwork> SocialNetworks { get; }
