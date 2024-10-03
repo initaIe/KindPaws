@@ -29,34 +29,40 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer.Id;
     }
 
-    public async Task<Result<Volunteer, Error>> GetByEmailAddress(EmailAddress emailAddress)
+    public async Task<Result<Volunteer, Error>> GetByEmailAddress(
+        EmailAddress emailAddress,
+        CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.EmailAddress == emailAddress);
-        
+            .FirstOrDefaultAsync(x => x.EmailAddress == emailAddress, cancellationToken);
+
         if (volunteer == null)
             return Errors.General.RecordNotFound(nameof(Volunteer), emailAddress.Value);
 
         return volunteer;
     }
 
-    public async Task<Result<Volunteer, Error>> GetByPhoneNumber(PhoneNumber phoneNumber)
+    public async Task<Result<Volunteer, Error>> GetByPhoneNumber(
+        PhoneNumber phoneNumber,
+        CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
-        
+            .FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber, cancellationToken);
+
         if (volunteer == null)
             return Errors.General.RecordNotFound(nameof(Volunteer), phoneNumber.Value);
 
         return volunteer;
     }
 
-    public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
+    public async Task<Result<Volunteer, Error>> GetById(
+        VolunteerId volunteerId,
+        CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
             .Include(x => x.Pets)
-            .FirstOrDefaultAsync(x => x.Id == volunteerId);
-        
+            .FirstOrDefaultAsync(x => x.Id == volunteerId, cancellationToken);
+
         if (volunteer == null)
             return Errors.General.RecordNotFound(nameof(Volunteer), volunteerId);
 

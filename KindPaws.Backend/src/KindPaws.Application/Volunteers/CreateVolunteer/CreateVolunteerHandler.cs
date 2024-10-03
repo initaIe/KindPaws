@@ -27,7 +27,7 @@ public class CreateVolunteerHandler
         
         // check exist volunteer with Email Address
         var existVolunteerWithEmailAddress = 
-            await _volunteersRepository.GetByEmailAddress(emailAddressResult.Value);
+            await _volunteersRepository.GetByEmailAddress(emailAddressResult.Value, cancellationToken);
 
         if (existVolunteerWithEmailAddress.IsSuccess)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer));
@@ -39,7 +39,7 @@ public class CreateVolunteerHandler
         
         // check exist volunteer with Phone Number
         var existVolunteerWithPhoneNumber = 
-            await _volunteersRepository.GetByPhoneNumber(phoneNumberResult.Value);
+            await _volunteersRepository.GetByPhoneNumber(phoneNumberResult.Value, cancellationToken);
 
         if (existVolunteerWithPhoneNumber.IsSuccess)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer));

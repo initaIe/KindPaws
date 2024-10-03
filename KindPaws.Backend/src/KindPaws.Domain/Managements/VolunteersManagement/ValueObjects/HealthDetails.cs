@@ -7,9 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record HealthDetails
 {
-    private readonly List<Disease> _diseases;
-    private readonly List<Vaccine> _vaccines;
-
     // ef core
     private HealthDetails()
     {
@@ -22,16 +19,16 @@ public record HealthDetails
         HealthStatus? healthStatus,
         bool? isNeutered)
     {
-        _vaccines = vaccines ?? [];
-        _diseases = diseases ?? [];
+        Vaccines = vaccines ?? [];
+        Diseases = diseases ?? [];
         Description = description ?? MediumDescription.CreateEmpty();
         HealthStatus = healthStatus ?? HealthStatus.CreateEmpty();
         IsNeutered = isNeutered;
     }
 
     public MediumDescription Description { get; }
-    public IReadOnlyList<Vaccine> Vaccines => _vaccines;
-    public IReadOnlyList<Disease> Diseases => _diseases;
+    public IReadOnlyList<Vaccine> Vaccines { get; }
+    public IReadOnlyList<Disease> Diseases { get; }
     public HealthStatus HealthStatus { get; }
     public bool? IsNeutered { get; }
 
