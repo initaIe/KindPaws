@@ -1,5 +1,4 @@
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
 using KindPaws.Domain.Shared.ValueObjects.Constraints;
 
@@ -8,47 +7,58 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 public record Address
 {
     private Address(
-        string country,
-        string city,
-        string street)
+        string? country,
+        string? city,
+        string? street)
     {
         Country = country;
         City = city;
         Street = street;
     }
 
-    public string Country { get; }
-    public string City { get; }
-    public string Street { get; }
+    public string? Country { get; }
+    public string? City { get; }
+    public string? Street { get; }
 
-    public static Result<Address, IEnumerable<string>> Create(
+    public static Result<Address, Error> Create(
         string country,
         string city,
         string street)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(country))
+            return Errors.General.ValueIsInvalid(nameof(country));
 
-        country.DefaultValidate(
+        if (!StringValidator.IsInRange(
+                country,
                 AddressConstraints.MinCountryLength,
-                AddressConstraints.MaxCountryLength)
-            .AddErrorIfFailure(errors);
+                AddressConstraints.MaxCountryLength))
+            return Errors.General.ValueWrongLength(nameof(country));
 
-        city.DefaultValidate(
+
+        if (string.IsNullOrWhiteSpace(city))
+            return Errors.General.ValueIsInvalid(nameof(city));
+
+        if (!StringValidator.IsInRange(
+                city,
                 AddressConstraints.MinCityLength,
-                AddressConstraints.MaxCityLength)
-            .AddErrorIfFailure(errors);
+                AddressConstraints.MaxCityLength))
+            return Errors.General.ValueWrongLength(nameof(city));
 
-        street.DefaultValidate(
+
+        if (string.IsNullOrWhiteSpace(street))
+            return Errors.General.ValueIsInvalid(nameof(street));
+
+        if (!StringValidator.IsInRange(
+                street,
                 AddressConstraints.MinStreetLength,
-                AddressConstraints.MaxStreetLength)
-            .AddErrorIfFailure(errors);
+                AddressConstraints.MaxStreetLength))
+            return Errors.General.ValueWrongLength(nameof(street));
 
-        if (errors.Count > 0)
-            return errors;
+        return new Address(country, city, street);
+    }
 
-        return new Address(
-            country,
-            city,
-            street);
+    public static Address CreateEmpty()
+    {
+        return new Address(null, null, null);
     }
 }

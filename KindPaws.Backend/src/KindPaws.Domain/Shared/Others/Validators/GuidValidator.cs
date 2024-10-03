@@ -2,11 +2,8 @@
 
 public static class GuidValidator
 {
-    public static Result<string> EmptyValidate(this Guid id)
+    public static bool IsEmpty(Guid id)
     {
-        if (Guid.Empty.Equals(id))
-            return "Guid cannot be an empty Guid.";
-
-        return true;
+        return Guid.Empty.Equals(id);
     }
 }

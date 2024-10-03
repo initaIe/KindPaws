@@ -12,7 +12,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
     public void Configure(EntityTypeBuilder<Pet> builder)
     {
         builder.ToTable("pets");
-        
+
+        // ID
         builder.HasKey(pet => pet.Id);
 
         builder.Property(pet => pet.Id)
@@ -21,16 +22,25 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => PetId.Create(value))
             .HasColumnName("id");
 
-        builder.Property(pet => pet.Name)
-            .HasMaxLength(PetConstraints.MaxNameLength)
-            .HasColumnName("name")
-            .IsRequired();
+        // NAME
+        builder.ComplexProperty(pet => pet.Name, name =>
+        {
+            name.Property(pet => pet.Value)
+                .HasMaxLength(ShortNameConstraints.MaxLength)
+                .HasColumnName("name")
+                .IsRequired();
+        });
 
-        builder.Property(pet => pet.Description)
-            .HasMaxLength(PetConstraints.MaxDescriptionLength)
-            .HasColumnName("description")
-            .IsRequired();
+        // DESCRIPTION
+        builder.ComplexProperty(pet => pet.Description, description =>
+        {
+            description.Property(x => x.Value)
+                .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+                .HasColumnName("description")
+                .IsRequired(false);
+        });
 
+        // PET TYPE
         builder.ComplexProperty(pet => pet.PetType, petType =>
         {
             petType.Property(x => x.SpecieId)
@@ -46,93 +56,120 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 .HasColumnName("breed_id");
         });
 
+        // PET COLOR
+        builder.ComplexProperty(pet => pet.PetColor, petColor =>
+        {
+            petColor.Property(x => x.Value)
+                .HasMaxLength(PetColorConstraints.MaxLength)
+                .HasColumnName("color")
+                .IsRequired(false);
+        });
+
+        // HEALTH DETAILS
         builder.OwnsOne(pet => pet.HealthDetails, healthDetails =>
         {
             healthDetails.ToJson("health_details");
 
-            healthDetails.Property(x => x.Description);
+            healthDetails.OwnsOne(x => x.Description, description =>
+            {
+                description.Property(x => x.Value)
+                    .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+                    .HasJsonPropertyName("description")
+                    .IsRequired(false);
+            });
 
-            healthDetails.OwnsMany(x => x.Vaccines)
-                .Property(x => x.Value);
+            healthDetails.OwnsMany(x => x.Vaccines, vaccines =>
+            {
+                vaccines.Property(x => x.Value)
+                    .HasJsonPropertyName("name")
+                    .HasMaxLength(VaccineConstraints.MaxLength)
+                    .IsRequired();
+            });
 
-            healthDetails.OwnsMany(x => x.Diseases)
-                .Property(x => x.Value);
+            healthDetails.OwnsMany(x => x.Diseases, diseases =>
+            {
+                diseases.Property(x => x.Value)
+                    .HasJsonPropertyName("name")
+                    .HasMaxLength(DiseaseConstraints.MaxLength)
+                    .IsRequired();
+            });
 
-            healthDetails.OwnsOne(x => x.HealthStatus)
-                .Property(x => x.Value);
+            healthDetails.OwnsOne(x => x.HealthStatus, healthStatus =>
+            {
+                healthStatus.Property(x => x.Value)
+                    .HasJsonPropertyName("status")
+                    .HasMaxLength(HealthStatusConstraints.MaxLength)
+                    .IsRequired(false);
+            });
 
-            healthDetails.Property(x => x.IsNeutered);
+            healthDetails.Property(x => x.IsNeutered)
+                .HasJsonPropertyName("is_neutered")
+                .IsRequired(false);
         });
 
-        builder.ComplexProperty(pet => pet.CharacteristicsDetails, characteristicsDetails =>
+        // BIOMETRIC DETAILS
+        builder.ComplexProperty(pet => pet.BiometricDetails, biometricDetails =>
         {
-            characteristicsDetails.Property(x => x.Height)
+            biometricDetails.Property(x => x.Height)
                 .HasColumnName("height")
-                .IsRequired();
+                .IsRequired(false);
 
-            characteristicsDetails.Property(x => x.Weight)
+            biometricDetails.Property(x => x.Weight)
                 .HasColumnName("weight")
-                .IsRequired();
+                .IsRequired(false);
 
-            characteristicsDetails.ComplexProperty(x => x.Gender, gender =>
+            biometricDetails.ComplexProperty(pet => pet.Gender, gender =>
             {
                 gender.Property(x => x.Value)
+                    .HasMaxLength(GenderConstraints.MaxGenderLength)
                     .HasColumnName("gender")
-                    .IsRequired();
+                    .IsRequired(false);
             });
         });
 
-        builder.ComplexProperty(pet => pet.Address, address =>
-        {
-            address.Property(x => x.Country)
-                .HasMaxLength(AddressConstraints.MaxCountryLength)
-                .HasColumnName("country")
-                .IsRequired();
-
-            address.Property(x => x.City)
-                .HasMaxLength(AddressConstraints.MaxCityLength)
-                .HasColumnName("city")
-                .IsRequired();
-
-            address.Property(x => x.Street)
-                .HasMaxLength(AddressConstraints.MaxStreetLength)
-                .HasColumnName("street")
-                .IsRequired();
-        });
-
+        // AGE
         builder.ComplexProperty(pet => pet.Age, age =>
         {
             age.Property(x => x.DateBirth)
                 .HasColumnName("date_birth")
-                .IsRequired();
+                .IsRequired(false);
         });
 
-        builder.OwnsOne(pet => pet.SupportDetails, helpDetails =>
+        // SUPPORT STATUS
+        builder.ComplexProperty(pet => pet.SupportStatus, supportStatus =>
         {
-            helpDetails.ToJson("help_details");
-
-            helpDetails.OwnsOne(x => x.Status)
-                .Property(x => x.Value);
-
-            helpDetails.OwnsMany(x => x.Requisites)
-                .Property(x => x.Name);
-
-            helpDetails.OwnsMany(x => x.Requisites)
-                .Property(x => x.Description);
+            supportStatus.Property(x => x.Value)
+                .HasMaxLength(SupportStatusConstraints.MaxLength)
+                .HasColumnName("support_status")
+                .IsRequired(false);
         });
 
-        builder.OwnsOne(x => x.PhotosList, photosDetails =>
+        // PHOTOS DETAILS
+        builder.OwnsOne(x => x.PetPhotoList, photosDetails =>
         {
             photosDetails.ToJson("photos_details");
 
-            photosDetails.OwnsMany(x => x.Photos)
-                .Property(x => x.PathToStorage);
-
-            photosDetails.OwnsMany(x => x.Photos)
-                .Property(x => x.IsMain);
+            photosDetails.OwnsMany(x => x.Photos, photos =>
+                {
+                    photos.OwnsOne(x => x.Photo, photo =>
+                    {
+                        photo.OwnsOne(x => x.PathToStorage, pathToStorage =>
+                        {
+                            pathToStorage.Property(x => x.Value)
+                                .HasJsonPropertyName("path_to_storage")
+                                .HasMaxLength(PathToStorageConstraints.MaxLength)
+                                .IsRequired();
+                        });
+                    });
+                    photos.Property(x => x.IsMain)
+                        .HasJsonPropertyName("is_main")
+                        .IsRequired();
+                }
+            );
         });
 
-        builder.Property(pet => pet.CreationDate)
+        // CREATION DATE
+        builder.Property(pet => pet.CreationDateTime)
             .HasColumnName("creation_date")
             .IsRequired();
     }

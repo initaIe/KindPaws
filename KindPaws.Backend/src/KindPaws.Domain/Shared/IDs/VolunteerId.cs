@@ -14,13 +14,18 @@ public record VolunteerId
         return new VolunteerId(value);
     }
 
-    public static VolunteerId RandomVolunteerId()
+    public static VolunteerId CreateRandom()
     {
         return Create(Guid.NewGuid());
     }
 
-    public static VolunteerId EmptyVolunteerId()
+    public static VolunteerId CreateEmpty()
     {
         return Create(Guid.Empty);
+    }
+
+    public static implicit operator Guid(VolunteerId volunteerId)
+    {
+        return volunteerId?.Value ?? throw new ArgumentNullException($"{nameof(volunteerId)} cannot be null.");
     }
 }

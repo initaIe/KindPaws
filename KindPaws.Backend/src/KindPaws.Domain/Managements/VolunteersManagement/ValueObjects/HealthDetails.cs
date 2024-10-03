@@ -1,58 +1,59 @@
 using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
+using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record HealthDetails
 {
+    // ef core
     private HealthDetails()
     {
     }
 
     private HealthDetails(
-        string description,
-        List<Vaccine> vaccines,
-        List<Disease> diseases,
-        HealthStatus healthStatus,
-        bool isNeutered)
+        List<Vaccine>? vaccines,
+        List<Disease>? diseases,
+        MediumDescription? description,
+        HealthStatus? healthStatus,
+        bool? isNeutered)
     {
-        Description = description;
-        Vaccines = vaccines;
-        Diseases = diseases;
-        HealthStatus = healthStatus;
+        Vaccines = vaccines ?? [];
+        Diseases = diseases ?? [];
+        Description = description ?? MediumDescription.CreateEmpty();
+        HealthStatus = healthStatus ?? HealthStatus.CreateEmpty();
         IsNeutered = isNeutered;
     }
 
-    public string Description { get; }
-    public List<Vaccine> Vaccines { get; }
-    public List<Disease> Diseases { get; }
+    public MediumDescription Description { get; }
+    public IReadOnlyList<Vaccine> Vaccines { get; }
+    public IReadOnlyList<Disease> Diseases { get; }
     public HealthStatus HealthStatus { get; }
-    public bool IsNeutered { get; }
+    public bool? IsNeutered { get; }
 
-    public static Result<HealthDetails, IEnumerable<string>> Create(
-        string description,
+    public static Result<HealthDetails, Error> Create(
         List<Vaccine> vaccines,
         List<Disease> diseases,
+        MediumDescription description,
         HealthStatus healthStatus,
         bool isNeutered)
     {
-        List<string> errors = [];
-
-        description.DefaultValidate(
-                HealthDetailsConstraints.MinLength,
-                HealthDetailsConstraints.MaxLength)
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
-
         return new HealthDetails(
-            description,
             vaccines,
             diseases,
+            description,
             healthStatus,
             isNeutered);
+    }
+
+    public static HealthDetails CreateEmpty()
+    {
+        return new HealthDetails(
+            null,
+            null,
+            null,
+            null,
+            null);
     }
 }

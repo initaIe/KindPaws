@@ -1,6 +1,6 @@
 ﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
-using KindPaws.Domain.Managements.SpeciesManagement.Constraints;
 using KindPaws.Domain.Shared.IDs;
+using KindPaws.Domain.Shared.ValueObjects.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +11,8 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
     public void Configure(EntityTypeBuilder<Specie> builder)
     {
         builder.ToTable("species");
-        
+
+        // ID
         builder.HasKey(specie => specie.Id);
 
         builder.Property(specie => specie.Id)
@@ -20,19 +21,28 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
                 value => SpecieId.Create(value))
             .HasColumnName("id");
 
+        // BREEDS
         builder.HasMany(specie => specie.Breeds)
             .WithOne()
             .HasForeignKey("specie_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(specie => specie.Name)
-            .HasMaxLength(SpecieConstraints.MaxNameLength)
-            .HasColumnName("name")
-            .IsRequired();
+        // NAME
+        builder.ComplexProperty(specie => specie.Name, name =>
+        {
+            name.Property(x => x.Value)
+                .HasMaxLength(ShortNameConstraints.MaxLength)
+                .HasColumnName("name")
+                .IsRequired();
+        });
 
-        builder.Property(specie => specie.Description)
-            .HasMaxLength(SpecieConstraints.MaxDescriptionLength)
-            .HasColumnName("description")
-            .IsRequired();
+        // DESCRIPTION
+        builder.ComplexProperty(specie => specie.Description, description =>
+        {
+            description.Property(x => x.Value)
+                .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+                .HasColumnName("description")
+                .IsRequired();
+        });
     }
 }

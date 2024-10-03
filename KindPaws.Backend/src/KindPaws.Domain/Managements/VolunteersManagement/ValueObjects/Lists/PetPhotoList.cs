@@ -2,16 +2,15 @@
 
 public record PetPhotoList
 {
-    private readonly List<PetPhoto> _petPhotos;
-
+    // ef core
     private PetPhotoList()
     {
     }
 
     public PetPhotoList(List<PetPhoto> petPhotos)
     {
-        _petPhotos = petPhotos;
+        Photos = petPhotos;
     }
 
-    public IReadOnlyList<PetPhoto> Photos => _petPhotos;
+    public IReadOnlyList<PetPhoto> Photos { get; }
 }

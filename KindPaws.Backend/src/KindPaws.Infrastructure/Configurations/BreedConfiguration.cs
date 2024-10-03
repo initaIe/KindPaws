@@ -1,6 +1,6 @@
-﻿using KindPaws.Domain.Managements.SpeciesManagement.Constraints;
-using KindPaws.Domain.Managements.SpeciesManagement.Entities;
+﻿using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.IDs;
+using KindPaws.Domain.Shared.ValueObjects.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +11,8 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
     public void Configure(EntityTypeBuilder<Breed> builder)
     {
         builder.ToTable("breeds");
-        
+
+        // ID
         builder.HasKey(breed => breed.Id);
 
         builder.Property(breed => breed.Id)
@@ -20,21 +21,22 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 value => BreedId.Create(value))
             .HasColumnName("id");
 
-        builder.Property(breed => breed.Name)
-            .HasMaxLength(BreedConstraints.MaxNameLength)
-            .HasColumnName("name")
-            .IsRequired();
-
-        builder.Property(breed => breed.Description)
-            .HasMaxLength(BreedConstraints.MaxDescriptionLength)
-            .HasColumnName("description")
-            .IsRequired();
-
-        builder.OwnsOne(breed => breed.ColorList, colorList =>
+        // NAME
+        builder.ComplexProperty(breed => breed.Name, name =>
         {
-            colorList.ToJson("colors");
-            colorList.OwnsMany(x => x.BreedColors)
-                .Property(x => x.Value);
+            name.Property(x=>x.Value)
+                .HasMaxLength(ShortNameConstraints.MaxLength)
+                .HasColumnName("name")
+                .IsRequired();
+        });
+
+        // DESCRIPTION
+        builder.ComplexProperty(breed => breed.Description, description =>
+        {
+            description.Property(x=>x.Value)
+                .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+                .HasColumnName("description")
+                .IsRequired();
         });
     }
 }

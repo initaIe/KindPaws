@@ -2,16 +2,15 @@
 
 public record SocialNetworkList
 {
-    private readonly List<SocialNetwork> _socialNetworks;
-
+    // ef core
     private SocialNetworkList()
     {
     }
 
     public SocialNetworkList(List<SocialNetwork> socialNetworks)
     {
-        _socialNetworks = socialNetworks;
+        SocialNetworks = socialNetworks;
     }
 
-    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+    public IReadOnlyList<SocialNetwork> SocialNetworks { get; }
 }

@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Folder Include="Managements\SpeciesManagement\Constraints\" />
+        <Folder Include="Managements\SpeciesManagement\ValueObjects\Lists\"/>
+    </ItemGroup>
+
 </Project>
