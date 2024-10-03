@@ -1,18 +1,13 @@
 ﻿using System.Text.RegularExpressions;
-using KindPaws.Domain.Shared.Others.Validators.ValidatorSettings;
+using KindPaws.Domain.Shared.Others.Validators.ValidatorAddons;
 
 namespace KindPaws.Domain.Shared.Others.Validators;
 
 public static class EmailAddressValidator
 {
-    public static Result<string> EmailAddressValidate(this string emailAddress)
+    public static bool Validate(string emailAddress)
     {
-        var isValid = !string.IsNullOrWhiteSpace(emailAddress)
-                      && Regex.IsMatch(emailAddress, EmailSettings.EmailAddressPattern);
-
-        if (isValid)
-            return "Email address not valid.";
-
-        return true;
+        return !string.IsNullOrWhiteSpace(emailAddress)
+               && Regex.IsMatch(emailAddress, EmailAddon.EmailAddressPattern);
     }
 }

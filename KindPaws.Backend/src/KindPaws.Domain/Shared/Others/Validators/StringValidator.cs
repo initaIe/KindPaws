@@ -2,84 +2,38 @@
 
 public static class StringValidator
 {
-    public static Result<string> MinMaxLengthValidate(this string input, int minLength, int maxLength)
+    public static bool IsInRange(string input, int minLength, int maxLength)
     {
-        if (input.Length < minLength)
-            return $"Length must be larger than or equal {minLength}.";
-
-        if (input.Length > maxLength)
-            return $"Length must be smaller than or equal {maxLength}.";
-
-        return true;
+        return input.Length >= minLength && input.Length <= maxLength;
     }
 
-    public static Result<string> CertainLengthValidate(this string input, int length)
+    public static bool IsLength(string input, int length)
     {
-        if (input.Length != length)
-            return $"Length must be equal to {length}.";
-
-        return true;
+        return input.Length == length;
     }
 
-    public static Result<string> NullValidate(this string? input)
+    public static bool IsNull(string? input)
     {
-        if (input == null)
-            return "Cannot be null.";
-
-        return true;
+        return input == null;
     }
 
-    public static Result<string> EmptyValidate(this string input)
+    public static bool IsEmpty(string input)
     {
-        if (input.Equals(string.Empty))
-            return "Cannot be empty.";
-
-        return true;
+        return input == string.Empty;
     }
 
-    public static Result<string> WhiteSpacesValidate(this string input)
+    public static bool IsWhiteSpace(string input)
     {
-        if (input.All(char.IsWhiteSpace))
-            return "Cannot consist only of whitespace.";
-
-        return true;
+        return input.All(char.IsWhiteSpace);
     }
 
-    public static Result<string> CaseValidate(this string input, bool isMustBeUpperCase)
+    public static bool IsUpperCase(string input)
     {
-        if (isMustBeUpperCase)
-        {
-            if (input != input.ToUpper())
-                return "String must be in uppercase.";
-        }
-        else
-        {
-            if (input != input.ToLower())
-                return "String must be in lowercase.";
-        }
-
-        return true;
+        return input == input.ToUpper();
     }
 
-    public static Result<string> NullOrEmptyOrWhiteSpacesValidate(this string? input)
+    public static bool IsLowerCase(string input)
     {
-        if (string.IsNullOrWhiteSpace(input)) return "Cannot be null, empty or consist only of whitespace.";
-
-        return true;
-    }
-
-    public static Result<string> DefaultValidate(this string? input, int minLength, int maxLength)
-    {
-        var nullEmptyWhiteSpacesValidate = input.NullOrEmptyOrWhiteSpacesValidate();
-
-        if (nullEmptyWhiteSpacesValidate.IsFailure)
-            return nullEmptyWhiteSpacesValidate.Error;
-
-        var minMaxLengthValidation = input!.MinMaxLengthValidate(minLength, maxLength);
-
-        if (minMaxLengthValidation.IsFailure)
-            return minMaxLengthValidation.Error;
-
-        return true;
+        return input == input.ToLower();
     }
 }

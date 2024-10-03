@@ -2,11 +2,8 @@
 
 public static class FloatValidator
 {
-    public static Result<string> MinValueValidate(this float input, float minValue)
+    public static bool IsNotLessThan(float value, float minValue)
     {
-        if (input < minValue)
-            return $"Min value must be larger than or equal {minValue}.";
-
-        return true;
+        return value < minValue;
     }
 }

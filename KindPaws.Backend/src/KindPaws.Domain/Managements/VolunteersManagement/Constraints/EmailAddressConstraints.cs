@@ -2,6 +2,6 @@
 
 public class EmailAddressConstraints
 {
-    public const int MinCountryLength = 5;
-    public const int MaxCountryLength = 256;
+    public const int MinLength = 5;
+    public const int MaxLength = 256;
 }

@@ -1,10 +1,7 @@
-using KindPaws.Domain.Managements.SpeciesManagement.Constraints;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.IDs;
-using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
-using KindPaws.Domain.Shared.Others.Validators;
 using KindPaws.Domain.Shared.ValueObjects;
+using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
 namespace KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 
@@ -19,8 +16,8 @@ public class Specie : Entity<SpecieId>
     public Specie(
         SpecieId id,
         List<Breed> breeds,
-        string name,
-        string description)
+        ShortName name,
+        MediumDescription description)
         : base(id)
     {
         _breeds = breeds;
@@ -28,35 +25,7 @@ public class Specie : Entity<SpecieId>
         Description = description;
     }
 
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public ShortName Name { get; private set; }
+    public MediumDescription Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
-
-    public static Result<Specie, IEnumerable<string>> Create(
-        SpecieId id,
-        List<Breed> breeds,
-        string name,
-        string description)
-    {
-        List<string> errors = [];
-
-        name.DefaultValidate(
-                SpecieConstraints.MinNameLength,
-                SpecieConstraints.MaxNameLength)
-            .AddErrorIfFailure(errors);
-
-        description.DefaultValidate(
-                SpecieConstraints.MinDescriptionLength,
-                SpecieConstraints.MaxDescriptionLength)
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
-
-        return new Specie(
-            id,
-            breeds,
-            name,
-            description);
-    }
 }

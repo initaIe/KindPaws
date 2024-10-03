@@ -1,8 +1,8 @@
 ﻿using KindPaws.Domain.Shared.Constraints;
 
-namespace KindPaws.Domain.Managements.SpeciesManagement.Constraints;
+namespace KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 
-public static class BreedColorConstraints
+public static class PetColorConstraints
 {
     public const int MinLength = MinLengthConstraints.One;
     public const int MaxLength = MaxLengthConstraints.Medium;

@@ -1,5 +1,4 @@
 ﻿using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
 using KindPaws.Domain.Shared.ValueObjects.Constraints;
 
@@ -21,37 +20,36 @@ public record FullName
     public string LastName { get; }
     public string? Patronymic { get; }
 
-    public static Result<FullName, IEnumerable<string>> Create(
+    public static Result<FullName, Error> Create(
         string firstName,
         string lastName,
         string? patronymic)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(firstName))
+            return Errors.General.ValueIsInvalid(nameof(firstName));
 
-        firstName.DefaultValidate(
+        if (!StringValidator.IsInRange(
+                firstName,
                 FullNameConstraints.MinFirstNameLength,
-                FullNameConstraints.MaxFirstNameLength)
-            .AddErrorIfFailure(errors);
+                FullNameConstraints.MaxFirstNameLength))
+            return Errors.General.ValueWrongLength(nameof(firstName));
 
-        lastName.DefaultValidate(
+
+        if (string.IsNullOrWhiteSpace(lastName))
+            return Errors.General.ValueIsInvalid(nameof(lastName));
+
+        if (!StringValidator.IsInRange(
+                lastName,
                 FullNameConstraints.MinLastNameLength,
-                FullNameConstraints.MaxLastNameLength)
-            .AddErrorIfFailure(errors);
+                FullNameConstraints.MaxLastNameLength))
+            return Errors.General.ValueWrongLength(nameof(lastName));
 
-        patronymic?.MinMaxLengthValidate(
-                FullNameConstraints.MinPatronymicLength,
-                FullNameConstraints.MaxPatronymicLength)
-            .AddErrorIfFailure(errors);
+        if (!string.IsNullOrWhiteSpace(patronymic))
+            if (!StringValidator.IsInRange(patronymic,
+                    FullNameConstraints.MinFirstNameLength,
+                    FullNameConstraints.MaxFirstNameLength))
+                return Errors.General.ValueWrongLength(nameof(firstName));
 
-        patronymic?.WhiteSpacesValidate()
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
-
-        return new FullName(
-            firstName,
-            lastName,
-            patronymic);
+        return new FullName(firstName, lastName, patronymic);
     }
 }

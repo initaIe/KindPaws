@@ -1,13 +1,10 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
-using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
-using KindPaws.Domain.Shared.Others.Validators;
-using KindPaws.Domain.Shared.ValueObjects;
+﻿using KindPaws.Domain.Shared.ValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record PetPhoto
 {
+    // ef core
     private PetPhoto()
     {
     }

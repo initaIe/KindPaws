@@ -1,17 +1,13 @@
 ﻿using System.Text.RegularExpressions;
+using KindPaws.Domain.Shared.Others.Validators.ValidatorAddons;
 
 namespace KindPaws.Domain.Shared.Others.Validators;
 
 public static class PhoneNumberValidator
 {
-    public static Result<string> PhoneNumberValidate(this string phoneNumber, string regexPattern)
+    public static bool Validate(string phoneNumber, string regexPattern)
     {
-        var isValid = !string.IsNullOrWhiteSpace(phoneNumber)
-                      && Regex.IsMatch(phoneNumber, regexPattern);
-
-        if (isValid)
-            return "Invalid phone number.";
-
-        return true;
+        return !string.IsNullOrWhiteSpace(phoneNumber)
+               && Regex.IsMatch(phoneNumber, regexPattern);
     }
 }

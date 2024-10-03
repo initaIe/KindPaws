@@ -1,5 +1,4 @@
 ﻿using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Helpers;
 using KindPaws.Domain.Shared.Others.Validators;
 
@@ -7,28 +6,28 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Age
 {
-    private Age()
+    private Age(DateOnly? dateBirth)
     {
-    }
-
-    private Age(DateOnly? birthDate)
-    {
-        DateBirth = birthDate;
+        DateBirth = dateBirth;
     }
 
     public DateOnly? DateBirth { get; }
-    public int YearsOld => DateOnlyHelper.CalculateYearsSince(DateBirth);
 
-    public static Result<Age, IEnumerable<string>> Create(DateOnly? birthDate)
+    public int? YearsOld =>
+        DateBirth != null
+            ? DateOnlyHelper.CalculateYearsPassed(DateBirth.Value)
+            : null;
+
+    public static Result<Age, Error> Create(DateOnly dateBirth)
     {
-        List<string> errors = [];
+        if (DateOnlyValidator.IsFromFuture(dateBirth))
+            return Errors.General.ValueIsInvalid(nameof(dateBirth));
 
-        birthDate?.PastDateOnlyValidate()
-            .AddErrorIfFailure(errors);
+        return new Age(dateBirth);
+    }
 
-        if (errors.Count > 0)
-            return errors;
-
-        return new Age(birthDate);
+    public static Age CreateEmpty()
+    {
+        return new Age(dateBirth: null);
     }
 }

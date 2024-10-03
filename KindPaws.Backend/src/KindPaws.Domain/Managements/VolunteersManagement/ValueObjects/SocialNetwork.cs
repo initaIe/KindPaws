@@ -1,6 +1,5 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -8,10 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 // TODO: in future add entity SocialNetwork with ID mb
 public record SocialNetwork
 {
-    private SocialNetwork()
-    {
-    }
-
     private SocialNetwork(
         string name,
         string link)
@@ -23,27 +18,28 @@ public record SocialNetwork
     public string Name { get; }
     public string Link { get; }
 
-    public static Result<SocialNetwork, IEnumerable<string>> Create(
+    public static Result<SocialNetwork, Error> Create(
         string name,
         string link)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(name))
+            return Errors.General.ValueIsInvalid(nameof(name));
 
-        name.DefaultValidate(
+        if (!StringValidator.IsInRange(
+                name,
                 SocialNetworkConstraints.MinNameLength,
-                SocialNetworkConstraints.MaxNameLength)
-            .AddErrorIfFailure(errors);
+                SocialNetworkConstraints.MaxNameLength))
+            return Errors.General.ValueWrongLength(nameof(name));
 
-        link.DefaultValidate(
+        if (string.IsNullOrWhiteSpace(link))
+            return Errors.General.ValueIsInvalid(nameof(link));
+
+        if (!StringValidator.IsInRange(
+                link,
                 SocialNetworkConstraints.MinLinkLength,
-                SocialNetworkConstraints.MaxLinkLength)
-            .AddErrorIfFailure(errors);
+                SocialNetworkConstraints.MaxLinkLength))
+            return Errors.General.ValueWrongLength(nameof(link));
 
-        if (errors.Count > 0)
-            return errors;
-
-        return new SocialNetwork(
-            name,
-            link);
+        return new SocialNetwork(name, link);
     }
 }

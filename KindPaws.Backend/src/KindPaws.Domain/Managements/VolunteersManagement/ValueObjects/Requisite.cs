@@ -1,13 +1,14 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record Requisite
 {
-    private Requisite(string name, string description)
+    private Requisite(
+        string name,
+        string description)
     {
         Name = name;
         Description = description;
@@ -16,22 +17,27 @@ public record Requisite
     public string Name { get; }
     public string Description { get; }
 
-    public static Result<Requisite, IEnumerable<string>> Create(string name, string description)
+    public static Result<Requisite, Error> Create(
+        string name,
+        string description)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(name))
+            return Errors.General.ValueIsInvalid(nameof(name));
 
-        name.DefaultValidate(
+        if (!StringValidator.IsInRange(
+                name,
                 RequisiteConstraints.MinNameLength,
-                RequisiteConstraints.MaxNameLength)
-            .AddErrorIfFailure(errors);
+                RequisiteConstraints.MaxNameLength))
+            return Errors.General.ValueWrongLength(nameof(name));
 
-        description.DefaultValidate(
+        if (string.IsNullOrWhiteSpace(description))
+            return Errors.General.ValueIsInvalid(nameof(description));
+
+        if (!StringValidator.IsInRange(
+                description,
                 RequisiteConstraints.MinDescriptionLength,
-                RequisiteConstraints.MaxDescriptionLength)
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
+                RequisiteConstraints.MaxDescriptionLength))
+            return Errors.General.ValueWrongLength(nameof(description));
 
         return new Requisite(name, description);
     }

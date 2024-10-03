@@ -1,6 +1,5 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -14,17 +13,13 @@ public record Disease
 
     public string Value { get; }
 
-    public static Result<Disease, IEnumerable<string>> Create(string value)
+    public static Result<Disease, Error> Create(string value)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.General.ValueIsInvalid(nameof(value));
 
-        value.DefaultValidate(
-                DiseaseConstraints.MinLength,
-                DiseaseConstraints.MaxLength)
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
+        if (!StringValidator.IsInRange(value, DiseaseConstraints.MinLength, DiseaseConstraints.MaxLength))
+            return Errors.General.ValueWrongLength(nameof(value));
 
         return new Disease(value);
     }

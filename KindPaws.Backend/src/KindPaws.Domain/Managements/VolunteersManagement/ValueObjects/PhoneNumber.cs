@@ -1,8 +1,7 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validators;
-using KindPaws.Domain.Shared.Others.Validators.ValidatorSettings;
+using KindPaws.Domain.Shared.Others.Validators.ValidatorAddons;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
@@ -15,23 +14,20 @@ public record PhoneNumber
 
     public string Value { get; }
 
-    public static Result<PhoneNumber, IEnumerable<string>> Create(string number)
+    public static Result<PhoneNumber, Error> Create(string value)
     {
-        List<string> errors = [];
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.General.ValueIsInvalid(nameof(PhoneNumber));
 
-        number.DefaultValidate(
+        if (!StringValidator.IsInRange(
+                value,
                 PhoneNumberConstraints.MinLength,
-                PhoneNumberConstraints.MaxLength)
-            .AddErrorIfFailure(errors);
+                PhoneNumberConstraints.MaxLength))
+            return Errors.General.ValueWrongLength(nameof(PhoneNumber));
+        
+        if (!PhoneNumberValidator.Validate(value, PhoneNumberAddon.RuPhoneNumberPattern))
+            return Errors.General.ValueIsInvalid(nameof(PhoneNumber));
 
-        number.PhoneNumberValidate(PhoneNumberSettings.RuPhoneNumberPattern)
-            .AddErrorIfFailure(errors);
-
-        if (errors.Count > 0)
-            return errors;
-
-        var phoneNumber = new PhoneNumber(number);
-
-        return phoneNumber;
+        return new PhoneNumber(value);
     }
 }

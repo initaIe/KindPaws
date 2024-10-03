@@ -20,9 +20,11 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString(Postgres));
-        optionsBuilder.UseSnakeCaseNamingConvention();
-        optionsBuilder.UseLoggerFactory(CreateFactory());
+        optionsBuilder
+            .UseNpgsql(configuration.GetConnectionString(Postgres))
+            .UseSnakeCaseNamingConvention()
+            .UseLoggerFactory(CreateFactory())
+            .EnableSensitiveDataLogging();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

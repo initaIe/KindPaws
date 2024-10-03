@@ -4,6 +4,7 @@ public record PetPhotoList
 {
     private readonly List<PetPhoto> _petPhotos;
 
+    // ef core
     private PetPhotoList()
     {
     }

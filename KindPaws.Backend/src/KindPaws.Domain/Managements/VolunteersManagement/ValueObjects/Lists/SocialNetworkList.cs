@@ -4,6 +4,7 @@ public record SocialNetworkList
 {
     private readonly List<SocialNetwork> _socialNetworks;
 
+    // ef core
     private SocialNetworkList()
     {
     }

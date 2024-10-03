@@ -2,8 +2,8 @@
 
 namespace KindPaws.Domain.Shared.ValueObjects.Constraints;
 
-public static class PhotoConstraints
+public static class ShortNameConstraints
 {
     public const int MinLength = MinLengthConstraints.One;
-    public const int MaxLength = MaxLengthConstraints.VeryLong;
+    public const int MaxLength = MaxLengthConstraints.Short;
 }

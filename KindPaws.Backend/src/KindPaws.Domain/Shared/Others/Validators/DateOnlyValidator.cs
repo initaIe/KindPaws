@@ -4,12 +4,13 @@ namespace KindPaws.Domain.Shared.Others.Validators;
 
 public static class DateOnlyValidator
 {
-    public static Result<string> PastDateOnlyValidate(this DateOnly date)
+    public static bool IsFromFuture(DateOnly date)
     {
-        var dateNow = DateOnlyHelper.GetDateOnlyNow();
-        if (dateNow < date)
-            return "Date can not be in future.";
+        return DateOnlyHelper.GetDateOnlyNow() < date;
+    }
 
-        return true;
+    public static bool IsFromPast(DateOnly date)
+    {
+        return !IsFromFuture(date);
     }
 }
