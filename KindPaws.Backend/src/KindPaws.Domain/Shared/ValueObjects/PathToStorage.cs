@@ -13,14 +13,13 @@ public record PathToStorage
 
     public string Value { get; }
 
-    public static Result<PathToStorage, Error> Create(string value)
+    public static Result<PathToStorage, Error> Create(string input)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Errors.General.ValueIsInvalid(nameof(value));
+        input = input.Trim();
 
-        if (!StringValidator.IsInRange(value, PathToStorageConstraints.MinLength, PathToStorageConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(value));
+        if (!StringValidator.IsInRange(input, PathToStorageConstraints.MinLength, PathToStorageConstraints.MaxLength))
+            return Errors.General.ValueWrongLength(nameof(input));
 
-        return new PathToStorage(value);
+        return new PathToStorage(input);
     }
 }

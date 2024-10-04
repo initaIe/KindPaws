@@ -1,7 +1,6 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
 using KindPaws.Domain.Shared.IDs;
-using KindPaws.Domain.Shared.Others.Helpers;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
@@ -47,5 +46,5 @@ public class Pet : Entity<PetId>
     public Age Age { get; private set; }
     public SupportStatus SupportStatus { get; private set; }
     public PetPhotoList PetPhotoList { get; private set; }
-    public DateTime CreationDateTime { get; private set; } 
+    public DateTime CreationDateTime { get; private set; }
 }

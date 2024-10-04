@@ -28,7 +28,7 @@ public static class Errors
             var label = name ?? "Value";
             return Error.Validation("value.is.required", $"{label} is required");
         }
-        
+
         public static Error RecordAlreadyExist(string? name = null)
         {
             var label = name ?? "Record";
@@ -38,6 +38,5 @@ public static class Errors
 
     public static class Volunteer
     {
-        
     }
 }

@@ -7,7 +7,6 @@ public static class EmailAddressValidator
 {
     public static bool Validate(string emailAddress)
     {
-        return !string.IsNullOrWhiteSpace(emailAddress)
-               && Regex.IsMatch(emailAddress, EmailAddon.EmailAddressPattern);
+        return Regex.IsMatch(emailAddress, EmailAddon.EmailAddressPattern);
     }
 }

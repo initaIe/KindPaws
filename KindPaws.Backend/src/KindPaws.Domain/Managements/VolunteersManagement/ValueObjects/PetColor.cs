@@ -13,15 +13,14 @@ public record PetColor
 
     public string? Value { get; }
 
-    public static Result<PetColor, Error> Create(string value)
+    public static Result<PetColor, Error> Create(string input)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Errors.General.ValueIsInvalid(nameof(value));
+        input = input.Trim();
 
-        if (!StringValidator.IsInRange(value, PetColorConstraints.MinLength, PetColorConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(value));
+        if (!StringValidator.IsInRange(input, PetColorConstraints.MinLength, PetColorConstraints.MaxLength))
+            return Errors.General.ValueWrongLength(nameof(input));
 
-        return new PetColor(value);
+        return new PetColor(input);
     }
 
     public static PetColor CreateEmpty()

@@ -1,5 +1,4 @@
-﻿using KindPaws.API.Response;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers;
 

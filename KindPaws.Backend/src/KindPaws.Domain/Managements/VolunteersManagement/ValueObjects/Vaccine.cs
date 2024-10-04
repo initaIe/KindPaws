@@ -13,14 +13,13 @@ public record Vaccine
 
     public string Value { get; }
 
-    public static Result<Vaccine, Error> Create(string value)
+    public static Result<Vaccine, Error> Create(string input)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Errors.General.ValueIsInvalid(nameof(value));
+        input = input.Trim();
 
-        if (!StringValidator.IsInRange(value, VaccineConstraints.MinLength, VaccineConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(value));
+        if (!StringValidator.IsInRange(input, VaccineConstraints.MinLength, VaccineConstraints.MaxLength))
+            return Errors.General.ValueWrongLength(nameof(input));
 
-        return new Vaccine(value);
+        return new Vaccine(input);
     }
 }

@@ -11,12 +11,12 @@ public record PetId
 
     public static PetId CreateRandom()
     {
-        return new PetId(Guid.NewGuid());
+        return Create(Guid.NewGuid());
     }
 
     public static PetId CreateEmpty()
     {
-        return new PetId(Guid.Empty);
+        return Create(Guid.Empty);
     }
 
     public static PetId Create(Guid id)
@@ -26,6 +26,7 @@ public record PetId
 
     public static implicit operator Guid(PetId petId)
     {
-        return petId?.Value ?? throw new ArgumentNullException($"{nameof(petId)} cannot be null.");
+        return petId?.Value
+               ?? throw new ArgumentNullException($"{nameof(petId)} cannot be null.");
     }
 }

@@ -12,12 +12,12 @@ public record Experience
 
     public int? Value { get; }
 
-    public static Result<Experience, Error> Create(int value)
+    public static Result<Experience, Error> Create(int input)
     {
-        if (value < ExperienceConstraints.MinExperienceValue)
+        if (input < ExperienceConstraints.MinExperienceValue)
             return Errors.General.ValueIsInvalid();
 
-        return new Experience(value);
+        return new Experience(input);
     }
 
     public static Experience CreateEmpty()

@@ -18,12 +18,12 @@ public record Age
             ? DateOnlyHelper.CalculateYearsPassed(DateBirth.Value)
             : null;
 
-    public static Result<Age, Error> Create(DateOnly dateBirth)
+    public static Result<Age, Error> Create(DateOnly input)
     {
-        if (DateOnlyValidator.IsFromFuture(dateBirth))
-            return Errors.General.ValueIsInvalid(nameof(dateBirth));
+        if (DateOnlyValidator.IsFromFuture(input))
+            return Errors.General.ValueIsInvalid(nameof(input));
 
-        return new Age(dateBirth);
+        return new Age(input);
     }
 
     public static Age CreateEmpty()

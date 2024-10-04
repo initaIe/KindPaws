@@ -1,8 +1,5 @@
 using KindPaws.Application;
-using KindPaws.Application.Volunteers;
-using KindPaws.Application.Volunteers.CreateVolunteer;
 using KindPaws.Infrastructure;
-using KindPaws.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

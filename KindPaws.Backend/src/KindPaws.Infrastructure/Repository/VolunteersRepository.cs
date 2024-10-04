@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using System.Xml.Schema;
-using KindPaws.Application.Volunteers;
+﻿using KindPaws.Application.Volunteers;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.IDs;
@@ -29,7 +27,7 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer.Id;
     }
 
-    public async Task<Result<Volunteer, Error>> GetByEmailAddress(
+    public async Task<Result<Volunteer, Error>> GetByEmailAddressAsync(
         EmailAddress emailAddress,
         CancellationToken cancellationToken = default)
     {
@@ -42,7 +40,7 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer;
     }
 
-    public async Task<Result<Volunteer, Error>> GetByPhoneNumber(
+    public async Task<Result<Volunteer, Error>> GetByPhoneNumberAsync(
         PhoneNumber phoneNumber,
         CancellationToken cancellationToken = default)
     {
@@ -55,7 +53,7 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer;
     }
 
-    public async Task<Result<Volunteer, Error>> GetById(
+    public async Task<Result<Volunteer, Error>> GetByIdAsync(
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default)
     {

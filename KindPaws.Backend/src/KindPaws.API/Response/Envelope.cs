@@ -21,7 +21,7 @@ public record Envelope
     {
         return new Envelope(result, null);
     }
-    
+
     public static Envelope Error(Error error)
     {
         return new Envelope(null, error);

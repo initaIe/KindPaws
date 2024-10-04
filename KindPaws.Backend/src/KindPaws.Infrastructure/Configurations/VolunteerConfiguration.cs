@@ -110,8 +110,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                     .HasJsonPropertyName("name")
                     .HasMaxLength(SocialNetworkConstraints.MaxNameLength)
                     .IsRequired();
-                
-                snb.Property(x=>x.Link)
+
+                snb.Property(x => x.Link)
                     .HasJsonPropertyName("link")
                     .HasMaxLength(SocialNetworkConstraints.MaxLinkLength)
                     .IsRequired();
@@ -129,7 +129,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                     .HasJsonPropertyName("name")
                     .HasMaxLength(RequisiteConstraints.MaxNameLength)
                     .IsRequired();
-                
+
                 rb.Property(x => x.Description)
                     .HasJsonPropertyName("description")
                     .HasMaxLength(RequisiteConstraints.MinDescriptionLength)

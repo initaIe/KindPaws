@@ -11,5 +11,5 @@ public record PetType
     }
 
     public SpecieId SpecieId { get; }
-    public BreedId BreedId { get; }
+    public Guid BreedId { get; }
 }

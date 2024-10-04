@@ -24,7 +24,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         // NAME
         builder.ComplexProperty(breed => breed.Name, name =>
         {
-            name.Property(x=>x.Value)
+            name.Property(x => x.Value)
                 .HasMaxLength(ShortNameConstraints.MaxLength)
                 .HasColumnName("name")
                 .IsRequired();
@@ -33,7 +33,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         // DESCRIPTION
         builder.ComplexProperty(breed => breed.Description, description =>
         {
-            description.Property(x=>x.Value)
+            description.Property(x => x.Value)
                 .HasMaxLength(MediumDescriptionConstraints.MaxLength)
                 .HasColumnName("description")
                 .IsRequired();

@@ -25,8 +25,7 @@ public record FullName
         string lastName,
         string? patronymic)
     {
-        if (string.IsNullOrWhiteSpace(firstName))
-            return Errors.General.ValueIsInvalid(nameof(firstName));
+        firstName = firstName.Trim();
 
         if (!StringValidator.IsInRange(
                 firstName,
@@ -34,9 +33,7 @@ public record FullName
                 FullNameConstraints.MaxFirstNameLength))
             return Errors.General.ValueWrongLength(nameof(firstName));
 
-
-        if (string.IsNullOrWhiteSpace(lastName))
-            return Errors.General.ValueIsInvalid(nameof(lastName));
+        lastName = lastName.Trim();
 
         if (!StringValidator.IsInRange(
                 lastName,
@@ -45,10 +42,14 @@ public record FullName
             return Errors.General.ValueWrongLength(nameof(lastName));
 
         if (!string.IsNullOrWhiteSpace(patronymic))
+        {
+            patronymic = patronymic.Trim();
+
             if (!StringValidator.IsInRange(patronymic,
                     FullNameConstraints.MinFirstNameLength,
                     FullNameConstraints.MaxFirstNameLength))
                 return Errors.General.ValueWrongLength(nameof(firstName));
+        }
 
         return new FullName(firstName, lastName, patronymic);
     }

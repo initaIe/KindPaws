@@ -9,11 +9,6 @@ public record VolunteerId
 
     public Guid Value { get; }
 
-    public static VolunteerId Create(Guid value)
-    {
-        return new VolunteerId(value);
-    }
-
     public static VolunteerId CreateRandom()
     {
         return Create(Guid.NewGuid());
@@ -24,8 +19,14 @@ public record VolunteerId
         return Create(Guid.Empty);
     }
 
+    public static VolunteerId Create(Guid value)
+    {
+        return new VolunteerId(value);
+    }
+
     public static implicit operator Guid(VolunteerId volunteerId)
     {
-        return volunteerId?.Value ?? throw new ArgumentNullException($"{nameof(volunteerId)} cannot be null.");
+        return volunteerId?.Value
+               ?? throw new ArgumentNullException($"{nameof(volunteerId)} cannot be null.");
     }
 }

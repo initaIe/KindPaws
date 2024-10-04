@@ -13,20 +13,19 @@ public record EmailAddress
 
     public string Value { get; }
 
-    public static Result<EmailAddress, Error> Create(string value)
+    public static Result<EmailAddress, Error> Create(string input)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Errors.General.ValueIsInvalid(nameof(EmailAddress));
+        input = input.Trim();
 
         if (!StringValidator.IsInRange(
-                value,
+                input,
                 EmailAddressConstraints.MinLength,
                 EmailAddressConstraints.MaxLength))
             return Errors.General.ValueWrongLength(nameof(EmailAddress));
-        
-        if (!EmailAddressValidator.Validate(value))
+
+        if (!EmailAddressValidator.Validate(input))
             return Errors.General.ValueIsInvalid(nameof(EmailAddress));
 
-        return new EmailAddress(value);
+        return new EmailAddress(input);
     }
 }

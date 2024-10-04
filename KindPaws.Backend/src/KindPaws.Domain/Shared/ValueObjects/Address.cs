@@ -25,8 +25,7 @@ public record Address
         string city,
         string street)
     {
-        if (string.IsNullOrWhiteSpace(country))
-            return Errors.General.ValueIsInvalid(nameof(country));
+        country = country.Trim();
 
         if (!StringValidator.IsInRange(
                 country,
@@ -34,9 +33,7 @@ public record Address
                 AddressConstraints.MaxCountryLength))
             return Errors.General.ValueWrongLength(nameof(country));
 
-
-        if (string.IsNullOrWhiteSpace(city))
-            return Errors.General.ValueIsInvalid(nameof(city));
+        city = city.Trim();
 
         if (!StringValidator.IsInRange(
                 city,
@@ -44,9 +41,7 @@ public record Address
                 AddressConstraints.MaxCityLength))
             return Errors.General.ValueWrongLength(nameof(city));
 
-
-        if (string.IsNullOrWhiteSpace(street))
-            return Errors.General.ValueIsInvalid(nameof(street));
+        street = street.Trim();
 
         if (!StringValidator.IsInRange(
                 street,

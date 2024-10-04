@@ -49,10 +49,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                     value => SpecieId.Create(value))
                 .HasColumnName("specie_id");
 
+            // GUID BreedId
             petType.Property(x => x.BreedId)
-                .HasConversion(
-                    breedId => breedId.Value,
-                    value => BreedId.Create(value))
                 .HasColumnName("breed_id");
         });
 

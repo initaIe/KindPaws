@@ -17,12 +17,14 @@ public record SupportStatus
 
     public string? Value { get; }
 
-    public static Result<SupportStatus, Error> Create(string value)
+    public static Result<SupportStatus, Error> Create(string input)
     {
-        if (All.Any(supportStatus => supportStatus.Value!.ToUpper() == value) == false)
-            return Errors.General.ValueIsInvalid(value);
+        input = input.Trim();
 
-        return new SupportStatus(value);
+        if (All.Any(supportStatus => supportStatus.Value!.ToUpper() == input) == false)
+            return Errors.General.ValueIsInvalid(input);
+
+        return new SupportStatus(input);
     }
 
     public static SupportStatus CreateEmpty()

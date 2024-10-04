@@ -13,18 +13,17 @@ public record MediumDescription
 
     public string? Value { get; }
 
-    public static Result<MediumDescription, Error> Create(string value)
+    public static Result<MediumDescription, Error> Create(string input)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Errors.General.ValueIsInvalid();
+        input = input.Trim();
 
         if (!StringValidator.IsInRange(
-                value,
+                input,
                 MediumDescriptionConstraints.MinLength,
                 MediumDescriptionConstraints.MaxLength))
             return Errors.General.ValueWrongLength();
 
-        return new MediumDescription(value);
+        return new MediumDescription(input);
     }
 
     public static MediumDescription CreateEmpty()

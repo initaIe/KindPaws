@@ -22,8 +22,7 @@ public record SocialNetwork
         string name,
         string link)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            return Errors.General.ValueIsInvalid(nameof(name));
+        name = name.Trim();
 
         if (!StringValidator.IsInRange(
                 name,
@@ -31,8 +30,7 @@ public record SocialNetwork
                 SocialNetworkConstraints.MaxNameLength))
             return Errors.General.ValueWrongLength(nameof(name));
 
-        if (string.IsNullOrWhiteSpace(link))
-            return Errors.General.ValueIsInvalid(nameof(link));
+        link = link.Trim();
 
         if (!StringValidator.IsInRange(
                 link,

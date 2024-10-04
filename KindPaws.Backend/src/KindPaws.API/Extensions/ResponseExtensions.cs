@@ -1,8 +1,6 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using KindPaws.API.Response;
+﻿using KindPaws.API.Response;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Extensions;
@@ -22,7 +20,7 @@ public static class ResponseExtensions
             ErrorType.Failure => StatusCodes.Status500InternalServerError,
             _ => StatusCodes.Status500InternalServerError
         };
-        
+
         var envelope = Envelope.Error(result.Error);
 
         return new ObjectResult(envelope)

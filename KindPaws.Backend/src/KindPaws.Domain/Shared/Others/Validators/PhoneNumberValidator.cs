@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using KindPaws.Domain.Shared.Others.Validators.ValidatorAddons;
 
 namespace KindPaws.Domain.Shared.Others.Validators;
 

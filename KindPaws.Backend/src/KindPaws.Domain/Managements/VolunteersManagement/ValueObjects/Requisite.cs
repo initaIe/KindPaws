@@ -21,8 +21,7 @@ public record Requisite
         string name,
         string description)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            return Errors.General.ValueIsInvalid(nameof(name));
+        name = name.Trim();
 
         if (!StringValidator.IsInRange(
                 name,
@@ -30,8 +29,7 @@ public record Requisite
                 RequisiteConstraints.MaxNameLength))
             return Errors.General.ValueWrongLength(nameof(name));
 
-        if (string.IsNullOrWhiteSpace(description))
-            return Errors.General.ValueIsInvalid(nameof(description));
+        description = description.Trim();
 
         if (!StringValidator.IsInRange(
                 description,

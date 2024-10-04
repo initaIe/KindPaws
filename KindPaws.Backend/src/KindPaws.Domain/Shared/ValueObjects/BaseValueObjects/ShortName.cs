@@ -13,18 +13,17 @@ public record ShortName
 
     public string? Value { get; }
 
-    public static Result<ShortName, Error> Create(string value)
+    public static Result<ShortName, Error> Create(string input)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Errors.General.ValueIsInvalid();
+        input = input.Trim();
 
         if (!StringValidator.IsInRange(
-                value,
+                input,
                 ShortNameConstraints.MinLength,
                 ShortNameConstraints.MaxLength))
             return Errors.General.ValueWrongLength();
 
-        return new ShortName(value);
+        return new ShortName(input);
     }
 
     public static ShortName CreateEmpty()

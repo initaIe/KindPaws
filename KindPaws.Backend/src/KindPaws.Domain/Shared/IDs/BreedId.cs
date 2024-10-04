@@ -11,12 +11,12 @@ public record BreedId
 
     public static BreedId CreateRandom()
     {
-        return new BreedId(Guid.NewGuid());
+        return Create(Guid.NewGuid());
     }
 
     public static BreedId CreateEmpty()
     {
-        return new BreedId(Guid.Empty);
+        return Create(Guid.Empty);
     }
 
     public static BreedId Create(Guid id)
@@ -26,6 +26,7 @@ public record BreedId
 
     public static implicit operator Guid(BreedId breedId)
     {
-        return breedId?.Value ?? throw new ArgumentNullException($"{nameof(breedId)} cannot be null.");
+        return breedId?.Value
+               ?? throw new ArgumentNullException($"{nameof(breedId)} cannot be null.");
     }
 }

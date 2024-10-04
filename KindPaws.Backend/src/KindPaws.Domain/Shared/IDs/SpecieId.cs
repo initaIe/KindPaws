@@ -11,12 +11,12 @@ public record SpecieId
 
     public static SpecieId CreateRandom()
     {
-        return new SpecieId(Guid.NewGuid());
+        return Create(Guid.NewGuid());
     }
 
     public static SpecieId CreateEmpty()
     {
-        return new SpecieId(Guid.Empty);
+        return Create(Guid.Empty);
     }
 
     public static SpecieId Create(Guid id)
@@ -26,6 +26,7 @@ public record SpecieId
 
     public static implicit operator Guid(SpecieId specieId)
     {
-        return specieId?.Value ?? throw new ArgumentNullException($"{nameof(specieId)} cannot be null.");
+        return specieId?.Value
+               ?? throw new ArgumentNullException($"{nameof(specieId)} cannot be null.");
     }
 }
