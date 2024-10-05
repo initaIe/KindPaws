@@ -1,29 +1,26 @@
-﻿using KindPaws.Domain.Shared.Others;
-
-namespace KindPaws.API.Response;
+﻿namespace KindPaws.API.Response;
 
 public record Envelope
 {
-    private Envelope(object? result, Error? error)
+    private Envelope(object? result, IEnumerable<ResponseError> errors)
     {
         Result = result;
-        ErrorCode = error?.Code;
-        ErrorMessage = error?.Message;
+        Errors = errors.ToList();
         CreationDateTime = DateTime.Now;
     }
 
     public object? Result { get; }
-    public string? ErrorCode { get; }
-    public string? ErrorMessage { get; }
+
+    public List<ResponseError> Errors { get; } = [];
     public DateTime CreationDateTime { get; }
 
     public static Envelope Ok(object? result = null)
     {
-        return new Envelope(result, null);
+        return new Envelope(result, []);
     }
 
-    public static Envelope Error(Error error)
+    public static Envelope Error(IEnumerable<ResponseError> errors)
     {
-        return new Envelope(null, error);
+        return new Envelope(null, errors.ToList());
     }
 }

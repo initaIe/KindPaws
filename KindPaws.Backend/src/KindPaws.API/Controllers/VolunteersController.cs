@@ -1,4 +1,5 @@
 ﻿using KindPaws.API.Extensions;
+using KindPaws.API.Response;
 using KindPaws.Application.Volunteers.CreateVolunteer;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,8 +13,13 @@ public class VolunteersController : ApplicationController
         [FromBody] CreateVolunteerRequest request,
         CancellationToken token = default)
     {
-        var result = await handler.HandleAsync(request, token);
+        var createResult = await handler.HandleAsync(request, token);
 
-        return result.ToResponse();
+        if (createResult.IsFailure)
+            return createResult.Error.ToResponse();
+
+        var envelope = Envelope.Ok(createResult.Value);
+
+        return Ok(envelope);
     }
 }

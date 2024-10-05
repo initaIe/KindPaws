@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Domain.Shared.IDs;
+﻿namespace KindPaws.Domain.Shared.ValueObjects.IDs;
 
 public record SpecieId
 {

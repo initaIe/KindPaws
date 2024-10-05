@@ -1,10 +1,10 @@
-﻿using KindPaws.Domain.Shared.IDs;
+﻿using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record PetType
 {
-    public PetType(SpecieId specieId, BreedId breedId)
+    public PetType(SpecieId specieId, Guid breedId)
     {
         SpecieId = specieId;
         BreedId = breedId;

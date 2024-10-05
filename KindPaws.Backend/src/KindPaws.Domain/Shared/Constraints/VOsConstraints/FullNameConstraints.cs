@@ -1,6 +1,6 @@
-﻿using KindPaws.Domain.Shared.Constraints;
+﻿using KindPaws.Domain.Shared.Constraints.BaseConstraints;
 
-namespace KindPaws.Domain.Shared.ValueObjects.Constraints;
+namespace KindPaws.Domain.Shared.Constraints.VOsConstraints;
 
 public static class FullNameConstraints
 {

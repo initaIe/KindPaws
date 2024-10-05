@@ -1,6 +1,6 @@
-﻿using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Validators;
-using KindPaws.Domain.Shared.ValueObjects.Constraints;
+﻿using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.Others.Validation.Validators;
 
 namespace KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 

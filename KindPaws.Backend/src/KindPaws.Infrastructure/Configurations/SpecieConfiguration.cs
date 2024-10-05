@@ -1,6 +1,6 @@
 ﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
-using KindPaws.Domain.Shared.IDs;
-using KindPaws.Domain.Shared.ValueObjects.Constraints;
+using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -44,5 +44,8 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
                 .HasColumnName("description")
                 .IsRequired();
         });
+
+        // Breeds auto include
+        builder.Navigation(specie => specie.Breeds).AutoInclude();
     }
 }

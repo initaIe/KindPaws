@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace KindPaws.Domain.Shared.Others.Validators;
+namespace KindPaws.Domain.Shared.Others.Validation.Validators;
 
 public static class PhoneNumberValidator
 {

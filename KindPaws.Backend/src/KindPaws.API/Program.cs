@@ -1,3 +1,4 @@
+using KindPaws.API;
 using KindPaws.Application;
 using KindPaws.Infrastructure;
 
@@ -8,8 +9,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddInfrastructure();
-builder.Services.AddApplication();
+builder.Services
+    .AddInfrastructure()
+    .AddApi()
+    .AddApplication();
 
 var app = builder.Build();
 
