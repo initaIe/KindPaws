@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Infrastructure.Repository;
 
-// TODO: add includes
 public class VolunteersRepository : IVolunteersRepository
 {
     private readonly ApplicationDbContext _dbContext;

@@ -21,16 +21,16 @@ public class CreateVolunteerHandler
     {
         var emailAddress = EmailAddress.Create(request.EmailAddress).Value;
 
-        // check email is already exist
         var existVolunteerWithEmailAddress =
             await _volunteersRepository.GetByEmailAddressAsync(emailAddress, cancellationToken);
 
+        // volunteer email is already exist validation
         if (existVolunteerWithEmailAddress.IsSuccess)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer));
 
         var phoneNumber = PhoneNumber.Create(request.PhoneNumber).Value;
 
-        // check phone number already exist
+        // volunteer phone number is already exist validation
         var existVolunteerWithPhoneNumber =
             await _volunteersRepository.GetByPhoneNumberAsync(phoneNumber, cancellationToken);
 

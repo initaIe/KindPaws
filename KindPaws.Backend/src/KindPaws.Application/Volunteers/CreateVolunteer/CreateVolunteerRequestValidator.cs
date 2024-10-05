@@ -10,8 +10,16 @@ public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteer
 {
     public CreateVolunteerRequestValidator()
     {
-        RuleFor(c => new { c.FirstName, c.LastName, c.Patronymic })
-            .MustBeValueObject(x => FullName.Create(x.FirstName, x.LastName, x.Patronymic));
+        RuleFor(c => new
+            {
+                c.FirstName,
+                c.LastName, 
+                c.Patronymic 
+            })
+            .MustBeValueObject(x => FullName.Create(
+                x.FirstName, 
+                x.LastName, 
+                x.Patronymic));
 
         RuleFor(c => c.EmailAddress).MustBeValueObject(EmailAddress.Create);
 
