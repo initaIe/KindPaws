@@ -1,9 +1,9 @@
 ﻿using KindPaws.API.Validation;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
-namespace KindPaws.API;
+namespace KindPaws.API.Extensions;
 
-public static class Inject
+public static class ServiceExtensions
 {
     public static IServiceCollection AddApi(this IServiceCollection services)
     {

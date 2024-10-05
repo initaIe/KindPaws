@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Validation;
+using KindPaws.Application.Volunteers.CreateVolunteer.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects;
 
@@ -10,15 +11,10 @@ public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteer
 {
     public CreateVolunteerRequestValidator()
     {
-        RuleFor(c => new
-            {
-                c.FirstName,
-                c.LastName, 
-                c.Patronymic 
-            })
+        RuleFor(c => c.FullName)
             .MustBeValueObject(x => FullName.Create(
-                x.FirstName, 
-                x.LastName, 
+                x.FirstName,
+                x.LastName,
                 x.Patronymic));
 
         RuleFor(c => c.EmailAddress).MustBeValueObject(EmailAddress.Create);

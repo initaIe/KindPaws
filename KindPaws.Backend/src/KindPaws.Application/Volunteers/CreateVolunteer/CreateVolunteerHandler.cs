@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+﻿using KindPaws.Application.Volunteers.CreateVolunteer.DTOs;
+using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -40,9 +41,9 @@ public class CreateVolunteerHandler
         var volunteerId = VolunteerId.CreateRandom();
 
         var fullName = FullName.Create(
-            request.FirstName,
-            request.LastName,
-            request.Patronymic).Value;
+            request.FullName.FirstName,
+            request.FullName.LastName,
+            request.FullName.Patronymic).Value;
 
         var volunteerToCreate = new Volunteer(
             volunteerId,

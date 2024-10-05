@@ -1,6 +1,6 @@
-using KindPaws.API;
-using KindPaws.Application;
-using KindPaws.Infrastructure;
+using KindPaws.API.Extensions;
+using KindPaws.Application.Extensions;
+using KindPaws.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +20,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    await app.ApplyMigration();
 }
 
 app.UseHttpsRedirection();
