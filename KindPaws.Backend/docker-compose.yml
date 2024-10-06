@@ -5,9 +5,10 @@
     container_name: seq_container
     restart: unless-stopped
     environment:
-      ACCEPT_EULA: "Y"
+      ACCEPT_EULA: ${SEQ_ACCEPT_EULA}
     ports:
       - "5341:5341"
+      - "8090:80"
     networks:
       - app-network
     volumes:
@@ -17,10 +18,10 @@
     container_name: postgres_container
     image: postgres:latest
     environment:
-      POSTGRES_DB: kind_paws
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      PG-DATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
     ports:
@@ -33,13 +34,13 @@
     container_name: pgadmin_container
     image: dpage/pgadmin4:latest
     environment:
-      PGADMIN_DEFAULT_EMAIL: jayzwalkinz@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: jayzwalkinz
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - "5050:5050"
+      - "5050:80"
     networks:
       - app-network
     restart: unless-stopped

@@ -1,5 +1,7 @@
 ﻿using KindPaws.API.Validation;
+using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using ILogger = Serilog.ILogger;
 
 namespace KindPaws.API.Extensions;
 
@@ -11,6 +13,8 @@ public static class ServiceExtensions
         {
             configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
         });
+        
+        services.AddSerilog();
 
         return services;
     }
