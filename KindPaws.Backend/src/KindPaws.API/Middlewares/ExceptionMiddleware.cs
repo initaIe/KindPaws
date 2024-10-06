@@ -1,15 +1,14 @@
-﻿using System.Net;
-using KindPaws.API.Response;
+﻿using KindPaws.API.Response;
 
 namespace KindPaws.API.Middlewares;
 
 public class ExceptionMiddleware
 {
-    private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
+    private readonly RequestDelegate _next;
 
     public ExceptionMiddleware(
-        RequestDelegate next, 
+        RequestDelegate next,
         ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
@@ -25,10 +24,10 @@ public class ExceptionMiddleware
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            
+
             var responseError = new ResponseError("server.internal", e.Message, null);
             var envelope = Envelope.Error([responseError]);
-            
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(envelope);

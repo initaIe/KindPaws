@@ -6,15 +6,19 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Age
 {
-    private Age(DateOnly? dateBirth)
+    // ef core
+    private Age()
+    {
+    }
+
+    private Age(DateOnly dateBirth)
     {
         DateBirth = dateBirth;
     }
 
     public DateOnly? DateBirth { get; }
 
-    public int? YearsOld =>
-        DateBirth != null
+    public int? YearsOld => DateBirth != null
             ? DateOnlyHelper.CalculateYearsPassed(DateBirth.Value)
             : null;
 
@@ -24,10 +28,5 @@ public record Age
             return Errors.General.ValueIsInvalid(nameof(input));
 
         return new Age(input);
-    }
-
-    public static Age CreateEmpty()
-    {
-        return new Age(dateBirth: null);
     }
 }

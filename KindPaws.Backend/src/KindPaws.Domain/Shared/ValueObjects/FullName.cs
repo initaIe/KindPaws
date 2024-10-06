@@ -1,4 +1,4 @@
-﻿using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+﻿using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Validation.Validators;
 

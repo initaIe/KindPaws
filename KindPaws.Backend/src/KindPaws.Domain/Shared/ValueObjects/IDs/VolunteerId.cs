@@ -1,4 +1,7 @@
-﻿namespace KindPaws.Domain.Shared.ValueObjects.IDs;
+﻿using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.Others.Validation.Validators;
+
+namespace KindPaws.Domain.Shared.ValueObjects.IDs;
 
 public record VolunteerId
 {
@@ -11,16 +14,19 @@ public record VolunteerId
 
     public static VolunteerId CreateRandom()
     {
-        return Create(Guid.NewGuid());
+        return new VolunteerId(Guid.NewGuid());
     }
 
     public static VolunteerId CreateEmpty()
     {
-        return Create(Guid.Empty);
+        return new VolunteerId(Guid.Empty);
     }
 
-    public static VolunteerId Create(Guid value)
+    public static Result<VolunteerId, Error> Create(Guid value)
     {
+        if (GuidValidator.IsEmpty(value))
+            return Errors.General.ValueIsInvalid();
+
         return new VolunteerId(value);
     }
 

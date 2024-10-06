@@ -10,48 +10,23 @@ public record HealthDetails
     {
     }
 
-    private HealthDetails(
+    public HealthDetails(
+        MediumDescription? description,
         IEnumerable<Vaccine>? vaccines,
         IEnumerable<Disease>? diseases,
-        MediumDescription? description,
         HealthStatus? healthStatus,
         bool? isNeutered)
     {
+        Description = description;
         Vaccines = vaccines?.ToList() ?? [];
         Diseases = diseases?.ToList() ?? [];
-        Description = description ?? MediumDescription.CreateEmpty();
-        HealthStatus = healthStatus ?? HealthStatus.CreateEmpty();
+        HealthStatus = healthStatus;
         IsNeutered = isNeutered;
     }
 
-    public MediumDescription Description { get; }
-    public IReadOnlyList<Vaccine> Vaccines { get; }
+    public MediumDescription? Description { get; }
+    public IReadOnlyList<Vaccine> Vaccines { get; } 
     public IReadOnlyList<Disease> Diseases { get; }
-    public HealthStatus HealthStatus { get; }
+    public HealthStatus? HealthStatus { get; }
     public bool? IsNeutered { get; }
-
-    public static Result<HealthDetails, Error> Create(
-        IEnumerable<Vaccine> vaccines,
-        IEnumerable<Disease> diseases,
-        MediumDescription description,
-        HealthStatus healthStatus,
-        bool isNeutered)
-    {
-        return new HealthDetails(
-            vaccines,
-            diseases,
-            description,
-            healthStatus,
-            isNeutered);
-    }
-
-    public static HealthDetails CreateEmpty()
-    {
-        return new HealthDetails(
-            null,
-            null,
-            null,
-            null,
-            null);
-    }
 }

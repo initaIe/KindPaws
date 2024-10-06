@@ -23,9 +23,4 @@ public record Gender
 
         return new Gender(value);
     }
-
-    public static Gender CreateEmpty()
-    {
-        return new Gender(value: null);
-    }
 }

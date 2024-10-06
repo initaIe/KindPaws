@@ -13,50 +13,17 @@ public record BiometricDetails
     {
     }
 
-    private BiometricDetails(
-        float? height,
-        float? weight,
+    public BiometricDetails(
+        Height? height, 
+        Weight? weight,
         Gender? gender)
     {
         Height = height;
         Weight = weight;
-        Gender = gender ?? Gender.CreateEmpty();
+        Gender = gender;
     }
 
-    public float? Height { get; }
-    public float? Weight { get; }
-    public Gender Gender { get; }
-
-    public static Result<BiometricDetails, Error> Create(
-        float height,
-        float weight,
-        Gender gender)
-    {
-        if (FloatValidator.IsNotLessThan(height, BiometricDetailsConstraints.MinHeightValue))
-            return Errors.General.ValueIsInvalid(nameof(height));
-
-        height = height.Round(
-            BiometricDetailsConstraints.HeightPrecision,
-            BiometricDetailsConstraints.IsHeightRoundUp);
-
-        if (FloatValidator.IsNotLessThan(weight, BiometricDetailsConstraints.MinWeightValue))
-            return Errors.General.ValueIsInvalid(nameof(weight));
-
-        weight = weight.Round(
-            BiometricDetailsConstraints.WeightPrecision,
-            BiometricDetailsConstraints.IsWeightRoundUp);
-
-        return new BiometricDetails(
-            height,
-            weight,
-            gender);
-    }
-
-    public static BiometricDetails CreateEmpty()
-    {
-        return new BiometricDetails(
-            null,
-            null,
-            null);
-    }
+    public Height? Height { get; }
+    public Weight? Weight { get; }
+    public Gender? Gender { get; }
 }

@@ -4,6 +4,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 
 public static class PetColorConstraints
 {
-    public const int MinLength = MinLengthConstraints.One;
-    public const int MaxLength = MaxLengthConstraints.Medium;
+    public const int MinLength = LengthConstraints.Min.One;
+    public const int MaxLength = LengthConstraints.Max.Medium;
 }

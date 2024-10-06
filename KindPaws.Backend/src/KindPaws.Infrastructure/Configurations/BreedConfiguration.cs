@@ -1,5 +1,5 @@
 ﻿using KindPaws.Domain.Managements.SpeciesManagement.Entities;
-using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Volunteers.CreateVolunteer.DTOs;
+﻿using KindPaws.Application.Volunteers.Create.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -6,12 +6,12 @@ using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.CreateVolunteer;
+namespace KindPaws.Application.Volunteers.Create;
 
 public class CreateVolunteerHandler
 {
-    private readonly IVolunteersRepository _volunteersRepository;
     private readonly ILogger<CreateVolunteerHandler> _logger;
+    private readonly IVolunteersRepository _volunteersRepository;
 
     public CreateVolunteerHandler(
         IVolunteersRepository volunteersRepository,
@@ -27,21 +27,21 @@ public class CreateVolunteerHandler
     {
         var emailAddress = EmailAddress.Create(request.EmailAddress).Value;
 
-        var existVolunteerWithEmailAddress =
+        var existVolunteerWithEmailAddressResult =
             await _volunteersRepository.GetByEmailAddressAsync(emailAddress, cancellationToken);
 
         // volunteer email is already exist validation
-        if (existVolunteerWithEmailAddress.IsSuccess)
-            return Errors.General.RecordAlreadyExist(nameof(Volunteer));
+        if (existVolunteerWithEmailAddressResult.IsSuccess)
+            return existVolunteerWithEmailAddressResult.Error;
 
         var phoneNumber = PhoneNumber.Create(request.PhoneNumber).Value;
 
         // volunteer phone number is already exist validation
-        var existVolunteerWithPhoneNumber =
+        var existVolunteerWithPhoneNumberResult =
             await _volunteersRepository.GetByPhoneNumberAsync(phoneNumber, cancellationToken);
 
-        if (existVolunteerWithPhoneNumber.IsSuccess)
-            return Errors.General.RecordAlreadyExist(nameof(Volunteer));
+        if (existVolunteerWithPhoneNumberResult.IsSuccess)
+            return existVolunteerWithPhoneNumberResult.Error;
 
         var volunteerId = VolunteerId.CreateRandom();
 
@@ -54,12 +54,7 @@ public class CreateVolunteerHandler
             volunteerId,
             fullName,
             emailAddress,
-            null,
-            null,
-            null,
-            phoneNumber,
-            null,
-            null);
+            phoneNumber);
 
         await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
 

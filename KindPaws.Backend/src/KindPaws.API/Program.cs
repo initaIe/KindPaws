@@ -30,14 +30,14 @@ var app = builder.Build();
 
 // MIDDLEWARES
 app
-    .UseExceptionMiddleware() 
+    .UseExceptionMiddleware()
     .UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    
+
     // AUTO MIGRATION
     await app.ApplyMigration();
 }

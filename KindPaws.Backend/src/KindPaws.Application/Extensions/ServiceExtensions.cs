@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Volunteers.CreateVolunteer;
+using KindPaws.Application.Volunteers.Create;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Application.Extensions;

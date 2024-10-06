@@ -26,9 +26,4 @@ public record SupportStatus
 
         return new SupportStatus(input);
     }
-
-    public static SupportStatus CreateEmpty()
-    {
-        return new SupportStatus(value: null);
-    }
 }

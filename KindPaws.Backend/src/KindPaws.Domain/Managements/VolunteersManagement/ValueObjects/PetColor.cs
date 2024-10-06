@@ -6,12 +6,12 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record PetColor
 {
-    private PetColor(string? value)
+    private PetColor(string value)
     {
         Value = value;
     }
 
-    public string? Value { get; }
+    public string Value { get; }
 
     public static Result<PetColor, Error> Create(string input)
     {
@@ -21,10 +21,5 @@ public record PetColor
             return Errors.General.ValueWrongLength(nameof(input));
 
         return new PetColor(input);
-    }
-
-    public static PetColor CreateEmpty()
-    {
-        return new PetColor(value: null);
     }
 }

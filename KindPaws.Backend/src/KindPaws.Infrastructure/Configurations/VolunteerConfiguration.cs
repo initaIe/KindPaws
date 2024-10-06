@@ -1,6 +1,6 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
-using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,7 +19,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(volunteer => volunteer.Id)
             .HasConversion(
                 petId => petId.Value,
-                value => VolunteerId.Create(value))
+                value => VolunteerId.Create(value).Value)
             .HasColumnName("id");
 
         // FULLNAME
@@ -44,8 +44,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // EMAIL ADDRESS
         builder.ComplexProperty(volunteer => volunteer.EmailAddress, emailAddress =>
         {
-            // emailAddress.HasIndex(x => x.Value)
-            //     .IsUnique();
             emailAddress.Property(x => x.Value)
                 .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
                 .HasColumnName("email_address")
@@ -64,26 +62,21 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // ADDRESS
         builder.ComplexProperty(volunteer => volunteer.Address, address =>
         {
-            address.Property(x => x.Country)
-                .HasMaxLength(AddressConstraints.MaxCountryLength)
-                .HasColumnName("country")
-                .IsRequired(false);
-
-            address.Property(x => x.City)
+            address.Property(x => x!.City)
                 .HasMaxLength(AddressConstraints.MaxCityLength)
                 .HasColumnName("city")
-                .IsRequired(false);
+                .IsRequired();
 
-            address.Property(x => x.Street)
+            address.Property(x => x!.Street)
                 .HasMaxLength(AddressConstraints.MaxStreetLength)
                 .HasColumnName("street")
-                .IsRequired(false);
+                .IsRequired();
         });
 
         // EXPERIENCE
-        builder.ComplexProperty(volunteer => volunteer.Experience, experience =>
+        builder.ComplexProperty(volunteer => volunteer.YearsOfExperience, experience =>
         {
-            experience.Property(x => x.Value)
+            experience.Property(x => x!.Value)
                 .HasColumnName("experience")
                 .IsRequired(false);
         });
@@ -91,8 +84,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // PHONE NUMBER
         builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>
         {
-            // phoneNumber.HasIndex(volunteer => volunteer.Value)
-            //     .IsUnique();
             phoneNumber.Property(x => x.Value)
                 .HasMaxLength(PhoneNumberConstraints.MaxLength)
                 .HasColumnName("phone_number")

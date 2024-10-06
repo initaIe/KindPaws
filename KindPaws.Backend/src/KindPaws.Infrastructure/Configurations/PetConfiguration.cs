@@ -1,6 +1,6 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
-using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -34,7 +34,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // DESCRIPTION
         builder.ComplexProperty(pet => pet.Description, description =>
         {
-            description.Property(x => x.Value)
+            description.Property(x => x!.Value)
                 .HasMaxLength(MediumDescriptionConstraints.MaxLength)
                 .HasColumnName("description")
                 .IsRequired(false);
@@ -47,17 +47,19 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 .HasConversion(
                     specieId => specieId.Value,
                     value => SpecieId.Create(value))
-                .HasColumnName("specie_id");
+                .HasColumnName("specie_id")
+                .IsRequired();
 
             // GUID BreedId
             petType.Property(x => x.BreedId)
-                .HasColumnName("breed_id");
+                .HasColumnName("breed_id")
+                .IsRequired();
         });
 
         // PET COLOR
         builder.ComplexProperty(pet => pet.PetColor, petColor =>
         {
-            petColor.Property(x => x.Value)
+            petColor.Property(x => x!.Value)
                 .HasMaxLength(PetColorConstraints.MaxLength)
                 .HasColumnName("color")
                 .IsRequired(false);
@@ -108,13 +110,19 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // BIOMETRIC DETAILS
         builder.ComplexProperty(pet => pet.BiometricDetails, biometricDetails =>
         {
-            biometricDetails.Property(x => x.Height)
-                .HasColumnName("height")
-                .IsRequired(false);
-
-            biometricDetails.Property(x => x.Weight)
-                .HasColumnName("weight")
-                .IsRequired(false);
+            biometricDetails.ComplexProperty(pet => pet.Height, height =>
+            {
+                height.Property(x => x!.Value)
+                    .HasColumnName("height")
+                    .IsRequired(false);
+            });
+            
+            biometricDetails.ComplexProperty(pet => pet.Weight, weight =>
+            {
+                weight.Property(x => x!.Value)
+                    .HasColumnName("weight")
+                    .IsRequired(false);
+            });
 
             biometricDetails.ComplexProperty(pet => pet.Gender, gender =>
             {
@@ -128,7 +136,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // AGE
         builder.ComplexProperty(pet => pet.Age, age =>
         {
-            age.Property(x => x.DateBirth)
+            age.Property(x => x!.DateBirth)
                 .HasColumnName("date_birth")
                 .IsRequired(false);
         });
@@ -139,7 +147,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             supportStatus.Property(x => x.Value)
                 .HasMaxLength(SupportStatusConstraints.MaxLength)
                 .HasColumnName("support_status")
-                .IsRequired(false);
+                .IsRequired();
         });
 
         // PHOTOS DETAILS
