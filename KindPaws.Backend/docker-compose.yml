@@ -1,5 +1,18 @@
 ﻿services:
   
+  seq:
+    image: datalust/seq:latest
+    container_name: seq_container
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5341:5341"
+    networks:
+      - app-network
+    volumes:
+      - seq:/data
+  
   postgres:
     container_name: postgres_container
     image: postgres:latest
@@ -7,13 +20,13 @@
       POSTGRES_DB: kind_paws
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      PGDATA: /data/postgres
+      PG-DATA: /data/postgres
     volumes:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - app-network
     restart: unless-stopped
   
   pgadmin:
@@ -25,17 +38,17 @@
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
-
     ports:
-      - "5050:80"
+      - "5050:5050"
     networks:
-      - postgres
+      - app-network
     restart: unless-stopped
 
 networks:
-  postgres:
+  app-network:
     driver: bridge
 
 volumes:
   postgres:
   pgadmin:
+  seq:
