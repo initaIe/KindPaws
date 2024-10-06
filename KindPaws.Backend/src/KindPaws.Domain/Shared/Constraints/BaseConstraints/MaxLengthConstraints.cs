@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Domain.Shared.Constraints;
+﻿namespace KindPaws.Domain.Shared.Constraints.BaseConstraints;
 
 public class MaxLengthConstraints
 {

@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Domain.Shared.Others.Validators.ValidatorAddons;
+﻿namespace KindPaws.Domain.Shared.Others.Validation.ValidatorsAddons;
 
 public static class PhoneNumberAddon
 {

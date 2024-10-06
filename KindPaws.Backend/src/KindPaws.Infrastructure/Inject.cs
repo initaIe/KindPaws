@@ -6,9 +6,11 @@ namespace KindPaws.Infrastructure;
 
 public static class Inject
 {
-    public static void AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<ApplicationDbContext>();
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
+
+        return services;
     }
 }

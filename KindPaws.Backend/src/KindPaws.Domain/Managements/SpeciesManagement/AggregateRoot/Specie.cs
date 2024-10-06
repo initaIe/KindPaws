@@ -1,7 +1,7 @@
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
-using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
+using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 

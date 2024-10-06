@@ -1,4 +1,4 @@
-﻿using KindPaws.Domain.Shared.Constraints;
+﻿using KindPaws.Domain.Shared.Constraints.BaseConstraints;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 

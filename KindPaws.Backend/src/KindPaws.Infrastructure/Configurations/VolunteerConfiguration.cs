@@ -1,7 +1,7 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
-using KindPaws.Domain.Shared.IDs;
-using KindPaws.Domain.Shared.ValueObjects.Constraints;
+using KindPaws.Domain.Shared.Constraints.VOsConstraints;
+using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -142,5 +142,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .WithOne()
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Pets auto include
+        builder.Navigation(volunteer => volunteer.Pets).AutoInclude();
     }
 }

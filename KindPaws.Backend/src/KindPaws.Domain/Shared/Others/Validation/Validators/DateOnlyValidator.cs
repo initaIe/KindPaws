@@ -1,6 +1,6 @@
 ﻿using KindPaws.Domain.Shared.Others.Helpers;
 
-namespace KindPaws.Domain.Shared.Others.Validators;
+namespace KindPaws.Domain.Shared.Others.Validation.Validators;
 
 public static class DateOnlyValidator
 {

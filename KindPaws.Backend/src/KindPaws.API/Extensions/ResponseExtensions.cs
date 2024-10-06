@@ -1,4 +1,5 @@
-﻿using KindPaws.API.Response;
+﻿using FluentValidation.Results;
+using KindPaws.API.Response;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +8,9 @@ namespace KindPaws.API.Extensions;
 
 public static class ResponseExtensions
 {
-    public static IActionResult ToResponse<T>(this Result<T, Error> result)
+    public static ActionResult ToResponse(this Error error)
     {
-        if (result.IsSuccess)
-            return new ObjectResult(Envelope.Ok(result.Value));
-
-        var statusCode = result.Error.Type switch
+        var statusCode = error.Type switch
         {
             ErrorType.Validation => StatusCodes.Status400BadRequest,
             ErrorType.NotFound => StatusCodes.Status404NotFound,
@@ -21,11 +19,35 @@ public static class ResponseExtensions
             _ => StatusCodes.Status500InternalServerError
         };
 
-        var envelope = Envelope.Error(result.Error);
+        var responseError = new ResponseError(error.Code, error.Message, null);
+
+        var envelope = Envelope.Error([responseError]);
 
         return new ObjectResult(envelope)
         {
             StatusCode = statusCode
+        };
+    }
+
+    public static ActionResult ToValidationErrorResponse(this ValidationResult validationResult)
+    {
+        if (validationResult.IsValid)
+            throw new InvalidOperationException("Result can not be succeed");
+
+        var validationErrors = validationResult.Errors;
+
+        var responseErrors = from validationError in validationErrors
+            let error = Error.Deserialize(validationError.ErrorMessage)
+            select new ResponseError(
+                error.Code,
+                error.Message,
+                validationError.PropertyName);
+
+        var envelope = Envelope.Error(responseErrors);
+
+        return new ObjectResult(envelope)
+        {
+            StatusCode = StatusCodes.Status400BadRequest
         };
     }
 }

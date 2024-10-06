@@ -1,13 +1,12 @@
 ﻿using KindPaws.Application.Volunteers;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
-using KindPaws.Domain.Shared.IDs;
 using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Infrastructure.Repository;
 
-// TODO: add includes
 public class VolunteersRepository : IVolunteersRepository
 {
     private readonly ApplicationDbContext _dbContext;
@@ -35,7 +34,7 @@ public class VolunteersRepository : IVolunteersRepository
             .FirstOrDefaultAsync(x => x.EmailAddress == emailAddress, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(nameof(Volunteer), emailAddress.Value);
+            return Errors.General.RecordNotFound(nameof(Volunteer), nameof(EmailAddress), emailAddress.Value);
 
         return volunteer;
     }
@@ -45,10 +44,10 @@ public class VolunteersRepository : IVolunteersRepository
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber, cancellationToken);
+            .FirstOrDefaultAsync(v => v.PhoneNumber == phoneNumber, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(nameof(Volunteer), phoneNumber.Value);
+            return Errors.General.RecordNotFound(nameof(Volunteer), nameof(PhoneNumber), phoneNumber.Value);
 
         return volunteer;
     }
@@ -58,11 +57,10 @@ public class VolunteersRepository : IVolunteersRepository
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .Include(x => x.Pets)
             .FirstOrDefaultAsync(x => x.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(nameof(Volunteer), volunteerId);
+            return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), volunteerId.Value);
 
         return volunteer;
     }
