@@ -1,9 +1,11 @@
 ﻿using KindPaws.API.Validation;
+using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using ILogger = Serilog.ILogger;
 
-namespace KindPaws.API;
+namespace KindPaws.API.Extensions;
 
-public static class Inject
+public static class ServiceExtensions
 {
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
@@ -11,6 +13,8 @@ public static class Inject
         {
             configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
         });
+        
+        services.AddSerilog();
 
         return services;
     }

@@ -2,15 +2,15 @@
 using KindPaws.Application.Volunteers.CreateVolunteer;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Application;
+namespace KindPaws.Application.Extensions;
 
-public static class Inject
+public static class ServiceExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<CreateVolunteerHandler>();
 
-        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
 
         return services;
     }

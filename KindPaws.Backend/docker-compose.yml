@@ -1,41 +1,55 @@
 ﻿services:
   
+  seq:
+    image: datalust/seq:latest
+    container_name: seq_container
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: ${SEQ_ACCEPT_EULA}
+    ports:
+      - "5341:5341"
+      - "8090:80"
+    networks:
+      - app-network
+    volumes:
+      - seq:/data
+  
   postgres:
     container_name: postgres_container
     image: postgres:latest
     environment:
-      POSTGRES_DB: kind_paws
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - app-network
     restart: unless-stopped
   
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4:latest
     environment:
-      PGADMIN_DEFAULT_EMAIL: jayzwalkinz@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: jayzwalkinz
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
-
     ports:
       - "5050:80"
     networks:
-      - postgres
+      - app-network
     restart: unless-stopped
 
 networks:
-  postgres:
+  app-network:
     driver: bridge
 
 volumes:
   postgres:
   pgadmin:
+  seq:

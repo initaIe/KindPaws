@@ -2,9 +2,9 @@
 using KindPaws.Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Infrastructure;
+namespace KindPaws.Infrastructure.Extensions;
 
-public static class Inject
+public static class ServiceExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {

@@ -1,6 +1,7 @@
 ﻿using KindPaws.API.Extensions;
 using KindPaws.API.Response;
 using KindPaws.Application.Volunteers.CreateVolunteer;
+using KindPaws.Application.Volunteers.CreateVolunteer.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers;
