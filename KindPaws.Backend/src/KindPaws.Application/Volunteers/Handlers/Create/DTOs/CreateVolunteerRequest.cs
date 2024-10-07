@@ -1,4 +1,6 @@
-﻿namespace KindPaws.Application.Volunteers.Create.DTOs;
+﻿using KindPaws.Application.Volunteers.DTOs;
+
+namespace KindPaws.Application.Volunteers.Create;
 
 public record CreateVolunteerRequest(
     FullNameDTO FullName,

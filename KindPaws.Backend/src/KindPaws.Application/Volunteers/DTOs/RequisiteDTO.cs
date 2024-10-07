@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Application.Volunteers.UpdateMainInfo.DTOs;
+﻿namespace KindPaws.Application.Volunteers.UpdateAdditionalInfo;
 
 public record RequisiteDTO(
     string Name,

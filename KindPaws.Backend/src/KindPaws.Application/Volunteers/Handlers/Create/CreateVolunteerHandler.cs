@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Volunteers.Create.DTOs;
-using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -58,8 +57,7 @@ public class CreateVolunteerHandler
 
         await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
 
-        _logger.LogInformation("Created volunteer with {VolunteerId}, {EmailAddress}",
-            volunteerId, emailAddress);
+        _logger.LogInformation("Created volunteer {VolunteerId}", volunteerId);
 
         return (Guid)volunteerToCreate.Id;
     }
