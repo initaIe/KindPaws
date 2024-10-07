@@ -184,5 +184,10 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(pet => pet.CreationDateTime)
             .HasColumnName("creation_date")
             .IsRequired();
+        
+        // SOFT DELETE
+        builder.Property<bool>("_idDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

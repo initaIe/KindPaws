@@ -1,5 +1,6 @@
 ﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+using KindPaws.Infrastructure.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,6 @@ namespace KindPaws.Infrastructure;
 public class ApplicationDbContext(IConfiguration configuration) : DbContext
 {
     private const string Postgres = nameof(Postgres);
-
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
     public DbSet<Specie> Species => Set<Specie>();
 
@@ -24,7 +24,8 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
             .UseNpgsql(configuration.GetConnectionString(Postgres))
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateFactory())
-            .EnableSensitiveDataLogging();
+            .EnableSensitiveDataLogging()
+            .AddInterceptors(new SoftDeleteInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

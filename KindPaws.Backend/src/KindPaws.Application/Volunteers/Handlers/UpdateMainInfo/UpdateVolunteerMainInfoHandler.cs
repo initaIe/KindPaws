@@ -45,10 +45,15 @@ public class UpdateVolunteerMainInfoHandler
 
         volunteerResult.Value.UpdateMainInfo(fullName, emailAddress, phoneNumber);
 
-        var id = await _volunteersRepository.UpdateAsync(volunteerResult.Value, cancellationToken);
+        var result = await _volunteersRepository.SaveAsync(volunteerResult.Value, cancellationToken);
 
-        _logger.LogInformation("Updated volunteer {VolunteerId}", volunteerId);
+        _logger.LogInformation
+        ("Update volunteer with {VolunteerId}, updated properties {fullName}, {emailAddress}, {PhoneNumber}",
+            volunteerId,
+            fullName, 
+            emailAddress, 
+            phoneNumber);
 
-        return id;
+        return result;
     }
 }

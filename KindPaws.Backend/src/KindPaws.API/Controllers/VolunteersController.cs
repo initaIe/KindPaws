@@ -4,6 +4,9 @@ using KindPaws.API.Response;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Volunteers.Handlers.Create;
 using KindPaws.Application.Volunteers.Handlers.Create.DTOs;
+using KindPaws.Application.Volunteers.Handlers.Delete;
+using KindPaws.Application.Volunteers.Handlers.Delete.DTOs;
+using KindPaws.Application.Volunteers.Handlers.Delete.Validators;
 using KindPaws.Application.Volunteers.Handlers.GetById;
 using KindPaws.Application.Volunteers.Handlers.GetById.DTOs;
 using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo;
@@ -55,13 +58,36 @@ public class VolunteersController : ApplicationController
         var request = new UpdateVolunteerMainInfoRequest(id, dto);
 
         var validationResult = await validator.ValidateAsync(request, token);
-        if (validationResult.IsValid) return validationResult.ToValidationErrorResponse();
+        if (!validationResult.IsValid)
+            return validationResult.ToValidationErrorResponse();
 
         var updateResult = await handler.HandleAsync(request, token);
         if (updateResult.IsFailure)
             return updateResult.Error.ToResponse();
 
         var envelope = Envelope.Ok(updateResult.Value);
+
+        return Ok(envelope);
+    }
+    
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(
+        [FromRoute] Guid id,
+        [FromServices] DeleteVolunteerHandler handler,
+        [FromServices] IValidator<DeleteVolunteerRequest> validator,
+        CancellationToken token = default)
+    {
+        var request = new DeleteVolunteerRequest(id);
+
+        var validationResult = await validator.ValidateAsync(request, token);
+        if (!validationResult.IsValid)
+            return validationResult.ToValidationErrorResponse();
+
+        var deleteResult = await handler.HandleAsync(request, token);
+        if (deleteResult.IsFailure)
+            return deleteResult.Error.ToResponse();
+
+        var envelope = Envelope.Ok(deleteResult.Value);
 
         return Ok(envelope);
     }

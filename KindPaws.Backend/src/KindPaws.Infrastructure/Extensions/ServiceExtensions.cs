@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.Volunteers;
+using KindPaws.Infrastructure.Interceptors;
 using KindPaws.Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 

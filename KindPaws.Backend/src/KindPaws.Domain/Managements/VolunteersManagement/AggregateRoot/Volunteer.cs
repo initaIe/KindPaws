@@ -1,14 +1,16 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
+using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 
-public class Volunteer : Entity<VolunteerId>
+public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 {
+    private bool _isDeleted;
     private readonly List<Pet> _pets = [];
 
     // ef core
@@ -75,5 +77,15 @@ public class Volunteer : Entity<VolunteerId>
         YearsOfExperience = yearsOfExperience;
         SocialNetworkList = socialNetworkList ?? new SocialNetworkList([]);
         RequisiteList = requisiteList ?? new RequisiteList([]);
+    }
+
+    public void Delete()
+    {
+        _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        _isDeleted = false;
     }
 }

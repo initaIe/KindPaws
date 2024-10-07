@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Volunteers.Handlers.Create;
+using KindPaws.Application.Volunteers.Handlers.Delete;
 using KindPaws.Application.Volunteers.Handlers.GetById;
 using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ public static class ServiceExtensions
     {
         services.AddScoped<CreateVolunteerHandler>();
         services.AddScoped<UpdateVolunteerMainInfoHandler>();
+        services.AddScoped<DeleteVolunteerHandler>();
 
         services.AddScoped<GetByIdVolunteerHandler>();
 

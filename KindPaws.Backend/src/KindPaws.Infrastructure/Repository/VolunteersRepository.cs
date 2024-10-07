@@ -34,7 +34,10 @@ public class VolunteersRepository : IVolunteersRepository
             .FirstOrDefaultAsync(x => x.EmailAddress == emailAddress, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(nameof(Volunteer), nameof(EmailAddress), emailAddress.Value);
+            return Errors.General.RecordNotFound(
+                nameof(Volunteer),
+                nameof(EmailAddress), 
+                emailAddress.Value);
 
         return volunteer;
     }
@@ -47,7 +50,10 @@ public class VolunteersRepository : IVolunteersRepository
             .FirstOrDefaultAsync(v => v.PhoneNumber == phoneNumber, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(nameof(Volunteer), nameof(PhoneNumber), phoneNumber.Value);
+            return Errors.General.RecordNotFound(
+                nameof(Volunteer),
+                nameof(PhoneNumber),
+                phoneNumber.Value);
 
         return volunteer;
     }
@@ -60,19 +66,30 @@ public class VolunteersRepository : IVolunteersRepository
             .FirstOrDefaultAsync(x => x.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), volunteerId.Value);
+            return Errors.General.RecordNotFound(
+                nameof(Volunteer),
+                nameof(VolunteerId),
+                volunteerId.Value);
 
         return volunteer;
     }
 
-    public async Task<Guid> UpdateAsync(
+    public async Task<Guid> SaveAsync(
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
-        _dbContext.Volunteers.Update(volunteer);
-
         await _dbContext.SaveChangesAsync(cancellationToken);
 
+        return volunteer.Id;
+    }
+
+    public async Task<Guid> DeleteAsync(
+        Volunteer volunteer,
+        CancellationToken cancellationToken = default)
+    {
+        _dbContext.Volunteers.Remove(volunteer);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
         return volunteer.Id;
     }
 }

@@ -33,10 +33,11 @@ public static class Errors
             return Error.Validation("value.is.required", $"{name} is required");
         }
 
-        public static Error RecordAlreadyExist(string? name = null)
+        public static Error RecordAlreadyExist(string? name = null, string? propertyName = null)
         {
             name ??= "Record";
-            return Error.Validation("record.already.exist", $"{name} already exist");
+            propertyName = propertyName == null ? string.Empty : $"with property {propertyName}";
+            return Error.Validation("record.already.exist", $"{name} {propertyName} already exist");
         }
     }
 }

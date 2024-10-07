@@ -27,21 +27,21 @@ public class CreateVolunteerHandler
     {
         var emailAddress = EmailAddress.Create(request.EmailAddress).Value;
 
-        var existVolunteerWithEmailAddressResult =
+        var emailCheckResult =
             await _volunteersRepository.GetByEmailAddressAsync(emailAddress, cancellationToken);
 
         // volunteer email is already exist validation
-        if (existVolunteerWithEmailAddressResult.IsSuccess)
-            return existVolunteerWithEmailAddressResult.Error;
+        if (emailCheckResult.IsSuccess)
+            return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(EmailAddress));
 
         var phoneNumber = PhoneNumber.Create(request.PhoneNumber).Value;
 
         // volunteer phone number is already exist validation
-        var existVolunteerWithPhoneNumberResult =
+        var phoneNumberCheckResult =
             await _volunteersRepository.GetByPhoneNumberAsync(phoneNumber, cancellationToken);
 
-        if (existVolunteerWithPhoneNumberResult.IsSuccess)
-            return existVolunteerWithPhoneNumberResult.Error;
+        if (phoneNumberCheckResult.IsSuccess)
+            return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(PhoneNumber));
 
         var volunteerId = VolunteerId.CreateRandom();
 
@@ -56,10 +56,10 @@ public class CreateVolunteerHandler
             emailAddress,
             phoneNumber);
 
-        await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
+        var result = await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
 
-        _logger.LogInformation("Created volunteer {VolunteerId}", volunteerId);
+        _logger.LogInformation("Create volunteer with {VolunteerId}", volunteerId);
 
-        return (Guid)volunteerToCreate.Id;
+        return result;
     }
 }

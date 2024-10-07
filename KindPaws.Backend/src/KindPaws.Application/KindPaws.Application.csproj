@@ -16,7 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Volunteers\Handlers\"/>
         <Folder Include="Volunteers\Handlers\UpdateAdditionalInfo\DTOs\"/>
         <Folder Include="Volunteers\Handlers\UpdateAdditionalInfo\Validators\"/>
     </ItemGroup>

@@ -138,7 +138,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Pets auto include
+        // PETS AUTO INCLUDE
         builder.Navigation(volunteer => volunteer.Pets).AutoInclude();
+
+        // SOFT DELETE
+        builder.Property<bool>("_idDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

@@ -104,6 +104,10 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<bool>("_idDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.ComplexProperty<Dictionary<string, object>>("EmailAddress", "KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer.EmailAddress#EmailAddress", b1 =>
                         {
                             b1.IsRequired();
@@ -163,6 +167,10 @@ namespace KindPaws.Infrastructure.Migrations
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("creation_date");
+
+                    b.Property<bool>("_idDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
