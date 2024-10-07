@@ -37,6 +37,6 @@ public record Address
                 AddressConstraints.MaxStreetLength))
             return Errors.General.ValueWrongLength(nameof(street));
 
-        return new Address( city, street);
+        return new Address(city, street);
     }
 }

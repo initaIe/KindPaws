@@ -34,8 +34,8 @@ public class Volunteer : Entity<VolunteerId>
     public MediumDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
-    public SocialNetworkList SocialNetworkList { get; private set; } = new SocialNetworkList([]);
-    public RequisiteList RequisiteList { get; private set; } = new RequisiteList([]);
+    public SocialNetworkList SocialNetworkList { get; private set; } = new([]);
+    public RequisiteList RequisiteList { get; private set; } = new([]);
     public IReadOnlyList<Pet> Pets => _pets;
 
     public int GetCountPetsAlreadyFoundHome()
@@ -70,19 +70,10 @@ public class Volunteer : Entity<VolunteerId>
         SocialNetworkList? socialNetworkList,
         RequisiteList? requisiteList)
     {
-        if (description != null)
-            Description = description;
-
-        if (address != null)
-            Address = address;
-
-        if (yearsOfExperience != null)
-            YearsOfExperience = yearsOfExperience;
-
-        if (socialNetworkList != null)
-            SocialNetworkList = socialNetworkList;
-
-        if (requisiteList != null)
-            RequisiteList = requisiteList;
+        Description = description;
+        Address = address;
+        YearsOfExperience = yearsOfExperience;
+        SocialNetworkList = socialNetworkList ?? new SocialNetworkList([]);
+        RequisiteList = requisiteList ?? new RequisiteList([]);
     }
 }

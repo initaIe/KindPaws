@@ -19,7 +19,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(pet => pet.Id)
             .HasConversion(
                 petId => petId.Value,
-                value => PetId.Create(value))
+                value => PetId.Create(value).Value)
             .HasColumnName("id");
 
         // NAME
@@ -32,11 +32,12 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // DESCRIPTION
-        builder.ComplexProperty(pet => pet.Description, description =>
+        builder.OwnsOne(pet => pet.Description, description =>
         {
-            description.Property(x => x!.Value)
+            description.ToJson("description");
+
+            description.Property(x => x.Value)
                 .HasMaxLength(MediumDescriptionConstraints.MaxLength)
-                .HasColumnName("description")
                 .IsRequired(false);
         });
 
@@ -46,7 +47,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             petType.Property(x => x.SpecieId)
                 .HasConversion(
                     specieId => specieId.Value,
-                    value => SpecieId.Create(value))
+                    value => SpecieId.Create(value).Value)
                 .HasColumnName("specie_id")
                 .IsRequired();
 
@@ -57,11 +58,12 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // PET COLOR
-        builder.ComplexProperty(pet => pet.PetColor, petColor =>
+        builder.OwnsOne(pet => pet.PetColor, petColor =>
         {
-            petColor.Property(x => x!.Value)
+            petColor.ToJson("color");
+
+            petColor.Property(x => x.Value)
                 .HasMaxLength(PetColorConstraints.MaxLength)
-                .HasColumnName("color")
                 .IsRequired(false);
         });
 
@@ -108,36 +110,40 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // BIOMETRIC DETAILS
-        builder.ComplexProperty(pet => pet.BiometricDetails, biometricDetails =>
+        builder.OwnsOne(pet => pet.BiometricDetails, biometricDetails =>
         {
-            biometricDetails.ComplexProperty(pet => pet.Height, height =>
+            biometricDetails.ToJson("biometric_details");
+
+            biometricDetails.OwnsOne(pet => pet.Height, height =>
             {
-                height.Property(x => x!.Value)
-                    .HasColumnName("height")
-                    .IsRequired(false);
-            });
-            
-            biometricDetails.ComplexProperty(pet => pet.Weight, weight =>
-            {
-                weight.Property(x => x!.Value)
-                    .HasColumnName("weight")
+                height.Property(x => x.Value)
+                    .HasJsonPropertyName("height")
                     .IsRequired(false);
             });
 
-            biometricDetails.ComplexProperty(pet => pet.Gender, gender =>
+            biometricDetails.OwnsOne(pet => pet.Weight, weight =>
+            {
+                weight.Property(x => x.Value)
+                    .HasJsonPropertyName("weight")
+                    .IsRequired(false);
+            });
+
+            biometricDetails.OwnsOne(pet => pet.Gender, gender =>
             {
                 gender.Property(x => x.Value)
                     .HasMaxLength(GenderConstraints.MaxGenderLength)
-                    .HasColumnName("gender")
+                    .HasJsonPropertyName("gender")
                     .IsRequired(false);
             });
         });
 
         // AGE
-        builder.ComplexProperty(pet => pet.Age, age =>
+        builder.OwnsOne(pet => pet.Age, age =>
         {
+            age.ToJson("age");
+
             age.Property(x => x!.DateBirth)
-                .HasColumnName("date_birth")
+                .HasJsonPropertyName("date_birth")
                 .IsRequired(false);
         });
 

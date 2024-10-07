@@ -64,4 +64,15 @@ public class VolunteersRepository : IVolunteersRepository
 
         return volunteer;
     }
+
+    public async Task<Guid> UpdateAsync(
+        Volunteer volunteer,
+        CancellationToken cancellationToken = default)
+    {
+        _dbContext.Volunteers.Update(volunteer);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return volunteer.Id;
+    }
 }

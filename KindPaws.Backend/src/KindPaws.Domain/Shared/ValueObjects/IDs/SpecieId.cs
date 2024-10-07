@@ -1,4 +1,7 @@
-﻿namespace KindPaws.Domain.Shared.ValueObjects.IDs;
+﻿using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.Others.Validation.Validators;
+
+namespace KindPaws.Domain.Shared.ValueObjects.IDs;
 
 public record SpecieId
 {
@@ -11,17 +14,20 @@ public record SpecieId
 
     public static SpecieId CreateRandom()
     {
-        return Create(Guid.NewGuid());
+        return new SpecieId(Guid.NewGuid());
     }
 
     public static SpecieId CreateEmpty()
     {
-        return Create(Guid.Empty);
+        return new SpecieId(Guid.Empty);
     }
 
-    public static SpecieId Create(Guid id)
+    public static Result<SpecieId, Error> Create(Guid value)
     {
-        return new SpecieId(id);
+        if (GuidValidator.IsEmpty(value))
+            return Errors.General.ValueIsInvalid();
+
+        return new SpecieId(value);
     }
 
     public static implicit operator Guid(SpecieId specieId)

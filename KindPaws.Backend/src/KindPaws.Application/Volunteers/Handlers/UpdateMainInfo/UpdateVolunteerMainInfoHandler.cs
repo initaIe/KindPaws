@@ -1,12 +1,12 @@
-﻿using KindPaws.Application.Volunteers.Create;
-using KindPaws.Application.Volunteers.UpdateMainInfo.DTOs;
+﻿using KindPaws.Application.Volunteers.Handlers.Create;
+using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.UpdateMainInfo;
+namespace KindPaws.Application.Volunteers.Handlers.UpdateMainInfo;
 
 public class UpdateVolunteerMainInfoHandler
 {
@@ -48,7 +48,7 @@ public class UpdateVolunteerMainInfoHandler
         var id = await _volunteersRepository.UpdateAsync(volunteerResult.Value, cancellationToken);
 
         _logger.LogInformation("Updated volunteer {VolunteerId}", volunteerId);
-        
+
         return id;
     }
 }

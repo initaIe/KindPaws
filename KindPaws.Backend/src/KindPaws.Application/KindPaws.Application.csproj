@@ -15,4 +15,10 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Volunteers\Handlers\"/>
+        <Folder Include="Volunteers\Handlers\UpdateAdditionalInfo\DTOs\"/>
+        <Folder Include="Volunteers\Handlers\UpdateAdditionalInfo\Validators\"/>
+    </ItemGroup>
+
 </Project>

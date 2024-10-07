@@ -1,4 +1,3 @@
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -25,7 +24,7 @@ public record HealthDetails
     }
 
     public MediumDescription? Description { get; }
-    public IReadOnlyList<Vaccine> Vaccines { get; } 
+    public IReadOnlyList<Vaccine> Vaccines { get; }
     public IReadOnlyList<Disease> Diseases { get; }
     public HealthStatus? HealthStatus { get; }
     public bool? IsNeutered { get; }

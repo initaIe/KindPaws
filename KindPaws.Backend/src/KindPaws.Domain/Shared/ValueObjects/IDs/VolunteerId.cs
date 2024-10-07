@@ -33,6 +33,6 @@ public record VolunteerId
     public static implicit operator Guid(VolunteerId volunteerId)
     {
         return volunteerId?.Value
-               ?? throw new ArgumentNullException($"{nameof(volunteerId)} cannot be null.");
+               ?? throw new ArgumentNullException($"{nameof(volunteerId)} value cannot be null.");
     }
 }

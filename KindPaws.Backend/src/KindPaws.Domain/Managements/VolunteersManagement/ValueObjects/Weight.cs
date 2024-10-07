@@ -11,6 +11,7 @@ public class Weight
     private Weight()
     {
     }
+
     private Weight(float value)
     {
         Value = value;

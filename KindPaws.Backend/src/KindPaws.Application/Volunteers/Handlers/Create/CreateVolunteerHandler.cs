@@ -1,11 +1,12 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+﻿using KindPaws.Application.Volunteers.Handlers.Create.DTOs;
+using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.Create;
+namespace KindPaws.Application.Volunteers.Handlers.Create;
 
 public class CreateVolunteerHandler
 {

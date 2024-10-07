@@ -16,8 +16,8 @@ public class Pet : Entity<PetId>
         PetId id,
         PetType petType,
         ShortName name,
-        DateTime creationDateTime, 
-        SupportStatus supportStatus) 
+        DateTime creationDateTime,
+        SupportStatus supportStatus)
         : base(id)
     {
         PetType = petType;
@@ -30,10 +30,10 @@ public class Pet : Entity<PetId>
     public ShortName Name { get; private set; }
     public DateTime CreationDateTime { get; private set; }
     public SupportStatus SupportStatus { get; private set; }
-    public MediumDescription? Description { get; private set; }
-    public PetColor? PetColor { get; private set; }
-    public Age? Age { get; private set; }
-    public HealthDetails HealthDetails { get; private set; }
-    public BiometricDetails BiometricDetails { get; private set; }
-    public PetPhotoList PetPhotoList { get; private set; } = new PetPhotoList([]);
+    public MediumDescription? Description { get; }
+    public PetColor? PetColor { get; }
+    public Age? Age { get; }
+    public HealthDetails HealthDetails { get; }
+    public BiometricDetails BiometricDetails { get; }
+    public PetPhotoList PetPhotoList { get; private set; } = new([]);
 }

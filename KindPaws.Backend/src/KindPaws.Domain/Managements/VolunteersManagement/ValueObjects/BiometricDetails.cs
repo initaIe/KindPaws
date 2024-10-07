@@ -1,8 +1,4 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
-using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.Others.Extensions;
-using KindPaws.Domain.Shared.Others.Validation.Validators;
-using KindPaws.Domain.Shared.ValueObjects;
+﻿using KindPaws.Domain.Shared.ValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
@@ -14,7 +10,7 @@ public record BiometricDetails
     }
 
     public BiometricDetails(
-        Height? height, 
+        Height? height,
         Weight? weight,
         Gender? gender)
     {

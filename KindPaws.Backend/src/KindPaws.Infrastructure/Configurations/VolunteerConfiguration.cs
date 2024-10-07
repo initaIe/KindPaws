@@ -51,33 +51,37 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         // DESCRIPTION
-        builder.ComplexProperty(volunteer => volunteer.Description, description =>
+        builder.OwnsOne(volunteer => volunteer.Description, description =>
         {
+            description.ToJson("description");
+
             description.Property(x => x.Value)
                 .HasMaxLength(MediumDescriptionConstraints.MaxLength)
-                .HasColumnName("description")
                 .IsRequired(false);
         });
 
         // ADDRESS
-        builder.ComplexProperty(volunteer => volunteer.Address, address =>
+        builder.OwnsOne(volunteer => volunteer.Address, address =>
         {
-            address.Property(x => x!.City)
+            address.ToJson("address");
+
+            address.Property(x => x.City)
                 .HasMaxLength(AddressConstraints.MaxCityLength)
-                .HasColumnName("city")
+                .HasJsonPropertyName("city")
                 .IsRequired();
 
-            address.Property(x => x!.Street)
+            address.Property(x => x.Street)
                 .HasMaxLength(AddressConstraints.MaxStreetLength)
-                .HasColumnName("street")
+                .HasJsonPropertyName("street")
                 .IsRequired();
         });
 
         // EXPERIENCE
-        builder.ComplexProperty(volunteer => volunteer.YearsOfExperience, experience =>
+        builder.OwnsOne(volunteer => volunteer.YearsOfExperience, experience =>
         {
-            experience.Property(x => x!.Value)
-                .HasColumnName("experience")
+            experience.ToJson("experience");
+
+            experience.Property(x => x.Value)
                 .IsRequired(false);
         });
 

@@ -16,7 +16,7 @@ public record Height
     {
         Value = value;
     }
-    
+
     public float? Value { get; }
 
     public static Result<Height, Error> Create(float input)
