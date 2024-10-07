@@ -3,11 +3,12 @@ using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Infrastructure.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Infrastructure;
 
-public class ApplicationDbContext(IConfiguration configuration) : DbContext
+public class ApplicationDbContext(IConfiguration configuration, IServiceProvider serviceProvider) : DbContext
 {
     private const string Postgres = nameof(Postgres);
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
@@ -25,7 +26,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateFactory())
             .EnableSensitiveDataLogging()
-            .AddInterceptors(new SoftDeleteInterceptor());
+            .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -78,6 +78,7 @@ public class VolunteersRepository : IVolunteersRepository
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
+        _dbContext.Attach(cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return volunteer.Id;

@@ -142,7 +142,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Navigation(volunteer => volunteer.Pets).AutoInclude();
 
         // SOFT DELETE
-        builder.Property<bool>("_idDeleted")
+        builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted");
     }

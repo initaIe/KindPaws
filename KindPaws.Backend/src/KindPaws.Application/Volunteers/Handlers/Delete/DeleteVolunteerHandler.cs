@@ -34,7 +34,7 @@ public class DeleteVolunteerHandler
             return volunteerResult.Error;
         
         var result = await _volunteersRepository.DeleteAsync(volunteerResult.Value, cancellationToken);
-
+        
         _logger.LogInformation("SoftDelete volunteer with {VolunteerId}", volunteerId);
 
         return result;
