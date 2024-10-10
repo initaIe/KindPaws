@@ -21,21 +21,27 @@ public record Address
         string city,
         string street)
     {
+        if (string.IsNullOrWhiteSpace(city))
+            return Errors.General.ValueIsRequired(nameof(City));
+        
         city = city.Trim();
 
         if (!StringValidator.IsInRange(
                 city,
                 AddressConstraints.MinCityLength,
                 AddressConstraints.MaxCityLength))
-            return Errors.General.ValueWrongLength(nameof(city));
+            return Errors.General.ValueOutOfRange(nameof(City));
 
+        if (string.IsNullOrWhiteSpace(street))
+            return Errors.General.ValueIsRequired(nameof(Street));
+        
         street = street.Trim();
 
         if (!StringValidator.IsInRange(
                 street,
                 AddressConstraints.MinStreetLength,
                 AddressConstraints.MaxStreetLength))
-            return Errors.General.ValueWrongLength(nameof(street));
+            return Errors.General.ValueOutOfRange(nameof(Street));
 
         return new Address(city, street);
     }

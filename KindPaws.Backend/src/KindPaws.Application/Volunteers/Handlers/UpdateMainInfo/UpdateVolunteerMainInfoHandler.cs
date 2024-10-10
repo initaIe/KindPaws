@@ -48,10 +48,11 @@ public class UpdateVolunteerMainInfoHandler
         var result = await _volunteersRepository.SaveAsync(volunteerResult.Value, cancellationToken);
 
         _logger.LogInformation
-        ("Update volunteer with {VolunteerId}, updated properties {fullName}, {emailAddress}, {PhoneNumber}",
-            volunteerId,
-            fullName, 
-            emailAddress, 
+        ("VOLUNTEER update main info with ID: {VolunteerId}; " +
+         "Updated properties: {FullName}, {EmailAddress}, {PhoneNumber}",
+            volunteerId.Value,
+            fullName,
+            emailAddress,
             phoneNumber);
 
         return result;

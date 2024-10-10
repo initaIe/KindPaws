@@ -1,14 +1,12 @@
 ﻿using FluentValidation;
 using KindPaws.API.Extensions;
 using KindPaws.API.Response;
-using KindPaws.Application.Extensions;
 using KindPaws.Application.Volunteers.Handlers.Create;
 using KindPaws.Application.Volunteers.Handlers.Create.DTOs;
 using KindPaws.Application.Volunteers.Handlers.Delete;
 using KindPaws.Application.Volunteers.Handlers.Delete.DTOs;
-using KindPaws.Application.Volunteers.Handlers.Delete.Validators;
-using KindPaws.Application.Volunteers.Handlers.GetById;
-using KindPaws.Application.Volunteers.Handlers.GetById.DTOs;
+using KindPaws.Application.Volunteers.Handlers.UpdateAdditionalInfo;
+using KindPaws.Application.Volunteers.Handlers.UpdateAdditionalInfo.DTOs;
 using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo;
 using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -28,21 +26,6 @@ public class VolunteersController : ApplicationController
             return createResult.Error.ToResponse();
 
         var envelope = Envelope.Ok(createResult.Value);
-
-        return Ok(envelope);
-    }
-
-    [HttpPost("{id:guid}")]
-    public async Task<IActionResult> GetById(
-        [FromServices] GetByIdVolunteerHandler handler,
-        [FromBody] GetByIdVolunteerRequest request,
-        CancellationToken token = default)
-    {
-        var getByIdResult = await handler.HandleAsync(request, token);
-        if (getByIdResult.IsFailure)
-            return getByIdResult.Error.ToResponse();
-
-        var envelope = Envelope.Ok(getByIdResult.Value);
 
         return Ok(envelope);
     }
@@ -69,7 +52,30 @@ public class VolunteersController : ApplicationController
 
         return Ok(envelope);
     }
-    
+
+    [HttpPut("{id:guid}/additional-info")]
+    public async Task<IActionResult> UpdateAdditionalInfo(
+        [FromRoute] Guid id,
+        [FromServices] UpdateVolunteerAdditionalInfoHandler handler,
+        [FromServices] IValidator<UpdateVolunteerAdditionalInfoRequest> validator,
+        [FromBody] UpdateVolunteerAdditionalInfoDTO dto,
+        CancellationToken token = default)
+    {
+        var request = new UpdateVolunteerAdditionalInfoRequest(id, dto);
+
+        var validationResult = await validator.ValidateAsync(request, token);
+        if (!validationResult.IsValid)
+            return validationResult.ToValidationErrorResponse();
+
+        var updateResult = await handler.HandleAsync(request, token);
+        if (updateResult.IsFailure)
+            return updateResult.Error.ToResponse();
+
+        var envelope = Envelope.Ok(updateResult.Value);
+
+        return Ok(envelope);
+    }
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(
         [FromRoute] Guid id,

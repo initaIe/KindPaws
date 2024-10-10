@@ -39,7 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
     // AUTO MIGRATION
-    await app.ApplyMigration();
+    // await app.ApplyMigration();
 }
 
 app.UseHttpsRedirection();

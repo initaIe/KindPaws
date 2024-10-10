@@ -9,18 +9,22 @@ public record Gender
 
     private static readonly Gender[] All = [Male, Female];
 
-    private Gender(string? value)
+    private Gender(string value)
     {
         Value = value;
     }
 
-    public string? Value { get; }
+    public string Value { get; }
 
-    public static Result<Gender, Error> Create(string value)
+    public static Result<Gender, Error> Create(string input)
     {
-        if (All.Any(gender => gender.Value!.ToUpper() == value) == false)
-            return Errors.General.ValueIsInvalid(value);
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(Gender));
+        
+        if (!All.All(gender => 
+                string.Equals(gender.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
+            return Errors.General.ValueIsInvalid(nameof(Gender));
 
-        return new Gender(value);
+        return new Gender(input);
     }
 }

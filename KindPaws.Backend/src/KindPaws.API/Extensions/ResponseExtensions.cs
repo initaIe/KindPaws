@@ -8,6 +8,7 @@ namespace KindPaws.API.Extensions;
 
 public static class ResponseExtensions
 {
+    // Handler error result to error response
     public static ActionResult ToResponse(this Error error)
     {
         var statusCode = error.Type switch
@@ -29,6 +30,7 @@ public static class ResponseExtensions
         };
     }
 
+    // Fluent validation result to error response
     public static ActionResult ToValidationErrorResponse(this ValidationResult validationResult)
     {
         if (validationResult.IsValid)

@@ -1,7 +1,5 @@
 ﻿using KindPaws.Application.Volunteers.Handlers.Delete.DTOs;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +17,7 @@ public class DeleteVolunteerHandler
         _volunteersRepository = volunteersRepository;
         _logger = logger;
     }
-    
+
     public async Task<Result<Guid, Error>> HandleAsync(
         DeleteVolunteerRequest request,
         CancellationToken cancellationToken = default)
@@ -27,15 +25,15 @@ public class DeleteVolunteerHandler
         var volunteerId = VolunteerId.Create(request.VolunteerId).Value;
 
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
-            volunteerId,    
+            volunteerId,
             cancellationToken);
 
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;
-        
+
         var result = await _volunteersRepository.DeleteAsync(volunteerResult.Value, cancellationToken);
-        
-        _logger.LogInformation("SoftDelete volunteer with {VolunteerId}", volunteerId);
+
+        _logger.LogInformation("VOLUNTEER soft delete with ID: {VolunteerId}", volunteerId.Value);
 
         return result;
     }

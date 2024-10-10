@@ -36,4 +36,14 @@ public static class StringValidator
     {
         return input == input.ToLower();
     }
+    
+    public static bool IsAlphabetic(string input)
+    {
+        return input.All(char.IsLetter);
+    }
+
+    public static bool IsAlphabeticWithSpaces(string input)
+    {
+        return input.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+    }
 }

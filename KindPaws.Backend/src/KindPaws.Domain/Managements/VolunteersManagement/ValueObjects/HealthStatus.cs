@@ -12,23 +12,22 @@ public record HealthStatus
 
     private static readonly HealthStatus[] All = [Critical, Weak, Normal, Stable, Healthy];
 
-    private HealthStatus(string? value)
+    private HealthStatus(string value)
     {
         Value = value;
     }
 
-    public string? Value { get; }
+    public string Value { get; }
 
-    public static Result<HealthStatus, Error> Create(string? value)
+    public static Result<HealthStatus, Error> Create(string input)
     {
-        if (All.Any(healthStatus => healthStatus.Value!.ToUpper() == value) == false)
-            return Errors.General.ValueIsInvalid(value);
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(HealthStatus));
+        
+        if (!All.All(healthStatus =>
+                string.Equals(healthStatus.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
+            return Errors.General.ValueIsInvalid(input);
 
-        return new HealthStatus(value);
-    }
-
-    public static HealthStatus CreateEmpty()
-    {
-        return new HealthStatus(value: null);
+        return new HealthStatus(input);
     }
 }

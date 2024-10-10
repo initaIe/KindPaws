@@ -15,13 +15,16 @@ public record MediumDescription
 
     public static Result<MediumDescription, Error> Create(string input)
     {
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(ShortName));
+        
         input = input.Trim();
 
         if (!StringValidator.IsInRange(
                 input,
                 MediumDescriptionConstraints.MinLength,
                 MediumDescriptionConstraints.MaxLength))
-            return Errors.General.ValueWrongLength();
+            return Errors.General.ValueOutOfRange(nameof(MediumDescription));
 
         return new MediumDescription(input);
     }

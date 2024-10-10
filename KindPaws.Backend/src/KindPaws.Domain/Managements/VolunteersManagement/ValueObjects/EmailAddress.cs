@@ -15,16 +15,19 @@ public record EmailAddress
 
     public static Result<EmailAddress, Error> Create(string input)
     {
+        if (string.IsNullOrEmpty(input))
+            return Errors.General.ValueIsRequired(nameof(input));
+        
         input = input.Trim();
 
         if (!StringValidator.IsInRange(
                 input,
                 EmailAddressConstraints.MinLength,
                 EmailAddressConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(EmailAddress));
+            return Errors.General.ValueOutOfRange(nameof(EmailAddress));
 
         if (!EmailAddressValidator.Validate(input))
-            return Errors.General.ValueIsInvalid(nameof(EmailAddress));
+            return Errors.General.ValueFormatIsInvalid(nameof(EmailAddress));
 
         return new EmailAddress(input);
     }

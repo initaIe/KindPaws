@@ -58,7 +58,12 @@ public class CreateVolunteerHandler
 
         var result = await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
 
-        _logger.LogInformation("Create volunteer with {VolunteerId}", volunteerId);
+        _logger.LogInformation("VOLUNTEER create with ID: {VolunteerId}; " +
+                               "Properties: {FullName}, {EmailAddress}, {PhoneNumber}",
+            volunteerId.Value,
+            fullName,
+            emailAddress,
+            phoneNumber);
 
         return result;
     }

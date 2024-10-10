@@ -17,12 +17,12 @@ public record Height
         Value = value;
     }
 
-    public float? Value { get; }
+    public float Value { get; }
 
     public static Result<Height, Error> Create(float input)
     {
         if (FloatValidator.IsNotLessThan(input, HeightConstraints.MinValue))
-            return Errors.General.ValueIsInvalid(nameof(Height));
+            return Errors.General.ValueOutOfRange(nameof(Height));
 
         input = input.Round(
             HeightConstraints.Precision,

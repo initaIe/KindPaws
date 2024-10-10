@@ -17,12 +17,12 @@ public class Weight
         Value = value;
     }
 
-    public float? Value { get; }
+    public float Value { get; }
 
     public static Result<Weight, Error> Create(float input)
     {
         if (FloatValidator.IsNotLessThan(input, WeightConstraints.MinValue))
-            return Errors.General.ValueIsInvalid(nameof(Height));
+            return Errors.General.ValueOutOfRange(nameof(Height));
 
         input = input.Round(
             WeightConstraints.Precision,

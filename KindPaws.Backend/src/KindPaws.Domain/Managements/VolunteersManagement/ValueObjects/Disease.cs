@@ -15,10 +15,13 @@ public record Disease
 
     public static Result<Disease, Error> Create(string input)
     {
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(Disease));
+        
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, DiseaseConstraints.MinLength, DiseaseConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(input));
+            return Errors.General.ValueOutOfRange(nameof(input));
 
         return new Disease(input);
     }

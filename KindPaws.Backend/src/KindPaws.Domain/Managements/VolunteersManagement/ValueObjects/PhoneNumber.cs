@@ -16,16 +16,19 @@ public record PhoneNumber
 
     public static Result<PhoneNumber, Error> Create(string input)
     {
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(PhoneNumber));
+        
         input = input.Trim();
 
         if (!StringValidator.IsInRange(
                 input,
                 PhoneNumberConstraints.MinLength,
                 PhoneNumberConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(PhoneNumber));
+            return Errors.General.ValueOutOfRange(nameof(PhoneNumber));
 
         if (!PhoneNumberValidator.Validate(input, PhoneNumberAddon.RuPhoneNumberPattern))
-            return Errors.General.ValueIsInvalid(nameof(PhoneNumber));
+            return Errors.General.ValueFormatIsInvalid(nameof(PhoneNumber));
 
         return new PhoneNumber(input);
     }

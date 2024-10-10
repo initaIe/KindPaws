@@ -25,13 +25,22 @@ public record FullName
         string lastName,
         string? patronymic)
     {
+        if (string.IsNullOrWhiteSpace(firstName))
+            return Errors.General.ValueIsRequired(nameof(firstName));
+        
         firstName = firstName.Trim();
 
         if (!StringValidator.IsInRange(
                 firstName,
                 FullNameConstraints.MinFirstNameLength,
                 FullNameConstraints.MaxFirstNameLength))
-            return Errors.General.ValueWrongLength(nameof(firstName));
+            return Errors.General.ValueOutOfRange(nameof(firstName));
+        
+        if (!StringValidator.IsAlphabetic(firstName))
+            return Errors.General.ValueCharacterSetIsInvalid(nameof(firstName));
+        
+        if (string.IsNullOrWhiteSpace(lastName))
+            return Errors.General.ValueIsRequired(nameof(lastName));
 
         lastName = lastName.Trim();
 
@@ -39,7 +48,10 @@ public record FullName
                 lastName,
                 FullNameConstraints.MinLastNameLength,
                 FullNameConstraints.MaxLastNameLength))
-            return Errors.General.ValueWrongLength(nameof(lastName));
+            return Errors.General.ValueOutOfRange(nameof(lastName));
+        
+        if (!StringValidator.IsAlphabetic(lastName))
+            return Errors.General.ValueIsInvalid(nameof(lastName));
 
         if (!string.IsNullOrWhiteSpace(patronymic))
         {
@@ -48,7 +60,10 @@ public record FullName
             if (!StringValidator.IsInRange(patronymic,
                     FullNameConstraints.MinFirstNameLength,
                     FullNameConstraints.MaxFirstNameLength))
-                return Errors.General.ValueWrongLength(nameof(firstName));
+                return Errors.General.ValueOutOfRange(nameof(firstName));
+            
+            if (!StringValidator.IsAlphabetic(patronymic))
+                return Errors.General.ValueCharacterSetIsInvalid(nameof(patronymic));
         }
 
         return new FullName(firstName, lastName, patronymic);

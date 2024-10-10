@@ -10,8 +10,8 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 
 public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 {
-    private bool _isDeleted;
     private readonly List<Pet> _pets = [];
+    private bool _isDeleted;
 
     // ef core
     private Volunteer(VolunteerId id) : base(id)
@@ -39,6 +39,16 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
     public SocialNetworkList SocialNetworkList { get; private set; } = new([]);
     public RequisiteList RequisiteList { get; private set; } = new([]);
     public IReadOnlyList<Pet> Pets => _pets;
+
+    public void Delete()
+    {
+        _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        _isDeleted = false;
+    }
 
     public int GetCountPetsAlreadyFoundHome()
     {
@@ -77,15 +87,5 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
         YearsOfExperience = yearsOfExperience;
         SocialNetworkList = socialNetworkList ?? new SocialNetworkList([]);
         RequisiteList = requisiteList ?? new RequisiteList([]);
-    }
-
-    public void Delete()
-    {
-        _isDeleted = true;
-    }
-
-    public void Restore()
-    {
-        _isDeleted = false;
     }
 }

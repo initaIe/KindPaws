@@ -1,7 +1,12 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+﻿using System.Text.Json;
+using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
+using KindPaws.Domain.Shared.ValueObjects;
+using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
+using KindPaws.Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -49,42 +54,62 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasColumnName("email_address")
                 .IsRequired();
         });
-
+        
+        
         // DESCRIPTION
-        builder.OwnsOne(volunteer => volunteer.Description, description =>
-        {
-            description.ToJson("description");
+        builder.Property(volunteer => volunteer.Description)
+            .HasConversion(
+                v => v!.Value,
+                v => MediumDescription.Create(v).Value)
+            .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired(false);
+        
+        // builder.OwnsOne(volunteer => volunteer.Description, description =>
+        // {
+        //     description.Property(a => a.Value)
+        //         .HasMaxLength(AddressConstraints.MaxCityLength)
+        //         .HasColumnName("description")
+        //         .IsRequired(false);
+        //     
+        //     description.WithOwner(); 
+        // });
 
-            description.Property(x => x.Value)
-                .HasMaxLength(MediumDescriptionConstraints.MaxLength)
-                .IsRequired(false);
-        });
-
+        // TODO: rework to JSONB??
         // ADDRESS
-        builder.OwnsOne(volunteer => volunteer.Address, address =>
+        builder.OwnsOne(v => v.Address, address =>
         {
-            address.ToJson("address");
-
-            address.Property(x => x.City)
+            address.Property(a => a.City)
                 .HasMaxLength(AddressConstraints.MaxCityLength)
-                .HasJsonPropertyName("city")
-                .IsRequired();
-
-            address.Property(x => x.Street)
-                .HasMaxLength(AddressConstraints.MaxStreetLength)
-                .HasJsonPropertyName("street")
-                .IsRequired();
-        });
-
-        // EXPERIENCE
-        builder.OwnsOne(volunteer => volunteer.YearsOfExperience, experience =>
-        {
-            experience.ToJson("experience");
-
-            experience.Property(x => x.Value)
+                .HasColumnName("city")
                 .IsRequired(false);
+
+            address.Property(a => a.Street)
+                .HasMaxLength(AddressConstraints.MaxStreetLength)
+                .HasColumnName("street")
+                .IsRequired(false);
+
+            address.WithOwner(); 
         });
 
+        // YEARS OF EXPERIENCE
+        builder.Property(x=>x.YearsOfExperience)
+            .HasConversion(
+                x => x!.Value,
+                value => YearsOfExperience.Create(value).Value)
+            .HasColumnName("years_of_experience")
+            .IsRequired(false);
+        
+        // (OLD)
+        // builder.OwnsOne(volunteer => volunteer.YearsOfExperience, experience =>
+        // {
+        //     experience.Property(x => x.Value)
+        //         .HasColumnName("years_of_experience")
+        //         .IsRequired(false);
+        //     
+        //     experience.WithOwner(); 
+        // });
+        
         // PHONE NUMBER
         builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>
         {
@@ -95,42 +120,16 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         // SOCIAL NETWORKS
-        builder.OwnsOne(volunteer => volunteer.SocialNetworkList, socialNetworks =>
-        {
-            socialNetworks.ToJson("social_networks");
-
-            socialNetworks.OwnsMany(x => x.SocialNetworks, snb =>
-            {
-                snb.Property(x => x.Name)
-                    .HasJsonPropertyName("name")
-                    .HasMaxLength(SocialNetworkConstraints.MaxNameLength)
-                    .IsRequired();
-
-                snb.Property(x => x.Link)
-                    .HasJsonPropertyName("link")
-                    .HasMaxLength(SocialNetworkConstraints.MaxLinkLength)
-                    .IsRequired();
-            });
-        });
+        builder.Property(e => e.SocialNetworkList)
+            .HasConversion(ValueConverters.SocialNetworkListConverter)
+            .HasColumnName("social_networks")
+            .HasColumnType("jsonb");
 
         // REQUISITES
-        builder.OwnsOne(volunteer => volunteer.RequisiteList, requisites =>
-        {
-            requisites.ToJson("requisites");
-
-            requisites.OwnsMany(x => x.Requisites, rb =>
-            {
-                rb.Property(x => x.Name)
-                    .HasJsonPropertyName("name")
-                    .HasMaxLength(RequisiteConstraints.MaxNameLength)
-                    .IsRequired();
-
-                rb.Property(x => x.Description)
-                    .HasJsonPropertyName("description")
-                    .HasMaxLength(RequisiteConstraints.MinDescriptionLength)
-                    .IsRequired();
-            });
-        });
+        builder.Property(e => e.RequisiteList)
+            .HasConversion(ValueConverters.RequisiteListConverter)
+            .HasColumnName("requisites")
+            .HasColumnType("jsonb");
 
         // PETS
         builder.HasMany(volunteer => volunteer.Pets)
@@ -144,6 +143,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // SOFT DELETE
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted");
+            .HasColumnName("is_deleted")
+            .IsRequired();
     }
 }

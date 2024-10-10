@@ -19,10 +19,14 @@ public record SupportStatus
 
     public static Result<SupportStatus, Error> Create(string input)
     {
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(SupportStatus));
+
         input = input.Trim();
 
-        if (All.Any(supportStatus => supportStatus.Value!.ToUpper() == input) == false)
-            return Errors.General.ValueIsInvalid(input);
+        if (!All.Any(supportStatus =>
+                string.Equals(supportStatus.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
+            return Errors.General.ValueIsInvalid(nameof(SupportStatus));
 
         return new SupportStatus(input);
     }

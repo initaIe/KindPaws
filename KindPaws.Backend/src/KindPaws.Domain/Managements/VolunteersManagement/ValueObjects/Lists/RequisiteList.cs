@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
 
 public record RequisiteList
@@ -7,6 +9,7 @@ public record RequisiteList
     {
     }
 
+    [JsonConstructor]
     public RequisiteList(IEnumerable<Requisite> requisites)
     {
         Requisites = requisites.ToList();

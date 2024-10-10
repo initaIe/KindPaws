@@ -26,7 +26,7 @@ public interface IVolunteersRepository
     Task<Guid> SaveAsync(
         Volunteer volunteer,
         CancellationToken cancellationToken = default);
-    
+
     Task<Guid> DeleteAsync(
         Volunteer volunteer,
         CancellationToken cancellationToken = default);

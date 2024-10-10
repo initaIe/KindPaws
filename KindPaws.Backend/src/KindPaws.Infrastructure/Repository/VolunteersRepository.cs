@@ -36,7 +36,7 @@ public class VolunteersRepository : IVolunteersRepository
         if (volunteer == null)
             return Errors.General.RecordNotFound(
                 nameof(Volunteer),
-                nameof(EmailAddress), 
+                nameof(EmailAddress),
                 emailAddress.Value);
 
         return volunteer;
@@ -78,7 +78,10 @@ public class VolunteersRepository : IVolunteersRepository
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
-        _dbContext.Attach(cancellationToken);
+        var entries = _dbContext.ChangeTracker.Entries<Volunteer>();
+        // BUG: Temporarily removed
+        // _dbContext.Attach(volunteer);
+        var entries1 = _dbContext.ChangeTracker.Entries<Volunteer>();
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return volunteer.Id;
@@ -90,7 +93,7 @@ public class VolunteersRepository : IVolunteersRepository
     {
         _dbContext.Volunteers.Remove(volunteer);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return volunteer.Id;
     }
 }

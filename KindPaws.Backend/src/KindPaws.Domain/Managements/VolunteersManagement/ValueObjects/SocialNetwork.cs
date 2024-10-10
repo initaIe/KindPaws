@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+﻿using System.Text.Json.Serialization;
+using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Validation.Validators;
 
@@ -7,6 +8,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 // TODO: in future add entity SocialNetwork with ID mb
 public record SocialNetwork
 {
+    [JsonConstructor]
     private SocialNetwork(
         string name,
         string link)
@@ -22,21 +24,27 @@ public record SocialNetwork
         string name,
         string link)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            return Errors.General.ValueIsRequired(nameof(Name));
+        
         name = name.Trim();
 
         if (!StringValidator.IsInRange(
                 name,
                 SocialNetworkConstraints.MinNameLength,
                 SocialNetworkConstraints.MaxNameLength))
-            return Errors.General.ValueWrongLength(nameof(name));
+            return Errors.General.ValueOutOfRange(nameof(name));
 
+        if (string.IsNullOrWhiteSpace(link))
+            return Errors.General.ValueIsRequired(nameof(Link));
+        
         link = link.Trim();
 
         if (!StringValidator.IsInRange(
                 link,
                 SocialNetworkConstraints.MinLinkLength,
                 SocialNetworkConstraints.MaxLinkLength))
-            return Errors.General.ValueWrongLength(nameof(link));
+            return Errors.General.ValueOutOfRange(nameof(link));
 
         return new SocialNetwork(name, link);
     }

@@ -15,12 +15,12 @@ public record YearsOfExperience
         Value = value;
     }
 
-    public int? Value { get; }
+    public int Value { get; }
 
     public static Result<YearsOfExperience, Error> Create(int input)
     {
         if (input < YearsOfExperienceConstraints.MinValue)
-            return Errors.General.ValueIsInvalid();
+            return Errors.General.ValueOutOfRange(nameof(YearsOfExperience));
 
         return new YearsOfExperience(input);
     }

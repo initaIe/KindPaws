@@ -1,7 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
-using KindPaws.Domain.Shared.Others;
+﻿using KindPaws.Domain.Shared.Others;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace KindPaws.Infrastructure.Interceptors;
@@ -11,7 +9,7 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
         DbContextEventData eventData,
         InterceptionResult<int> result,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         if (eventData.Context == null)
             return await base.SavingChangesAsync(eventData, result, cancellationToken);
@@ -25,7 +23,7 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
             entry.State = EntityState.Modified;
             entry.Entity.Delete();
         }
-        
+
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 }

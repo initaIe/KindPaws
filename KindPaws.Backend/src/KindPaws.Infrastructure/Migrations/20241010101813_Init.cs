@@ -16,6 +16,7 @@ namespace KindPaws.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
@@ -29,17 +30,18 @@ namespace KindPaws.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
+                    city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    years_of_experience = table.Column<int>(type: "integer", nullable: true),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false),
+                    requisites = table.Column<string>(type: "jsonb", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     email_address = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     patronymic = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    address = table.Column<string>(type: "jsonb", nullable: true),
-                    description = table.Column<string>(type: "jsonb", nullable: true),
-                    experience = table.Column<string>(type: "jsonb", nullable: true),
-                    requisites = table.Column<string>(type: "jsonb", nullable: false),
-                    social_networks = table.Column<string>(type: "jsonb", nullable: false)
+                    phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,6 +53,7 @@ namespace KindPaws.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     specie_id = table.Column<Guid>(type: "uuid", nullable: true),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
@@ -72,14 +75,14 @@ namespace KindPaws.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    age = table.Column<DateOnly>(type: "date", nullable: true),
+                    biometric_details = table.Column<string>(type: "jsonb", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     specie_id = table.Column<Guid>(type: "uuid", nullable: false),
                     support_status = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    age = table.Column<string>(type: "jsonb", nullable: true),
-                    biometric_details = table.Column<string>(type: "jsonb", nullable: false),
                     color = table.Column<string>(type: "jsonb", nullable: true),
                     description = table.Column<string>(type: "jsonb", nullable: true),
                     health_details = table.Column<string>(type: "jsonb", nullable: false),

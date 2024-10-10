@@ -1,7 +1,11 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+﻿using System.Text.Json;
+using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
+using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
+using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
+using KindPaws.Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -110,42 +114,57 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // BIOMETRIC DETAILS
-        builder.OwnsOne(pet => pet.BiometricDetails, biometricDetails =>
-        {
-            biometricDetails.ToJson("biometric_details");
-
-            biometricDetails.OwnsOne(pet => pet.Height, height =>
-            {
-                height.Property(x => x.Value)
-                    .HasJsonPropertyName("height")
-                    .IsRequired(false);
-            });
-
-            biometricDetails.OwnsOne(pet => pet.Weight, weight =>
-            {
-                weight.Property(x => x.Value)
-                    .HasJsonPropertyName("weight")
-                    .IsRequired(false);
-            });
-
-            biometricDetails.OwnsOne(pet => pet.Gender, gender =>
-            {
-                gender.Property(x => x.Value)
-                    .HasMaxLength(GenderConstraints.MaxGenderLength)
-                    .HasJsonPropertyName("gender")
-                    .IsRequired(false);
-            });
-        });
+        builder.Property(pet => pet.BiometricDetails)
+            .HasConversion(
+                details => JsonSerializer.Serialize(details, JsonSerializerOptionsPresets.Default),
+                details => JsonSerializer.Deserialize<BiometricDetails>(details, JsonSerializerOptionsPresets.Default)!)
+            .HasColumnName("biometric_details")
+            .HasColumnType("jsonb")
+            .IsRequired();
+        
+        // builder.OwnsOne(pet => pet.BiometricDetails, biometricDetails =>
+        // {
+        //     biometricDetails.ToJson("biometric_details");
+        //
+        //     biometricDetails.OwnsOne(pet => pet.Height, height =>
+        //     {
+        //         height.Property(x => x.Value)
+        //             .HasJsonPropertyName("height")
+        //             .IsRequired(false);
+        //     });
+        //
+        //     biometricDetails.OwnsOne(pet => pet.Weight, weight =>
+        //     {
+        //         weight.Property(x => x.Value)
+        //             .HasJsonPropertyName("weight")
+        //             .IsRequired(false);
+        //     });
+        //
+        //     biometricDetails.OwnsOne(pet => pet.Gender, gender =>
+        //     {
+        //         gender.Property(x => x.Value)
+        //             .HasMaxLength(GenderConstraints.MaxGenderLength)
+        //             .HasJsonPropertyName("gender")
+        //             .IsRequired(false);
+        //     });
+        // });
 
         // AGE
-        builder.OwnsOne(pet => pet.Age, age =>
-        {
-            age.ToJson("age");
-
-            age.Property(x => x!.DateBirth)
-                .HasJsonPropertyName("date_birth")
-                .IsRequired(false);
-        });
+        builder.Property(pet=>pet.Age)
+            .HasConversion(
+                age=>age!.DateBirth,
+                age=> Age.Create(age).Value)
+            .HasColumnName("age")
+            .IsRequired(false);
+        
+        // builder.OwnsOne(pet => pet.Age, age =>
+        // {
+        //     age.ToJson("age");
+        //
+        //     age.Property(x => x!.DateBirth)
+        //         .HasJsonPropertyName("date_birth")
+        //         .IsRequired(false);
+        // });
 
         // SUPPORT STATUS
         builder.ComplexProperty(pet => pet.SupportStatus, supportStatus =>
@@ -184,10 +203,11 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(pet => pet.CreationDateTime)
             .HasColumnName("creation_date")
             .IsRequired();
-        
+
         // SOFT DELETE
-        builder.Property<bool>("_idDeleted")
+        builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted");
+            .HasColumnName("is_deleted")
+            .IsRequired();
     }
 }

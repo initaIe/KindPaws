@@ -1,4 +1,6 @@
-﻿namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
+﻿using System.Text.Json.Serialization;
+
+namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
 
 public record SocialNetworkList
 {
@@ -7,6 +9,7 @@ public record SocialNetworkList
     {
     }
 
+    [JsonConstructor]
     public SocialNetworkList(IEnumerable<SocialNetwork> socialNetworks)
     {
         SocialNetworks = socialNetworks.ToList();

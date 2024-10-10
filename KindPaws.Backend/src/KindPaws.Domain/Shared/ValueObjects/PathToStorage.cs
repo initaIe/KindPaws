@@ -15,10 +15,14 @@ public record PathToStorage
 
     public static Result<PathToStorage, Error> Create(string input)
     {
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(PathToStorage));
+        
         input = input.Trim();
 
+        // TODO: Need length constraint?
         if (!StringValidator.IsInRange(input, PathToStorageConstraints.MinLength, PathToStorageConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(input));
+            return Errors.General.ValueOutOfRange(nameof(input));
 
         return new PathToStorage(input);
     }

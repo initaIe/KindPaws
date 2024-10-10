@@ -16,16 +16,18 @@ public record Age
         DateBirth = dateBirth;
     }
 
-    public DateOnly? DateBirth { get; }
+    public DateOnly DateBirth { get; }
 
-    public int? YearsOld => DateBirth != null
-        ? DateOnlyHelper.CalculateYearsPassed(DateBirth.Value)
-        : null;
+    public int YearsOld => DateOnlyHelper.CalculateYearsPassed(DateBirth);
+    // DateBirth != null
+    // ? DateOnlyHelper.CalculateYearsPassed(DateBirth.Value)
+    // : null;
+
 
     public static Result<Age, Error> Create(DateOnly input)
     {
         if (DateOnlyValidator.IsFromFuture(input))
-            return Errors.General.ValueIsInvalid(nameof(input));
+            return Errors.General.ValueOutOfRange(nameof(Age));
 
         return new Age(input);
     }

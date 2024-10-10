@@ -12,14 +12,14 @@ public class UpdateVolunteerMainInfoDTOValidator : AbstractValidator<UpdateVolun
     {
         RuleFor(u => u.FullName)
             .MustBeValueObject(f => FullName.Create(
-                f!.FirstName,
-                f!.LastName,
+                f.FirstName,
+                f.LastName,
                 f.Patronymic));
 
         RuleFor(u => u.EmailAddress)
-            .MustBeValueObject(EmailAddress.Create!);
+            .MustBeValueObject(EmailAddress.Create);
 
         RuleFor(u => u.PhoneNumber)
-            .MustBeValueObject(PhoneNumber.Create!);
+            .MustBeValueObject(PhoneNumber.Create);
     }
 }

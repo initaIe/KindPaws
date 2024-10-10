@@ -47,5 +47,11 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
 
         // Breeds auto include
         builder.Navigation(specie => specie.Breeds).AutoInclude();
+        
+        // SOFT DELETE
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted")
+            .IsRequired();
     }
 }

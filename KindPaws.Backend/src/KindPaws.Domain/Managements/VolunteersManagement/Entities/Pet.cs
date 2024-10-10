@@ -1,5 +1,4 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -11,6 +10,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 public class Pet : Entity<PetId>, ISoftDeleteable
 {
     private bool _isDeleted;
+
     private Pet(PetId id) : base(id)
     {
     }
@@ -19,13 +19,12 @@ public class Pet : Entity<PetId>, ISoftDeleteable
         PetId id,
         PetType petType,
         ShortName name,
-        DateTime creationDateTime,
         SupportStatus supportStatus)
         : base(id)
     {
         PetType = petType;
         Name = name;
-        CreationDateTime = creationDateTime;
+        CreationDateTime = DateTime.Now;
         SupportStatus = supportStatus;
     }
 
@@ -39,12 +38,12 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     public HealthDetails HealthDetails { get; }
     public BiometricDetails BiometricDetails { get; }
     public PetPhotoList PetPhotoList { get; private set; } = new([]);
-    
+
     public void Delete()
     {
         _isDeleted = true;
     }
-    
+
     public void Restore()
     {
         _isDeleted = false;

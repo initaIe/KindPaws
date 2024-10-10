@@ -15,10 +15,13 @@ public record Vaccine
 
     public static Result<Vaccine, Error> Create(string input)
     {
+        if (string.IsNullOrWhiteSpace(input))
+            return Errors.General.ValueIsRequired(nameof(Vaccine));
+        
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, VaccineConstraints.MinLength, VaccineConstraints.MaxLength))
-            return Errors.General.ValueWrongLength(nameof(input));
+            return Errors.General.ValueOutOfRange(nameof(input));
 
         return new Vaccine(input);
     }
