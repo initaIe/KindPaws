@@ -17,7 +17,7 @@ public record ShortName
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(ShortName));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(
@@ -25,7 +25,7 @@ public record ShortName
                 ShortNameConstraints.MinLength,
                 ShortNameConstraints.MaxLength))
             return Errors.General.ValueOutOfRange();
-        
+
         if (!StringValidator.IsAlphabetic(input))
             return Errors.General.ValueCharacterSetIsInvalid(nameof(ShortName));
 

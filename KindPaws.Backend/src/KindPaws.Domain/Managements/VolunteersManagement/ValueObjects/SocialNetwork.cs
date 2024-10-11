@@ -26,7 +26,7 @@ public record SocialNetwork
     {
         if (string.IsNullOrWhiteSpace(name))
             return Errors.General.ValueIsRequired(nameof(Name));
-        
+
         name = name.Trim();
 
         if (!StringValidator.IsInRange(
@@ -37,7 +37,7 @@ public record SocialNetwork
 
         if (string.IsNullOrWhiteSpace(link))
             return Errors.General.ValueIsRequired(nameof(Link));
-        
+
         link = link.Trim();
 
         if (!StringValidator.IsInRange(

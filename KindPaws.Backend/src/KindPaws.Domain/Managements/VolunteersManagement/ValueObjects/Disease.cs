@@ -17,7 +17,7 @@ public record Disease
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(Disease));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, DiseaseConstraints.MinLength, DiseaseConstraints.MaxLength))

@@ -27,7 +27,7 @@ public record FullName
     {
         if (string.IsNullOrWhiteSpace(firstName))
             return Errors.General.ValueIsRequired(nameof(firstName));
-        
+
         firstName = firstName.Trim();
 
         if (!StringValidator.IsInRange(
@@ -35,10 +35,10 @@ public record FullName
                 FullNameConstraints.MinFirstNameLength,
                 FullNameConstraints.MaxFirstNameLength))
             return Errors.General.ValueOutOfRange(nameof(firstName));
-        
+
         if (!StringValidator.IsAlphabetic(firstName))
             return Errors.General.ValueCharacterSetIsInvalid(nameof(firstName));
-        
+
         if (string.IsNullOrWhiteSpace(lastName))
             return Errors.General.ValueIsRequired(nameof(lastName));
 
@@ -49,7 +49,7 @@ public record FullName
                 FullNameConstraints.MinLastNameLength,
                 FullNameConstraints.MaxLastNameLength))
             return Errors.General.ValueOutOfRange(nameof(lastName));
-        
+
         if (!StringValidator.IsAlphabetic(lastName))
             return Errors.General.ValueIsInvalid(nameof(lastName));
 
@@ -61,7 +61,7 @@ public record FullName
                     FullNameConstraints.MinFirstNameLength,
                     FullNameConstraints.MaxFirstNameLength))
                 return Errors.General.ValueOutOfRange(nameof(firstName));
-            
+
             if (!StringValidator.IsAlphabetic(patronymic))
                 return Errors.General.ValueCharacterSetIsInvalid(nameof(patronymic));
         }

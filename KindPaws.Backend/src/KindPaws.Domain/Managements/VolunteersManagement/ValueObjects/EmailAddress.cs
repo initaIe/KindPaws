@@ -17,7 +17,7 @@ public record EmailAddress
     {
         if (string.IsNullOrEmpty(input))
             return Errors.General.ValueIsRequired(nameof(input));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(

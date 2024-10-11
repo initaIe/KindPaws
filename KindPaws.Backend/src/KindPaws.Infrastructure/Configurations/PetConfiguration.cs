@@ -5,9 +5,11 @@ using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
-using KindPaws.Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using JsonSerializerOptions = System.Text.Json.JsonSerializerOptions;
+
+// using JsonSerializerOptions = KindPaws.Infrastructure.Helpers.JsonSerializerOptions;
 
 namespace KindPaws.Infrastructure.Configurations;
 
@@ -116,12 +118,12 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // BIOMETRIC DETAILS
         builder.Property(pet => pet.BiometricDetails)
             .HasConversion(
-                details => JsonSerializer.Serialize(details, JsonSerializerOptionsPresets.Default),
-                details => JsonSerializer.Deserialize<BiometricDetails>(details, JsonSerializerOptionsPresets.Default)!)
+                details => JsonSerializer.Serialize(details, JsonSerializerOptions.Default),
+                details => JsonSerializer.Deserialize<BiometricDetails>(details, JsonSerializerOptions.Default)!)
             .HasColumnName("biometric_details")
             .HasColumnType("jsonb")
             .IsRequired();
-        
+
         // builder.OwnsOne(pet => pet.BiometricDetails, biometricDetails =>
         // {
         //     biometricDetails.ToJson("biometric_details");
@@ -150,13 +152,13 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // });
 
         // AGE
-        builder.Property(pet=>pet.Age)
+        builder.Property(pet => pet.Age)
             .HasConversion(
-                age=>age!.DateBirth,
-                age=> Age.Create(age).Value)
+                age => age!.DateBirth,
+                age => Age.Create(age).Value)
             .HasColumnName("age")
             .IsRequired(false);
-        
+
         // builder.OwnsOne(pet => pet.Age, age =>
         // {
         //     age.ToJson("age");

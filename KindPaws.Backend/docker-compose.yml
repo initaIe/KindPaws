@@ -44,6 +44,16 @@
     networks:
       - app-network
     restart: unless-stopped
+  
+  minio:
+    container_name: minio_container
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio:/data
+    command: server --console-address ":9001" /data
 
 networks:
   app-network:
@@ -53,3 +63,4 @@ volumes:
   postgres:
   pgadmin:
   seq:
+  minio:

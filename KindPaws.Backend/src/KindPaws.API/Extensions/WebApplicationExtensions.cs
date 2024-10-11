@@ -7,6 +7,7 @@ public static class WebApplicationExtensions
 {
     public static async Task ApplyMigration(this WebApplication webApplication)
     {
+        // TODO
         try
         {
             await using var scope = webApplication.Services.CreateAsyncScope();

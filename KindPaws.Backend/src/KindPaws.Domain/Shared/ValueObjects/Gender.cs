@@ -20,8 +20,8 @@ public record Gender
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(Gender));
-        
-        if (!All.All(gender => 
+
+        if (!All.All(gender =>
                 string.Equals(gender.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
             return Errors.General.ValueIsInvalid(nameof(Gender));
 

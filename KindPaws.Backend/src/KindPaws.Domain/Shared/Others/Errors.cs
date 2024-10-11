@@ -39,13 +39,13 @@ public static class Errors
             propertyName = propertyName == null ? string.Empty : $"with property {propertyName}";
             return Error.Validation("record.already.exist", $"{name} {propertyName} already exist");
         }
-        
+
         public static Error ValueFormatIsInvalid(string? name = null)
         {
             name ??= "Value";
             return Error.Validation("value.format.is.invalid", $"{name} format is invalid");
         }
-        
+
         public static Error ValueCharacterSetIsInvalid(string? name = null)
         {
             name ??= "Value";

@@ -6,7 +6,7 @@ using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
-using KindPaws.Infrastructure.Helpers;
+using KindPaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,7 +20,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         // ID
         builder.HasKey(volunteer => volunteer.Id);
-
         builder.Property(volunteer => volunteer.Id)
             .HasConversion(
                 petId => petId.Value,
@@ -54,62 +53,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasColumnName("email_address")
                 .IsRequired();
         });
-        
-        
-        // DESCRIPTION
-        builder.Property(volunteer => volunteer.Description)
-            .HasConversion(
-                v => v!.Value,
-                v => MediumDescription.Create(v).Value)
-            .HasMaxLength(MediumDescriptionConstraints.MaxLength)
-            .HasColumnName("description")
-            .IsRequired(false);
-        
-        // builder.OwnsOne(volunteer => volunteer.Description, description =>
-        // {
-        //     description.Property(a => a.Value)
-        //         .HasMaxLength(AddressConstraints.MaxCityLength)
-        //         .HasColumnName("description")
-        //         .IsRequired(false);
-        //     
-        //     description.WithOwner(); 
-        // });
 
-        // TODO: rework to JSONB??
-        // ADDRESS
-        builder.OwnsOne(v => v.Address, address =>
-        {
-            address.Property(a => a.City)
-                .HasMaxLength(AddressConstraints.MaxCityLength)
-                .HasColumnName("city")
-                .IsRequired(false);
-
-            address.Property(a => a.Street)
-                .HasMaxLength(AddressConstraints.MaxStreetLength)
-                .HasColumnName("street")
-                .IsRequired(false);
-
-            address.WithOwner(); 
-        });
-
-        // YEARS OF EXPERIENCE
-        builder.Property(x=>x.YearsOfExperience)
-            .HasConversion(
-                x => x!.Value,
-                value => YearsOfExperience.Create(value).Value)
-            .HasColumnName("years_of_experience")
-            .IsRequired(false);
-        
-        // (OLD)
-        // builder.OwnsOne(volunteer => volunteer.YearsOfExperience, experience =>
-        // {
-        //     experience.Property(x => x.Value)
-        //         .HasColumnName("years_of_experience")
-        //         .IsRequired(false);
-        //     
-        //     experience.WithOwner(); 
-        // });
-        
         // PHONE NUMBER
         builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>
         {
@@ -119,17 +63,40 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .IsRequired();
         });
 
+        // DESCRIPTION
+        builder.Property(volunteer => volunteer.Description)
+            .HasConversion(
+                v => v!.Value,
+                v => MediumDescription.Create(v).Value)
+            .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired(false);
+
+        // ADDRESS
+        builder.Property(v => v.Address)
+            .HasColumnName("address")
+            .HasColumnType("jsonb")
+            .IsRequired(false);
+
+        // YEARS OF EXPERIENCE
+        builder.Property(x => x.YearsOfExperience)
+            .HasConversion(
+                x => x!.Value,
+                value => YearsOfExperience.Create(value).Value)
+            .HasColumnName("years_of_experience")
+            .IsRequired(false);
+
         // SOCIAL NETWORKS
         builder.Property(e => e.SocialNetworkList)
-            .HasConversion(ValueConverters.SocialNetworkListConverter)
-            .HasColumnName("social_networks")
-            .HasColumnType("jsonb");
+            .HasColumnName("social_network_list")
+            .IsRequired();
 
         // REQUISITES
         builder.Property(e => e.RequisiteList)
-            .HasConversion(ValueConverters.RequisiteListConverter)
-            .HasColumnName("requisites")
-            .HasColumnType("jsonb");
+            .HasColumnName("requisite_list")
+            .HasValueJsonConverter()
+            .HasColumnType("jsonb")
+            .IsRequired();
 
         // PETS
         builder.HasMany(volunteer => volunteer.Pets)

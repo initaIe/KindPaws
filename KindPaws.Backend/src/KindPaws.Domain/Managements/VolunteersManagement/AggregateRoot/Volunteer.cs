@@ -22,12 +22,22 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
         VolunteerId id,
         FullName fullName,
         EmailAddress emailAddress,
-        PhoneNumber phoneNumber)
+        PhoneNumber phoneNumber,
+        MediumDescription? description,
+        Address? address,
+        YearsOfExperience? yearsOfExperience,
+        SocialNetworkList? socialNetworkList, 
+        RequisiteList? requisiteList) 
         : base(id)
     {
         FullName = fullName;
         EmailAddress = emailAddress;
         PhoneNumber = phoneNumber;
+        Description = description;
+        Address = address;
+        YearsOfExperience = yearsOfExperience;
+        SocialNetworkList = socialNetworkList ?? new SocialNetworkList([]);
+        RequisiteList = requisiteList ?? new RequisiteList([]);
     }
 
     public FullName FullName { get; private set; }
@@ -36,8 +46,8 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
     public MediumDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
-    public SocialNetworkList SocialNetworkList { get; private set; } = new([]);
-    public RequisiteList RequisiteList { get; private set; } = new([]);
+    public SocialNetworkList SocialNetworkList { get; private set; }
+    public RequisiteList RequisiteList { get; private set; } 
     public IReadOnlyList<Pet> Pets => _pets;
 
     public void Delete()

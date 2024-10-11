@@ -6,7 +6,7 @@ using KindPaws.Domain.Shared.Others.Validation.Validators;
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record Requisite
-{
+{    
     [JsonConstructor]
     private Requisite(
         string name,
@@ -25,7 +25,7 @@ public record Requisite
     {
         if (string.IsNullOrWhiteSpace(name))
             return Errors.General.ValueIsRequired(nameof(Name));
-        
+
         name = name.Trim();
 
         if (!StringValidator.IsInRange(
@@ -36,7 +36,7 @@ public record Requisite
 
         if (string.IsNullOrWhiteSpace(description))
             return Errors.General.ValueIsRequired(nameof(Description));
-        
+
         description = description.Trim();
 
         if (!StringValidator.IsInRange(

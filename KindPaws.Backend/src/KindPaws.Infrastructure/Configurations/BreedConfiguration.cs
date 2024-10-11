@@ -38,7 +38,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 .HasColumnName("description")
                 .IsRequired();
         });
-        
+
         // SOFT DELETE
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

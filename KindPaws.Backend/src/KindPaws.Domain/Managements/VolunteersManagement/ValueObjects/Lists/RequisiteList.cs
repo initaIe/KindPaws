@@ -8,12 +8,12 @@ public record RequisiteList
     private RequisiteList()
     {
     }
-
+    
     [JsonConstructor]
     public RequisiteList(IEnumerable<Requisite> requisites)
     {
         Requisites = requisites.ToList();
     }
-
+    
     public IReadOnlyList<Requisite> Requisites { get; }
 }

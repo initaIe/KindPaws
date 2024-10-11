@@ -17,7 +17,7 @@ public record MediumDescription
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(ShortName));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(

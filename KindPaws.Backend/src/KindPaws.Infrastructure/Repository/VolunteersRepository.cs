@@ -78,10 +78,8 @@ public class VolunteersRepository : IVolunteersRepository
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
-        var entries = _dbContext.ChangeTracker.Entries<Volunteer>();
         // BUG: Temporarily removed
         // _dbContext.Attach(volunteer);
-        var entries1 = _dbContext.ChangeTracker.Entries<Volunteer>();
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return volunteer.Id;

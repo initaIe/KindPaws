@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Validation.Validators;
@@ -6,6 +7,12 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Address
 {
+    // ef core
+    private Address()
+    {
+    }
+
+    [JsonConstructor]
     private Address(
         string city,
         string street)
@@ -23,7 +30,7 @@ public record Address
     {
         if (string.IsNullOrWhiteSpace(city))
             return Errors.General.ValueIsRequired(nameof(City));
-        
+
         city = city.Trim();
 
         if (!StringValidator.IsInRange(
@@ -34,7 +41,7 @@ public record Address
 
         if (string.IsNullOrWhiteSpace(street))
             return Errors.General.ValueIsRequired(nameof(Street));
-        
+
         street = street.Trim();
 
         if (!StringValidator.IsInRange(

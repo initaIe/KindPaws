@@ -18,7 +18,7 @@ public record PhoneNumber
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(PhoneNumber));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(

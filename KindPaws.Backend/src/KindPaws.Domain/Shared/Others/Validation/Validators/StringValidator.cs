@@ -36,7 +36,7 @@ public static class StringValidator
     {
         return input == input.ToLower();
     }
-    
+
     public static bool IsAlphabetic(string input)
     {
         return input.All(char.IsLetter);

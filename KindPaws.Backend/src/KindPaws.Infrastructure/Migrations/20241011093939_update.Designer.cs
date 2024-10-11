@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241010101813_Init")]
-    partial class Init
+    [Migration("20241011093939_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,6 +115,10 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("address");
+
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)")
@@ -123,12 +127,12 @@ namespace KindPaws.Infrastructure.Migrations
                     b.Property<string>("RequisiteList")
                         .IsRequired()
                         .HasColumnType("jsonb")
-                        .HasColumnName("requisites");
+                        .HasColumnName("requisite_list");
 
                     b.Property<string>("SocialNetworkList")
                         .IsRequired()
                         .HasColumnType("jsonb")
-                        .HasColumnName("social_networks");
+                        .HasColumnName("social_network_list");
 
                     b.Property<int?>("YearsOfExperience")
                         .HasColumnType("integer")
@@ -266,36 +270,6 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasForeignKey("specie_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_breeds_species_specie_id");
-                });
-
-            modelBuilder.Entity("KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer", b =>
-                {
-                    b.OwnsOne("KindPaws.Domain.Shared.ValueObjects.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("VolunteerId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("City")
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("city");
-
-                            b1.Property<string>("Street")
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("street");
-
-                            b1.HasKey("VolunteerId");
-
-                            b1.ToTable("volunteers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VolunteerId")
-                                .HasConstraintName("fk_volunteers_volunteers_id");
-                        });
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("KindPaws.Domain.Managements.VolunteersManagement.Entities.Pet", b =>

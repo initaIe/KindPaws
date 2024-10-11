@@ -54,7 +54,12 @@ public class CreateVolunteerHandler
             volunteerId,
             fullName,
             emailAddress,
-            phoneNumber);
+            phoneNumber,
+            null,
+            null,
+            null,
+            null,
+            null);
 
         var result = await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
 

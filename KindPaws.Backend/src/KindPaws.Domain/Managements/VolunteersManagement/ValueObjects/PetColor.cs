@@ -17,7 +17,7 @@ public record PetColor
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(PetColor));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, PetColorConstraints.MinLength, PetColorConstraints.MaxLength))

@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 // ADD DEPENDENCIES FROM ALL LAYERS
 builder.Services
-    .AddInfrastructure()
+    .AddInfrastructure(builder.Configuration)
     .AddApi()
     .AddApplication();
 

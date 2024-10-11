@@ -17,7 +17,7 @@ public record PathToStorage
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(PathToStorage));
-        
+
         input = input.Trim();
 
         // TODO: Need length constraint?

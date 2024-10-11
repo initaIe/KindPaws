@@ -17,7 +17,7 @@ public record Vaccine
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(Vaccine));
-        
+
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, VaccineConstraints.MinLength, VaccineConstraints.MaxLength))
