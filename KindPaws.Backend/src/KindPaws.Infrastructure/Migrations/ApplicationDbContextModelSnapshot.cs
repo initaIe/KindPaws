@@ -121,15 +121,15 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("character varying(2000)")
                         .HasColumnName("description");
 
-                    b.Property<string>("RequisiteList")
+                    b.Property<string>("Requisites")
                         .IsRequired()
                         .HasColumnType("jsonb")
-                        .HasColumnName("requisite_list");
+                        .HasColumnName("requisites");
 
-                    b.Property<string>("SocialNetworkList")
+                    b.Property<string>("SocialNetworks")
                         .IsRequired()
                         .HasColumnType("jsonb")
-                        .HasColumnName("social_network_list");
+                        .HasColumnName("social_networks");
 
                     b.Property<int?>("YearsOfExperience")
                         .HasColumnType("integer")
@@ -208,6 +208,27 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("creation_date");
 
+                    b.Property<string>("Description")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("PetColor")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("color");
+
+                    b.Property<string>("Photos")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("photos");
+
+                    b.Property<string>("SupportStatus")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("support_status");
+
                     b.Property<bool>("_isDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
@@ -233,22 +254,11 @@ namespace KindPaws.Infrastructure.Migrations
 
                             b1.Property<Guid>("BreedId")
                                 .HasColumnType("uuid")
-                                .HasColumnName("breed_id");
+                                .HasColumnName("breed_guid");
 
                             b1.Property<Guid>("SpecieId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("specie_id");
-                        });
-
-                    b.ComplexProperty<Dictionary<string, object>>("SupportStatus", "KindPaws.Domain.Managements.VolunteersManagement.Entities.Pet.SupportStatus#SupportStatus", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("support_status");
                         });
 
                     b.HasKey("Id")
@@ -277,265 +287,79 @@ namespace KindPaws.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("KindPaws.Domain.Shared.ValueObjects.BaseValueObjects.MediumDescription", "Description", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(2000)
-                                .HasColumnType("character varying(2000)");
-
-                            b1.HasKey("PetId")
-                                .HasName("pk_pets");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("description");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_pet_id");
-                        });
-
                     b.OwnsOne("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.HealthDetails", "HealthDetails", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
+                            b1.Property<string>("Diseases")
+                                .HasColumnType("jsonb")
+                                .HasColumnName("diseases");
+
                             b1.Property<bool?>("IsNeutered")
                                 .HasColumnType("boolean")
-                                .HasAnnotation("Relational:JsonPropertyName", "is_neutered");
+                                .HasColumnName("is_neutered");
+
+                            b1.Property<string>("Vaccines")
+                                .HasColumnType("jsonb")
+                                .HasColumnName("vaccines");
 
                             b1.HasKey("PetId");
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("health_details");
-
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_id");
 
-                            b1.OwnsMany("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Disease", "Diseases", b2 =>
+                            b1.OwnsOne("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.HealthStatus", "HealthStatus", b2 =>
                                 {
                                     b2.Property<Guid>("HealthDetailsPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("id");
 
                                     b2.Property<string>("Value")
-                                        .IsRequired()
                                         .HasMaxLength(100)
                                         .HasColumnType("character varying(100)")
-                                        .HasAnnotation("Relational:JsonPropertyName", "name");
+                                        .HasColumnName("healthStatus");
 
-                                    b2.HasKey("HealthDetailsPetId", "Id")
-                                        .HasName("pk_pets");
+                                    b2.HasKey("HealthDetailsPetId");
 
                                     b2.ToTable("pets");
 
                                     b2.WithOwner()
                                         .HasForeignKey("HealthDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_health_details_pet_id");
+                                        .HasConstraintName("fk_pets_pets_id");
                                 });
 
                             b1.OwnsOne("KindPaws.Domain.Shared.ValueObjects.BaseValueObjects.MediumDescription", "Description", b2 =>
                                 {
                                     b2.Property<Guid>("HealthDetailsPetId")
-                                        .HasColumnType("uuid");
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("id");
 
                                     b2.Property<string>("Value")
+                                        .ValueGeneratedOnUpdateSometimes()
                                         .HasMaxLength(2000)
                                         .HasColumnType("character varying(2000)")
-                                        .HasAnnotation("Relational:JsonPropertyName", "description");
+                                        .HasColumnName("description");
 
-                                    b2.HasKey("HealthDetailsPetId")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("HealthDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_health_details_pet_id");
-                                });
-
-                            b1.OwnsOne("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.HealthStatus", "HealthStatus", b2 =>
-                                {
-                                    b2.Property<Guid>("HealthDetailsPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<string>("Value")
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasAnnotation("Relational:JsonPropertyName", "status");
-
-                                    b2.HasKey("HealthDetailsPetId")
-                                        .HasName("pk_pets");
+                                    b2.HasKey("HealthDetailsPetId");
 
                                     b2.ToTable("pets");
 
                                     b2.WithOwner()
                                         .HasForeignKey("HealthDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_health_details_pet_id");
-                                });
-
-                            b1.OwnsMany("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Vaccine", "Vaccines", b2 =>
-                                {
-                                    b2.Property<Guid>("HealthDetailsPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Value")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasAnnotation("Relational:JsonPropertyName", "name");
-
-                                    b2.HasKey("HealthDetailsPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("HealthDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_health_details_pet_id");
+                                        .HasConstraintName("fk_pets_pets_id");
                                 });
 
                             b1.Navigation("Description");
 
-                            b1.Navigation("Diseases");
-
                             b1.Navigation("HealthStatus");
-
-                            b1.Navigation("Vaccines");
                         });
-
-                    b.OwnsOne("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists.PetPhotoList", "PetPhotoList", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("PetId");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("photos_details");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.PetPhoto", "Photos", b2 =>
-                                {
-                                    b2.Property<Guid>("PetPhotoListPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<bool>("IsMain")
-                                        .HasColumnType("boolean")
-                                        .HasAnnotation("Relational:JsonPropertyName", "is_main");
-
-                                    b2.HasKey("PetPhotoListPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("PetPhotoListPetId")
-                                        .HasConstraintName("fk_pets_pets_pet_photo_list_pet_id");
-
-                                    b2.OwnsOne("KindPaws.Domain.Shared.ValueObjects.Photo", "Photo", b3 =>
-                                        {
-                                            b3.Property<Guid>("PetPhotoListPetId")
-                                                .HasColumnType("uuid");
-
-                                            b3.Property<int>("PetPhotoId")
-                                                .HasColumnType("integer");
-
-                                            b3.HasKey("PetPhotoListPetId", "PetPhotoId")
-                                                .HasName("pk_pets");
-
-                                            b3.ToTable("pets");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("PetPhotoListPetId", "PetPhotoId")
-                                                .HasConstraintName("fk_pets_pets_pet_photo_list_pet_id_pet_photo_id");
-
-                                            b3.OwnsOne("KindPaws.Domain.Shared.ValueObjects.PathToStorage", "PathToStorage", b4 =>
-                                                {
-                                                    b4.Property<Guid>("PhotoPetPhotoListPetId")
-                                                        .HasColumnType("uuid");
-
-                                                    b4.Property<int>("PhotoPetPhotoId")
-                                                        .HasColumnType("integer");
-
-                                                    b4.Property<string>("Value")
-                                                        .IsRequired()
-                                                        .HasMaxLength(2000)
-                                                        .HasColumnType("character varying(2000)")
-                                                        .HasAnnotation("Relational:JsonPropertyName", "path_to_storage");
-
-                                                    b4.HasKey("PhotoPetPhotoListPetId", "PhotoPetPhotoId")
-                                                        .HasName("pk_pets");
-
-                                                    b4.ToTable("pets");
-
-                                                    b4.WithOwner()
-                                                        .HasForeignKey("PhotoPetPhotoListPetId", "PhotoPetPhotoId")
-                                                        .HasConstraintName("fk_pets_pets_photo_pet_photo_list_pet_id_photo_pet_photo_id");
-                                                });
-
-                                            b3.Navigation("PathToStorage")
-                                                .IsRequired();
-                                        });
-
-                                    b2.Navigation("Photo")
-                                        .IsRequired();
-                                });
-
-                            b1.Navigation("Photos");
-                        });
-
-                    b.OwnsOne("KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.PetColor", "PetColor", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
-
-                            b1.HasKey("PetId");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("color");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-                        });
-
-                    b.Navigation("Description");
 
                     b.Navigation("HealthDetails")
-                        .IsRequired();
-
-                    b.Navigation("PetColor");
-
-                    b.Navigation("PetPhotoList")
                         .IsRequired();
                 });
 

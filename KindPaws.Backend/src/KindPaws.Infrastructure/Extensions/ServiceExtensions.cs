@@ -1,6 +1,8 @@
-﻿using KindPaws.Application.Volunteers;
+﻿using KindPaws.Application.Providers;
+using KindPaws.Application.Volunteers;
 using KindPaws.Infrastructure.Interceptors;
 using KindPaws.Infrastructure.Options;
+using KindPaws.Infrastructure.Providers;
 using KindPaws.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +20,8 @@ public static class ServiceExtensions
             .AddDbContexts()
             .AddInterceptors()
             .AddRepositories()
-            .AddMinio(configuration);
+            .AddMinio(configuration)
+            .AddProviders();
 
         return services;
     }
@@ -62,6 +65,14 @@ public static class ServiceExtensions
         this IServiceCollection services)
     {
         services.AddScoped<ApplicationDbContext>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddProviders(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IFileProvider, MinioProvider>();
 
         return services;
     }

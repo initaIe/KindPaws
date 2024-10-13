@@ -6,7 +6,7 @@ using KindPaws.Domain.Shared.Others.Validation.Validators;
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record Requisite
-{    
+{
     [JsonConstructor]
     private Requisite(
         string name,

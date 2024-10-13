@@ -8,7 +8,7 @@ namespace KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 
 public class Specie : Entity<SpecieId>, ISoftDeleteable
 {
-    private readonly List<Breed> _breeds;
+    private readonly List<Breed> _breeds = [];
     private bool _isDeleted;
 
     private Specie(SpecieId id) : base(id)
@@ -17,12 +17,10 @@ public class Specie : Entity<SpecieId>, ISoftDeleteable
 
     public Specie(
         SpecieId id,
-        IEnumerable<Breed> breeds,
         ShortName name,
         MediumDescription description)
         : base(id)
     {
-        _breeds = breeds.ToList();
         Name = name;
         Description = description;
     }

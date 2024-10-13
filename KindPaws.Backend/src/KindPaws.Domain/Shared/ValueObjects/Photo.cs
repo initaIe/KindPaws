@@ -2,15 +2,10 @@
 
 public record Photo
 {
-    // ef core
-    private Photo()
+    public Photo(string path)
     {
+        Path = path;
     }
 
-    public Photo(PathToStorage pathToStorage)
-    {
-        PathToStorage = pathToStorage;
-    }
-
-    public PathToStorage PathToStorage { get; }
+    public string Path { get; }
 }

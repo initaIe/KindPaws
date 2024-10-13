@@ -1,17 +1,19 @@
 ﻿using FluentValidation;
+using KindPaws.API.Contracts;
 using KindPaws.API.Extensions;
 using KindPaws.API.Response;
-using KindPaws.Application.Volunteers.Handlers.Create;
-using KindPaws.Application.Volunteers.Handlers.Create.DTOs;
-using KindPaws.Application.Volunteers.Handlers.Delete;
-using KindPaws.Application.Volunteers.Handlers.Delete.DTOs;
-using KindPaws.Application.Volunteers.Handlers.GetById;
-using KindPaws.Application.Volunteers.Handlers.GetById.DTOs;
-using KindPaws.Application.Volunteers.Handlers.GetById.Validations;
-using KindPaws.Application.Volunteers.Handlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.Handlers.UpdateAdditionalInfo.DTOs;
-using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.Handlers.UpdateMainInfo.DTOs;
+using KindPaws.Application.Volunteers.AddPet;
+using KindPaws.Application.Volunteers.AddPet.DTOs;
+using KindPaws.Application.Volunteers.Create;
+using KindPaws.Application.Volunteers.Create.DTOs;
+using KindPaws.Application.Volunteers.Delete;
+using KindPaws.Application.Volunteers.Delete.DTOs;
+using KindPaws.Application.Volunteers.GetById;
+using KindPaws.Application.Volunteers.GetById.DTOs;
+using KindPaws.Application.Volunteers.UpdateAdditionalInfo;
+using KindPaws.Application.Volunteers.UpdateAdditionalInfo.DTOs;
+using KindPaws.Application.Volunteers.UpdateMainInfo;
+using KindPaws.Application.Volunteers.UpdateMainInfo.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers;
@@ -100,7 +102,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(envelope);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(
         [FromRoute] Guid id,
@@ -119,6 +121,28 @@ public class VolunteersController : ApplicationController
             return getResult.Error.ToResponse();
 
         var envelope = Envelope.Ok(getResult.Value);
+
+        return Ok(envelope);
+    }
+
+    [HttpPost("{id:guid}/pets")]
+    public async Task<IActionResult> AddPet(
+        [FromRoute] Guid id,
+        [FromForm] AddPetRequest request,
+        [FromServices] AddPetHandler handler,
+        CancellationToken token = default)
+    {
+        var command = new AddPetCommand(
+            id,
+            request.SpecieId,
+            request.BreedId,
+            request.Name);
+
+        var addPetResult = await handler.HandleAsync(command, token);
+        if (addPetResult.IsFailure)
+            return addPetResult.Error.ToResponse();
+        
+        var envelope = Envelope.Ok(addPetResult.Value);
 
         return Ok(envelope);
     }

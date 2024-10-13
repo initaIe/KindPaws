@@ -1,8 +1,0 @@
-﻿using KindPaws.Application.Volunteers.DTOs;
-
-namespace KindPaws.Application.Volunteers.Handlers.Create.DTOs;
-
-public record CreateVolunteerRequest(
-    FullNameDTO FullName,
-    string EmailAddress,
-    string PhoneNumber);

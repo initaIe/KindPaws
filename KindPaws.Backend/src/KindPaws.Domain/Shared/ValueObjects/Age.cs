@@ -19,10 +19,6 @@ public record Age
     public DateOnly DateBirth { get; }
 
     public int YearsOld => DateOnlyHelper.CalculateYearsPassed(DateBirth);
-    // DateBirth != null
-    // ? DateOnlyHelper.CalculateYearsPassed(DateBirth.Value)
-    // : null;
-
 
     public static Result<Age, Error> Create(DateOnly input)
     {

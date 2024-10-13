@@ -14,14 +14,14 @@ public static class ServiceExtensions
 
         return services;
     }
-    
+
     private static IServiceCollection AddLoggers(this IServiceCollection services)
     {
         services.AddSerilog();
 
         return services;
     }
-    
+
     private static IServiceCollection AddAutoValidation(this IServiceCollection services)
     {
         services.AddFluentValidationAutoValidation(configuration =>

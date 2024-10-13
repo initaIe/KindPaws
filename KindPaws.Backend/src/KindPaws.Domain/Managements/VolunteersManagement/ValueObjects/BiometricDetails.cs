@@ -22,4 +22,9 @@ public record BiometricDetails
     public Height? Height { get; }
     public Weight? Weight { get; }
     public Gender? Gender { get; }
+
+    public static BiometricDetails CreateNullable()
+    {
+        return new BiometricDetails(null, null, null);
+    }
 }

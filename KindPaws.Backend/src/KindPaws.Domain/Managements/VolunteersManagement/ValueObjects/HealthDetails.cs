@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Text.Json.Serialization;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -8,11 +10,12 @@ public record HealthDetails
     private HealthDetails()
     {
     }
-
+    
+    [JsonConstructor]
     public HealthDetails(
         MediumDescription? description,
-        IEnumerable<Vaccine>? vaccines,
-        IEnumerable<Disease>? diseases,
+        List<Vaccine>? vaccines,
+        List<Disease>? diseases,
         HealthStatus? healthStatus,
         bool? isNeutered)
     {
@@ -24,8 +27,13 @@ public record HealthDetails
     }
 
     public MediumDescription? Description { get; }
-    public IReadOnlyList<Vaccine> Vaccines { get; }
-    public IReadOnlyList<Disease> Diseases { get; }
+    public List<Vaccine> Vaccines { get; }
+    public List<Disease> Diseases { get; }
     public HealthStatus? HealthStatus { get; }
     public bool? IsNeutered { get; }
+
+    public static HealthDetails CreateNullable()
+    {
+        return new HealthDetails(null, null, null, null, null);
+    }
 }

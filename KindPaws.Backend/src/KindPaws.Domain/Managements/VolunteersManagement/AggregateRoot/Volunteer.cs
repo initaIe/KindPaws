@@ -1,6 +1,5 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects.Lists;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
@@ -12,6 +11,9 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 {
     private readonly List<Pet> _pets = [];
     private bool _isDeleted;
+    
+    private List<Requisite> _requisites;
+    private List<SocialNetwork> _socialNetworks;
 
     // ef core
     private Volunteer(VolunteerId id) : base(id)
@@ -20,24 +22,24 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 
     public Volunteer(
         VolunteerId id,
+        IEnumerable<SocialNetwork>? socialNetworks,
+        IEnumerable<Requisite>? requisites,
         FullName fullName,
         EmailAddress emailAddress,
         PhoneNumber phoneNumber,
         MediumDescription? description,
         Address? address,
-        YearsOfExperience? yearsOfExperience,
-        SocialNetworkList? socialNetworkList, 
-        RequisiteList? requisiteList) 
+        YearsOfExperience? yearsOfExperience)
         : base(id)
     {
+        _socialNetworks = socialNetworks?.ToList() ?? [];
+        _requisites = requisites?.ToList() ?? [];
         FullName = fullName;
         EmailAddress = emailAddress;
         PhoneNumber = phoneNumber;
         Description = description;
         Address = address;
         YearsOfExperience = yearsOfExperience;
-        SocialNetworkList = socialNetworkList ?? new SocialNetworkList([]);
-        RequisiteList = requisiteList ?? new RequisiteList([]);
     }
 
     public FullName FullName { get; private set; }
@@ -46,8 +48,8 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
     public MediumDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
-    public SocialNetworkList SocialNetworkList { get; private set; }
-    public RequisiteList RequisiteList { get; private set; } 
+    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+    public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
 
     public void Delete()
@@ -89,13 +91,18 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
         MediumDescription? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
-        SocialNetworkList? socialNetworkList,
-        RequisiteList? requisiteList)
+        IEnumerable<SocialNetwork>? socialNetworks,
+        IEnumerable<Requisite>? requisites)
     {
         Description = description;
         Address = address;
         YearsOfExperience = yearsOfExperience;
-        SocialNetworkList = socialNetworkList ?? new SocialNetworkList([]);
-        RequisiteList = requisiteList ?? new RequisiteList([]);
+        _socialNetworks = socialNetworks?.ToList() ?? [];
+        _requisites = requisites?.ToList() ?? [];
+    }
+
+    public void AddPet(Pet pet)
+    {
+        _pets.Add(pet);
     }
 }

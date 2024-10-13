@@ -1,9 +1,7 @@
-﻿using System.Text.Json;
-using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
-using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using KindPaws.Infrastructure.Extensions;
@@ -75,6 +73,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // ADDRESS
         builder.Property(v => v.Address)
             .HasColumnName("address")
+            .HasJsonConversion()
             .HasColumnType("jsonb")
             .IsRequired(false);
 
@@ -87,15 +86,17 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .IsRequired(false);
 
         // SOCIAL NETWORKS
-        builder.Property(e => e.SocialNetworkList)
-            .HasColumnName("social_network_list")
+        builder.Property(e => e.SocialNetworks)
+            .HasJsonConversion()
+            .HasColumnType("jsonb")
+            .HasColumnName("social_networks")
             .IsRequired();
 
         // REQUISITES
-        builder.Property(e => e.RequisiteList)
-            .HasColumnName("requisite_list")
-            .HasValueJsonConverter()
+        builder.Property(e => e.Requisites)
+            .HasColumnName("requisites")
             .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired();
 
         // PETS

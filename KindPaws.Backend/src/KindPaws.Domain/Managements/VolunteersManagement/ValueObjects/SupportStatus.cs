@@ -10,7 +10,7 @@ public record SupportStatus
 
     private static readonly SupportStatus[] All = [NeedSupport, LookingHome, AlreadyFoundHome];
 
-    private SupportStatus(string? value)
+    private SupportStatus(string value)
     {
         Value = value;
     }
