@@ -1,11 +1,11 @@
-﻿using KindPaws.Application.Volunteers.Volunteer.Create.DTOs;
+﻿using KindPaws.Application.Volunteers.VolunteerHandlers.Create.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.Volunteer.Create;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.Create;
 
 public class CreateVolunteerHandler
 {
@@ -62,7 +62,7 @@ public class CreateVolunteerHandler
 
         var result = await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
 
-        _logger.LogInformation("VOLUNTEER create with ID: {VolunteerId}; " +
+        _logger.LogInformation("VOLUNTEER created with ID: {VolunteerId}; " +
                                "Properties: {FullName}, {EmailAddress}, {PhoneNumber}",
             volunteerId.Value,
             fullName,

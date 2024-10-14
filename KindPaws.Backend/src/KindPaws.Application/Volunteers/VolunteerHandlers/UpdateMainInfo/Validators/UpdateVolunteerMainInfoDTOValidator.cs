@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Validation;
-using KindPaws.Application.Volunteers.Volunteer.UpdateMainInfo.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects;
 
-namespace KindPaws.Application.Volunteers.Volunteer.UpdateMainInfo.Validators;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo.Validators;
 
 public class UpdateVolunteerMainInfoDTOValidator : AbstractValidator<UpdateVolunteerMainInfoDTO>
 {

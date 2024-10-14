@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Validation;
-using KindPaws.Application.Volunteers.Volunteer.UpdateAdditionalInfo.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Volunteers.Volunteer.UpdateAdditionalInfo.Validators;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.Validators;
 
 public class UpdateVolunteerAdditionalInfoRequestValidator : AbstractValidator<UpdateVolunteerAdditionalInfoRequest>
 {

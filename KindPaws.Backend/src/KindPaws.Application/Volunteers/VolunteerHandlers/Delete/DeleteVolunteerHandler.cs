@@ -1,9 +1,9 @@
-﻿using KindPaws.Application.Volunteers.Volunteer.Delete.DTOs;
+﻿using KindPaws.Application.Volunteers.VolunteerHandlers.Delete.DTOs;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.Volunteer.Delete;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
 
 public class DeleteVolunteerHandler
 {
@@ -33,7 +33,7 @@ public class DeleteVolunteerHandler
 
         var result = await _volunteersRepository.DeleteAsync(volunteerResult.Value, cancellationToken);
 
-        _logger.LogInformation("VOLUNTEER soft delete with ID: {VolunteerId}", volunteerId.Value);
+        _logger.LogInformation("VOLUNTEER soft deleted with ID: {VolunteerId}", volunteerId.Value);
 
         return result;
     }

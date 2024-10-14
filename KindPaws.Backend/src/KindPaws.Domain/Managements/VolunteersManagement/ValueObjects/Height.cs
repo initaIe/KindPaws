@@ -7,11 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record Height
 {
-    // ef core
-    private Height()
-    {
-    }
-
     private Height(float value)
     {
         Value = value;

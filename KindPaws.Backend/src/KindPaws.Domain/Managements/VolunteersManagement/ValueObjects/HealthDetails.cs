@@ -6,16 +6,15 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record HealthDetails
 {
-    // ef core
+    [JsonConstructor]
     private HealthDetails()
     {
     }
     
-    [JsonConstructor]
     public HealthDetails(
         MediumDescription? description,
-        List<Vaccine>? vaccines,
-        List<Disease>? diseases,
+        IEnumerable<Vaccine>? vaccines,
+        IEnumerable<Disease>? diseases,
         HealthStatus? healthStatus,
         bool? isNeutered)
     {
@@ -27,8 +26,8 @@ public record HealthDetails
     }
 
     public MediumDescription? Description { get; }
-    public List<Vaccine> Vaccines { get; }
-    public List<Disease> Diseases { get; }
+    public IReadOnlyList<Vaccine> Vaccines { get; }
+    public IReadOnlyList<Disease> Diseases { get; }
     public HealthStatus? HealthStatus { get; }
     public bool? IsNeutered { get; }
 

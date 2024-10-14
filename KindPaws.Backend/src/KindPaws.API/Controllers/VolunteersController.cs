@@ -2,18 +2,19 @@
 using KindPaws.API.Contracts;
 using KindPaws.API.Extensions;
 using KindPaws.API.Response;
-using KindPaws.Application.Volunteers.AddPet;
-using KindPaws.Application.Volunteers.AddPet.DTOs;
-using KindPaws.Application.Volunteers.Create;
-using KindPaws.Application.Volunteers.Create.DTOs;
-using KindPaws.Application.Volunteers.Delete;
-using KindPaws.Application.Volunteers.Delete.DTOs;
-using KindPaws.Application.Volunteers.GetById;
-using KindPaws.Application.Volunteers.GetById.DTOs;
-using KindPaws.Application.Volunteers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.UpdateAdditionalInfo.DTOs;
-using KindPaws.Application.Volunteers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.UpdateMainInfo.DTOs;
+using KindPaws.Application.Volunteers.PetHandlers.Add;
+using KindPaws.Application.Volunteers.PetHandlers.Add.DTOs;
+using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
+using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
+using KindPaws.Application.Volunteers.VolunteerHandlers.Create.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
+using KindPaws.Application.Volunteers.VolunteerHandlers.Delete.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
+using KindPaws.Application.Volunteers.VolunteerHandlers.GetById.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo;
+using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo;
+using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers;
@@ -128,7 +129,7 @@ public class VolunteersController : ApplicationController
     [HttpPost("{id:guid}/pets")]
     public async Task<IActionResult> AddPet(
         [FromRoute] Guid id,
-        [FromForm] AddPetRequest request,
+        [FromBody] AddPetRequest request,
         [FromServices] AddPetHandler handler,
         CancellationToken token = default)
     {
@@ -143,6 +144,30 @@ public class VolunteersController : ApplicationController
             return addPetResult.Error.ToResponse();
         
         var envelope = Envelope.Ok(addPetResult.Value);
+
+        return Ok(envelope);
+    }
+    
+    [HttpPut("{volunteerId:guid}/pets/{petId:guid}/main-info")]
+    public async Task<IActionResult> AddPet(
+        [FromRoute] Guid volunteerId,
+        [FromRoute] Guid petId,
+        [FromBody] AddPetRequest request,
+        [FromServices] UpdatePetMainInfoHandler handler,
+        CancellationToken token = default)
+    {
+        var command = new UpdatePetMainInfoCommand(
+            volunteerId,
+            petId,
+            request.SpecieId,
+            request.BreedId,
+            request.Name);
+
+        var updatePetMainInfoResult = await handler.HandleAsync(command, token);
+        if (updatePetMainInfoResult.IsFailure)
+            return updatePetMainInfoResult.Error.ToResponse();
+        
+        var envelope = Envelope.Ok(updatePetMainInfoResult.Value);
 
         return Ok(envelope);
     }

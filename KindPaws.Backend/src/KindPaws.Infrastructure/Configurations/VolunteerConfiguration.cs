@@ -17,27 +17,27 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.ToTable("volunteers");
 
         // ID
-        builder.HasKey(volunteer => volunteer.Id);
-        builder.Property(volunteer => volunteer.Id)
+        builder.HasKey(v => v.Id);
+        builder.Property(v => v.Id)
             .HasConversion(
                 petId => petId.Value,
                 value => VolunteerId.Create(value).Value)
             .HasColumnName("id");
 
         // FULLNAME
-        builder.ComplexProperty(volunteer => volunteer.FullName, fullName =>
+        builder.ComplexProperty(v => v.FullName, f =>
         {
-            fullName.Property(x => x.FirstName)
+            f.Property(x => x.FirstName)
                 .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
                 .HasColumnName("first_name")
                 .IsRequired();
 
-            fullName.Property(x => x.LastName)
+            f.Property(x => x.LastName)
                 .HasMaxLength(FullNameConstraints.MaxLastNameLength)
                 .HasColumnName("last_name")
                 .IsRequired();
 
-            fullName.Property(x => x.Patronymic)
+            f.Property(x => x.Patronymic)
                 .HasMaxLength(FullNameConstraints.MaxPatronymicLength)
                 .HasColumnName("patronymic")
                 .IsRequired(false);
@@ -62,51 +62,48 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         // DESCRIPTION
-        builder.Property(volunteer => volunteer.Description)
+        builder.Property(v => v.Description)
             .HasConversion(
-                v => v!.Value,
-                v => MediumDescription.Create(v).Value)
+                d => d!.Value,
+                d => MediumDescription.Create(d).Value)
             .HasMaxLength(MediumDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
-
+        
         // ADDRESS
-        builder.Property(v => v.Address)
+        builder.Property(p => p.Address)
             .HasColumnName("address")
-            .HasJsonConversion()
-            .HasColumnType("jsonb")
-            .IsRequired(false);
-
+            .MapJsonb()
+            .IsRequired(false); // nullable json
+        
         // YEARS OF EXPERIENCE
-        builder.Property(x => x.YearsOfExperience)
+        builder.Property(v => v.YearsOfExperience)
             .HasConversion(
-                x => x!.Value,
-                value => YearsOfExperience.Create(value).Value)
+                y => y!.Value,
+                y => YearsOfExperience.Create(y).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
-
+        
         // SOCIAL NETWORKS
-        builder.Property(e => e.SocialNetworks)
-            .HasJsonConversion()
-            .HasColumnType("jsonb")
+        builder.Property(p => p.SocialNetworks)
             .HasColumnName("social_networks")
+            .MapJsonb()
             .IsRequired();
-
+        
         // REQUISITES
-        builder.Property(e => e.Requisites)
+        builder.Property(p => p.Requisites)
             .HasColumnName("requisites")
-            .HasColumnType("jsonb")
-            .HasJsonConversion()
+            .MapJsonb()
             .IsRequired();
 
         // PETS
-        builder.HasMany(volunteer => volunteer.Pets)
+        builder.HasMany(v => v.Pets)
             .WithOne()
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
 
         // PETS AUTO INCLUDE
-        builder.Navigation(volunteer => volunteer.Pets).AutoInclude();
+        builder.Navigation(v => v.Pets).AutoInclude();
 
         // SOFT DELETE
         builder.Property<bool>("_isDeleted")

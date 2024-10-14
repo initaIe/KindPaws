@@ -7,11 +7,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public class Weight
 {
-    // ef core
-    private Weight()
-    {
-    }
-
     private Weight(float value)
     {
         Value = value;

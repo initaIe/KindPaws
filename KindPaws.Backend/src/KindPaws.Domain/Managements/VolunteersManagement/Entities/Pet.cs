@@ -11,6 +11,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     private readonly List<PetPhoto> _photos = [];
     private bool _isDeleted;
 
+    // ef core
     private Pet(PetId id) : base(id)
     {
     }
@@ -30,7 +31,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     {
         PetType = petType;
         Name = name;
-        CreationDateTime = DateTime.UtcNow;
+        CreationDateTime = DateTime.UtcNow; // TODO: UTC
         SupportStatus = supportStatus;
         Description = description;
         PetColor = petColor;

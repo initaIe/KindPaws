@@ -6,11 +6,6 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Age
 {
-    // ef core
-    private Age()
-    {
-    }
-
     private Age(DateOnly dateBirth)
     {
         DateBirth = dateBirth;

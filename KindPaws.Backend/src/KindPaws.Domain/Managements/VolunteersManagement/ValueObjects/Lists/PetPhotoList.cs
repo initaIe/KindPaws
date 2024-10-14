@@ -2,11 +2,6 @@
 
 public record PetPhotoList
 {
-    // ef core
-    private PetPhotoList()
-    {
-    }
-
     public PetPhotoList(IEnumerable<PetPhoto> petPhotos)
     {
         Photos = petPhotos.ToList();

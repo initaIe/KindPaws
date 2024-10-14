@@ -4,11 +4,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record BiometricDetails
 {
-    // ef core
-    private BiometricDetails()
-    {
-    }
-
     public BiometricDetails(
         Height? height,
         Weight? weight,

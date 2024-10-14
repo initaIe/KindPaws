@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindPaws.Infrastructure.Extensions;
 
 public static class FluentApiExtensions
 {
-    public static PropertyBuilder<TProperty> HasJsonConversion<TProperty>(this PropertyBuilder<TProperty> builder)
+    public static PropertyBuilder<TProperty> ToJsonb<TProperty>(this PropertyBuilder<TProperty> builder)
     {
         return builder
             .HasConversion(
@@ -18,7 +19,8 @@ public static class FluentApiExtensions
                     c => JsonHashCode(c),
                     c => JsonCopy(c)
                 )
-            );
+            )
+            .HasColumnType("jsonb");
     }
 
     private static bool JsonEquals<T>(T obj1, T obj2)
@@ -39,7 +41,31 @@ public static class FluentApiExtensions
     {
         if (obj == null) return default!;
         var json = JsonSerializer.Serialize(obj, JsonSerializerOptions.Default);
-        return JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Default);
+        return JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Default)!;
+    }
+    
+    public static PropertyBuilder<TProperty> MapJsonb<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
+    {
+        var converter = new ValueConverter<TProperty, string>(
+            v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
+            v => JsonSerializer.Deserialize<TProperty>(v, JsonSerializerOptions.Default)!);
+
+        var comparer = new ValueComparer<TProperty>(
+            (l, r) => 
+                JsonSerializer.Serialize<TProperty>(l!, JsonSerializerOptions.Default) 
+                == JsonSerializer.Serialize<TProperty>(r!, JsonSerializerOptions.Default),
+            v => 
+                v == null ? 0 : JsonSerializer.Serialize<TProperty>(v, JsonSerializerOptions.Default).GetHashCode(),
+            v => 
+                JsonSerializer.Deserialize<TProperty>(JsonSerializer.Serialize<TProperty>
+                    (v, JsonSerializerOptions.Default), JsonSerializerOptions.Default)!);
+
+        propertyBuilder.HasConversion(converter);
+        propertyBuilder.Metadata.SetValueConverter(converter);
+        propertyBuilder.Metadata.SetValueComparer(comparer);
+        propertyBuilder.HasColumnType("jsonb");
+
+        return propertyBuilder;
     }
 
     // public static PropertyBuilder<IReadOnlyList<TValueObject>> ValueObjectsCollectionJsonConversion<TValueObject, TDto>(

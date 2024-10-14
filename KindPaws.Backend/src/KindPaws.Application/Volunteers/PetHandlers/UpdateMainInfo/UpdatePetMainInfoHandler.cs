@@ -1,5 +1,4 @@
 ﻿using KindPaws.Application.Providers;
-using KindPaws.Application.Volunteers.PetHandlers.Add.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -7,23 +6,26 @@ using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.PetHandlers.Add;
+namespace KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
 
-public class AddPetHandler
+public class UpdatePetMainInfoHandler
 {
-    private readonly ILogger<AddPetHandler> _logger;
+    private readonly ILogger<UpdatePetMainInfoHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IFileProvider _fileProvider;
 
-    public AddPetHandler(
-        ILogger<AddPetHandler> logger,
-        IVolunteersRepository volunteersRepository)
+    public UpdatePetMainInfoHandler(
+        ILogger<UpdatePetMainInfoHandler> logger,
+        IVolunteersRepository volunteersRepository,
+        IFileProvider fileProvider)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
+        _fileProvider = fileProvider;
     }
 
     public async Task<Result<Guid, Error>> HandleAsync(
-        AddPetCommand command,
+        UpdatePetMainInfoCommand command,
         CancellationToken cancellationToken = default)
     {
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
@@ -33,7 +35,12 @@ public class AddPetHandler
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;
         
-        var petId = PetId.CreateRandom();
+        var petId = PetId.Create(command.PetId).Value;
+
+        var petResult = volunteerResult.Value.GetPetById(petId);
+
+        if (petResult.IsFailure)
+            return petResult.Error;
         
         var specieId = SpecieId.Create(command.SpecieId).Value;
 
@@ -41,24 +48,14 @@ public class AddPetHandler
             specieId, command.BreedId);
 
         var petName = ShortName.Create(command.Name).Value;
-
-        var pet = new Pet(
-            petId,
-            petType,
-            petName,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
         
-        volunteerResult.Value.AddPet(pet);
+        petResult.Value.UpdateMainInfo(
+            petType,
+            petName);
         
         var result = await _volunteersRepository.SaveAsync(volunteerResult.Value, cancellationToken);
         
-        _logger.LogInformation("PET created with ID: {petId}; " +
+        _logger.LogInformation("PET updated with ID: {petId}; " +
                                "Properties: {petType}, {petName}; " +
                                "Owner ID : {volunteerId}",
             petId.Value,

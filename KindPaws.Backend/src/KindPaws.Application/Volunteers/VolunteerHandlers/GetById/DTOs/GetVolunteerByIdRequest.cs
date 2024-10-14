@@ -1,3 +1,3 @@
-﻿namespace KindPaws.Application.Volunteers.Volunteer.GetById.DTOs;
+﻿namespace KindPaws.Application.Volunteers.VolunteerHandlers.GetById.DTOs;
 
 public record GetVolunteerByIdRequest(Guid VolunteerId);

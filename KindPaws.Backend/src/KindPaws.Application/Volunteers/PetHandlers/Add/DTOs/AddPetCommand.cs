@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Application.Volunteers.Pet.Add.DTOs;
+﻿namespace KindPaws.Application.Volunteers.PetHandlers.Add.DTOs;
 
 public record AddPetCommand(
     Guid VolunteerId,

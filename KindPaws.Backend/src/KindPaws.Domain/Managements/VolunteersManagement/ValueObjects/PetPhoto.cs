@@ -4,11 +4,6 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record PetPhoto
 {
-    // ef core
-    private PetPhoto()
-    {
-    }
-
     public PetPhoto(Photo photo, bool isMain)
     {
         Photo = photo;

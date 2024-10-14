@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Volunteers\AddPet\Validators\" />
+      <Folder Include="Volunteers\VolunteerHandlers\" />
     </ItemGroup>
 
 </Project>

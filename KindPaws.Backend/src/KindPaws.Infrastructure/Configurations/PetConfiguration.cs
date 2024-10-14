@@ -19,8 +19,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.ToTable("pets");
 
         // ID
-        builder.HasKey(pet => pet.Id);
-        builder.Property(pet => pet.Id)
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Id)
             .HasConversion(
                 petId => petId.Value,
                 value => PetId.Create(value).Value)
@@ -51,104 +51,61 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // CREATION DATE
-        builder.Property(pet => pet.CreationDateTime)
-            .HasColumnName("creation_date")
+        builder.Property(p=>p.CreationDateTime)
+            .HasColumnName("creation_date_time")
             .IsRequired();
 
         // SUPPORT STATUS
-        builder.Property(pet => pet.SupportStatus)
+        builder.Property(p => p.SupportStatus)
             .HasConversion(
                 s => s!.Value,
-                s => SupportStatus.Create(s).Value)
+                value => SupportStatus.Create(value).Value)
             .HasMaxLength(SupportStatusConstraints.MaxLength)
             .HasColumnName("support_status")
             .IsRequired(false);
 
         // DESCRIPTION
-        builder.Property(pet => pet.Description)
+        builder.Property(p => p.Description)
             .HasConversion(
                 d => d!.Value,
-                d => MediumDescription.Create(d).Value)
+                value => MediumDescription.Create(value).Value)
             .HasMaxLength(MediumDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
 
         // PET COLOR
-        builder.Property(pet => pet.PetColor)
+        builder.Property(p => p.PetColor)
             .HasConversion(
-                c => c!.Value,
-                c => PetColor.Create(c).Value)
+                d => d!.Value,
+                value => PetColor.Create(value).Value)
             .HasMaxLength(PetColorConstraints.MaxLength)
             .HasColumnName("color")
             .IsRequired(false);
 
         // AGE
-        builder.Property(pet => pet.Age)
+        builder.Property(p => p.Age)
             .HasConversion(
-                age => age!.DateBirth,
-                age => Age.Create(age).Value)
-            .HasColumnName("age")
+                a => a!.DateBirth,
+                value => Age.Create(value).Value)
+            .HasColumnName("date_birth")
             .IsRequired(false);
 
         // HEALTH DETAILS
-        builder.ComplexProperty(p => p.HealthDetails, health =>
-        {
-            health.ComplexProperty(h => h.Description, description =>
-            {
-                description.Property(x => x!.Value)
-                    .HasMaxLength(MediumDescriptionConstraints.MaxLength)
-                    .HasColumnName("description")
-                    .IsRequired();
-            });
-
-            health.ComplexProperty(h => h.HealthStatus, helpStatus =>
-            {
-                helpStatus.Property(x => x!.Value)
-                    .HasMaxLength(MediumDescriptionConstraints.MaxLength)
-                    .HasColumnName("helpStatus")
-                    .IsRequired(false);
-            });
-
-            health.Property(h => h.IsNeutered)
-                .HasColumnName("is_neutered")
-                .IsRequired(false);
-
-            health.Property(x => x.Vaccines)
-                .HasConversion(
-                    x=>JsonSerializer.Serialize(x, JsonSerializerOptions.Default),
-                    x=>JsonSerializer.Deserialize<List<Vaccine>>(x, JsonSerializerOptions.Default)!)
-                .HasColumnName("vaccines")
-                .HasColumnType("jsonb") // Указываем тип как jsonb
-                .IsRequired();
-
-            health.Property(x => x.Diseases)
-                .HasConversion(
-                    x=>JsonSerializer.Serialize(x, JsonSerializerOptions.Default),
-                    x=>JsonSerializer.Deserialize<List<Disease>>(x, JsonSerializerOptions.Default)!)
-                .HasColumnName("diseases")
-                .HasColumnType("jsonb") // Указываем тип как jsonb
-                .IsRequired();
-        });
-
-
-        // builder.Property(pet => pet.HealthDetails)
-        //     .HasJsonConversion()
-        //     .HasColumnName("health_details")
-        //     .HasColumnType("jsonb")
-        //     .IsRequired();
-
-        // BIOMETRIC DETAILS
-        builder.Property(pet => pet.BiometricDetails)
-            .HasJsonConversion()
-            .HasColumnName("biometric_details")
-            .HasColumnType("jsonb")
+        builder.Property(p=>p.HealthDetails)
+            .HasColumnName("health_details")
+            .MapJsonb()
             .IsRequired();
-
+        
+        // BIOMETRIC DETAILS
+        builder.Property(p=>p.BiometricDetails)
+            .HasColumnName("biometric_details")
+            .MapJsonb()
+            .IsRequired();
+        
         // PHOTOS DETAILS
-        builder.Property(pet => pet.Photos)
-            .HasJsonConversion()
+        builder.Property(p => p.Photos)
             .HasColumnName("photos")
-            .HasColumnType("jsonb")
+            .MapJsonb()
             .IsRequired();
 
         // SOFT DELETE

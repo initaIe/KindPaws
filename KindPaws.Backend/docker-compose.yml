@@ -54,6 +54,7 @@
     volumes:
       - minio:/data
     command: server --console-address ":9001" /data
+    restart: unless-stopped
 
 networks:
   app-network:

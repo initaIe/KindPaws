@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Validation;
-using KindPaws.Application.Volunteers.Volunteer.Create.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.Create.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects;
 
-namespace KindPaws.Application.Volunteers.Volunteer.Create.Validators;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.Create.Validators;
 
 public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerRequest>
 {

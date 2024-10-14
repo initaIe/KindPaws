@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Volunteers.Volunteer.UpdateAdditionalInfo.DTOs;
+﻿using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -6,7 +6,7 @@ using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.Volunteer.UpdateAdditionalInfo;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo;
 
 public class UpdateVolunteerAdditionalInfoHandler
 {
@@ -71,7 +71,7 @@ public class UpdateVolunteerAdditionalInfoHandler
         var result = await _volunteersRepository.SaveAsync(volunteerResult.Value, cancellationToken);
 
         _logger.LogInformation
-        ("VOLUNTEER update additional info with ID: {VolunteerId}; " +
+        ("VOLUNTEER updated additional info with ID: {VolunteerId}; " +
          "Updated properties: {Description}, {Address}, {YearsOfExperience}," +
          " {SocialNetworks}, {Requisites}",
             volunteerId.Value,

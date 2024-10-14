@@ -1,11 +1,11 @@
-﻿using KindPaws.Application.Volunteers.Volunteer.DTOs;
-using KindPaws.Application.Volunteers.Volunteer.GetById.DTOs;
+﻿using KindPaws.Application.Volunteers.VolunteerHandlers.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.GetById.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Volunteers.Volunteer.GetById;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
 
 public class GetVolunteerByIdHandler
 {
@@ -53,13 +53,13 @@ public class GetVolunteerByIdHandler
 
         IEnumerable<SocialNetworkDTO> socialNetworks = [];
         if (volunteerResult.Value.SocialNetworks is { Count: > 0 })
-            socialNetworks = Enumerable
-                .Select<SocialNetwork, SocialNetworkDTO>(volunteerResult.Value.SocialNetworks, x => new SocialNetworkDTO(x.Name, x.Link));
+            socialNetworks = volunteerResult.Value.SocialNetworks
+                .Select<SocialNetwork, SocialNetworkDTO>(x => new SocialNetworkDTO(x.Name, x.Link));
 
         IEnumerable<RequisiteDTO> requisites = [];
         if (volunteerResult.Value.Requisites is { Count: > 0 })
-            requisites = Enumerable
-                .Select<Requisite, RequisiteDTO>(volunteerResult.Value.Requisites, x => new RequisiteDTO(x.Name, x.Description));
+            requisites = volunteerResult.Value.Requisites
+                .Select<Requisite, RequisiteDTO>(x => new RequisiteDTO(x.Name, x.Description));
 
         var volunteerResponse = new VolunteerResponse(
             volunteerResult.Value.Id,
@@ -71,6 +71,8 @@ public class GetVolunteerByIdHandler
             yearsOfExperience,
             socialNetworks,
             requisites);
+        
+        // TODO: add log mb
 
         return volunteerResponse;
     }

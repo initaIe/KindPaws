@@ -7,11 +7,6 @@ namespace KindPaws.Domain.Shared.ValueObjects;
 
 public record Address
 {
-    // ef core
-    private Address()
-    {
-    }
-
     [JsonConstructor]
     private Address(
         string city,

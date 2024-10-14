@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Validation;
-using KindPaws.Application.Volunteers.Volunteer.GetById.DTOs;
+using KindPaws.Application.Volunteers.VolunteerHandlers.GetById.DTOs;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Volunteers.Volunteer.GetById.Validations;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.GetById.Validations;
 
 public class GetVolunteerByIdRequestValidator : AbstractValidator<GetVolunteerByIdRequest>
 {

@@ -1,3 +1,3 @@
-﻿namespace KindPaws.Application.Volunteers.Volunteer.Delete.DTOs;
+﻿namespace KindPaws.Application.Volunteers.VolunteerHandlers.Delete.DTOs;
 
 public record DeleteVolunteerRequest(Guid VolunteerId);

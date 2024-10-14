@@ -1,6 +1,6 @@
-﻿using KindPaws.Application.Volunteers.Volunteer.DTOs;
+﻿using KindPaws.Application.Volunteers.VolunteerHandlers.DTOs;
 
-namespace KindPaws.Application.Volunteers.Volunteer.UpdateAdditionalInfo.DTOs;
+namespace KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
 
 public record UpdateVolunteerAdditionalInfoDTO(
     string? Description,
