@@ -2,10 +2,10 @@
 
 public record Photo
 {
-    public Photo(string path)
+    public Photo(FilePath filePath)
     {
-        Path = path;
+        FilePath = filePath;
     }
 
-    public string Path { get; }
+    public FilePath FilePath { get; }
 }

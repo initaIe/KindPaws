@@ -69,13 +69,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasMaxLength(MediumDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
-        
+
         // ADDRESS
         builder.Property(p => p.Address)
             .HasColumnName("address")
             .MapJsonb()
             .IsRequired(false); // nullable json
-        
+
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
             .HasConversion(
@@ -83,13 +83,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 y => YearsOfExperience.Create(y).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
-        
+
         // SOCIAL NETWORKS
         builder.Property(p => p.SocialNetworks)
             .HasColumnName("social_networks")
             .MapJsonb()
             .IsRequired();
-        
+
         // REQUISITES
         builder.Property(p => p.Requisites)
             .HasColumnName("requisites")

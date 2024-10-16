@@ -10,6 +10,8 @@ namespace KindPaws.Infrastructure.Providers;
 
 public class MinioProvider : IFileProvider
 {
+    public const int MaxDegreeOfParallelism = 5;
+    
     private readonly ILogger<MinioProvider> _logger;
     private readonly IMinioClient _minioClient;
 
@@ -21,25 +23,39 @@ public class MinioProvider : IFileProvider
         _logger = logger;
     }
 
-    public async Task<Result<Error>> UploadObjectAsync(
-        UploadObjectData uploadObjectData,
+    public async Task<Result<Error>> UploadObjectsAsync(
+        UploadObjectsData uploadObjectsData,
         CancellationToken cancellationToken = default)
     {
+        var semaphoreSlim = new SemaphoreSlim(MaxDegreeOfParallelism);
+        
         var ensureBucketExistsResult = await EnsureBucketExistsAsync(
-            uploadObjectData.BucketName,
+            uploadObjectsData.BucketName,
             cancellationToken);
 
         if (ensureBucketExistsResult.IsFailure)
             return ensureBucketExistsResult.Error;
 
-        var addObjectResult = await AddObjectAsync(
-            uploadObjectData.BucketName,
-            uploadObjectData.ObjectName,
-            uploadObjectData.ObjectStream,
-            cancellationToken);
 
-        if (addObjectResult.IsFailure)
-            return addObjectResult.Error;
+        List<Task> tasks = [];
+        foreach (var uploadObjectContent in uploadObjectsData.UploadObjectsContent)
+        {
+            await semaphoreSlim.WaitAsync(cancellationToken);
+            
+            var task = AddObjectAsync(
+                uploadObjectsData.BucketName,
+                uploadObjectContent.ObjectName,
+                uploadObjectContent.ObjectStream,
+                cancellationToken);
+
+            semaphoreSlim.Release(); // TODO: release finally
+            
+            tasks.Add(task);
+
+            // if (addObjectResult.IsFailure)
+            //     return addObjectResult.Error;
+        }
+        await Task.WhenAll(tasks);
 
         return true;
     }

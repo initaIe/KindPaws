@@ -8,7 +8,7 @@ namespace KindPaws.Domain.Managements.SpeciesManagement.Entities;
 public class Breed : Entity<BreedId>, ISoftDeleteable
 {
     private bool _isDeleted;
-    
+
     // ef core
     private Breed(BreedId id) : base(id)
     {

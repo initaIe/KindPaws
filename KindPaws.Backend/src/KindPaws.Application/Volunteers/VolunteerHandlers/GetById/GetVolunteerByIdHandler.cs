@@ -1,5 +1,6 @@
-﻿using KindPaws.Application.Volunteers.VolunteerHandlers.DTOs;
-using KindPaws.Application.Volunteers.VolunteerHandlers.GetById.DTOs;
+﻿using FluentValidation;
+using KindPaws.Application.Validation;
+using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -9,29 +10,36 @@ namespace KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
 
 public class GetVolunteerByIdHandler
 {
-    private readonly ILogger<GetVolunteerByIdHandler> _logger;
+    private readonly ILogger<GetVolunteerByIdHandler> _logger; // TODO: нужен ли он здесь?
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IValidator<GetVolunteerByIdCommand> _validator;
 
     public GetVolunteerByIdHandler(
         IVolunteersRepository volunteersRepository,
-        ILogger<GetVolunteerByIdHandler> logger)
+        ILogger<GetVolunteerByIdHandler> logger,
+        IValidator<GetVolunteerByIdCommand> validator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
+        _validator = validator;
     }
 
-    public async Task<Result<VolunteerResponse, Error>> HandleAsync(
-        GetVolunteerByIdRequest request,
+    public async Task<Result<VolunteerResponse, ErrorList>> HandleAsync(
+        GetVolunteerByIdCommand command,
         CancellationToken cancellationToken = default)
     {
-        var volunteerId = VolunteerId.Create(request.VolunteerId).Value;
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid)
+            return validationResult.ToErrorList();
+        
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
             volunteerId,
             cancellationToken);
 
         if (volunteerResult.IsFailure)
-            return volunteerResult.Error;
+            return volunteerResult.Error.ToErrorList();
 
         var fullName = new FullNameDTO(
             volunteerResult.Value.FullName.FirstName,
@@ -71,7 +79,7 @@ public class GetVolunteerByIdHandler
             yearsOfExperience,
             socialNetworks,
             requisites);
-        
+
         // TODO: add log mb
 
         return volunteerResponse;

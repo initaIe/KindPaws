@@ -5,8 +5,8 @@ namespace KindPaws.Application.Providers;
 
 public interface IFileProvider
 {
-    Task<Result<Error>> UploadObjectAsync(
-        UploadObjectData uploadObjectData,
+    Task<Result<Error>> UploadObjectsAsync(
+        UploadObjectsData uploadObjectsData,
         CancellationToken cancellationToken = default);
 
     Task<Result<Error>> DeleteObjectAsync(

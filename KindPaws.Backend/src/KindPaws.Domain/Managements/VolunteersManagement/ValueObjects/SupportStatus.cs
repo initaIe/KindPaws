@@ -24,8 +24,7 @@ public record SupportStatus
 
         input = input.Trim();
 
-        if (!All.Any(supportStatus =>
-                string.Equals(supportStatus.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
+        if (!All.Any(s => string.Equals(s.Value, input, StringComparison.CurrentCultureIgnoreCase)))
             return Errors.General.ValueIsInvalid(nameof(SupportStatus));
 
         return new SupportStatus(input);

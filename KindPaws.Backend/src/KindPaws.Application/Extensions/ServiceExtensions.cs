@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Providers;
 using KindPaws.Application.Volunteers.PetHandlers.Add;
+using KindPaws.Application.Volunteers.PetHandlers.UpdateAdditionalInfo;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
+using KindPaws.Application.Volunteers.PetHandlers.UpdatePhotos;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
 using KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
@@ -31,13 +33,10 @@ public static class ServiceExtensions
             .AddScoped<DeleteVolunteerHandler>()
             .AddScoped<GetVolunteerByIdHandler>()
             .AddScoped<UpdateVolunteerAdditionalInfoHandler>()
-            
             .AddScoped<AddPetHandler>()
-            .AddScoped<UpdatePetMainInfoHandler>();
-
-        // File
-        services
-            .AddScoped<FileService>();
+            .AddScoped<UpdatePetMainInfoHandler>()
+            .AddScoped<UpdatePetAdditionalInfoHandler>()
+            .AddScoped<UpdatePetPhotosHandler>();
 
         services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
 

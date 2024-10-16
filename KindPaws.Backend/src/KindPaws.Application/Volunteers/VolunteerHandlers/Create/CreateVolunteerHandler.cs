@@ -1,4 +1,7 @@
-﻿using KindPaws.Application.Volunteers.VolunteerHandlers.Create.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation;
+using KindPaws.Application.Validation;
+using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -11,45 +14,52 @@ public class CreateVolunteerHandler
 {
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IValidator<CreateVolunteerCommand> _validator;
 
     public CreateVolunteerHandler(
         IVolunteersRepository volunteersRepository,
-        ILogger<CreateVolunteerHandler> logger)
+        ILogger<CreateVolunteerHandler> logger, 
+        IValidator<CreateVolunteerCommand> validator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> HandleAsync(
-        CreateVolunteerRequest request,
+    public async Task<Result<Guid, ErrorList>> HandleAsync(
+        CreateVolunteerCommand command,
         CancellationToken cancellationToken = default)
     {
-        var emailAddress = EmailAddress.Create(request.EmailAddress).Value;
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid)
+            return validationResult.ToErrorList();
+        
+        var emailAddress = EmailAddress.Create(command.EmailAddress).Value;
 
-        var existVolunteerWithEmailAddress =
+        var volunteerEmailAddress =
             await _volunteersRepository.GetByEmailAddressAsync(emailAddress, cancellationToken);
 
         // volunteer email is already exist validation
-        if (existVolunteerWithEmailAddress.IsSuccess)
-            return Errors.General.RecordAlreadyExist(nameof(Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer));
+        if (volunteerEmailAddress.IsSuccess)
+            return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(EmailAddress)).ToErrorList();
 
-        var phoneNumber = PhoneNumber.Create(request.PhoneNumber).Value;
+        var phoneNumber = PhoneNumber.Create(command.PhoneNumber).Value;
 
         // volunteer phone number is already exist validation
-        var existVolunteerWithPhoneNumber =
+        var volunteerPhoneNumber =
             await _volunteersRepository.GetByPhoneNumberAsync(phoneNumber, cancellationToken);
 
-        if (existVolunteerWithPhoneNumber.IsSuccess)
-            return Errors.General.RecordAlreadyExist(nameof(Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer));
+        if (volunteerPhoneNumber.IsSuccess)
+            return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(PhoneNumber)).ToErrorList();
 
         var volunteerId = VolunteerId.CreateRandom();
 
         var fullName = FullName.Create(
-            request.FullName.FirstName,
-            request.FullName.LastName,
-            request.FullName.Patronymic).Value;
+            command.FullName.FirstName,
+            command.FullName.LastName,
+            command.FullName.Patronymic).Value;
 
-        var volunteerToCreate = new Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer(
+        var volunteerToCreate = new Volunteer(
             volunteerId,
             null,
             null,

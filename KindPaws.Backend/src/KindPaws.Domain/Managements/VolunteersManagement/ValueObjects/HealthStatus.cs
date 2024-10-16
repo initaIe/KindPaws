@@ -24,9 +24,8 @@ public record HealthStatus
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(HealthStatus));
 
-        if (!All.All(healthStatus =>
-                string.Equals(healthStatus.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
-            return Errors.General.ValueIsInvalid(input);
+        if (!All.Any(h => string.Equals(h.Value, input, StringComparison.CurrentCultureIgnoreCase)))
+            return Errors.General.ValueIsInvalid(nameof(HealthStatus));
 
         return new HealthStatus(input);
     }

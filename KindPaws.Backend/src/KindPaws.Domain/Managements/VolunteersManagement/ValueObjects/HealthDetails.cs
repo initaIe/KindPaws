@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Text.Json.Serialization;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
@@ -10,7 +9,7 @@ public record HealthDetails
     private HealthDetails()
     {
     }
-    
+
     public HealthDetails(
         MediumDescription? description,
         IEnumerable<Vaccine>? vaccines,

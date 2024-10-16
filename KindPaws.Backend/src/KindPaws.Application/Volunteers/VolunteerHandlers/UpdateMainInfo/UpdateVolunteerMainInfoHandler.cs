@@ -1,5 +1,4 @@
 ﻿using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
-using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -22,10 +21,10 @@ public class UpdateVolunteerMainInfoHandler
     }
 
     public async Task<Result<Guid, Error>> HandleAsync(
-        UpdateVolunteerMainInfoRequest request,
+        UpdateVolunteerMainInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        var volunteerId = VolunteerId.Create(request.VolunteerId).Value;
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
             volunteerId,
@@ -35,13 +34,13 @@ public class UpdateVolunteerMainInfoHandler
             return volunteerResult.Error;
 
         var fullName = FullName.Create(
-            request.Dto.FullName.FirstName,
-            request.Dto.FullName.LastName,
-            request.Dto.FullName.Patronymic).Value;
+            command.FullName.FirstName,
+            command.FullName.LastName,
+            command.FullName.Patronymic).Value;
 
-        var emailAddress = EmailAddress.Create(request.Dto.EmailAddress).Value;
+        var emailAddress = EmailAddress.Create(command.EmailAddress).Value;
 
-        var phoneNumber = PhoneNumber.Create(request.Dto.PhoneNumber).Value;
+        var phoneNumber = PhoneNumber.Create(command.PhoneNumber).Value;
 
         volunteerResult.Value.UpdateMainInfo(fullName, emailAddress, phoneNumber);
 

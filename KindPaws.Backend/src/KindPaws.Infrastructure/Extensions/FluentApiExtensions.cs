@@ -43,7 +43,7 @@ public static class FluentApiExtensions
         var json = JsonSerializer.Serialize(obj, JsonSerializerOptions.Default);
         return JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Default)!;
     }
-    
+
     public static PropertyBuilder<TProperty> MapJsonb<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
     {
         var converter = new ValueConverter<TProperty, string>(
@@ -51,13 +51,13 @@ public static class FluentApiExtensions
             v => JsonSerializer.Deserialize<TProperty>(v, JsonSerializerOptions.Default)!);
 
         var comparer = new ValueComparer<TProperty>(
-            (l, r) => 
-                JsonSerializer.Serialize<TProperty>(l!, JsonSerializerOptions.Default) 
+            (l, r) =>
+                JsonSerializer.Serialize<TProperty>(l!, JsonSerializerOptions.Default)
                 == JsonSerializer.Serialize<TProperty>(r!, JsonSerializerOptions.Default),
-            v => 
+            v =>
                 v == null ? 0 : JsonSerializer.Serialize<TProperty>(v, JsonSerializerOptions.Default).GetHashCode(),
-            v => 
-                JsonSerializer.Deserialize<TProperty>(JsonSerializer.Serialize<TProperty>
+            v =>
+                JsonSerializer.Deserialize<TProperty>(JsonSerializer.Serialize
                     (v, JsonSerializerOptions.Default), JsonSerializerOptions.Default)!);
 
         propertyBuilder.HasConversion(converter);

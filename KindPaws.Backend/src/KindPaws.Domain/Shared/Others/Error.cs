@@ -6,20 +6,26 @@ public record Error
 {
     private const string Separator = ";";
 
-    private Error(string code, string message, ErrorType type)
+    private Error(
+        string code,
+        string message, 
+        ErrorType type, 
+        string? invalidPropertyName = null)
     {
         Code = code;
         Message = message;
         Type = type;
+        InvalidPropertyName = invalidPropertyName;
     }
 
     public string Code { get; }
     public string Message { get; }
     public ErrorType Type { get; }
+    public string? InvalidPropertyName { get; }
 
-    public static Error Validation(string code, string message)
+    public static Error Validation(string code, string message, string? invalidPropertyName = null)
     {
-        return new Error(code, message, ErrorType.Validation);
+        return new Error(code, message, ErrorType.Validation, invalidPropertyName);
     }
 
     public static Error NotFound(string code, string message)
@@ -57,4 +63,6 @@ public record Error
             errorObjects[1],
             errorType);
     }
+    
+    public ErrorList ToErrorList() => new([this]);
 }

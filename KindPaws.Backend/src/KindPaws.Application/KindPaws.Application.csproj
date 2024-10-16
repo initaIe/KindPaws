@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Volunteers\VolunteerHandlers\" />
+        <Folder Include="Volunteers\VolunteerHandlers\"/>
     </ItemGroup>
 
 </Project>

@@ -15,21 +15,21 @@ public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
         if (validationProblemDetails == null)
             throw new InvalidOperationException($"{nameof(ValidationProblemDetails)} can not be null");
 
-        List<ResponseError> responseErrors = [];
-
-        foreach (var (invalid, validationErrors) in validationProblemDetails.Errors)
+        List<Error> errors = [];
+        
+        foreach (var (invalidPropertyName, validationErrors) in validationProblemDetails.Errors)
         {
             var responseErrorsIteration = from errorMessage in validationErrors
                 let error = Error.Deserialize(errorMessage)
-                select new ResponseError(
+                select Error.Validation(
                     error.Code,
                     error.Message,
-                    invalid);
+                    invalidPropertyName);
 
-            responseErrors.AddRange(responseErrorsIteration);
+            errors.AddRange(responseErrorsIteration);
         }
 
-        var envelope = Envelope.Error(responseErrors);
+        var envelope = Envelope.Error(errors);
 
         return new ObjectResult(envelope)
         {

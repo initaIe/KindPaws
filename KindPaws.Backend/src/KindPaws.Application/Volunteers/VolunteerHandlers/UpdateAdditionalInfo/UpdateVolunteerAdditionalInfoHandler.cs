@@ -1,4 +1,5 @@
-﻿using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
+﻿using FluentValidation;
+using KindPaws.Application.Validation;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -12,52 +13,59 @@ public class UpdateVolunteerAdditionalInfoHandler
 {
     private readonly ILogger<UpdateVolunteerAdditionalInfoHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IValidator<UpdateVolunteerAdditionalInfoCommand> _validator;
 
     public UpdateVolunteerAdditionalInfoHandler(
         IVolunteersRepository volunteersRepository,
-        ILogger<UpdateVolunteerAdditionalInfoHandler> logger)
+        ILogger<UpdateVolunteerAdditionalInfoHandler> logger,
+        IValidator<UpdateVolunteerAdditionalInfoCommand> validator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> HandleAsync(
-        UpdateVolunteerAdditionalInfoRequest request,
+    public async Task<Result<Guid, ErrorList>> HandleAsync(
+        UpdateVolunteerAdditionalInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        var volunteerId = VolunteerId.Create(request.VolunteerId).Value;
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid)
+            return validationResult.ToErrorList();
+        
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
             volunteerId,
             cancellationToken);
 
         if (volunteerResult.IsFailure)
-            return volunteerResult.Error;
+            return volunteerResult.Error.ToErrorList();
 
         MediumDescription? description = null;
-        if (request.Dto.Description != null)
-            description = MediumDescription.Create(request.Dto.Description).Value;
+        if (command.Description != null)
+            description = MediumDescription.Create(command.Description).Value;
 
         Address? address = null;
-        if (request.Dto.Address != null)
+        if (command.Address != null)
             address = Address.Create(
-                request.Dto.Address.City,
-                request.Dto.Address.Street).Value;
+                command.Address.City,
+                command.Address.Street).Value;
 
         YearsOfExperience? yearsOfExperience = null;
-        if (request.Dto.YearsOfExperience != null)
+        if (command.YearsOfExperience != null)
             yearsOfExperience = YearsOfExperience.Create(
-                request.Dto.YearsOfExperience.Value).Value;
+                command.YearsOfExperience.Value).Value;
 
         IEnumerable<SocialNetwork>? socialNetworks = null;
-        if (request.Dto.SocialNetworks != null && request.Dto.SocialNetworks.Any())
-            socialNetworks = request.Dto.SocialNetworks
+        if (command.SocialNetworks != null && command.SocialNetworks.Any())
+            socialNetworks = command.SocialNetworks
                 .Select(x => SocialNetwork.Create(x.Name, x.Link))
                 .Select(x => x.Value);
 
         IEnumerable<Requisite>? requisites = null;
-        if (request.Dto.Requisites != null && request.Dto.Requisites.Any())
-            requisites = request.Dto.Requisites
+        if (command.Requisites != null && command.Requisites.Any())
+            requisites = command.Requisites
                 .Select(x => Requisite.Create(x.Name, x.Description))
                 .Select(x => x.Value);
 

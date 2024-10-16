@@ -9,9 +9,9 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 
 public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 {
-    private bool _isDeleted;
     private readonly List<Pet> _pets = [];
-    
+    private bool _isDeleted;
+
     private List<Requisite> _requisites;
     private List<SocialNetwork> _socialNetworks;
 
@@ -109,7 +109,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
     public Result<Pet, Error> GetPetById(PetId petId)
     {
         var pet = _pets.FirstOrDefault(x => x.Id == petId);
-        
+
         if (pet == null)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 

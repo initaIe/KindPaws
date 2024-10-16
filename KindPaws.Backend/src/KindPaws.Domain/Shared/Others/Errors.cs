@@ -49,7 +49,7 @@ public static class Errors
         public static Error ValueCharacterSetIsInvalid(string? name = null)
         {
             name ??= "Value";
-            return Error.Validation("value.character.set.is.invalid", $"{name} character ser is invalid");
+            return Error.Validation("value.character.set.is.invalid", $"{name} character set is invalid");
         }
     }
 }

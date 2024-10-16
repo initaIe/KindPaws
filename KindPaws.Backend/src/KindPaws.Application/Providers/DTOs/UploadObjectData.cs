@@ -1,6 +1,5 @@
 ﻿namespace KindPaws.Application.Providers.DTOs;
 
-public record UploadObjectData(
-    string BucketName,
-    string ObjectName,
-    Stream ObjectStream);
+public record UploadObjectsData(
+    IEnumerable<UploadObjectContent> UploadObjectsContent,
+    string BucketName);

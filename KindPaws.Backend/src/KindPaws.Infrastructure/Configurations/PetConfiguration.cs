@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
@@ -51,7 +50,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // CREATION DATE
-        builder.Property(p=>p.CreationDateTime)
+        builder.Property(p => p.CreationDateTime)
             .HasColumnName("creation_date_time")
             .IsRequired();
 
@@ -91,17 +90,17 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired(false);
 
         // HEALTH DETAILS
-        builder.Property(p=>p.HealthDetails)
+        builder.Property(p => p.HealthDetails)
             .HasColumnName("health_details")
             .MapJsonb()
             .IsRequired();
-        
+
         // BIOMETRIC DETAILS
-        builder.Property(p=>p.BiometricDetails)
+        builder.Property(p => p.BiometricDetails)
             .HasColumnName("biometric_details")
             .MapJsonb()
             .IsRequired();
-        
+
         // PHOTOS DETAILS
         builder.Property(p => p.Photos)
             .HasColumnName("photos")

@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Shared.Others;
+﻿using System.Text.Json.Serialization;
+using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.Domain.Shared.ValueObjects;
 
@@ -9,6 +10,7 @@ public record Gender
 
     private static readonly Gender[] All = [Male, Female];
 
+    [JsonConstructor]
     private Gender(string value)
     {
         Value = value;
@@ -21,8 +23,7 @@ public record Gender
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(Gender));
 
-        if (!All.All(gender =>
-                string.Equals(gender.Value!, input, StringComparison.CurrentCultureIgnoreCase)))
+        if (!All.Any(g => string.Equals(g.Value, input, StringComparison.CurrentCultureIgnoreCase)))
             return Errors.General.ValueIsInvalid(nameof(Gender));
 
         return new Gender(input);

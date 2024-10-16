@@ -1,20 +1,16 @@
-﻿using FluentValidation;
-using KindPaws.API.Contracts;
+﻿using KindPaws.API.Contracts.Volunteers;
 using KindPaws.API.Extensions;
 using KindPaws.API.Response;
+using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Application.Volunteers.PetHandlers.Add;
-using KindPaws.Application.Volunteers.PetHandlers.Add.DTOs;
+using KindPaws.Application.Volunteers.PetHandlers.UpdateAdditionalInfo;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
+using KindPaws.Application.Volunteers.PetHandlers.UpdatePhotos;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
-using KindPaws.Application.Volunteers.VolunteerHandlers.Create.DTOs;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
-using KindPaws.Application.Volunteers.VolunteerHandlers.Delete.DTOs;
 using KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
-using KindPaws.Application.Volunteers.VolunteerHandlers.GetById.DTOs;
 using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
 using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers;
@@ -23,15 +19,17 @@ public class VolunteersController : ApplicationController
 {
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] CreateVolunteerHandler handler,
         [FromBody] CreateVolunteerRequest request,
+        [FromServices] CreateVolunteerHandler handler,
         CancellationToken token = default)
     {
-        var createResult = await handler.HandleAsync(request, token);
-        if (createResult.IsFailure)
-            return createResult.Error.ToResponse();
+        var command = request.ToCommand();
 
-        var envelope = Envelope.Ok(createResult.Value);
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
     }
@@ -39,22 +37,17 @@ public class VolunteersController : ApplicationController
     [HttpPut("{id:guid}/main-info")]
     public async Task<IActionResult> UpdateMainInfo(
         [FromRoute] Guid id,
+        [FromBody] UpdateVolunteerMainInfoRequest request,
         [FromServices] UpdateVolunteerMainInfoHandler handler,
-        [FromServices] IValidator<UpdateVolunteerMainInfoRequest> validator,
-        [FromBody] UpdateVolunteerMainInfoDTO dto,
         CancellationToken token = default)
     {
-        var request = new UpdateVolunteerMainInfoRequest(id, dto);
+        var command = request.ToCommand(id);
 
-        var validationResult = await validator.ValidateAsync(request, token);
-        if (!validationResult.IsValid)
-            return validationResult.ToValidationErrorResponse();
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
 
-        var updateResult = await handler.HandleAsync(request, token);
-        if (updateResult.IsFailure)
-            return updateResult.Error.ToResponse();
-
-        var envelope = Envelope.Ok(updateResult.Value);
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
     }
@@ -62,22 +55,17 @@ public class VolunteersController : ApplicationController
     [HttpPut("{id:guid}/additional-info")]
     public async Task<IActionResult> UpdateAdditionalInfo(
         [FromRoute] Guid id,
+        [FromBody] UpdateVolunteerAdditionalInfoRequest request,
         [FromServices] UpdateVolunteerAdditionalInfoHandler handler,
-        [FromServices] IValidator<UpdateVolunteerAdditionalInfoRequest> validator,
-        [FromBody] UpdateVolunteerAdditionalInfoDTO dto,
         CancellationToken token = default)
     {
-        var request = new UpdateVolunteerAdditionalInfoRequest(id, dto);
+        var command = request.ToCommand(id);
 
-        var validationResult = await validator.ValidateAsync(request, token);
-        if (!validationResult.IsValid)
-            return validationResult.ToValidationErrorResponse();
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
 
-        var updateResult = await handler.HandleAsync(request, token);
-        if (updateResult.IsFailure)
-            return updateResult.Error.ToResponse();
-
-        var envelope = Envelope.Ok(updateResult.Value);
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
     }
@@ -86,20 +74,15 @@ public class VolunteersController : ApplicationController
     public async Task<IActionResult> Delete(
         [FromRoute] Guid id,
         [FromServices] DeleteVolunteerHandler handler,
-        [FromServices] IValidator<DeleteVolunteerRequest> validator,
         CancellationToken token = default)
     {
-        var request = new DeleteVolunteerRequest(id);
+        var command = new DeleteVolunteerCommand(id);
 
-        var validationResult = await validator.ValidateAsync(request, token);
-        if (!validationResult.IsValid)
-            return validationResult.ToValidationErrorResponse();
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
 
-        var deleteResult = await handler.HandleAsync(request, token);
-        if (deleteResult.IsFailure)
-            return deleteResult.Error.ToResponse();
-
-        var envelope = Envelope.Ok(deleteResult.Value);
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
     }
@@ -108,20 +91,15 @@ public class VolunteersController : ApplicationController
     public async Task<IActionResult> GetById(
         [FromRoute] Guid id,
         [FromServices] GetVolunteerByIdHandler handler,
-        [FromServices] IValidator<GetVolunteerByIdRequest> validator,
         CancellationToken token = default)
     {
-        var request = new GetVolunteerByIdRequest(id);
+        var command = new GetVolunteerByIdCommand(id);
 
-        var validationResult = await validator.ValidateAsync(request, token);
-        if (!validationResult.IsValid)
-            return validationResult.ToValidationErrorResponse();
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
 
-        var getResult = await handler.HandleAsync(request, token);
-        if (getResult.IsFailure)
-            return getResult.Error.ToResponse();
-
-        var envelope = Envelope.Ok(getResult.Value);
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
     }
@@ -133,42 +111,87 @@ public class VolunteersController : ApplicationController
         [FromServices] AddPetHandler handler,
         CancellationToken token = default)
     {
-        var command = new AddPetCommand(
-            id,
-            request.SpecieId,
-            request.BreedId,
-            request.Name);
+        var command = request.ToCommand(id);
 
-        var addPetResult = await handler.HandleAsync(command, token);
-        if (addPetResult.IsFailure)
-            return addPetResult.Error.ToResponse();
-        
-        var envelope = Envelope.Ok(addPetResult.Value);
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
     }
-    
-    [HttpPut("{volunteerId:guid}/pets/{petId:guid}/main-info")]
-    public async Task<IActionResult> AddPet(
-        [FromRoute] Guid volunteerId,
+
+    [HttpPut("{id:guid}/pets/{petId:guid}/main-info")]
+    public async Task<IActionResult> UpdatePetMainInfo(
+        [FromRoute] Guid id,
         [FromRoute] Guid petId,
-        [FromBody] AddPetRequest request,
+        [FromBody] UpdatePetMainInfoRequest request,
         [FromServices] UpdatePetMainInfoHandler handler,
         CancellationToken token = default)
     {
-        var command = new UpdatePetMainInfoCommand(
-            volunteerId,
-            petId,
-            request.SpecieId,
-            request.BreedId,
-            request.Name);
+        var command = request.ToCommand(id, petId);
 
-        var updatePetMainInfoResult = await handler.HandleAsync(command, token);
-        if (updatePetMainInfoResult.IsFailure)
-            return updatePetMainInfoResult.Error.ToResponse();
-        
-        var envelope = Envelope.Ok(updatePetMainInfoResult.Value);
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        var envelope = Envelope.Ok(result.Value);
 
         return Ok(envelope);
+    }
+
+    [HttpPut("{id:guid}/pets/{petId:guid}/additional-info")]
+    public async Task<IActionResult> UpdatePetAdditionalInfo(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromBody] UpdatePetAdditionalInfoRequest request,
+        [FromServices] UpdatePetAdditionalInfoHandler handler,
+        CancellationToken token = default)
+    {
+        var command = request.ToCommand(id, petId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        var envelope = Envelope.Ok(result.Value);
+
+        return Ok(envelope);
+    }
+
+    [HttpPut("{id:guid}/pets/{petId:guid}/photos")]
+    public async Task<IActionResult> UpdatePetPhotos(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromForm] UpdatePetPhotosRequest request,
+        [FromServices] UpdatePetPhotosHandler handler,
+        CancellationToken token = default)
+    {
+        List<FileDTO> photoDtos = [];
+        try
+        {
+            foreach (var photo in request.Photos)
+            {
+                var stream = photo.OpenReadStream();
+                photoDtos.Add(new FileDTO(stream, photo.ContentType, photo.FileName));
+            }
+
+            var command = new UpdatePetPhotosCommand(id, petId, photoDtos);
+            var result = await handler.HandleAsync(command, token);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            var envelope = Envelope.Ok(result.Value);
+
+            return Ok(envelope);
+        }
+        finally
+        {
+            foreach (var photoDto in photoDtos)
+            {
+                await photoDto.Stream.DisposeAsync();
+            }
+        }
     }
 }

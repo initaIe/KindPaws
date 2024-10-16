@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+﻿using System.Text.Json.Serialization;
+using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Extensions;
 using KindPaws.Domain.Shared.Others.Validation.Validators;
@@ -7,6 +8,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public class Weight
 {
+    [JsonConstructor]
     private Weight(float value)
     {
         Value = value;

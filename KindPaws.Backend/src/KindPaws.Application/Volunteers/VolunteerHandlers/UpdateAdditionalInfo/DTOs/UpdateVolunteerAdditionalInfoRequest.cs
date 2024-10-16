@@ -1,3 +1,0 @@
-﻿namespace KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo.DTOs;
-
-public record UpdateVolunteerAdditionalInfoRequest(Guid VolunteerId, UpdateVolunteerAdditionalInfoDTO Dto);

@@ -1,0 +1,23 @@
+﻿using System.Text.Json.Serialization;
+using KindPaws.Domain.Shared.Others;
+
+namespace KindPaws.Domain.Shared.ValueObjects;
+
+public record FilePath
+{
+    //TODO: валидация + сделать приватным
+    [JsonConstructor]
+    private FilePath(string value)
+    {
+        Value = value;
+    }
+
+    public string Value { get; }
+
+    public static Result<FilePath, Error> Create(
+        string path,
+        string extension)
+    {
+        return new FilePath($"{path}{extension}");
+    }
+}
