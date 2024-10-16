@@ -1,6 +1,6 @@
 ﻿using KindPaws.Application.Volunteers.PetHandlers.Add;
 
-namespace KindPaws.API.Contracts.Volunteers;
+namespace KindPaws.API.Contracts.Volunteers.PetsRequests;
 
 public record AddPetRequest(
     Guid SpecieId,

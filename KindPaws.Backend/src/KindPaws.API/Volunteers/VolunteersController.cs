@@ -1,11 +1,13 @@
-﻿using KindPaws.API.Contracts.Volunteers;
+﻿using KindPaws.API.Contracts.Volunteers.PetsRequests;
+using KindPaws.API.Contracts.Volunteers.VolunteersRequests;
+using KindPaws.API.Controllers;
 using KindPaws.API.Extensions;
+using KindPaws.API.Processors;
 using KindPaws.API.Response;
-using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Application.Volunteers.PetHandlers.Add;
+using KindPaws.Application.Volunteers.PetHandlers.AddPhotos;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateAdditionalInfo;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.PetHandlers.UpdatePhotos;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
 using KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
@@ -13,7 +15,7 @@ using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo;
 using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KindPaws.API.Controllers;
+namespace KindPaws.API.Volunteers;
 
 public class VolunteersController : ApplicationController
 {
@@ -160,38 +162,29 @@ public class VolunteersController : ApplicationController
         return Ok(envelope);
     }
 
-    [HttpPut("{id:guid}/pets/{petId:guid}/photos")]
-    public async Task<IActionResult> UpdatePetPhotos(
+    [HttpPost("{id:guid}/pets/{petId:guid}/photos")]
+    public async Task<IActionResult> AddPetPhotos(
         [FromRoute] Guid id,
         [FromRoute] Guid petId,
-        [FromForm] UpdatePetPhotosRequest request,
-        [FromServices] UpdatePetPhotosHandler handler,
+        [FromForm] AddPetPhotosRequest request,
+        [FromServices] AddPetPhotosHandler handler,
         CancellationToken token = default)
     {
-        List<FileDTO> photoDtos = [];
-        try
-        {
-            foreach (var photo in request.Photos)
-            {
-                var stream = photo.OpenReadStream();
-                photoDtos.Add(new FileDTO(stream, photo.ContentType, photo.FileName));
-            }
+        await using var fileProcessor = new FormFileProcessor();
+        var fileDtos = fileProcessor.Process(request.Photos);
 
-            var command = new UpdatePetPhotosCommand(id, petId, photoDtos);
-            var result = await handler.HandleAsync(command, token);
-            if (result.IsFailure)
-                return result.Error.ToResponse();
+        var command = new AddPetPhotosCommand(
+            id,
+            petId,
+            fileDtos);
 
-            var envelope = Envelope.Ok(result.Value);
+        var result = await handler.HandleAsync(command, token);
 
-            return Ok(envelope);
-        }
-        finally
-        {
-            foreach (var photoDto in photoDtos)
-            {
-                await photoDto.Stream.DisposeAsync();
-            }
-        }
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        var envelope = Envelope.Ok(result.Value);
+
+        return Ok(envelope);
     }
 }

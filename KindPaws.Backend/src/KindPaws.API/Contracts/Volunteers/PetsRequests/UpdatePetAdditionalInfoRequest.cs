@@ -1,7 +1,7 @@
 ﻿using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateAdditionalInfo;
 
-namespace KindPaws.API.Contracts.Volunteers;
+namespace KindPaws.API.Contracts.Volunteers.PetsRequests;
 
 public record UpdatePetAdditionalInfoRequest(
     string? SupportStatus,

@@ -12,13 +12,13 @@ public class UpdateVolunteerMainInfoCommandValidator : AbstractValidator<UpdateV
     {
         RuleFor(u => u.VolunteerId)
             .MustBeValueObject(VolunteerId.Create);
-        
+
         RuleFor(u => u.FullName)
-            .MustBeValueObject(f=> FullName.Create(f.FirstName, f.LastName, f.Patronymic));
-        
+            .MustBeValueObject(f => FullName.Create(f.FirstName, f.LastName, f.Patronymic));
+
         RuleFor(u => u.EmailAddress)
             .MustBeValueObject(EmailAddress.Create);
-        
+
         RuleFor(u => u.PhoneNumber)
             .MustBeValueObject(PhoneNumber.Create);
     }

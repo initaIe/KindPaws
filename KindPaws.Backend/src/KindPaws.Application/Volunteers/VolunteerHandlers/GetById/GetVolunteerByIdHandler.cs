@@ -1,26 +1,22 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Validation;
+using KindPaws.Application.Extensions;
 using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
-using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
 
 public class GetVolunteerByIdHandler
 {
-    private readonly ILogger<GetVolunteerByIdHandler> _logger; // TODO: нужен ли он здесь?
-    private readonly IVolunteersRepository _volunteersRepository;
     private readonly IValidator<GetVolunteerByIdCommand> _validator;
+    private readonly IVolunteersRepository _volunteersRepository;
 
     public GetVolunteerByIdHandler(
         IVolunteersRepository volunteersRepository,
-        ILogger<GetVolunteerByIdHandler> logger,
         IValidator<GetVolunteerByIdCommand> validator)
     {
         _volunteersRepository = volunteersRepository;
-        _logger = logger;
         _validator = validator;
     }
 
@@ -31,7 +27,7 @@ public class GetVolunteerByIdHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
@@ -79,8 +75,6 @@ public class GetVolunteerByIdHandler
             yearsOfExperience,
             socialNetworks,
             requisites);
-
-        // TODO: add log mb
 
         return volunteerResponse;
     }

@@ -20,4 +20,16 @@ public record FilePath
     {
         return new FilePath($"{path}{extension}");
     }
+
+    public static Result<FilePath, Error> Create(
+        Guid path,
+        string extension)
+    {
+        return new FilePath($"{path.ToString()}{extension}");
+    }
+
+    public static Result<FilePath, Error> Create(string input)
+    {
+        return new FilePath(input);
+    }
 }

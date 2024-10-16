@@ -12,7 +12,7 @@ public record Envelope
     }
 
     public object? Result { get; }
-    public ErrorList? Errors { get; } 
+    public ErrorList? Errors { get; }
     public DateTime CreationDateTime { get; }
 
     public static Envelope Ok(object? result = null)

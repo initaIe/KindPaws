@@ -23,11 +23,11 @@ public interface IVolunteersRepository
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default);
 
-    Task<Guid> SaveAsync(
+    Guid Save(
         Volunteer volunteer,
         CancellationToken cancellationToken = default);
 
-    Task<Guid> DeleteAsync(
+    Guid Delete(
         Volunteer volunteer,
         CancellationToken cancellationToken = default);
 }

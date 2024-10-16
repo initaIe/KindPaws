@@ -11,13 +11,13 @@ public class AddPetCommandValidator : AbstractValidator<AddPetCommand>
     {
         RuleFor(a => a.VolunteerId)
             .MustBeValueObject(VolunteerId.Create);
-        
+
         RuleFor(a => a.SpecieId)
             .MustBeValueObject(SpecieId.Create);
-        
+
         RuleFor(a => a.BreedId)
             .MustBeValueObject(BreedId.Create);
-        
+
         RuleFor(a => a.Name)
             .MustBeValueObject(ShortName.Create);
     }

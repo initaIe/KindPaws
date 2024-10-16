@@ -9,7 +9,7 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 public class Pet : Entity<PetId>, ISoftDeleteable
 {
     private bool _isDeleted;
-    private List<PetPhoto> _photos = [];
+    private readonly List<PetPhoto> _photos = [];
 
     // ef core
     private Pet(PetId id) : base(id)
@@ -85,9 +85,9 @@ public class Pet : Entity<PetId>, ISoftDeleteable
         HealthDetails = healthDetails ?? HealthDetails.CreateNullable();
         BiometricDetails = biometricDetails ?? BiometricDetails.CreateNullable();
     }
-    
-    public void UpdatePhotos(IEnumerable<PetPhoto>? photos)
+
+    public void AddPhotos(IEnumerable<PetPhoto>? photos)
     {
-        _photos = photos?.ToList() ?? [];
+        _photos.AddRange(photos?.ToList() ?? []);
     }
 }

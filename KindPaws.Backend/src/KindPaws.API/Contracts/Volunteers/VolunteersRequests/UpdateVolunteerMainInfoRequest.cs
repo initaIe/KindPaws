@@ -1,7 +1,7 @@
 ﻿using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo;
 
-namespace KindPaws.API.Contracts.Volunteers;
+namespace KindPaws.API.Contracts.Volunteers.VolunteersRequests;
 
 public record UpdateVolunteerMainInfoRequest(
     FullNameDTO FullName,

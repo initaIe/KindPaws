@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using KindPaws.Domain.Shared.Others;
 
-namespace KindPaws.Application.Validation;
+namespace KindPaws.Application.Extensions;
 
 public static class ValidationExtensions
 {

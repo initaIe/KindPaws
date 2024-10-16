@@ -8,8 +8,8 @@ public record Error
 
     private Error(
         string code,
-        string message, 
-        ErrorType type, 
+        string message,
+        ErrorType type,
         string? invalidPropertyName = null)
     {
         Code = code;
@@ -63,6 +63,9 @@ public record Error
             errorObjects[1],
             errorType);
     }
-    
-    public ErrorList ToErrorList() => new([this]);
+
+    public ErrorList ToErrorList()
+    {
+        return new ErrorList([this]);
+    }
 }

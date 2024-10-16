@@ -21,8 +21,6 @@ public class VolunteersRepository : IVolunteersRepository
         CancellationToken cancellationToken = default)
     {
         await _dbContext.Volunteers.AddAsync(volunteer, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
         return volunteer.Id;
     }
 
@@ -74,24 +72,20 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer;
     }
 
-    public async Task<Guid> SaveAsync(
+    public Guid Save(
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
         // BUG: Temporarily removed
         // _dbContext.Attach(volunteer);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
         return volunteer.Id;
     }
 
-    public async Task<Guid> DeleteAsync(
+    public Guid Delete(
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
         _dbContext.Volunteers.Remove(volunteer);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
         return volunteer.Id;
     }
 }

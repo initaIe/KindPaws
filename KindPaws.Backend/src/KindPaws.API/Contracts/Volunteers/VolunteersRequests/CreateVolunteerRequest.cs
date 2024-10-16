@@ -1,7 +1,7 @@
 ﻿using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
 
-namespace KindPaws.API.Contracts.Volunteers;
+namespace KindPaws.API.Contracts.Volunteers.VolunteersRequests;
 
 public record CreateVolunteerRequest(
     FullNameDTO FullName,

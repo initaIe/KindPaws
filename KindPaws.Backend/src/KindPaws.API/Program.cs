@@ -1,5 +1,4 @@
 using KindPaws.API.Extensions;
-using KindPaws.API.Middlewares;
 using KindPaws.Application.Extensions;
 using KindPaws.Infrastructure.Extensions;
 using Serilog;
@@ -31,7 +30,7 @@ var app = builder.Build();
 
 // MIDDLEWARES
 app
-    .UseExceptionMiddleware()
+    .UseMiddlewareException()
     .UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())

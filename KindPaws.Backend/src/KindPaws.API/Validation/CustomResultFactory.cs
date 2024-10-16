@@ -16,7 +16,7 @@ public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
             throw new InvalidOperationException($"{nameof(ValidationProblemDetails)} can not be null");
 
         List<Error> errors = [];
-        
+
         foreach (var (invalidPropertyName, validationErrors) in validationProblemDetails.Errors)
         {
             var responseErrorsIteration = from errorMessage in validationErrors

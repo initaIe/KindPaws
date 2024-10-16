@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Providers;
 using KindPaws.Application.Volunteers.PetHandlers.Add;
+using KindPaws.Application.Volunteers.PetHandlers.AddPhotos;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateAdditionalInfo;
 using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.PetHandlers.UpdatePhotos;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
 using KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
 using KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
@@ -36,7 +35,7 @@ public static class ServiceExtensions
             .AddScoped<AddPetHandler>()
             .AddScoped<UpdatePetMainInfoHandler>()
             .AddScoped<UpdatePetAdditionalInfoHandler>()
-            .AddScoped<UpdatePetPhotosHandler>();
+            .AddScoped<AddPetPhotosHandler>();
 
         services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
 

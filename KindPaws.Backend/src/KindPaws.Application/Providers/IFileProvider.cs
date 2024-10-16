@@ -1,19 +1,20 @@
-﻿using KindPaws.Application.Providers.DTOs;
+﻿using KindPaws.Application.FileProvider;
 using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.ValueObjects;
 
 namespace KindPaws.Application.Providers;
 
 public interface IFileProvider
 {
-    Task<Result<Error>> UploadObjectsAsync(
-        UploadObjectsData uploadObjectsData,
+    Task<Result<IReadOnlyList<FilePath>, ErrorList>> UploadObjectsAsync(
+        IEnumerable<UploadFileData> uploadFilesData,
         CancellationToken cancellationToken = default);
 
     Task<Result<Error>> DeleteObjectAsync(
-        DeleteObjectData deleteObjectData,
+        DeleteFileData deleteFileData,
         CancellationToken cancellationToken = default);
 
     Task<Result<string, Error>> GetObjectLinkAsync(
-        GetObjectData getObjectData,
+        GetFileData getFileData,
         CancellationToken cancellationToken = default);
 }

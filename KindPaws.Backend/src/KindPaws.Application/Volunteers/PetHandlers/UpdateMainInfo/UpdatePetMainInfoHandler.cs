@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Validation;
+using KindPaws.Application.DataBase;
+using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
@@ -11,17 +12,20 @@ namespace KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
 public class UpdatePetMainInfoHandler
 {
     private readonly ILogger<UpdatePetMainInfoHandler> _logger;
-    private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetMainInfoCommand> _validator;
+    private readonly IVolunteersRepository _volunteersRepository;
 
     public UpdatePetMainInfoHandler(
         ILogger<UpdatePetMainInfoHandler> logger,
-        IVolunteersRepository volunteersRepository, 
-        IValidator<UpdatePetMainInfoCommand> validator)
+        IVolunteersRepository volunteersRepository,
+        IValidator<UpdatePetMainInfoCommand> validator,
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -33,7 +37,7 @@ public class UpdatePetMainInfoHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
@@ -59,7 +63,7 @@ public class UpdatePetMainInfoHandler
             petType,
             petName);
 
-        var result = await _volunteersRepository.SaveAsync(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChanges(cancellationToken);
 
         _logger.LogInformation("PET updated main info with ID: {petId}; " +
                                "Properties: {petType}, {petName}; " +
@@ -69,6 +73,6 @@ public class UpdatePetMainInfoHandler
             petName,
             volunteerId.Value);
 
-        return result;
+        return petId.Value;
     }
 }

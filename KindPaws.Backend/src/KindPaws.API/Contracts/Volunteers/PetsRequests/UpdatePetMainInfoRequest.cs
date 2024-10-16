@@ -1,6 +1,6 @@
 ﻿using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
 
-namespace KindPaws.API.Contracts.Volunteers;
+namespace KindPaws.API.Contracts.Volunteers.PetsRequests;
 
 public record UpdatePetMainInfoRequest(
     Guid SpecieId,

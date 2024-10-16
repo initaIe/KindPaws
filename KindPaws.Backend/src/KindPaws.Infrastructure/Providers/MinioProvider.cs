@@ -1,6 +1,7 @@
-﻿using KindPaws.Application.Providers;
-using KindPaws.Application.Providers.DTOs;
+﻿using KindPaws.Application.FileProvider;
+using KindPaws.Application.Providers;
 using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;
@@ -10,8 +11,8 @@ namespace KindPaws.Infrastructure.Providers;
 
 public class MinioProvider : IFileProvider
 {
-    public const int MaxDegreeOfParallelism = 5;
-    
+    private const int MaxDegreeOfParallelism = 10;
+
     private readonly ILogger<MinioProvider> _logger;
     private readonly IMinioClient _minioClient;
 
@@ -23,68 +24,62 @@ public class MinioProvider : IFileProvider
         _logger = logger;
     }
 
-    public async Task<Result<Error>> UploadObjectsAsync(
-        UploadObjectsData uploadObjectsData,
+    public async Task<Result<IReadOnlyList<FilePath>, ErrorList>> UploadObjectsAsync(
+        IEnumerable<UploadFileData> uploadFilesData,
         CancellationToken cancellationToken = default)
     {
         var semaphoreSlim = new SemaphoreSlim(MaxDegreeOfParallelism);
-        
-        var ensureBucketExistsResult = await EnsureBucketExistsAsync(
-            uploadObjectsData.BucketName,
+        var filesList = uploadFilesData.ToList();
+
+        await IfBucketsNotExistCreateBuckets(
+            filesList.Select(b => b.BucketName),
             cancellationToken);
 
-        if (ensureBucketExistsResult.IsFailure)
-            return ensureBucketExistsResult.Error;
+        var tasks = filesList.Select(async file =>
+            await AddObjectAsync(
+                file.BucketName,
+                file.FilePath.Value,
+                file.Stream,
+                semaphoreSlim,
+                cancellationToken));
 
+        var pathsResult = await Task.WhenAll(tasks);
 
-        List<Task> tasks = [];
-        foreach (var uploadObjectContent in uploadObjectsData.UploadObjectsContent)
-        {
-            await semaphoreSlim.WaitAsync(cancellationToken);
-            
-            var task = AddObjectAsync(
-                uploadObjectsData.BucketName,
-                uploadObjectContent.ObjectName,
-                uploadObjectContent.ObjectStream,
-                cancellationToken);
+        if (pathsResult.Any(r => r.IsFailure))
+            return new ErrorList(pathsResult.Select(p => p.Error));
 
-            semaphoreSlim.Release(); // TODO: release finally
-            
-            tasks.Add(task);
+        var results = pathsResult
+            .Select(p => p.Value)
+            .Select(s => FilePath.Create(s).Value).ToList();
 
-            // if (addObjectResult.IsFailure)
-            //     return addObjectResult.Error;
-        }
-        await Task.WhenAll(tasks);
-
-        return true;
+        return results;
     }
 
     public async Task<Result<Error>> DeleteObjectAsync(
-        DeleteObjectData deleteObjectData,
+        DeleteFileData deleteFileData,
         CancellationToken cancellationToken = default)
     {
         var isBucketExistsResult = await BucketExistsAsync(
-            deleteObjectData.BucketName,
+            deleteFileData.BucketName,
             cancellationToken);
 
         if (isBucketExistsResult.IsFailure)
             return isBucketExistsResult.Error;
 
         if (!isBucketExistsResult.Value)
-            return MinioErrors.BucketNotFound(deleteObjectData.BucketName);
+            return MinioErrors.BucketNotFound(deleteFileData.BucketName);
 
         var isObjectExistResult = await ObjectExistsAsync(
-            deleteObjectData.BucketName,
-            deleteObjectData.ObjectName,
+            deleteFileData.BucketName,
+            deleteFileData.FileName,
             cancellationToken);
 
         if (isObjectExistResult.IsFailure)
-            return MinioErrors.ObjectNotFound(deleteObjectData.ObjectName, deleteObjectData.BucketName);
+            return MinioErrors.ObjectNotFound(deleteFileData.FileName, deleteFileData.BucketName);
 
         var removeObjectResult = await RemoveObjectAsync(
-            deleteObjectData.BucketName,
-            deleteObjectData.ObjectName,
+            deleteFileData.BucketName,
+            deleteFileData.FileName,
             cancellationToken);
 
         if (removeObjectResult.IsFailure)
@@ -94,32 +89,32 @@ public class MinioProvider : IFileProvider
     }
 
     public async Task<Result<string, Error>> GetObjectLinkAsync(
-        GetObjectData getObjectData,
+        GetFileData getFileData,
         CancellationToken cancellationToken = default)
     {
         var isBucketExistsResult = await BucketExistsAsync(
-            getObjectData.BucketName,
+            getFileData.BucketName,
             cancellationToken);
 
         if (isBucketExistsResult.IsFailure)
             return isBucketExistsResult.Error;
 
         if (!isBucketExistsResult.Value)
-            return MinioErrors.BucketNotFound(getObjectData.BucketName);
+            return MinioErrors.BucketNotFound(getFileData.BucketName);
 
 
         var isObjectExistResult = await ObjectExistsAsync(
-            getObjectData.BucketName,
-            getObjectData.ObjectName,
+            getFileData.BucketName,
+            getFileData.FileName,
             cancellationToken);
 
         if (isObjectExistResult.IsFailure)
-            return MinioErrors.ObjectNotFound(getObjectData.ObjectName, getObjectData.BucketName);
+            return MinioErrors.ObjectNotFound(getFileData.FileName, getFileData.BucketName);
 
 
         var getObjectLinkResult = await GetObjectLink(
-            getObjectData.BucketName,
-            getObjectData.ObjectName);
+            getFileData.BucketName,
+            getFileData.FileName);
 
         if (getObjectLinkResult.IsFailure)
             return getObjectLinkResult.Error;
@@ -175,12 +170,15 @@ public class MinioProvider : IFileProvider
         }
     }
 
-    private async Task<Result<Error>> AddObjectAsync(
+    private async Task<Result<string, Error>> AddObjectAsync(
         string bucketName,
         string objectName,
         Stream objectStream,
+        SemaphoreSlim semaphoreSlim,
         CancellationToken cancellationToken = default)
     {
+        await semaphoreSlim.WaitAsync(cancellationToken);
+
         try
         {
             var putObjectArgs = new PutObjectArgs()
@@ -191,7 +189,7 @@ public class MinioProvider : IFileProvider
 
             await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
 
-            return true;
+            return objectName;
         }
         catch (MinioException e)
         {
@@ -201,6 +199,10 @@ public class MinioProvider : IFileProvider
                 bucketName);
 
             return MinioErrors.Failure(nameof(AddObjectAsync));
+        }
+        finally
+        {
+            semaphoreSlim.Release();
         }
     }
 
@@ -256,21 +258,26 @@ public class MinioProvider : IFileProvider
         }
     }
 
-    private async Task<Result<Error>> EnsureBucketExistsAsync(
-        string bucketName,
+    // todo: ДУМАТЬ ЧЕ ДЕЛАТЬ С ЭТОЙ ХУЙНЕЙ
+    private async Task<Result> IfBucketsNotExistCreateBuckets(
+        IEnumerable<string> bucketNames,
         CancellationToken cancellationToken = default)
     {
-        var isBucketExistResult = await BucketExistsAsync(bucketName, cancellationToken);
-
-        if (isBucketExistResult.IsFailure)
-            return isBucketExistResult.Error;
-
-        if (!isBucketExistResult.Value)
+        HashSet<string> distinctBucketNames = [..bucketNames];
+        foreach (var bucketName in distinctBucketNames)
         {
-            var addBucketResult = await AddBucketAsync(bucketName, cancellationToken);
+            var isBucketExistResult = await BucketExistsAsync(bucketName, cancellationToken);
 
-            if (addBucketResult.IsFailure)
-                return addBucketResult.Error;
+            if (isBucketExistResult.IsFailure)
+                continue;
+
+            if (!isBucketExistResult.Value)
+            {
+                var addBucketResult = await AddBucketAsync(bucketName, cancellationToken);
+
+                if (addBucketResult.IsFailure)
+                    continue;
+            }
         }
 
         return true;

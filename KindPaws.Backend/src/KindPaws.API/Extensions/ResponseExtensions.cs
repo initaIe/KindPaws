@@ -1,5 +1,4 @@
-﻿using FluentValidation.Results;
-using KindPaws.API.Response;
+﻿using KindPaws.API.Response;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ public static class ResponseExtensions
             StatusCode = statusCode
         };
     }
-    
+
     public static ActionResult ToResponse(this ErrorList errors)
     {
         if (!errors.Any())
@@ -27,7 +26,7 @@ public static class ResponseExtensions
             {
                 StatusCode = StatusCodes.Status500InternalServerError
             };
-        
+
         var distinctErrorTypes = errors
             .Select(x => x.Type)
             .Distinct()
@@ -36,9 +35,9 @@ public static class ResponseExtensions
         var statusCode = distinctErrorTypes.Count > 1
             ? StatusCodes.Status500InternalServerError
             : GetStatusCodeForErrorType(distinctErrorTypes.First());
-        
+
         var envelope = Envelope.Error(errors);
-        
+
         return new ObjectResult(envelope)
         {
             StatusCode = statusCode
@@ -47,7 +46,7 @@ public static class ResponseExtensions
 
     private static int GetStatusCodeForErrorType(ErrorType errorType)
     {
-       return errorType switch
+        return errorType switch
         {
             ErrorType.Validation => StatusCodes.Status400BadRequest,
             ErrorType.NotFound => StatusCodes.Status404NotFound,

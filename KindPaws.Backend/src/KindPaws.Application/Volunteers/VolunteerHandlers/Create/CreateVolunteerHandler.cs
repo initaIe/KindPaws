@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FluentValidation;
-using KindPaws.Application.Validation;
+﻿using FluentValidation;
+using KindPaws.Application.DataBase;
+using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -13,17 +13,20 @@ namespace KindPaws.Application.Volunteers.VolunteerHandlers.Create;
 public class CreateVolunteerHandler
 {
     private readonly ILogger<CreateVolunteerHandler> _logger;
-    private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateVolunteerCommand> _validator;
+    private readonly IVolunteersRepository _volunteersRepository;
 
     public CreateVolunteerHandler(
         IVolunteersRepository volunteersRepository,
-        ILogger<CreateVolunteerHandler> logger, 
-        IValidator<CreateVolunteerCommand> validator)
+        ILogger<CreateVolunteerHandler> logger,
+        IValidator<CreateVolunteerCommand> validator,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -33,7 +36,7 @@ public class CreateVolunteerHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-        
+
         var emailAddress = EmailAddress.Create(command.EmailAddress).Value;
 
         var volunteerEmailAddress =
@@ -70,7 +73,9 @@ public class CreateVolunteerHandler
             null,
             null);
 
-        var result = await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
+        await _volunteersRepository.AddAsync(volunteerToCreate, cancellationToken);
+
+        await _unitOfWork.SaveChanges(cancellationToken);
 
         _logger.LogInformation("VOLUNTEER created with ID: {VolunteerId}; " +
                                "Properties: {FullName}, {EmailAddress}, {PhoneNumber}",
@@ -79,6 +84,6 @@ public class CreateVolunteerHandler
             emailAddress,
             phoneNumber);
 
-        return result;
+        return volunteerId.Value;
     }
 }

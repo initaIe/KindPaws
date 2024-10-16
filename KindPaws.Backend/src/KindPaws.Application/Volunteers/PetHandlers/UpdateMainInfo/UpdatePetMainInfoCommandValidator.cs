@@ -11,16 +11,16 @@ public class UpdatePetMainInfoCommandValidator : AbstractValidator<UpdatePetMain
     {
         RuleFor(u => u.VolunteerId)
             .MustBeValueObject(VolunteerId.Create);
-        
+
         RuleFor(u => u.PetId)
             .MustBeValueObject(PetId.Create);
-        
+
         RuleFor(u => u.SpecieId)
             .MustBeValueObject(SpecieId.Create);
-        
+
         RuleFor(u => u.BreedId)
             .MustBeValueObject(BreedId.Create);
-        
+
         RuleFor(u => u.Name)
             .MustBeValueObject(ShortName.Create);
     }
