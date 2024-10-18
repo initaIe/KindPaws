@@ -8,8 +8,8 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 
 public class Pet : Entity<PetId>, ISoftDeleteable
 {
-    private bool _isDeleted;
     private readonly List<PetPhoto> _photos = [];
+    private bool _isDeleted;
 
     // ef core
     private Pet(PetId id) : base(id)

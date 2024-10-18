@@ -6,11 +6,6 @@ public class ErrorList : IEnumerable<Error>
 {
     private readonly List<Error> _errors;
 
-    // public ErrorList()
-    // {
-    //     _errors = []; // TODO
-    // }
-
     public ErrorList(IEnumerable<Error> errors)
     {
         _errors = [..errors];
@@ -30,6 +25,7 @@ public class ErrorList : IEnumerable<Error>
     {
         return new ErrorList(errors);
     }
+
 
     public static implicit operator ErrorList(Error error)
     {

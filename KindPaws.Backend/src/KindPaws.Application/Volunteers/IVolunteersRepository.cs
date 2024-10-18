@@ -7,10 +7,6 @@ namespace KindPaws.Application.Volunteers;
 
 public interface IVolunteersRepository
 {
-    Task<Guid> AddAsync(
-        Volunteer volunteer,
-        CancellationToken cancellationToken = default);
-
     Task<Result<Volunteer, Error>> GetByEmailAddressAsync(
         EmailAddress emailAddress,
         CancellationToken cancellationToken = default);
@@ -21,13 +17,5 @@ public interface IVolunteersRepository
 
     Task<Result<Volunteer, Error>> GetByIdAsync(
         VolunteerId volunteerId,
-        CancellationToken cancellationToken = default);
-
-    Guid Save(
-        Volunteer volunteer,
-        CancellationToken cancellationToken = default);
-
-    Guid Delete(
-        Volunteer volunteer,
         CancellationToken cancellationToken = default);
 }

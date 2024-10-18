@@ -1,0 +1,51 @@
+﻿using KindPaws.Application.DataBase;
+using KindPaws.Application.Species;
+using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
+using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
+using KindPaws.Domain.Shared.ValueObjects.IDs;
+using Microsoft.EntityFrameworkCore;
+
+namespace KindPaws.Infrastructure.Repository;
+
+public class SpeciesRepository : ISpeciesRepository
+{
+    private readonly IApplicationDbContext _dbContext;
+
+    public SpeciesRepository(IApplicationDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task<Result<Specie, Error>> GetByIdAsync(
+        SpecieId specieId,
+        CancellationToken cancellationToken = default)
+    {
+        var specie = await _dbContext.Species
+            .FirstOrDefaultAsync(x => x.Id == specieId, cancellationToken);
+
+        if (specie == null)
+            return Errors.General.RecordNotFound(
+                nameof(Specie),
+                nameof(SpecieId),
+                specieId.Value);
+
+        return specie;
+    }
+
+    public async Task<Result<Specie, Error>> GetByName(
+        ShortName name,
+        CancellationToken cancellationToken = default)
+    {
+        var specie = await _dbContext.Species
+            .FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
+
+        if (specie == null)
+            return Errors.General.RecordNotFound(
+                nameof(Specie),
+                nameof(SpecieId),
+                name.Value);
+
+        return specie;
+    }
+}

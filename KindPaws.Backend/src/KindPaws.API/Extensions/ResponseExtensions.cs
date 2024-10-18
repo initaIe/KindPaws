@@ -24,7 +24,7 @@ public static class ResponseExtensions
         if (!errors.Any())
             return new ObjectResult(Envelope.Error(errors))
             {
-                StatusCode = StatusCodes.Status500InternalServerError
+                StatusCode = StatusCodes.Status500InternalServerError // todo: mb throw exception
             };
 
         var distinctErrorTypes = errors
@@ -55,27 +55,4 @@ public static class ResponseExtensions
             _ => StatusCodes.Status500InternalServerError
         };
     }
-
-    // Fluent validation result to error response
-    // public static ActionResult ToValidationErrorResponse(this ValidationResult validationResult)
-    // {
-    //     if (validationResult.IsValid)
-    //         throw new InvalidOperationException("Result can not be succeed");
-    //
-    //     var validationErrors = validationResult.Errors;
-    //
-    //     var responseErrors = from validationError in validationErrors
-    //         let error = Error.Deserialize(validationError.ErrorMessage)
-    //         select new ResponseError(
-    //             error.Code,
-    //             error.Message,
-    //             validationError.PropertyName);
-    //
-    //     var envelope = Envelope.Error(responseErrors);
-    //
-    //     return new ObjectResult(envelope)
-    //     {
-    //         StatusCode = StatusCodes.Status400BadRequest
-    //     };
-    // }
 }

@@ -12,10 +12,9 @@ public record YearsOfExperience
 
     public int Value { get; }
 
-    // TODO: добавить валидацию на макс велью
     public static Result<YearsOfExperience, Error> Create(int input)
     {
-        if (input < YearsOfExperienceConstraints.MinValue)
+        if (input is < YearsOfExperienceConstraints.MinValue or > YearsOfExperienceConstraints.MaxValue)
             return Errors.General.ValueOutOfRange(nameof(YearsOfExperience));
 
         return new YearsOfExperience(input);

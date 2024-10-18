@@ -1,13 +1,15 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Volunteers.PetHandlers.Add;
-using KindPaws.Application.Volunteers.PetHandlers.AddPhotos;
-using KindPaws.Application.Volunteers.PetHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.PetHandlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.VolunteerHandlers.Create;
-using KindPaws.Application.Volunteers.VolunteerHandlers.Delete;
-using KindPaws.Application.Volunteers.VolunteerHandlers.GetById;
-using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.VolunteerHandlers.UpdateMainInfo;
+using KindPaws.Application.Species.BreedsHandlers.Add;
+using KindPaws.Application.Species.SpeciesHandlers.Create;
+using KindPaws.Application.Volunteers.PetsHandlers.Add;
+using KindPaws.Application.Volunteers.PetsHandlers.AddPhotos;
+using KindPaws.Application.Volunteers.PetsHandlers.UpdateAdditionalInfo;
+using KindPaws.Application.Volunteers.PetsHandlers.UpdateMainInfo;
+using KindPaws.Application.Volunteers.VolunteersHandlers.Create;
+using KindPaws.Application.Volunteers.VolunteersHandlers.Delete;
+using KindPaws.Application.Volunteers.VolunteersHandlers.GetById;
+using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateAdditionalInfo;
+using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateMainInfo;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Application.Extensions;
@@ -25,7 +27,7 @@ public static class ServiceExtensions
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        // Volunteer
+        // Volunteers
         services
             .AddScoped<CreateVolunteerHandler>()
             .AddScoped<UpdateVolunteerMainInfoHandler>()
@@ -37,7 +39,10 @@ public static class ServiceExtensions
             .AddScoped<UpdatePetAdditionalInfoHandler>()
             .AddScoped<AddPetPhotosHandler>();
 
-        services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
+        // Species
+        services
+            .AddScoped<CreateSpecieHandler>()
+            .AddScoped<AddBreedHandler>();
 
         return services;
     }

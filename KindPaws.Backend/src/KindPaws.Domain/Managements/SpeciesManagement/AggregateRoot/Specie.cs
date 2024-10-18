@@ -39,4 +39,34 @@ public class Specie : Entity<SpecieId>, ISoftDeleteable
     {
         _isDeleted = false;
     }
+
+    public void AddBreed(Breed breed)
+    {
+        _breeds.Add(breed);
+    }
+
+    public Result<Breed, Error> GetBreedByGuid(Guid breedGuid)
+    {
+        var breedId = BreedId.Create(breedGuid);
+
+        if (breedId.IsFailure)
+            return Errors.General.ValueIsInvalid(nameof(breedId));
+
+        var breed = _breeds.FirstOrDefault(x => x.Id == breedId.Value);
+
+        if (breed == null)
+            return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), breedId.Value);
+
+        return breed;
+    }
+
+    public Result<Breed, Error> GetBreedByName(ShortName name)
+    {
+        var breed = _breeds.FirstOrDefault(x => x.Name == name);
+
+        if (breed == null)
+            return Errors.General.RecordNotFound(nameof(Breed), nameof(ShortName), name.Value);
+
+        return breed;
+    }
 }
