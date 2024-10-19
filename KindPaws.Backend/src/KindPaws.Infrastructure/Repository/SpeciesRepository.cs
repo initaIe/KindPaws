@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.DataBase;
+﻿using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Species;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
@@ -10,9 +10,9 @@ namespace KindPaws.Infrastructure.Repository;
 
 public class SpeciesRepository : ISpeciesRepository
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public SpeciesRepository(IApplicationDbContext dbContext)
+    public SpeciesRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }

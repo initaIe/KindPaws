@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.DataBase;
+using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -9,7 +9,7 @@ namespace KindPaws.Application.Volunteers.VolunteersHandlers.Delete;
 
 public class DeleteVolunteerHandler
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<DeleteVolunteerHandler> _logger;
     private readonly IValidator<DeleteVolunteerCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
@@ -18,7 +18,7 @@ public class DeleteVolunteerHandler
         IVolunteersRepository volunteersRepository,
         ILogger<DeleteVolunteerHandler> logger,
         IValidator<DeleteVolunteerCommand> validator,
-        IApplicationDbContext dbContext)
+        IUnitOfWork dbContext)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;

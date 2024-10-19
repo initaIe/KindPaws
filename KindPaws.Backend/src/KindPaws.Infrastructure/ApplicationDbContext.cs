@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.DataBase;
+﻿using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Infrastructure.Interceptors;
@@ -13,21 +13,11 @@ namespace KindPaws.Infrastructure;
 public class ApplicationDbContext(
     IConfiguration configuration,
     IServiceProvider serviceProvider)
-    : DbContext, IApplicationDbContext
+    : DbContext
 {
     private const string Postgres = nameof(Postgres);
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
     public DbSet<Specie> Species => Set<Specie>();
-
-    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
-    {
-        return await base.Database.BeginTransactionAsync(cancellationToken);
-    }
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-    {
-        return await base.SaveChangesAsync(cancellationToken);
-    }
 
     private ILoggerFactory CreateFactory()
     {

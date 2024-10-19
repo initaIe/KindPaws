@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Volunteers.DTOs;
+﻿using KindPaws.Application.DTOs;
 using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateAdditionalInfo;
 
 namespace KindPaws.API.Controllers.Volunteers;

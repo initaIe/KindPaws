@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Application.FileProvider;
+﻿namespace KindPaws.Application.DTOs.FileProvider;
 
 public record DeleteFileData(
     string BucketName,

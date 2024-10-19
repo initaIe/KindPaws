@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.DataBase;
+using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
@@ -11,14 +11,14 @@ namespace KindPaws.Application.Species.SpeciesHandlers.Create;
 
 public class CreateSpecieHandler
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<CreateSpecieHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IValidator<CreateSpecieCommand> _validator;
 
     public CreateSpecieHandler(
         ILogger<CreateSpecieHandler> logger,
-        IApplicationDbContext dbContext,
+        IUnitOfWork dbContext,
         IValidator<CreateSpecieCommand> validator,
         ISpeciesRepository speciesRepository)
     {

@@ -9,9 +9,8 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 
 public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 {
-    private readonly List<Pet> _pets = [];
     private bool _isDeleted;
-
+    private readonly List<Pet> _pets = [];
     private List<Requisite> _requisites;
     private List<SocialNetwork> _socialNetworks;
 

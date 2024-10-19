@@ -8,8 +8,8 @@ namespace KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 
 public class Specie : Entity<SpecieId>, ISoftDeleteable
 {
-    private readonly List<Breed> _breeds = [];
     private bool _isDeleted;
+    private readonly List<Breed> _breeds = [];
 
     // ef core
     private Specie(SpecieId id) : base(id)

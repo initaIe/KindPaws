@@ -1,25 +1,25 @@
-﻿using KindPaws.Application.Volunteers.DTOs;
+﻿using KindPaws.Application.DTOs;
 
 namespace KindPaws.API.Processors;
 
 public class FormFileProcessor : IAsyncDisposable
 {
-    private readonly List<FileDTO> _fileDtos = [];
+    private readonly List<UploadFileDTO> _uploadFileDtos = [];
 
     public async ValueTask DisposeAsync()
     {
-        foreach (var fileDto in _fileDtos) await fileDto.Stream.DisposeAsync();
+        foreach (var uploadFileDTO in _uploadFileDtos) await uploadFileDTO.Stream.DisposeAsync();
     }
 
-    public List<FileDTO> Process(IFormFileCollection files)
+    public List<UploadFileDTO> Process(IFormFileCollection files)
     {
         foreach (var file in files)
         {
             var stream = file.OpenReadStream();
-            var fileDto = new FileDTO(file.FileName, stream);
-            _fileDtos.Add(fileDto);
+            var uploadFileDTO = new UploadFileDTO(file.FileName, stream);
+            _uploadFileDtos.Add(uploadFileDTO);
         }
 
-        return _fileDtos;
+        return _uploadFileDtos;
     }
 }

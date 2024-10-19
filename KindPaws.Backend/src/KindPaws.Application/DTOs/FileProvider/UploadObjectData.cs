@@ -1,6 +1,6 @@
 ﻿using KindPaws.Domain.Shared.ValueObjects;
 
-namespace KindPaws.Application.FileProvider;
+namespace KindPaws.Application.DTOs.FileProvider;
 
 public record UploadFileData(
     string BucketName,

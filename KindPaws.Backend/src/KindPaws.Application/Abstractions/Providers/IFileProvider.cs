@@ -1,8 +1,8 @@
-﻿using KindPaws.Application.FileProvider;
+﻿using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 
-namespace KindPaws.Application.Providers;
+namespace KindPaws.Application.Abstractions.Providers;
 
 public interface IFileProvider
 {

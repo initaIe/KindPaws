@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
-using KindPaws.Application.Volunteers.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using KindPaws.Application.DataBase;
+using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions.Providers;
+using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Application.Extensions;
-using KindPaws.Application.FileProvider;
-using KindPaws.Application.Providers;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -14,8 +14,8 @@ namespace KindPaws.Application.Volunteers.PetsHandlers.AddPhotos;
 public class AddPetPhotosHandler
 {
     private const string BucketName = "pet-photos";
-    private readonly IApplicationDbContext _dbContext;
-
+    
+    private readonly IUnitOfWork _dbContext;
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;
     private readonly IValidator<AddPetPhotosCommand> _validator;
@@ -26,7 +26,7 @@ public class AddPetPhotosHandler
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetPhotosCommand> validator,
         IFileProvider fileProvider,
-        IApplicationDbContext dbContext)
+        IUnitOfWork dbContext)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
@@ -53,12 +53,12 @@ public class AddPetPhotosHandler
                 return volunteerExistResult.Error.ToErrorList();
 
             var petId = PetId.Create(command.PetId).Value;
-            var petExistResult = volunteerExistResult.Value.GetPetById(petId);
-            if (petExistResult.IsFailure)
-                return petExistResult.Error.ToErrorList();
+            var petResult = volunteerExistResult.Value.GetPetById(petId);
+            if (petResult.IsFailure)
+                return petResult.Error.ToErrorList();
 
             List<UploadFileData> uploadFilesData = [];
-            foreach (var photoFileDto in command.PhotoFileDtos)
+            foreach (var photoFileDto in command.UploadFileDtos)
             {
                 var fileExtension = Path.GetExtension(photoFileDto.Name);
                 var fileName = Guid.NewGuid();
@@ -71,17 +71,16 @@ public class AddPetPhotosHandler
                 uploadFilesData.Add(uploadFileData);
             }
 
-            var petPhotos = uploadFilesData
-                .Select(u => u.FilePath)
-                .Select(f => new Photo(f))
-                .Select(p => new PetPhoto(p, false));
+            var uploadFilePathsResult = await _fileProvider.UploadObjectsAsync(uploadFilesData, cancellationToken);
+            if (uploadFilePathsResult.IsFailure)
+                return uploadFilePathsResult.Error;
+            
+            var petPhotos = uploadFilePathsResult.Value
+                .Select(filePath => new Photo(filePath))
+                .Select(photo => new PetPhoto(photo, false));
 
-            petExistResult.Value.AddPhotos(petPhotos);
+            petResult.Value.AddPhotos(petPhotos);
             await _dbContext.SaveChangesAsync(cancellationToken);
-
-            var uploadResult = await _fileProvider.UploadObjectsAsync(uploadFilesData, cancellationToken);
-            if (uploadResult.IsFailure)
-                return uploadResult.Error;
 
             await transaction.CommitAsync(cancellationToken);
 

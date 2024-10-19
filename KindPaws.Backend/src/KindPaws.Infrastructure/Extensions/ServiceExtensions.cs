@@ -1,5 +1,5 @@
-﻿using KindPaws.Application.DataBase;
-using KindPaws.Application.Providers;
+﻿using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions.Providers;
 using KindPaws.Application.Species;
 using KindPaws.Application.Volunteers;
 using KindPaws.Infrastructure.Interceptors;
@@ -84,7 +84,7 @@ public static class ServiceExtensions
     private static IServiceCollection AddApplicationDbContext(
         this IServiceCollection services)
     {
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        services.AddScoped<IUnitOfWork, ApplicationDbContext>();
 
         return services;
     }

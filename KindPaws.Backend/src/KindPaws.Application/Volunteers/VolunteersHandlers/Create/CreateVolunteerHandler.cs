@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.DataBase;
+using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -12,7 +12,7 @@ namespace KindPaws.Application.Volunteers.VolunteersHandlers.Create;
 
 public class CreateVolunteerHandler
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IValidator<CreateVolunteerCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
@@ -21,7 +21,7 @@ public class CreateVolunteerHandler
         IVolunteersRepository volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
         IValidator<CreateVolunteerCommand> validator,
-        IApplicationDbContext dbContext)
+        IUnitOfWork dbContext)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;

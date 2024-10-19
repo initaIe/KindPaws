@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Application.Volunteers.DTOs;
+﻿namespace KindPaws.Application.DTOs;
 
 public record AddressDTO(
     string City,

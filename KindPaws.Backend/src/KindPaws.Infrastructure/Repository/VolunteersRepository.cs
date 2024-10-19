@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.DataBase;
+﻿using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Volunteers;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -10,9 +10,9 @@ namespace KindPaws.Infrastructure.Repository;
 
 public class VolunteersRepository : IVolunteersRepository
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _dbContext;
 
-    public VolunteersRepository(IApplicationDbContext dbContext)
+    public VolunteersRepository(IUnitOfWork dbContext)
     {
         _dbContext = dbContext;
     }

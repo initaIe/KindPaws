@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.DataBase;
+using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Species;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
@@ -13,7 +13,7 @@ namespace KindPaws.Application.Volunteers.PetsHandlers.Add;
 
 public class AddPetHandler
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<AddPetHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IValidator<AddPetCommand> _validator;
@@ -23,7 +23,7 @@ public class AddPetHandler
         ILogger<AddPetHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetCommand> validator,
-        IApplicationDbContext dbContext,
+        IUnitOfWork dbContext,
         ISpeciesRepository speciesRepository)
     {
         _logger = logger;

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.DataBase;
+using KindPaws.Application.Abstractions.DataBase;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.Others;
@@ -11,13 +11,13 @@ namespace KindPaws.Application.Species.BreedsHandlers.Add;
 
 public class AddBreedHandler
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<AddBreedHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IValidator<AddBreedCommand> _validator;
 
     public AddBreedHandler(
-        IApplicationDbContext dbContext,
+        IUnitOfWork dbContext,
         ILogger<AddBreedHandler> logger,
         ISpeciesRepository speciesRepository,
         IValidator<AddBreedCommand> validator)
