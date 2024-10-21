@@ -3,10 +3,16 @@ using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Species;
+namespace KindPaws.Application.Abstractions;
 
 public interface ISpeciesRepository
 {
+    Task AddAsync(
+        Specie specie,
+        CancellationToken cancellationToken = default);
+
+    void Delete(Specie specie);
+
     Task<Result<Specie, Error>> GetByIdAsync(
         SpecieId specieId,
         CancellationToken cancellationToken = default);

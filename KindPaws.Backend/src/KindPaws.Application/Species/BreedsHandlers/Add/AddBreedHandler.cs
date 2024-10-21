@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.Others;
@@ -11,18 +11,18 @@ namespace KindPaws.Application.Species.BreedsHandlers.Add;
 
 public class AddBreedHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<AddBreedHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddBreedCommand> _validator;
 
     public AddBreedHandler(
-        IUnitOfWork dbContext,
+        IUnitOfWork unitOfWork,
         ILogger<AddBreedHandler> logger,
         ISpeciesRepository speciesRepository,
         IValidator<AddBreedCommand> validator)
     {
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
         _logger = logger;
         _speciesRepository = speciesRepository;
         _validator = validator;
@@ -55,7 +55,7 @@ public class AddBreedHandler
             description);
 
         specieResult.Value.AddBreed(breed);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("BREED added with ID: {breedId}; " +
                                "Properties: {name}, {description}",

@@ -1,7 +1,4 @@
-﻿using KindPaws.Application.Abstractions.DataBase;
-using KindPaws.Application.Abstractions.Providers;
-using KindPaws.Application.Species;
-using KindPaws.Application.Volunteers;
+﻿using KindPaws.Application.Abstractions;
 using KindPaws.Infrastructure.Interceptors;
 using KindPaws.Infrastructure.Options;
 using KindPaws.Infrastructure.Providers;
@@ -20,11 +17,11 @@ public static class ServiceExtensions
     {
         services
             .AddDbContexts()
+            .AddUnitOfWork()
             .AddInterceptors()
             .AddRepositories()
-            .AddMinio(configuration)
             .AddFileProviders()
-            .AddApplicationDbContext();
+            .AddMinio(configuration);
 
         return services;
     }
@@ -81,10 +78,10 @@ public static class ServiceExtensions
         return services;
     }
 
-    private static IServiceCollection AddApplicationDbContext(
+    private static IServiceCollection AddUnitOfWork(
         this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, ApplicationDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }

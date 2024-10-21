@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -9,8 +9,8 @@ namespace KindPaws.Application.Volunteers.VolunteersHandlers.Delete;
 
 public class DeleteVolunteerHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<DeleteVolunteerHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<DeleteVolunteerCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
@@ -18,12 +18,12 @@ public class DeleteVolunteerHandler
         IVolunteersRepository volunteersRepository,
         ILogger<DeleteVolunteerHandler> logger,
         IValidator<DeleteVolunteerCommand> validator,
-        IUnitOfWork dbContext)
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -41,8 +41,8 @@ public class DeleteVolunteerHandler
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
 
-        _dbContext.Volunteers.Remove(volunteerResult.Value);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        _volunteersRepository.Delete(volunteerResult.Value);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("VOLUNTEER soft deleted with ID: {VolunteerId}", volunteerId.Value);
 

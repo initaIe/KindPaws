@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions.DataBase;
-using KindPaws.Application.Volunteers;
+﻿using KindPaws.Application.Abstractions;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -10,11 +9,24 @@ namespace KindPaws.Infrastructure.Repository;
 
 public class VolunteersRepository : IVolunteersRepository
 {
-    private readonly IUnitOfWork _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public VolunteersRepository(IUnitOfWork dbContext)
+    public VolunteersRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
+    }
+
+    public async Task AddAsync(
+        Volunteer volunteer,
+        CancellationToken cancellationToken = default)
+    {
+        await _dbContext.Volunteers.AddAsync(volunteer, cancellationToken);
+    }
+
+    public void Delete(
+        Volunteer volunteer)
+    {
+        _dbContext.Volunteers.Remove(volunteer);
     }
 
     public async Task<Result<Volunteer, Error>> GetByEmailAddressAsync(

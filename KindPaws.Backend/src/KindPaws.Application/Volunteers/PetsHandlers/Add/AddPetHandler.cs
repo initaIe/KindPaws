@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
-using KindPaws.Application.Species;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -13,9 +12,9 @@ namespace KindPaws.Application.Volunteers.PetsHandlers.Add;
 
 public class AddPetHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<AddPetHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
@@ -23,13 +22,13 @@ public class AddPetHandler
         ILogger<AddPetHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetCommand> validator,
-        IUnitOfWork dbContext,
+        IUnitOfWork unitOfWork,
         ISpeciesRepository speciesRepository)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
         _speciesRepository = speciesRepository;
     }
 
@@ -72,7 +71,7 @@ public class AddPetHandler
             null);
 
         volunteerResult.Value.AddPet(pet);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("PET created with ID: {petId}; " +
                                "Properties: {petType}, {petName}; " +

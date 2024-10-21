@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Abstractions\" />
         <Folder Include="Volunteers\VolunteersHandlers\"/>
     </ItemGroup>
 

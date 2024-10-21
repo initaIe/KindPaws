@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
@@ -11,19 +11,19 @@ namespace KindPaws.Application.Species.SpeciesHandlers.Create;
 
 public class CreateSpecieHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<CreateSpecieHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateSpecieCommand> _validator;
 
     public CreateSpecieHandler(
         ILogger<CreateSpecieHandler> logger,
-        IUnitOfWork dbContext,
+        IUnitOfWork unitOfWork,
         IValidator<CreateSpecieCommand> validator,
         ISpeciesRepository speciesRepository)
     {
         _logger = logger;
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
         _validator = validator;
         _speciesRepository = speciesRepository;
     }
@@ -49,8 +49,8 @@ public class CreateSpecieHandler
             name,
             description);
 
-        await _dbContext.Species.AddAsync(specie, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _speciesRepository.AddAsync(specie, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("SPECIE created with ID: {specieId}; " +
                                "Properties: {name}, {description}",

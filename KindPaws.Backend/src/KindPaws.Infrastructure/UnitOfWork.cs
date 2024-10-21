@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 

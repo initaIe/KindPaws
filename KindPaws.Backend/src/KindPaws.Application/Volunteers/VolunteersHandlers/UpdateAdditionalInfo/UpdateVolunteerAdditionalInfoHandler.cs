@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -12,8 +12,8 @@ namespace KindPaws.Application.Volunteers.VolunteersHandlers.UpdateAdditionalInf
 
 public class UpdateVolunteerAdditionalInfoHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<UpdateVolunteerAdditionalInfoHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerAdditionalInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
@@ -22,12 +22,12 @@ public class UpdateVolunteerAdditionalInfoHandler
         IVolunteersRepository volunteersRepository,
         ILogger<UpdateVolunteerAdditionalInfoHandler> logger,
         IValidator<UpdateVolunteerAdditionalInfoCommand> validator,
-        IUnitOfWork dbContext)
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -78,7 +78,7 @@ public class UpdateVolunteerAdditionalInfoHandler
             yearsOfExperience,
             socialNetworks,
             requisites);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation
         ("VOLUNTEER updated additional info with ID: {VolunteerId}; " +

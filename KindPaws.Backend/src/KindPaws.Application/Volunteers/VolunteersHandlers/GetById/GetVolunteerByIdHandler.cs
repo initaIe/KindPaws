@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;

@@ -1,9 +1,7 @@
-﻿using KindPaws.Application.Abstractions.DataBase;
-using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
+﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Infrastructure.Interceptors;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

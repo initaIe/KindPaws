@@ -2,7 +2,7 @@
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 
-namespace KindPaws.Application.Abstractions.Providers;
+namespace KindPaws.Application.Abstractions;
 
 public interface IFileProvider
 {

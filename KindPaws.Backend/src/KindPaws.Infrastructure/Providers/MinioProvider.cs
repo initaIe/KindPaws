@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Abstractions.Providers;
+﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -51,6 +51,9 @@ public class MinioProvider : IFileProvider
         var results = pathsResult
             .Select(p => p.Value)
             .Select(s => FilePath.Create(s).Value).ToList();
+
+        _logger.LogInformation("MINIO success uploaded files; File names: {fileNames}",
+            results.Select(f=>f.Value));
 
         return results;
     }

@@ -3,7 +3,7 @@ using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Volunteers;
+namespace KindPaws.Application.Abstractions;
 
 public interface IVolunteersRepository
 {
@@ -18,4 +18,10 @@ public interface IVolunteersRepository
     Task<Result<Volunteer, Error>> GetByIdAsync(
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default);
+
+    Task AddAsync(
+        Volunteer volunteer,
+        CancellationToken cancellationToken = default);
+
+    void Delete(Volunteer volunteer);
 }

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -12,8 +12,8 @@ namespace KindPaws.Application.Volunteers.PetsHandlers.UpdateAdditionalInfo;
 
 public class UpdatePetAdditionalInfoHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
@@ -22,12 +22,12 @@ public class UpdatePetAdditionalInfoHandler
         ILogger<UpdatePetAdditionalInfoHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<UpdatePetAdditionalInfoCommand> validator,
-        IUnitOfWork dbContext)
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -125,7 +125,7 @@ public class UpdatePetAdditionalInfoHandler
             age,
             healthDetails,
             biometricDetails);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("PET updated additional info with ID: {petId}; " +
                                "Properties: {supportStatus}, {description}, {color}, {age}, {healthDetails}, " +

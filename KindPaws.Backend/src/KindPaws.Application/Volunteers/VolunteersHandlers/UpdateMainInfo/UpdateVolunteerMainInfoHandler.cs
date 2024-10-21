@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Abstractions.DataBase;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Volunteers.VolunteersHandlers.Create;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -12,8 +12,8 @@ namespace KindPaws.Application.Volunteers.VolunteersHandlers.UpdateMainInfo;
 
 public class UpdateVolunteerMainInfoHandler
 {
-    private readonly IUnitOfWork _dbContext;
     private readonly ILogger<CreateVolunteerHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerMainInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
@@ -21,12 +21,12 @@ public class UpdateVolunteerMainInfoHandler
         IVolunteersRepository volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
         IValidator<UpdateVolunteerMainInfoCommand> validator,
-        IUnitOfWork dbContext)
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -52,7 +52,7 @@ public class UpdateVolunteerMainInfoHandler
         var phoneNumber = PhoneNumber.Create(command.PhoneNumber).Value;
 
         volunteerResult.Value.UpdateMainInfo(fullName, emailAddress, phoneNumber);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation
         ("VOLUNTEER updated main info with ID: {VolunteerId}; " +
