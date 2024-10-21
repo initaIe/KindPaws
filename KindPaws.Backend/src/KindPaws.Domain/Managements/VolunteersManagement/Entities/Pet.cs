@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+﻿using System.Runtime.InteropServices.JavaScript;
+using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
@@ -8,8 +9,8 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 
 public class Pet : Entity<PetId>, ISoftDeleteable
 {
-    private bool _isDeleted;
     private readonly List<PetPhoto> _photos;
+    private bool _isDeleted;
 
     // ef core
     private Pet(PetId id) : base(id)
@@ -51,6 +52,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     public HealthDetails HealthDetails { get; private set; }
     public BiometricDetails BiometricDetails { get; private set; }
     public IReadOnlyList<PetPhoto> Photos => _photos;
+    public Position Position { get; private set; }
 
     public void Delete()
     {
@@ -60,6 +62,33 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     public void Restore()
     {
         _isDeleted = false;
+    }
+
+    public void SetPosition(Position position)
+    {
+        Position = position;
+    }
+    
+    public Result<Error> DecreasePosition()
+    {
+        var decreasedNumber = Position.Value - Position.ChangeUnit;
+        var decreasePosition = Position.Create(decreasedNumber);
+        if (decreasePosition.IsFailure)
+            return decreasePosition.Error;
+        
+        Position = decreasePosition.Value;
+        return true;
+    }
+    
+    public Result<Error> IncreasePosition()
+    {
+        var increasedNumber = Position.Value + Position.ChangeUnit;
+        var increasePosition = Position.Create(increasedNumber);
+        if (increasePosition.IsFailure)
+            return increasePosition.Error;
+        
+        Position = increasePosition.Value;
+        return true;
     }
 
     public void UpdateMainInfo(

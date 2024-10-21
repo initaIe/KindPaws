@@ -53,7 +53,7 @@ public class MinioProvider : IFileProvider
             .Select(s => FilePath.Create(s).Value).ToList();
 
         _logger.LogInformation("MINIO success uploaded files; File names: {fileNames}",
-            results.Select(f=>f.Value));
+            results.Select(f => f.Value));
 
         return results;
     }

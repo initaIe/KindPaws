@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241018145848_Init")]
+    [Migration("20241021090915_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -266,6 +266,15 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<Guid>("SpecieId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("specie_id");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("SerialNumber", "KindPaws.Domain.Managements.VolunteersManagement.Entities.Pet.SerialNumber#SerialNumber", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer")
+                                .HasColumnName("serial_number");
                         });
 
                     b.HasKey("Id")

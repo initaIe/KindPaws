@@ -24,7 +24,7 @@ public class Breed : Entity<BreedId>, ISoftDeleteable
         Description = description;
     }
 
-    public ShortName Name { get; private set; }
+    public ShortName Name { get; private set; } // TODO: create new VO for breed name with alphabetic with white spaces
     public MediumDescription Description { get; private set; }
 
     public void Delete()

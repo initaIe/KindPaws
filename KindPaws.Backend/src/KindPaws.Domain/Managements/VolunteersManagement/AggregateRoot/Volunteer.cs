@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Entities;
+﻿using System.Runtime.InteropServices.JavaScript;
+using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -100,9 +101,73 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
         _requisites = requisites?.ToList() ?? [];
     }
 
-    public void AddPet(Pet pet)
+    public Result<Error> AddPet(Pet pet)
     {
+        var petNumber = _pets.Count + 1;
+
+        var positionResult = Position.Create(petNumber);
+        if (positionResult.IsFailure)
+            return positionResult.Error; // TODO: throw exception mb?
+
+        pet.SetPosition(positionResult.Value);
+
         _pets.Add(pet);
+        return true;
+    }
+
+    public Result<Error> DeletePet(Pet pet)
+    {
+        _pets.Remove(pet);
+
+        var petsToDecreasePosition
+            = _pets.Where(p => p.Position.Value > pet.Position.Value);
+
+        foreach (var petToDecreasePosition in petsToDecreasePosition)
+        {
+            var decreasePostionResult = petToDecreasePosition.DecreasePosition();
+            if (decreasePostionResult.IsFailure)
+                return decreasePostionResult.Error;
+        }
+
+        return true;
+    }
+
+   public Result<Error> MovePet(Pet pet, Position position)
+    {
+        if (pet.Position.Value == position.Value)
+            return true;
+
+        var isIncrease = pet.Position.Value < position.Value;
+
+        if (isIncrease)
+        {
+            var petsToDecreasePosition = _pets.Where(p =>
+                p.Position.Value > pet.Position.Value
+                && p.Position.Value <= position.Value);
+
+            foreach (var petToDecreasePosition in petsToDecreasePosition)
+            {
+                var decreasePositionResult = petToDecreasePosition.DecreasePosition();
+                if (decreasePositionResult.IsFailure)
+                    return decreasePositionResult.Error;
+            }
+        }
+        else
+        {
+            var petsToIncreasePosition = _pets.Where(p =>
+                p.Position.Value < pet.Position.Value
+                && p.Position.Value >= position.Value);
+
+            foreach (var petToIncreasePosition in petsToIncreasePosition)
+            {
+                var increasePositionResult = petToIncreasePosition.IncreasePosition();
+                if (increasePositionResult.IsFailure)
+                    return increasePositionResult.Error;
+            }
+        }
+
+        pet.SetPosition(position);
+        return true;
     }
 
     public Result<Pet, Error> GetPetById(PetId petId)

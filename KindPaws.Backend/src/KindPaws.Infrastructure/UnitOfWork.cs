@@ -1,15 +1,14 @@
 ﻿using System.Data;
 using KindPaws.Application.Abstractions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace KindPaws.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public UnitOfWork(DbContext dbContext)
+    public UnitOfWork(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }

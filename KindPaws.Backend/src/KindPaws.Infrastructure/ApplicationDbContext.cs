@@ -14,6 +14,7 @@ public class ApplicationDbContext(
     : DbContext
 {
     private const string Postgres = nameof(Postgres);
+
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
     public DbSet<Specie> Species => Set<Specie>();
 

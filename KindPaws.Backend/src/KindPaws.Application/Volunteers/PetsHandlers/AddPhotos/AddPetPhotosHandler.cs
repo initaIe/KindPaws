@@ -13,7 +13,7 @@ namespace KindPaws.Application.Volunteers.PetsHandlers.AddPhotos;
 public class AddPetPhotosHandler
 {
     private const string BucketName = "pet-photos";
-    
+
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
@@ -75,12 +75,12 @@ public class AddPetPhotosHandler
 
         petResult.Value.AddPhotos(petPhotos);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         _logger.LogInformation("PET added photos with ID: {petId}; " +
                                "Photo names: {photoName} " +
                                "Owner ID : {volunteerId}",
             petId.Value,
-            uploadFilePathsResult.Value.Select(f=>f.Value),
+            uploadFilePathsResult.Value.Select(f => f.Value),
             volunteerId.Value);
 
         return petId.Value;

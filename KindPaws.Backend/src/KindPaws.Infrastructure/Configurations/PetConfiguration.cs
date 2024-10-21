@@ -107,6 +107,14 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .MapJsonb()
             .IsRequired();
 
+        // POSITION
+        builder.ComplexProperty(p => p.Position, pb =>
+        {
+            pb.Property(p => p.Value)
+                .HasColumnName("position")
+                .IsRequired();
+        });
+
         // SOFT DELETE
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
