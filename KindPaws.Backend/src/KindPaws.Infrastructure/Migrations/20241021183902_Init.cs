@@ -86,7 +86,7 @@ namespace KindPaws.Infrastructure.Migrations
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     breed_guid = table.Column<Guid>(type: "uuid", nullable: false),
                     specie_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    serial_number = table.Column<int>(type: "integer", nullable: false)
+                    position = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

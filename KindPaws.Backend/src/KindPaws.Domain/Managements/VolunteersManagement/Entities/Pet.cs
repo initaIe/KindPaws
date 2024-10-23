@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
@@ -64,33 +63,6 @@ public class Pet : Entity<PetId>, ISoftDeleteable
         _isDeleted = false;
     }
 
-    public void SetPosition(Position position)
-    {
-        Position = position;
-    }
-    
-    public Result<Error> DecreasePosition()
-    {
-        var decreasedNumber = Position.Value - Position.ChangeUnit;
-        var decreasePosition = Position.Create(decreasedNumber);
-        if (decreasePosition.IsFailure)
-            return decreasePosition.Error;
-        
-        Position = decreasePosition.Value;
-        return true;
-    }
-    
-    public Result<Error> IncreasePosition()
-    {
-        var increasedNumber = Position.Value + Position.ChangeUnit;
-        var increasePosition = Position.Create(increasedNumber);
-        if (increasePosition.IsFailure)
-            return increasePosition.Error;
-        
-        Position = increasePosition.Value;
-        return true;
-    }
-
     public void UpdateMainInfo(
         PetType petType,
         ShortName name)
@@ -118,5 +90,30 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     public void AddPhotos(IEnumerable<PetPhoto> photos)
     {
         _photos.AddRange(photos.ToList());
+    }
+
+    public void SetPosition(Position position)
+    {
+        Position = position;
+    }
+
+    public Result<Error> IncreasePosition()
+    {
+        var increasedPositionResult = Position.GetIncreased();
+        if (increasedPositionResult.IsFailure)
+            return increasedPositionResult.Error;
+
+        SetPosition(increasedPositionResult.Value);
+        return true;
+    }
+
+    public Result<Error> DecreasePosition()
+    {
+        var decreasedPositionResult = Position.GetDecreased();
+        if (decreasedPositionResult.IsFailure)
+            return decreasedPositionResult.Error;
+
+        SetPosition(decreasedPositionResult.Value);
+        return true;
     }
 }

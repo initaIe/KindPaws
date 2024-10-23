@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using KindPaws.Domain.Managements.VolunteersManagement.Entities;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
@@ -101,11 +100,12 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
         _requisites = requisites?.ToList() ?? [];
     }
 
+    // TODO: refactor position methods
     public Result<Error> AddPet(Pet pet)
     {
-        var petNumber = _pets.Count + 1;
+        var lastPositionNumber = _pets.Count + Position.ChangeUnit;
 
-        var positionResult = Position.Create(petNumber);
+        var positionResult = Position.Create(lastPositionNumber);
         if (positionResult.IsFailure)
             return positionResult.Error; // TODO: throw exception mb?
 
@@ -124,18 +124,24 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 
         foreach (var petToDecreasePosition in petsToDecreasePosition)
         {
-            var decreasePostionResult = petToDecreasePosition.DecreasePosition();
-            if (decreasePostionResult.IsFailure)
-                return decreasePostionResult.Error;
+            var decreasePositionResult = petToDecreasePosition.DecreasePosition();
+            if (decreasePositionResult.IsFailure)
+                return decreasePositionResult.Error;
         }
 
         return true;
     }
 
-   public Result<Error> MovePet(Pet pet, Position position)
+    public Result<Error> MovePet(Pet pet, Position position)
     {
-        if (pet.Position.Value == position.Value)
+        if (pet.Position.Value == position.Value || _pets.Count == 1)
             return true;
+
+        var lastPosition = Position.Create(_pets.Count);
+        if (lastPosition.IsFailure)
+            return lastPosition.Error;
+
+        if (position.Value > lastPosition.Value.Value) position = lastPosition.Value;
 
         var isIncrease = pet.Position.Value < position.Value;
 

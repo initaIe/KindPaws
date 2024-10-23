@@ -26,7 +26,6 @@ public class ErrorList : IEnumerable<Error>
         return new ErrorList(errors);
     }
 
-
     public static implicit operator ErrorList(Error error)
     {
         return new ErrorList([error]);

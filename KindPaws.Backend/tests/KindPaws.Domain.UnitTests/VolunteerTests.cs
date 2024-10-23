@@ -1,354 +1,448 @@
 using FluentAssertions;
-using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
-using KindPaws.Domain.Managements.VolunteersManagement.Entities;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
-using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
-using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.UnitTests;
 
 public class VolunteerTests
 {
     [Fact]
-    public void AddPet_FirstAttempt_ShouldReturnSuccessResult()
+    public void AddPet_WhenVolunteerHaveNoPets_ShouldSetFirstPositionForAddedPet()
     {
         // ARRANGE
-        var volunteerId = VolunteerId.CreateRandom();
-        var fullName = FullName.Create("Sergei", "Bagaev", "Alekseevich").Value;
-        var emailAddress = EmailAddress.Create("zxc@zxc.zcx").Value;
-        var phoneNumber = PhoneNumber.Create("89519533803").Value;
-
-        var volunteer = new Volunteer(
-            volunteerId,
-            null,
-            null,
-            fullName,
-            emailAddress,
-            phoneNumber,
-            null,
-            null,
-            null);
-
-        var petId = PetId.CreateRandom();
-        var specieId = SpecieId.CreateRandom();
-        var petType = new PetType(specieId, Guid.NewGuid());
-        var petName = ShortName.Create("Bobik").Value;
-
-        var pet = new Pet(
-            petId,
-            petType,
-            petName,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
-
-        // ACT
-        var result = volunteer.AddPet(pet);
-
-        // ASSERT
-        var addedPetResult = volunteer.GetPetById(petId);
-        int firstPetPositionNumber = 1;
-        var firstPetPosition = Position.Create(firstPetPositionNumber).Value;
-
-        result.IsSuccess
-            .Should()
-            .BeTrue();
-
-        result.IsFailure
-            .Should()
-            .BeFalse();
-
-        addedPetResult.Value.Id
-            .Should()
-            .Be(petId);
-
-        addedPetResult.Value.Position
-            .Should()
-            .Be(firstPetPosition);
-    }
-
-    [Fact]
-    public void AddPet_WithOtherPets_ShouldReturnSuccessResult()
-    {
-        // ARRANGE
-        const int petFirstNumber = 1;
-        const int petCount = 5;
-
-        var volunteerId = VolunteerId.CreateRandom();
-        var fullName = FullName.Create("Sergei", "Bagaev", "Alekseevich").Value;
-        var emailAddress = EmailAddress.Create("zxc@zxc.zcx").Value;
-        var phoneNumber = PhoneNumber.Create("89519533803").Value;
-
-        var volunteer = new Volunteer(
-            volunteerId,
-            null,
-            null,
-            fullName,
-            emailAddress,
-            phoneNumber,
-            null,
-            null,
-            null);
-
-        var pets = Enumerable.Range(petFirstNumber, petCount)
-            .Select(_ => new Pet(
-                PetId.CreateRandom(),
-                new PetType(SpecieId.CreateRandom(), Guid.NewGuid()),
-                ShortName.Create("Bobik").Value,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null));
-
-        foreach (var pet in pets)
-            volunteer.AddPet(pet);
-
-        var petToAddId = PetId.CreateRandom();
-
-        var petToAdd = new Pet(
-            petToAddId,
-            new PetType(SpecieId.CreateRandom(), Guid.NewGuid()),
-            ShortName.Create("Bobik").Value,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
-
-        var petsCount = volunteer.Pets.Count;
+        var volunteer = Helpers.CreateVolunteer();
+        var petToAdd = Helpers.CreatePet();
+        var petsCountBeforeAddAction = volunteer.Pets.Count;
 
         // ACT
         var result = volunteer.AddPet(petToAdd);
 
         // ASSERT
-        var addedPetResult = volunteer.GetPetById(petToAddId);
-        var addedPetPositionNumber = petsCount + Position.ChangeUnit;
-        var addedPetPosition = Position.Create(addedPetPositionNumber).Value;
+        var getAddedPetResult = volunteer.GetPetById(petToAdd.Id);
+        var addedPetShouldHavePositionNumber = petsCountBeforeAddAction + Position.ChangeUnit;
+        var addedPetShouldHavePosition = Position.Create(addedPetShouldHavePositionNumber).Value;
 
         result.IsSuccess
             .Should()
             .BeTrue();
 
-        result.IsFailure
+        getAddedPetResult.Value.Id
             .Should()
-            .BeFalse();
+            .Be(petToAdd.Id);
 
-        addedPetResult.Value.Id.Should()
-            .Be(petToAddId);
-
-        addedPetResult.Value.Position
+        getAddedPetResult.Value.Position
             .Should()
-            .Be(addedPetPosition);
+            .Be(addedPetShouldHavePosition);
     }
 
     [Fact]
-    public void DeletePet_WithOtherPets_ShouldReturnSuccessResult()
+    public void AddPet_WhenVolunteerHaveFivePets_ShouldSetSixPositionForAddedPet()
     {
         // ARRANGE
+        const int petCount = 5;
+
+        var volunteer = Helpers.CreateVolunteer();
+        var petsToAdd = Helpers.CreatePets(petCount);
+
+        foreach (var pet in petsToAdd)
+            volunteer.AddPet(pet);
+
+        var petToAddAfterOthers = Helpers.CreatePet();
+        var petsCountBeforeAddLastPet = volunteer.Pets.Count;
+
+        // ACT
+        var result = volunteer.AddPet(petToAddAfterOthers);
+
+        // ASSERT
+        var getAddedPetResult = volunteer.GetPetById(petToAddAfterOthers.Id);
+        var addedPetShouldHavePositionNumber = petsCountBeforeAddLastPet + Position.ChangeUnit;
+        var addedPetShouldHavePosition = Position.Create(addedPetShouldHavePositionNumber).Value;
+
+        result.IsSuccess
+            .Should()
+            .BeTrue();
+
+        getAddedPetResult.Value.Id.Should()
+            .Be(petToAddAfterOthers.Id);
+
+        getAddedPetResult.Value.Position
+            .Should()
+            .Be(addedPetShouldHavePosition);
+    }
+
+    [Fact]
+    public void DeletePet_WhenVolunteerHaveTenPets_ShouldDecreasePetsPositionWhoHadLargerPositionThanDeletedPet()
+    {
+        // ARRANGE
+        const int petNumberToDelete = 5;
         const int petCount = 10;
-        const int delPetNumber = 5;
 
-        var volunteerId = VolunteerId.CreateRandom();
-        var fullName = FullName.Create("Sergei", "Bagaev", "Alekseevich").Value;
-        var emailAddress = EmailAddress.Create("zxc@zxc.zcx").Value;
-        var phoneNumber = PhoneNumber.Create("89519533803").Value;
-
-        var volunteer = new Volunteer(
-            volunteerId,
-            null,
-            null,
-            fullName,
-            emailAddress,
-            phoneNumber,
-            null,
-            null,
-            null);
-
-        var pets = Enumerable.Range(1, petCount)
-            .Select(_ => new Pet(
-                PetId.CreateRandom(),
-                new PetType(SpecieId.CreateRandom(), Guid.NewGuid()),
-                ShortName.Create("Bobik").Value,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null)).ToList();
+        var volunteer = Helpers.CreateVolunteer();
+        var pets = Helpers.CreatePets(petCount);
 
         foreach (var pet in pets)
             volunteer.AddPet(pet);
 
-        var petIdToDelete = pets.ElementAt(delPetNumber).Id;
-        
+        var petIdToDelete = pets.ElementAt(petNumberToDelete).Id;
         var petToDelete = volunteer.GetPetById(petIdToDelete).Value;
 
         // ACT
         var result = volunteer.DeletePet(petToDelete);
 
         // ASSERT
-        var petExist = volunteer.GetPetById(petIdToDelete);
-        var lastPosition = Position.Create(volunteer.Pets[^1].Position.Value);
-        
+        var getAddedPetResult = volunteer.GetPetById(petIdToDelete);
+        var addedPetShouldHavePositionNumber = volunteer.Pets[^1].Position.Value;
+        var addedPetShouldHavePosition = Position.Create(addedPetShouldHavePositionNumber).Value;
+
         result.IsSuccess
             .Should()
             .BeTrue();
 
-        result.IsFailure
-            .Should()
-            .BeFalse();
-
-        petExist.IsFailure
+        getAddedPetResult.IsFailure
             .Should()
             .BeTrue();
-        
+
         volunteer.Pets[^1].Position
             .Should()
-            .Be(lastPosition.Value);
+            .Be(addedPetShouldHavePosition);
     }
-    
+
     [Fact]
-    public void MoveUpPet_WithOtherPets_ShouldReturnSuccessResult()
+    public void MovePet_WhenVolunteerHaveTenPets_PetsShouldHavePositionsFromOneToTen()
     {
         // ARRANGE
         const int petCount = 10;
-        const int movePetNumber = 2;
-        const int moveToNumber = 7;
 
-        var volunteerId = VolunteerId.CreateRandom();
-        var fullName = FullName.Create("Sergei", "Bagaev", "Alekseevich").Value;
-        var emailAddress = EmailAddress.Create("zxc@zxc.zcx").Value;
-        var phoneNumber = PhoneNumber.Create("89519533803").Value;
-
-        var volunteer = new Volunteer(
-            volunteerId,
-            null,
-            null,
-            fullName,
-            emailAddress,
-            phoneNumber,
-            null,
-            null,
-            null);
-
-        var pets = Enumerable.Range(1, petCount)
-            .Select(_ => new Pet(
-                PetId.CreateRandom(),
-                new PetType(SpecieId.CreateRandom(), Guid.NewGuid()),
-                ShortName.Create("Bobik").Value,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null)).ToList();
+        var volunteer = Helpers.CreateVolunteer();
+        var pets = Helpers.CreatePets(petCount);
 
         foreach (var pet in pets)
             volunteer.AddPet(pet);
 
-        var petIdToMove = pets.ElementAt(movePetNumber).Id;
-        
-        var petToMove = volunteer.GetPetById(petIdToMove).Value;
-
-        var newPositionForMove = Position.Create(moveToNumber).Value;
-        
-
         // ACT
-        var result = volunteer.MovePet(petToMove, newPositionForMove);
+        List<Result<Error>> results = [];
+        foreach (var petToMove in volunteer.Pets)
+        {
+            var rnd = new Random();
+            var pet = volunteer.GetPetById(petToMove.Id).Value;
+            var newRandomPosition = Position.Create(rnd.Next(1, petCount)).Value;
+            results.Add(volunteer.MovePet(pet, newRandomPosition));
+        }
 
         // ASSERT
-        var positionsAfterMove = volunteer.Pets.Select(p=>p.Position.Value).ToList();
-        var mustPositionsAfterMove = Enumerable.Range(1, petCount).ToList();
-        
+        var positionsAfterMove = volunteer.Pets.Select(p => p.Position.Value).ToList();
+        var positionsShouldAfterMove = Enumerable.Range(1, petCount).ToList();
+        var shouldResults = Enumerable.Repeat(Result<Error>.Success(), petCount).ToList();
+
+        results.Select(r => r.IsSuccess)
+            .Should()
+            .BeEquivalentTo(shouldResults.Select(s => s.IsSuccess));
+
+        positionsAfterMove
+            .Should()
+            .BeEquivalentTo(positionsShouldAfterMove);
+    }
+
+    [Fact]
+    public void MovePet_WhenVolunteerHavePetsAndMoveablePetIncreasePosition_ShouldMoveCorrectly()
+    {
+        // ARRANGE
+        const int currentPetPositionNumberToMove = 3;
+        const int currentPetIndexToMove = currentPetPositionNumberToMove - 1;
+        const int targetPetPositionNumberToMove = 7;
+        const int petCount = 10;
+
+        var volunteer = Helpers.CreateVolunteer();
+        var petsToAdd = Helpers.CreatePets(petCount);
+
+        foreach (var pet in petsToAdd)
+            volunteer.AddPet(pet);
+
+        var firstPet = volunteer.Pets.ElementAt(0);
+        var secondPet = volunteer.Pets.ElementAt(1);
+        var fourthPet = volunteer.Pets.ElementAt(3);
+        var fivePet = volunteer.Pets.ElementAt(4);
+        var sixPet = volunteer.Pets.ElementAt(5);
+        var sevenPet = volunteer.Pets.ElementAt(6);
+        var elevenPet = volunteer.Pets.ElementAt(7);
+        var ninePet = volunteer.Pets.ElementAt(8);
+        var tenPet = volunteer.Pets.ElementAt(9);
+
+        var petToMove = volunteer.Pets.ElementAt(currentPetIndexToMove);
+        var positionToMove = Position.Create(targetPetPositionNumberToMove).Value;
+
+        // ACT
+        var result = volunteer.MovePet(petToMove, positionToMove);
+
+        // ASSERT
+        var getAddedPetResult = volunteer.GetPetById(petToMove.Id);
+
         result.IsSuccess
             .Should()
             .BeTrue();
 
-        result.IsFailure
+        firstPet.Position
             .Should()
-            .BeFalse();
+            .Be(Position.Create(1).Value);
 
-        positionsAfterMove
+        secondPet.Position
             .Should()
-            .BeEquivalentTo(mustPositionsAfterMove);
+            .Be(Position.Create(2).Value);
+
+        getAddedPetResult.Value.Position
+            .Should()
+            .Be(positionToMove); // was 3 pos, should be 7 
+
+        fourthPet.Position
+            .Should()
+            .Be(Position.Create(3).Value);
+
+        fivePet.Position
+            .Should()
+            .Be(Position.Create(4).Value);
+
+        sixPet.Position
+            .Should()
+            .Be(Position.Create(5).Value);
+
+        sevenPet.Position
+            .Should()
+            .Be(Position.Create(6).Value);
+
+        elevenPet.Position
+            .Should()
+            .Be(Position.Create(8).Value);
+
+        ninePet.Position
+            .Should()
+            .Be(Position.Create(9).Value);
+
+        tenPet.Position
+            .Should()
+            .Be(Position.Create(10).Value);
     }
     
     [Fact]
-    public void MoveDownPet_WithOtherPets_ShouldReturnSuccessResult()
+    public void MovePet_WhenVolunteerHavePetsAndMoveablePetDecreasePosition_ShouldMoveCorrectly()
     {
         // ARRANGE
+        const int currentPetPositionNumberToMove = 7;
+        const int currentPetIndexToMove = currentPetPositionNumberToMove - 1;
+        const int targetPetPositionNumberToMove = 3;
         const int petCount = 10;
-        const int movePetNumber = 7;
-        const int moveToNumber = 2;
 
-        var volunteerId = VolunteerId.CreateRandom();
-        var fullName = FullName.Create("Sergei", "Bagaev", "Alekseevich").Value;
-        var emailAddress = EmailAddress.Create("zxc@zxc.zcx").Value;
-        var phoneNumber = PhoneNumber.Create("89519533803").Value;
+        var volunteer = Helpers.CreateVolunteer();
+        var petsToAdd = Helpers.CreatePets(petCount);
 
-        var volunteer = new Volunteer(
-            volunteerId,
-            null,
-            null,
-            fullName,
-            emailAddress,
-            phoneNumber,
-            null,
-            null,
-            null);
-
-        var pets = Enumerable.Range(1, petCount)
-            .Select(_ => new Pet(
-                PetId.CreateRandom(),
-                new PetType(SpecieId.CreateRandom(), Guid.NewGuid()),
-                ShortName.Create("Bobik").Value,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null)).ToList();
-
-        foreach (var pet in pets)
+        foreach (var pet in petsToAdd)
             volunteer.AddPet(pet);
 
-        var petIdToMove = pets.ElementAt(movePetNumber).Id;
-        
-        var petToMove = volunteer.GetPetById(petIdToMove).Value;
+        var firstPet = volunteer.Pets.ElementAt(0);
+        var secondPet = volunteer.Pets.ElementAt(1);
+        var threePet = volunteer.Pets.ElementAt(2);
+        var fourthPet = volunteer.Pets.ElementAt(3);
+        var fivePet = volunteer.Pets.ElementAt(4);
+        var sixPet = volunteer.Pets.ElementAt(5);
+        var eightPet = volunteer.Pets.ElementAt(7);
+        var ninePet = volunteer.Pets.ElementAt(8);
+        var tenPet = volunteer.Pets.ElementAt(9);
 
-        var newPositionForMove = Position.Create(moveToNumber).Value;
-        
+        var petToMove = volunteer.Pets.ElementAt(currentPetIndexToMove);
+        var positionToMove = Position.Create(targetPetPositionNumberToMove).Value;
 
         // ACT
-        var result = volunteer.MovePet(petToMove, newPositionForMove);
+        var result = volunteer.MovePet(petToMove, positionToMove);
 
         // ASSERT
-        var positionsAfterMove = volunteer.Pets.Select(p=>p.Position.Value).ToList();
-        var mustPositionsAfterMove = Enumerable.Range(1, petCount).ToList();
-        
+        var getAddedPetResult = volunteer.GetPetById(petToMove.Id);
+
         result.IsSuccess
             .Should()
             .BeTrue();
 
-        result.IsFailure
+        firstPet.Position
             .Should()
-            .BeFalse();
+            .Be(Position.Create(1).Value);
 
-        positionsAfterMove
+        secondPet.Position
             .Should()
-            .BeEquivalentTo(mustPositionsAfterMove);
+            .Be(Position.Create(2).Value);
+
+        getAddedPetResult.Value.Position
+            .Should()
+            .Be(positionToMove);
+
+        threePet.Position
+            .Should()
+            .Be(Position.Create(4).Value);
+
+        fourthPet.Position
+            .Should()
+            .Be(Position.Create(5).Value);
+
+        fivePet.Position
+            .Should()
+            .Be(Position.Create(6).Value);
+
+        sixPet.Position
+            .Should()
+            .Be(Position.Create(7).Value);
+
+        eightPet.Position
+            .Should()
+            .Be(Position.Create(8).Value);
+
+        ninePet.Position
+            .Should()
+            .Be(Position.Create(9).Value);
+
+        tenPet.Position
+            .Should()
+            .Be(Position.Create(10).Value);
+    }
+
+    [Fact]
+    public void MovePet_WhenNewPositionIsCurrentPosition_ShouldNotMove()
+    {
+        // ARRANGE
+        const int currentPetPositionNumberToMove = 7;
+        const int currentPetIndexToMove = currentPetPositionNumberToMove - 1;
+        const int targetPetPositionNumberToMove = 7;
+        const int petCount = 10;
+
+        var volunteer = Helpers.CreateVolunteer();
+        var petsToAdd = Helpers.CreatePets(petCount);
+
+        foreach (var pet in petsToAdd)
+            volunteer.AddPet(pet);
+
+        var petToMove = volunteer.Pets.ElementAt(currentPetIndexToMove);
+        var positionToMove = Position.Create(targetPetPositionNumberToMove).Value;
+
+        // ACT
+        var result = volunteer.MovePet(petToMove, positionToMove);
+
+        // ASSERT
+        var getAddedPetResult = volunteer.GetPetById(petToMove.Id);
+
+        result.IsSuccess
+            .Should()
+            .BeTrue();
+
+        getAddedPetResult.Value.Position
+            .Should()
+            .Be(positionToMove);
+    }
+
+    [Fact]
+    public void MovePet_WhenVolunteerHaveOnlyOnePet_ShouldNotMove()
+    {
+        // ARRANGE
+        const int petPositionNumberToMove = 5;
+
+        var volunteer = Helpers.CreateVolunteer();
+        var pet = Helpers.CreatePet();
+
+        volunteer.AddPet(pet);
+
+        var oldPosition = volunteer.Pets.First().Position;
+
+        var positionToMove = Position.Create(petPositionNumberToMove).Value;
+
+        // ACT
+        var result = volunteer.MovePet(pet, positionToMove);
+
+        // ASSERT
+        var getAddedPetResult = volunteer.GetPetById(pet.Id);
+
+        result.IsSuccess
+            .Should()
+            .BeTrue();
+
+        getAddedPetResult.Value.Position
+            .Should()
+            .Be(oldPosition);
+    }
+
+    [Fact]
+    public void 
+        MovePet_WhenVolunteerHavePetsAndMoveablePetIncreasePositionIsGreaterThanCountOfPets_ShouldMoveToLastPosition()
+    {
+        // ARRANGE
+        const int currentPetPositionNumberToMove = 3;
+        const int currentPetIndexToMove = currentPetPositionNumberToMove - 1;
+        const int targetPetPositionNumberToMove = 15;
+        const int petCount = 10;
+
+        var volunteer = Helpers.CreateVolunteer();
+        var petsToAdd = Helpers.CreatePets(petCount);
+
+        foreach (var pet in petsToAdd)
+            volunteer.AddPet(pet);
+
+        var firstPet = volunteer.Pets.ElementAt(0);
+        var secondPet = volunteer.Pets.ElementAt(1);
+        var fourthPet = volunteer.Pets.ElementAt(3);
+        var fivePet = volunteer.Pets.ElementAt(4);
+        var sixPet = volunteer.Pets.ElementAt(5);
+        var sevenPet = volunteer.Pets.ElementAt(6);
+        var elevenPet = volunteer.Pets.ElementAt(7);
+        var ninePet = volunteer.Pets.ElementAt(8);
+        var tenPet = volunteer.Pets.ElementAt(9);
+
+        var petToMove = volunteer.Pets.ElementAt(currentPetIndexToMove);
+        var positionToMove = Position.Create(targetPetPositionNumberToMove).Value;
+        var shouldPetPosition = Position.Create(petCount).Value;
+        
+
+        // ACT
+        var result = volunteer.MovePet(petToMove, positionToMove);
+
+        // ASSERT
+        var getAddedPetResult = volunteer.GetPetById(petToMove.Id);
+
+        result.IsSuccess
+            .Should()
+            .BeTrue();
+
+        firstPet.Position
+            .Should()
+            .Be(Position.Create(1).Value);
+
+        secondPet.Position
+            .Should()
+            .Be(Position.Create(2).Value);
+
+        getAddedPetResult.Value.Position
+            .Should()
+            .Be(shouldPetPosition); // was 3 pos, should be 10
+
+        fourthPet.Position
+            .Should()
+            .Be(Position.Create(3).Value);
+
+        fivePet.Position
+            .Should()
+            .Be(Position.Create(4).Value);
+
+        sixPet.Position
+            .Should()
+            .Be(Position.Create(5).Value);
+
+        sevenPet.Position
+            .Should()
+            .Be(Position.Create(6).Value);
+
+        elevenPet.Position
+            .Should()
+            .Be(Position.Create(7).Value);
+
+        ninePet.Position
+            .Should()
+            .Be(Position.Create(8).Value);
+
+        tenPet.Position
+            .Should()
+            .Be(Position.Create(9).Value);
     }
 }
