@@ -9,7 +9,6 @@ namespace KindPaws.Infrastructure.BackgroundServices;
 public class FilesCleanerBackgroundService : BackgroundService
 {
     private readonly ILogger<FilesCleanerBackgroundService> _logger;
-    private readonly IMessageQueue<IEnumerable<DeleteFileData>> _messageQueue;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public FilesCleanerBackgroundService(
@@ -18,7 +17,6 @@ public class FilesCleanerBackgroundService : BackgroundService
         IServiceScopeFactory serviceScopeFactory)
     {
         _logger = logger;
-        _messageQueue = messageQueue;
         _serviceScopeFactory = serviceScopeFactory;
     }
 
@@ -27,26 +25,44 @@ public class FilesCleanerBackgroundService : BackgroundService
         _logger.LogInformation("FilesCleanerBackgroundService is starting.");
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
-        _logger.LogInformation("FilesCleanerBackgroundService created scope.");
 
-        var fileProvider = scope.ServiceProvider.GetRequiredService<IFileProvider>();
-        _logger.LogInformation("FilesCleanerBackgroundService received file provider.");
+        var filesCleanerService = scope.ServiceProvider.GetRequiredService<IFilesCleanerService>();
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("FilesCleanerBackgroundService starts cleaning files minio.");
-
-            var deleteFilesData = await _messageQueue.ReadAsync(stoppingToken);
-
-            foreach (var deleteFileData in deleteFilesData)
-            {
-                await fileProvider.DeleteObjectAsync(deleteFileData, stoppingToken);
-            }
-
-            _logger.LogInformation("FilesCleanerBackgroundService finished cleaning minio.");
-            await Task.Delay(3000, stoppingToken);
+            await filesCleanerService.ProcessAsync(stoppingToken);
         }
 
         await Task.CompletedTask;
+    }
+}
+
+public class FilesCleanerService : IFilesCleanerService  // TODO: to move
+{
+    private readonly ILogger<FilesCleanerService> _logger;
+    private readonly IMessageQueue<IEnumerable<DeleteFileData>> _messageQueue;
+    private readonly IFileProvider _fileProvider;
+    
+    public FilesCleanerService(
+        IMessageQueue<IEnumerable<DeleteFileData>> messageQueue,
+        ILogger<FilesCleanerService> logger,
+        IFileProvider fileProvider)
+    {
+        _messageQueue = messageQueue;
+        _logger = logger;
+        _fileProvider = fileProvider;
+    }
+
+    public async Task ProcessAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("FilesCleanerService starts finding unnecessary files in minio.");
+        var deleteFilesData = await _messageQueue.ReadAsync(cancellationToken);
+
+        _logger.LogInformation("FilesCleanerService starts deleting unnecessary files in minio.");
+        foreach (var deleteFileData in deleteFilesData)
+        {
+            await _fileProvider.DeleteObjectAsync(deleteFileData, cancellationToken);
+        }
+        _logger.LogInformation("FilesCleanerService finished deleting unnecessary files in minio.");
     }
 }
