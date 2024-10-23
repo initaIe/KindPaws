@@ -1,112 +1,12 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
+using KindPaws.UnitTests.Shared;
 
-namespace KindPaws.Domain.UnitTests;
+namespace KindPaws.Domain.UnitTests.Volunteer.PositionFeature;
 
-public class VolunteerTests
+public class MovePetTests
 {
-    [Fact]
-    public void AddPet_WhenVolunteerHaveNoPets_ShouldSetFirstPositionForAddedPet()
-    {
-        // ARRANGE
-        var volunteer = Helpers.CreateVolunteer();
-        var petToAdd = Helpers.CreatePet();
-        var petsCountBeforeAddAction = volunteer.Pets.Count;
-
-        // ACT
-        var result = volunteer.AddPet(petToAdd);
-
-        // ASSERT
-        var getAddedPetResult = volunteer.GetPetById(petToAdd.Id);
-        var addedPetShouldHavePositionNumber = petsCountBeforeAddAction + Position.ChangeUnit;
-        var addedPetShouldHavePosition = Position.Create(addedPetShouldHavePositionNumber).Value;
-
-        result.IsSuccess
-            .Should()
-            .BeTrue();
-
-        getAddedPetResult.Value.Id
-            .Should()
-            .Be(petToAdd.Id);
-
-        getAddedPetResult.Value.Position
-            .Should()
-            .Be(addedPetShouldHavePosition);
-    }
-
-    [Fact]
-    public void AddPet_WhenVolunteerHaveFivePets_ShouldSetSixPositionForAddedPet()
-    {
-        // ARRANGE
-        const int petCount = 5;
-
-        var volunteer = Helpers.CreateVolunteer();
-        var petsToAdd = Helpers.CreatePets(petCount);
-
-        foreach (var pet in petsToAdd)
-            volunteer.AddPet(pet);
-
-        var petToAddAfterOthers = Helpers.CreatePet();
-        var petsCountBeforeAddLastPet = volunteer.Pets.Count;
-
-        // ACT
-        var result = volunteer.AddPet(petToAddAfterOthers);
-
-        // ASSERT
-        var getAddedPetResult = volunteer.GetPetById(petToAddAfterOthers.Id);
-        var addedPetShouldHavePositionNumber = petsCountBeforeAddLastPet + Position.ChangeUnit;
-        var addedPetShouldHavePosition = Position.Create(addedPetShouldHavePositionNumber).Value;
-
-        result.IsSuccess
-            .Should()
-            .BeTrue();
-
-        getAddedPetResult.Value.Id.Should()
-            .Be(petToAddAfterOthers.Id);
-
-        getAddedPetResult.Value.Position
-            .Should()
-            .Be(addedPetShouldHavePosition);
-    }
-
-    [Fact]
-    public void DeletePet_WhenVolunteerHaveTenPets_ShouldDecreasePetsPositionWhoHadLargerPositionThanDeletedPet()
-    {
-        // ARRANGE
-        const int petNumberToDelete = 5;
-        const int petCount = 10;
-
-        var volunteer = Helpers.CreateVolunteer();
-        var pets = Helpers.CreatePets(petCount);
-
-        foreach (var pet in pets)
-            volunteer.AddPet(pet);
-
-        var petIdToDelete = pets.ElementAt(petNumberToDelete).Id;
-        var petToDelete = volunteer.GetPetById(petIdToDelete).Value;
-
-        // ACT
-        var result = volunteer.DeletePet(petToDelete);
-
-        // ASSERT
-        var getAddedPetResult = volunteer.GetPetById(petIdToDelete);
-        var addedPetShouldHavePositionNumber = volunteer.Pets[^1].Position.Value;
-        var addedPetShouldHavePosition = Position.Create(addedPetShouldHavePositionNumber).Value;
-
-        result.IsSuccess
-            .Should()
-            .BeTrue();
-
-        getAddedPetResult.IsFailure
-            .Should()
-            .BeTrue();
-
-        volunteer.Pets[^1].Position
-            .Should()
-            .Be(addedPetShouldHavePosition);
-    }
-
     [Fact]
     public void MovePet_WhenVolunteerHaveTenPets_PetsShouldHavePositionsFromOneToTen()
     {
@@ -221,7 +121,7 @@ public class VolunteerTests
             .Should()
             .Be(Position.Create(10).Value);
     }
-    
+
     [Fact]
     public void MovePet_WhenVolunteerHavePetsAndMoveablePetDecreasePosition_ShouldMoveCorrectly()
     {
@@ -365,7 +265,7 @@ public class VolunteerTests
     }
 
     [Fact]
-    public void 
+    public void
         MovePet_WhenVolunteerHavePetsAndMoveablePetIncreasePositionIsGreaterThanCountOfPets_ShouldMoveToLastPosition()
     {
         // ARRANGE
@@ -393,7 +293,7 @@ public class VolunteerTests
         var petToMove = volunteer.Pets.ElementAt(currentPetIndexToMove);
         var positionToMove = Position.Create(targetPetPositionNumberToMove).Value;
         var shouldPetPosition = Position.Create(petCount).Value;
-        
+
 
         // ACT
         var result = volunteer.MovePet(petToMove, positionToMove);

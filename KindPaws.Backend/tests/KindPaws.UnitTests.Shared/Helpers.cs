@@ -5,7 +5,7 @@ using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Domain.UnitTests;
+namespace KindPaws.UnitTests.Shared;
 
 public class Helpers
 {

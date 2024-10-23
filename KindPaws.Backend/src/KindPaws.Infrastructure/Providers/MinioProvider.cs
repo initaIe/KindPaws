@@ -78,7 +78,7 @@ public class MinioProvider : IFileProvider
             cancellationToken);
 
         if (isObjectExistResult.IsFailure)
-            return MinioErrors.ObjectNotFound(deleteFileData.FileName, deleteFileData.BucketName);
+            return true;
 
         var removeObjectResult = await RemoveObjectAsync(
             deleteFileData.BucketName,

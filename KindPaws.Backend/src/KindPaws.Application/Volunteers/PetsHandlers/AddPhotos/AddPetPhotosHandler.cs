@@ -19,19 +19,22 @@ public class AddPetPhotosHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetPhotosCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IMessageQueue<IEnumerable<DeleteFileData>> _messageQueue;
 
     public AddPetPhotosHandler(
         ILogger<AddPetPhotosHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetPhotosCommand> validator,
         IFileProvider fileProvider,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IMessageQueue<IEnumerable<DeleteFileData>> messageQueue)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _fileProvider = fileProvider;
         _unitOfWork = unitOfWork;
+        _messageQueue = messageQueue;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -67,7 +70,13 @@ public class AddPetPhotosHandler
 
         var uploadFilePathsResult = await _fileProvider.UploadObjectsAsync(uploadFilesData, cancellationToken);
         if (uploadFilePathsResult.IsFailure)
+        {
+            var deleteFilesData 
+                = uploadFilesData.Select(u => new DeleteFileData(u.BucketName, u.FilePath.Value));
+            await _messageQueue.WriteAsync(deleteFilesData, cancellationToken);
+            
             return uploadFilePathsResult.Error;
+        }
 
         var petPhotos = uploadFilePathsResult.Value
             .Select(filePath => new Photo(filePath))

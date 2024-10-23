@@ -1,5 +1,8 @@
 ﻿using KindPaws.Application.Abstractions;
+using KindPaws.Application.DTOs.FileProvider;
+using KindPaws.Infrastructure.BackgroundServices;
 using KindPaws.Infrastructure.Interceptors;
+using KindPaws.Infrastructure.MessageQueues;
 using KindPaws.Infrastructure.Options;
 using KindPaws.Infrastructure.Providers;
 using KindPaws.Infrastructure.Repository;
@@ -21,7 +24,9 @@ public static class ServiceExtensions
             .AddInterceptors()
             .AddRepositories()
             .AddFileProviders()
-            .AddMinio(configuration);
+            .AddBackgroundServices()
+            .AddMinio(configuration)
+            .AddFilesCleanerMessageQueue();
 
         return services;
     }
@@ -82,6 +87,23 @@ public static class ServiceExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddBackgroundServices(
+        this IServiceCollection services)
+    {
+        services.AddHostedService<FilesCleanerBackgroundService>();
+
+        return services;
+    }
+    
+    private static IServiceCollection AddFilesCleanerMessageQueue(
+        this IServiceCollection services)
+    {
+        services.AddSingleton
+            <IMessageQueue<IEnumerable<DeleteFileData>>, FilesCleanerMessageQueue<IEnumerable<DeleteFileData>>>();
 
         return services;
     }
