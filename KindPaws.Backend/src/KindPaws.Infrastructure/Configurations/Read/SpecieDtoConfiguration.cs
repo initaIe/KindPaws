@@ -13,15 +13,15 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDTO>
         // ID
         builder.Property(specie => specie.Id);
 
-        // BREEDS
-        builder.HasMany(specie => specie.Breeds)
-            .WithOne()
-            .HasForeignKey("specie_id");
-
         // NAME
         builder.Property(specie => specie.Name);
 
         // DESCRIPTION
         builder.Property(specie => specie.Description);
+        
+        // BREEDS
+        builder.HasMany(specie => specie.Breeds)
+            .WithOne()
+            .HasForeignKey("specie_id");
     }
 }

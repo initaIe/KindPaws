@@ -26,7 +26,8 @@ public static class ServiceExtensions
             .AddFileProviders()
             .AddHostedServices()
             .AddMinio(configuration)
-            .AddMessageQueues();
+            .AddMessageQueues()
+            .AddServices();
 
         return services;
     }
@@ -68,7 +69,7 @@ public static class ServiceExtensions
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
     {
         services.AddScoped<WriteDbContext>();
-        services.AddScoped<ReadDbContext>();
+        services.AddScoped<IReadDbContext,ReadDbContext>();
 
         return services;
     }

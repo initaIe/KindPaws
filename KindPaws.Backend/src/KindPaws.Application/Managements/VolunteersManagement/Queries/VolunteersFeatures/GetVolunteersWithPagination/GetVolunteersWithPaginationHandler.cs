@@ -10,17 +10,17 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Queries.Voluntee
 
 public class GetVolunteersWithPaginationHandler
 {
-    private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
-    private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
+    // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
+    // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
     public GetVolunteersWithPaginationHandler(
-        ILogger<GetVolunteersWithPaginationHandler> logger,
-        IValidator<GetVolunteersWithPaginationQuery> validator,
+        // ILogger<GetVolunteersWithPaginationHandler> logger,
+        // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
     {
-        _logger = logger;
-        _validator = validator;
+        // _logger = logger;
+        // _validator = validator;
         _readDbContext = readDbContext;
     }
 
@@ -28,7 +28,9 @@ public class GetVolunteersWithPaginationHandler
         GetVolunteersWithPaginationQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteerQuery = _readDbContext.Volunteers.AsQueryable().AsNoTracking();
+        var volunteerQuery = _readDbContext.Volunteers
+            .AsQueryable()
+            .AsNoTracking();
         
         // TODO add validation, filtration, sort and logger
         

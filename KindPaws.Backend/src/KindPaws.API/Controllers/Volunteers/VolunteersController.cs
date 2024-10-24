@@ -30,7 +30,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 
     [HttpPut("{id:guid}/main-info")]

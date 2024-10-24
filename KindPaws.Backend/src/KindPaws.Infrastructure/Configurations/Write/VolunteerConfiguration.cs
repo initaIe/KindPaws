@@ -25,19 +25,19 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("id");
 
         // FULLNAME
-        builder.ComplexProperty(v => v.FullName, f =>
+        builder.ComplexProperty(v => v.FullName, fb =>
         {
-            f.Property(x => x.FirstName)
+            fb.Property(x => x.FirstName)
                 .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
                 .HasColumnName("first_name")
                 .IsRequired();
 
-            f.Property(x => x.LastName)
+            fb.Property(x => x.LastName)
                 .HasMaxLength(FullNameConstraints.MaxLastNameLength)
                 .HasColumnName("last_name")
                 .IsRequired();
 
-            f.Property(x => x.Patronymic)
+            fb.Property(x => x.Patronymic)
                 .HasMaxLength(FullNameConstraints.MaxPatronymicLength)
                 .HasColumnName("patronymic")
                 .IsRequired(false);

@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.DTOs;
+using KindPaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,16 +17,18 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         // FULLNAME
         builder.ComplexProperty(v => v.FullName, fb =>
         {
-            fb.Property(x => x.FirstName);
+            fb.Property(x => x.FirstName)
+                .HasColumnName("first_name");
 
-            fb.Property(x => x.LastName);
+            fb.Property(x => x.LastName)
+                .HasColumnName("last_name");
 
-            fb.Property(x => x.Patronymic);
+            fb.Property(x => x.Patronymic)
+                .HasColumnName("patronymic");
         });
 
         // EMAIL ADDRESS
         builder.Property(v => v.EmailAddress);
-
 
         // PHONE NUMBER
         builder.Property(v => v.PhoneNumber);
@@ -34,20 +37,19 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         builder.Property(v => v.Description);
 
         // ADDRESS
-        builder.ComplexProperty(v => v.Address, ab =>
-        {
-            ab.Property(a => a!.City);
-            ab.Property(a => a!.Street);
-        });
+        builder.Property(p => p.Address)
+            .MapJsonb();
 
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience);
 
         // SOCIAL NETWORKS
-        builder.Property(p => p.SocialNetworks);
+        builder.Property(p => p.SocialNetworks)
+            .MapJsonb();
 
         // REQUISITES
-        builder.Property(p => p.Requisites);
+        builder.Property(p => p.Requisites)
+            .MapJsonb();
 
         // PETS
         builder.HasMany(v => v.Pets)

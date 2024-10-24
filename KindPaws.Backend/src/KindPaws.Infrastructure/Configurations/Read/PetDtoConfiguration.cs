@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.DTOs;
+using KindPaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +16,9 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
 
         // PET TYPE
         builder.Property(p => p.SpecieId);
-        builder.Property(p => p.BreedId);
+        builder.Property(p => p.BreedId)
+            .HasColumnName("breed_guid");
+
 
         // NAME
         builder.Property(p => p.Name);
@@ -33,16 +36,20 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
         builder.Property(p => p.Color);
 
         // AGE
-        builder.Property(p => p.Age);
+        builder.Property(p => p.Age)
+            .HasColumnName("date_birth");
 
         // HEALTH DETAILS
-        builder.Property(p => p.HealthDetails);
+        builder.Property(p => p.HealthDetails)
+            .MapJsonb();
 
         // BIOMETRIC DETAILS
-        builder.Property(p => p.BiometricDetails);
+        builder.Property(p => p.BiometricDetails)
+            .MapJsonb();
 
         // PHOTOS DETAILS
-        builder.Property(p => p.Photos);
+        builder.Property(p => p.Photos)
+            .MapJsonb();
 
         // POSITION
         builder.Property(p => p.Position);
