@@ -9,9 +9,9 @@ namespace KindPaws.Infrastructure.Repository;
 
 public class VolunteersRepository : IVolunteersRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public VolunteersRepository(ApplicationDbContext dbContext)
+    public VolunteersRepository(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }

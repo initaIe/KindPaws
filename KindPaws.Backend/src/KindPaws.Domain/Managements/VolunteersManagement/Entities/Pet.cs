@@ -22,7 +22,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
         ShortName name,
         SupportStatus? supportStatus,
         MediumDescription? description,
-        PetColor? petColor,
+        PetColor? color,
         Age? age,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails,
@@ -34,7 +34,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
         CreationDateTime = DateTime.UtcNow; // TODO: UTC
         SupportStatus = supportStatus;
         Description = description;
-        PetColor = petColor;
+        Color = color;
         Age = age;
         HealthDetails = healthDetails ?? HealthDetails.CreateNullable();
         BiometricDetails = biometricDetails ?? BiometricDetails.CreateNullable();
@@ -46,7 +46,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     public DateTime CreationDateTime { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
     public MediumDescription? Description { get; private set; }
-    public PetColor? PetColor { get; private set; }
+    public PetColor? Color { get; private set; }
     public Age? Age { get; private set; }
     public HealthDetails HealthDetails { get; private set; }
     public BiometricDetails BiometricDetails { get; private set; }
@@ -81,7 +81,7 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     {
         SupportStatus = supportStatus;
         Description = description;
-        PetColor = petColor;
+        Color = petColor;
         Age = age;
         HealthDetails = healthDetails ?? HealthDetails.CreateNullable();
         BiometricDetails = biometricDetails ?? BiometricDetails.CreateNullable();

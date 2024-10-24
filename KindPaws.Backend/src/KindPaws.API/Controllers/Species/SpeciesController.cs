@@ -1,7 +1,8 @@
-﻿using KindPaws.API.Extensions;
+﻿using KindPaws.API.Controllers.Species.Requests;
+using KindPaws.API.Extensions;
 using KindPaws.API.Response;
-using KindPaws.Application.Species.BreedsHandlers.Add;
-using KindPaws.Application.Species.SpeciesHandlers.Create;
+using KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
+using KindPaws.Application.Managements.SpeciesManagment.Commands.SpeciesFeatures.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;
@@ -20,9 +21,7 @@ public class SpeciesController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpPost("{id:guid}/breeds")]
@@ -38,8 +37,6 @@ public class SpeciesController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 }

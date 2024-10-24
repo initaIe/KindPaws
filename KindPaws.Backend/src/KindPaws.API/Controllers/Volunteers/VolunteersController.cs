@@ -1,15 +1,17 @@
-﻿using KindPaws.API.Extensions;
+﻿using KindPaws.API.Controllers.Volunteers.Queries;
+using KindPaws.API.Controllers.Volunteers.Requests;
+using KindPaws.API.Extensions;
 using KindPaws.API.Processors;
 using KindPaws.API.Response;
-using KindPaws.Application.Volunteers.PetsHandlers.Add;
-using KindPaws.Application.Volunteers.PetsHandlers.AddPhotos;
-using KindPaws.Application.Volunteers.PetsHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.PetsHandlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.VolunteersHandlers.Create;
-using KindPaws.Application.Volunteers.VolunteersHandlers.Delete;
-using KindPaws.Application.Volunteers.VolunteersHandlers.GetById;
-using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Volunteers;
@@ -28,9 +30,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result);
     }
 
     [HttpPut("{id:guid}/main-info")]
@@ -46,9 +46,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpPut("{id:guid}/additional-info")]
@@ -64,9 +62,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpDelete("{id:guid}")]
@@ -81,26 +77,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
-    }
-
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(
-        [FromRoute] Guid id,
-        [FromServices] GetVolunteerByIdHandler handler,
-        CancellationToken token = default)
-    {
-        var command = new GetVolunteerByIdCommand(id);
-
-        var result = await handler.HandleAsync(command, token);
-        if (result.IsFailure)
-            return result.Error.ToResponse();
-
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpPost("{id:guid}/pets")]
@@ -116,9 +93,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpPut("{id:guid}/pets/{petId:guid}/main-info")]
@@ -135,9 +110,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpPut("{id:guid}/pets/{petId:guid}/additional-info")]
@@ -154,9 +127,7 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
-
-        return Ok(envelope);
+        return Ok(result.Value);
     }
 
     [HttpPut("{id:guid}/pets/{petId:guid}/photos")]
@@ -180,8 +151,19 @@ public class VolunteersController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result.Value);
+        return Ok(result.Value);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetVolunteersWithPagination(
+        [FromQuery] GetVolunteerWithPaginationRequest request,
+        [FromServices] GetVolunteersWithPaginationHandler handler,
+        CancellationToken token = default)
+    {
+        var query = request.ToQuery();
 
-        return Ok(envelope);
+        var result = await handler.HandleAsync(query, token);
+
+        return Ok(result);
     }
 }

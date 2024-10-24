@@ -1,6 +1,5 @@
 ﻿using System.Threading.Channels;
 using KindPaws.Application.Abstractions;
-using KindPaws.Application.DTOs.FileProvider;
 
 namespace KindPaws.Infrastructure.MessageQueues;
 

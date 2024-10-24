@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Species.BreedsHandlers.Add;
-using KindPaws.Application.Species.SpeciesHandlers.Create;
-using KindPaws.Application.Volunteers.PetsHandlers.Add;
-using KindPaws.Application.Volunteers.PetsHandlers.AddPhotos;
-using KindPaws.Application.Volunteers.PetsHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.PetsHandlers.UpdateMainInfo;
-using KindPaws.Application.Volunteers.VolunteersHandlers.Create;
-using KindPaws.Application.Volunteers.VolunteersHandlers.Delete;
-using KindPaws.Application.Volunteers.VolunteersHandlers.GetById;
-using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateAdditionalInfo;
-using KindPaws.Application.Volunteers.VolunteersHandlers.UpdateMainInfo;
+using KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
+using KindPaws.Application.Managements.SpeciesManagment.Commands.SpeciesFeatures.Create;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Application.Extensions;
@@ -32,7 +31,6 @@ public static class ServiceExtensions
             .AddScoped<CreateVolunteerHandler>()
             .AddScoped<UpdateVolunteerMainInfoHandler>()
             .AddScoped<DeleteVolunteerHandler>()
-            .AddScoped<GetVolunteerByIdHandler>()
             .AddScoped<UpdateVolunteerAdditionalInfoHandler>()
             .AddScoped<AddPetHandler>()
             .AddScoped<UpdatePetMainInfoHandler>()
