@@ -2,7 +2,6 @@
 using KindPaws.API.Controllers.Volunteers.Requests;
 using KindPaws.API.Extensions;
 using KindPaws.API.Processors;
-using KindPaws.API.Response;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
@@ -11,6 +10,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersF
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
 using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -156,7 +156,7 @@ public class VolunteersController : ApplicationController
     
     [HttpGet]
     public async Task<IActionResult> GetVolunteersWithPagination(
-        [FromQuery] GetVolunteerWithPaginationRequest request,
+        [FromQuery] GetVolunteersWithPaginationRequest request,
         [FromServices] GetVolunteersWithPaginationHandler handler,
         CancellationToken token = default)
     {
@@ -165,5 +165,21 @@ public class VolunteersController : ApplicationController
         var result = await handler.HandleAsync(query, token);
 
         return Ok(result);
+    }
+    
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetVolunteerById(
+        [FromRoute] Guid id,
+        [FromServices] GetVolunteerByIdHandler handler,
+        CancellationToken token = default)
+    {
+        var query = new GetVolunteerByIdQuery(id);
+
+        var result = await handler.HandleAsync(query, token);
+
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
     }
 }

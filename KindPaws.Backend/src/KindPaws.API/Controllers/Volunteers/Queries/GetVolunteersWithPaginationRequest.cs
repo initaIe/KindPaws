@@ -2,7 +2,7 @@
 
 namespace KindPaws.API.Controllers.Volunteers.Queries;
 
-public record GetVolunteerWithPaginationRequest(
+public record GetVolunteersWithPaginationRequest(
     int PageNumber,
     int PageSize)
 {

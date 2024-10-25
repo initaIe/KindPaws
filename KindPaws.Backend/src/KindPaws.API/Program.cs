@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // SERILOG
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Seq(builder.Configuration.GetConnectionString("Seq")
-                 ?? throw new ArgumentNullException("Seq connection string not found"))
+                 ?? throw new NullReferenceException("Seq connection string not found"))
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)

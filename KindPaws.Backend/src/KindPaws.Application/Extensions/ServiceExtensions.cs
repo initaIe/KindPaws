@@ -9,6 +9,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersF
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
 using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,6 +38,7 @@ public static class ServiceExtensions
             .AddScoped<UpdatePetMainInfoHandler>()
             .AddScoped<UpdatePetAdditionalInfoHandler>()
             .AddScoped<AddPetPhotosHandler>()
+            .AddScoped<GetVolunteerByIdHandler>()
             .AddScoped<GetVolunteersWithPaginationHandler>();
 
         // Species
