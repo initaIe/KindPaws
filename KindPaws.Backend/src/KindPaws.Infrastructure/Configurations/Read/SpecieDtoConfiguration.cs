@@ -11,13 +11,16 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDTO>
         builder.ToTable("species");
 
         // ID
-        builder.Property(specie => specie.Id);
+        builder.Property(specie => specie.Id)      
+            .HasColumnName("id");
 
         // NAME
-        builder.Property(specie => specie.Name);
+        builder.Property(specie => specie.Name)
+            .HasColumnName("name");
 
         // DESCRIPTION
-        builder.Property(specie => specie.Description);
+        builder.Property(specie => specie.Description)
+            .HasColumnName("description");
         
         // BREEDS
         builder.HasMany(specie => specie.Breeds)

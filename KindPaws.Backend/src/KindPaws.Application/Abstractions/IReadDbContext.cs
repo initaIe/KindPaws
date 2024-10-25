@@ -5,6 +5,8 @@ namespace KindPaws.Application.Abstractions;
 
 public interface IReadDbContext
 {
-    DbSet<VolunteerDTO> Volunteers { get; }
-    DbSet<SpecieDTO> Species { get; }
+    IQueryable<VolunteerDTO> Volunteers { get; }
+    IQueryable<PetDTO> Pets { get; }
+    IQueryable<SpecieDTO> Species { get; }
+    IQueryable<BreedDTO> Breeds { get; }
 }

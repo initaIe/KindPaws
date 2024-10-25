@@ -28,9 +28,7 @@ public class GetVolunteersWithPaginationHandler
         GetVolunteersWithPaginationQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteerQuery = _readDbContext.Volunteers
-            .AsQueryable()
-            .AsNoTracking();
+        var volunteerQuery = _readDbContext.Volunteers;
         
         // TODO add validation, filtration, sort and logger
         

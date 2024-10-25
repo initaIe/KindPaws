@@ -1,8 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs;
-using KindPaws.Application.Extensions;
-using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
-using KindPaws.Application.Models;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -30,9 +27,7 @@ public class GetVolunteerByIdHandler
         GetVolunteerByIdQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteerQuery = _readDbContext.Volunteers
-            .AsQueryable()
-            .AsNoTracking();
+        var volunteerQuery = _readDbContext.Volunteers;
         
         // TODO add validation, filtration, sort and logger
 

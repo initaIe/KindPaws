@@ -9,10 +9,10 @@ namespace KindPaws.Infrastructure;
 public class ReadDbContext(IConfiguration configuration)
     : DbContext, IReadDbContext
 {
-    public DbSet<VolunteerDTO> Volunteers => Set<VolunteerDTO>();
-    public DbSet<PetDTO> Pets => Set<PetDTO>();
-    public DbSet<SpecieDTO> Species => Set<SpecieDTO>();
-    public DbSet<BreedDTO> Breeds => Set<BreedDTO>();
+    public IQueryable<VolunteerDTO> Volunteers => Set<VolunteerDTO>();
+    public IQueryable<PetDTO> Pets => Set<PetDTO>();
+    public IQueryable<SpecieDTO> Species => Set<SpecieDTO>();
+    public IQueryable<BreedDTO> Breeds => Set<BreedDTO>();
 
     private ILoggerFactory CreateFactory()
     {

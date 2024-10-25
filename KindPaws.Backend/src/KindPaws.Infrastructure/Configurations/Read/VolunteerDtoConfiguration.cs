@@ -12,7 +12,8 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         builder.ToTable("volunteers");
 
         // ID
-        builder.Property(v => v.Id);
+        builder.Property(v => v.Id)
+            .HasColumnName("id");
 
         // FULLNAME
         builder.ComplexProperty(v => v.FullName, fb =>
@@ -28,27 +29,34 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         });
 
         // EMAIL ADDRESS
-        builder.Property(v => v.EmailAddress);
+        builder.Property(v => v.EmailAddress)
+            .HasColumnName("email_address");
 
         // PHONE NUMBER
-        builder.Property(v => v.PhoneNumber);
+        builder.Property(v => v.PhoneNumber)
+            .HasColumnName("phone_number");
 
         // DESCRIPTION
-        builder.Property(v => v.Description);
+        builder.Property(v => v.Description)        
+            .HasColumnName("description");
 
         // ADDRESS
         builder.Property(p => p.Address)
+            .HasColumnName("address")
             .MapJsonb();
 
         // YEARS OF EXPERIENCE
-        builder.Property(v => v.YearsOfExperience);
+        builder.Property(v => v.YearsOfExperience)
+            .HasColumnName("years_of_experience");
 
         // SOCIAL NETWORKS
         builder.Property(p => p.SocialNetworks)
+            .HasColumnName("social_networks")
             .MapJsonb();
 
         // REQUISITES
         builder.Property(p => p.Requisites)
+            .HasColumnName("requisites")
             .MapJsonb();
 
         // PETS

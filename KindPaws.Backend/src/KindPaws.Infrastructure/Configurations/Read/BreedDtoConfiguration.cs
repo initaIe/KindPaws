@@ -11,12 +11,15 @@ public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDTO>
         builder.ToTable("breeds");
 
         // ID
-        builder.Property(breed => breed.Id);
+        builder.Property(breed => breed.Id)
+            .HasColumnName("id");
 
         // NAME
-        builder.Property(breed => breed.Name);
+        builder.Property(breed => breed.Name)
+            .HasColumnName("name");
 
         // DESCRIPTION
-        builder.Property(breed => breed.Description);
+        builder.Property(breed => breed.Description)
+            .HasColumnName("description");
     }
 }
