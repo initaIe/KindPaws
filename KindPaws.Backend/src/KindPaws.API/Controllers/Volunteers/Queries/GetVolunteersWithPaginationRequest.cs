@@ -6,6 +6,8 @@ public record GetVolunteersWithPaginationRequest(
     int PageNumber,
     int PageSize)
 {
-    public GetVolunteersWithPaginationQuery ToQuery() =>
-        new(PageNumber, PageSize);
+    public GetVolunteersWithPaginationQuery ToQuery()
+    {
+        return new GetVolunteersWithPaginationQuery(PageNumber, PageSize);
+    }
 }

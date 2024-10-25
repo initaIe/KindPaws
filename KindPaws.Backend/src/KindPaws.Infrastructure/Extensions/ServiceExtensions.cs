@@ -69,7 +69,7 @@ public static class ServiceExtensions
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
     {
         services.AddScoped<WriteDbContext>();
-        services.AddScoped<IReadDbContext,ReadDbContext>();
+        services.AddScoped<IReadDbContext, ReadDbContext>();
 
         return services;
     }
@@ -102,7 +102,7 @@ public static class ServiceExtensions
 
         return services;
     }
-    
+
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IFilesCleanerService, FilesCleanerService>();

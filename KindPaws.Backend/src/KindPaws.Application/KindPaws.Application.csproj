@@ -18,8 +18,8 @@
 
     <ItemGroup>
         <Folder Include="Managements\"/>
-        <Folder Include="Managements\SpeciesManagment\Commands\"/>
-        <Folder Include="Managements\SpeciesManagment\Queries\"/>
+        <Folder Include="Managements\SpeciesManagement\Commands\"/>
+        <Folder Include="Managements\SpeciesManagement\Queries\"/>
         <Folder Include="Managements\VolunteersManagement\Commands\"/>
     </ItemGroup>
 

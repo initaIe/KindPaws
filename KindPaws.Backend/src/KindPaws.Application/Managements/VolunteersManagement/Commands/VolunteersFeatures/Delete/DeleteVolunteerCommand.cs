@@ -1,3 +1,5 @@
-﻿namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+﻿using KindPaws.Application.Abstractions;
 
-public record DeleteVolunteerCommand(Guid VolunteerId);
+namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+
+public record DeleteVolunteerCommand(Guid VolunteerId) : ICommand;

@@ -7,9 +7,10 @@ using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 
 public class AddBreedHandler
+    : ICommandHandler<Guid, AddBreedCommand>
 {
     private readonly ILogger<AddBreedHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
-using KindPaws.Application.Managements.SpeciesManagment.Commands.SpeciesFeatures.Create;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;

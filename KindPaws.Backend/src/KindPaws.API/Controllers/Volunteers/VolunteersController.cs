@@ -153,7 +153,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetVolunteersWithPagination(
         [FromQuery] GetVolunteersWithPaginationRequest request,
@@ -166,7 +166,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetVolunteerById(
         [FromRoute] Guid id,

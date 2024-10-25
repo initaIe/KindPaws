@@ -1,14 +1,12 @@
-﻿using FluentValidation;
-using KindPaws.Application.Abstractions;
+﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 
 public class GetVolunteersWithPaginationHandler
+    : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersWithPaginationQuery>
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
@@ -29,12 +27,12 @@ public class GetVolunteersWithPaginationHandler
         CancellationToken cancellationToken)
     {
         var volunteerQuery = _readDbContext.Volunteers;
-        
+
         // TODO add validation, filtration, sort and logger
-        
+
         return await volunteerQuery.ToPagedList(
             query.PageNumber,
-            query.PageSize, 
+            query.PageSize,
             cancellationToken);
     }
 }

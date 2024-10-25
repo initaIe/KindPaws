@@ -3,7 +3,7 @@ using KindPaws.Application.Validation;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 
 public class AddBreedCommandValidator : AbstractValidator<AddBreedCommand>
 {

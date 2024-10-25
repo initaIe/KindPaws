@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
 
 public class DeleteVolunteerHandler
+    : ICommandHandler<Guid, DeleteVolunteerCommand>
 {
     private readonly ILogger<DeleteVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;

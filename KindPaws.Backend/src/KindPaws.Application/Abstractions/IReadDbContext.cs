@@ -1,5 +1,4 @@
 ﻿using KindPaws.Application.DTOs;
-using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Application.Abstractions;
 

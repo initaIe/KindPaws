@@ -1,8 +1,7 @@
 ﻿using KindPaws.API.Controllers.Species.Requests;
 using KindPaws.API.Extensions;
-using KindPaws.API.Response;
-using KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
-using KindPaws.Application.Managements.SpeciesManagment.Commands.SpeciesFeatures.Create;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;

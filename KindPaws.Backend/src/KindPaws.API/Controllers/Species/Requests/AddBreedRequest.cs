@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Managements.SpeciesManagment.Commands.BreedsFeatures.Add;
+﻿using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 
 namespace KindPaws.API.Controllers.Species.Requests;
 

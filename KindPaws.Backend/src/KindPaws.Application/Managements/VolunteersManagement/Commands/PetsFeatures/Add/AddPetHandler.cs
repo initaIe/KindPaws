@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 
 public class AddPetHandler
+    : ICommandHandler<Guid, AddPetCommand>
 {
     private readonly ILogger<AddPetHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 
 public class AddPetPhotosHandler
+    : ICommandHandler<Guid, AddPetPhotosCommand>
 {
     private const string BucketName = "pet-photos";
 

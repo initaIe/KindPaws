@@ -37,7 +37,7 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
             .HasColumnName("phone_number");
 
         // DESCRIPTION
-        builder.Property(v => v.Description)        
+        builder.Property(v => v.Description)
             .HasColumnName("description");
 
         // ADDRESS

@@ -1,3 +1,5 @@
-﻿namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
+﻿using KindPaws.Application.Abstractions;
 
-public record GetVolunteerByIdQuery(Guid VolunteerId);
+namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
+
+public record GetVolunteerByIdQuery(Guid VolunteerId) : IQuery;

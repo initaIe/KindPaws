@@ -12,7 +12,7 @@ public static class QueriesExtensions
         CancellationToken cancellationToken = default)
     {
         var totalCount = await source.CountAsync(cancellationToken);
-        
+
         var items = await source
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)

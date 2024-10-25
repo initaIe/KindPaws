@@ -7,9 +7,10 @@ using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Managements.SpeciesManagment.Commands.SpeciesFeatures.Create;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 
 public class CreateSpecieHandler
+    : ICommandHandler<Guid, CreateSpecieCommand>
 {
     private readonly ILogger<CreateSpecieHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;

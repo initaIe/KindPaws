@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
 
 public class GetVolunteerByIdHandler
+    : IQueryHandler<Result<VolunteerDTO, ErrorList>, GetVolunteerByIdQuery>
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
@@ -23,12 +24,13 @@ public class GetVolunteerByIdHandler
         _readDbContext = readDbContext;
     }
 
+    // TODO: mb change response
     public async Task<Result<VolunteerDTO, ErrorList>> HandleAsync(
         GetVolunteerByIdQuery query,
         CancellationToken cancellationToken)
     {
         var volunteerQuery = _readDbContext.Volunteers;
-        
+
         // TODO add validation, filtration, sort and logger
 
         var volunteerId = VolunteerId.Create(query.VolunteerId).Value;
@@ -38,9 +40,9 @@ public class GetVolunteerByIdHandler
 
         if (volunteer == null)
             return Errors.General.RecordNotFound(
-                nameof(Volunteer), 
-                nameof(volunteerId), 
-                volunteerId.Value)
+                    nameof(Volunteer),
+                    nameof(volunteerId),
+                    volunteerId.Value)
                 .ToErrorList();
 
         return volunteer;

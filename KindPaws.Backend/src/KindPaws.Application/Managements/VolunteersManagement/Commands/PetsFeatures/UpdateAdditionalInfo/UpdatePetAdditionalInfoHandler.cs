@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 
 public class UpdatePetAdditionalInfoHandler
+    : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>
 {
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;

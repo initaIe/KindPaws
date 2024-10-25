@@ -2,7 +2,7 @@
 using KindPaws.Application.Validation;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 
-namespace KindPaws.Application.Managements.SpeciesManagment.Commands.SpeciesFeatures.Create;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 
 public class CreateSpecieCommandValidator : AbstractValidator<CreateSpecieCommand>
 {

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 
 public class CreateVolunteerHandler
+    : ICommandHandler<Guid, CreateVolunteerCommand>
 {
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;

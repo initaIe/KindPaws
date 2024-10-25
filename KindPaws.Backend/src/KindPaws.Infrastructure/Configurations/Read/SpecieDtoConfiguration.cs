@@ -11,7 +11,7 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDTO>
         builder.ToTable("species");
 
         // ID
-        builder.Property(specie => specie.Id)      
+        builder.Property(specie => specie.Id)
             .HasColumnName("id");
 
         // NAME
@@ -21,7 +21,7 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDTO>
         // DESCRIPTION
         builder.Property(specie => specie.Description)
             .HasColumnName("description");
-        
+
         // BREEDS
         builder.HasMany(specie => specie.Breeds)
             .WithOne()

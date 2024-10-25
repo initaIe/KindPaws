@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
 
 public class UpdateVolunteerMainInfoHandler
+    : ICommandHandler<Guid, UpdateVolunteerMainInfoCommand>
 {
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;

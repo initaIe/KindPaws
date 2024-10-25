@@ -1,5 +1,8 @@
-﻿namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
+﻿using KindPaws.Application.Abstractions;
+
+namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 
 public record GetVolunteersWithPaginationQuery(
     int PageNumber,
-    int PageSize);
+    int PageSize)
+    : IQuery;

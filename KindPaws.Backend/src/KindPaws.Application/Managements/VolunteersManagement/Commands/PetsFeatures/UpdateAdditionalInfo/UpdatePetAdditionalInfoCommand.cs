@@ -1,4 +1,5 @@
-﻿using KindPaws.Application.DTOs;
+﻿using KindPaws.Application.Abstractions;
+using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 
@@ -10,4 +11,5 @@ public record UpdatePetAdditionalInfoCommand(
     string? Color,
     DateOnly? BirthDate,
     HealthDetailsDTO? HealthDetails,
-    BiometricDetailsDTO? BiometricDetails);
+    BiometricDetailsDTO? BiometricDetails)
+    : ICommand;
