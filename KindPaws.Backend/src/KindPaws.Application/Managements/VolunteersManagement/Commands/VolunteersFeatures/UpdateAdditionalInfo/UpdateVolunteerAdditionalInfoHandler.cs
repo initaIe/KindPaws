@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -17,18 +18,21 @@ public class UpdateVolunteerAdditionalInfoHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerAdditionalInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData> _entitiesExistenceChecker;
 
 
     public UpdateVolunteerAdditionalInfoHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<UpdateVolunteerAdditionalInfoHandler> logger,
         IValidator<UpdateVolunteerAdditionalInfoCommand> validator,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, 
+        IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData> entitiesExistenceChecker)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
         _unitOfWork = unitOfWork;
+        _entitiesExistenceChecker = entitiesExistenceChecker;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -39,12 +43,15 @@ public class UpdateVolunteerAdditionalInfoHandler
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
 
+        var existenceCheckData = command.ToExistenceCheckData();
+        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
+        if (existenceCheckerResult.IsFailure)
+            return existenceCheckerResult.Error.ToErrorList();
+        
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
             volunteerId,
             cancellationToken);
-        if (volunteerResult.IsFailure)
-            return volunteerResult.Error.ToErrorList();
 
         MediumDescription? description = null;
         if (command.Description != null)
@@ -83,8 +90,8 @@ public class UpdateVolunteerAdditionalInfoHandler
 
         _logger.LogInformation
         ("VOLUNTEER updated additional info with ID: {VolunteerId}; " +
-         "Updated properties: {Description}, {Address}, {YearsOfExperience}," +
-         " {SocialNetworks}, {Requisites}",
+         "Updated properties: {Description}, {Address}, {YearsOfExperience}, " +
+         "{SocialNetworks}, {Requisites}",
             volunteerId.Value,
             description,
             address,

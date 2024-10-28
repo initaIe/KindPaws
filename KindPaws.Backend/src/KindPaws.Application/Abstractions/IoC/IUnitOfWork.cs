@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace KindPaws.Application.Abstractions;
+namespace KindPaws.Application.Abstractions.IoC;
 
 public interface IUnitOfWork
 {

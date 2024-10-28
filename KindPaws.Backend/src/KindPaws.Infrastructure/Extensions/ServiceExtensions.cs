@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Infrastructure.BackgroundServices;
 using KindPaws.Infrastructure.Interceptors;

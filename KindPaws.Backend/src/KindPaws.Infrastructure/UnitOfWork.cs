@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace KindPaws.Infrastructure;

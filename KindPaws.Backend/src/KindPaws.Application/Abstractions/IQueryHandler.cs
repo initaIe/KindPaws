@@ -1,4 +1,6 @@
-﻿namespace KindPaws.Application.Abstractions;
+﻿using KindPaws.Application.Abstractions.Markers;
+
+namespace KindPaws.Application.Abstractions;
 
 public interface IQueryHandler<TResponse, in TQuery> where TQuery : IQuery
 {

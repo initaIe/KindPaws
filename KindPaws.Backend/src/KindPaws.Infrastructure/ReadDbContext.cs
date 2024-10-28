@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

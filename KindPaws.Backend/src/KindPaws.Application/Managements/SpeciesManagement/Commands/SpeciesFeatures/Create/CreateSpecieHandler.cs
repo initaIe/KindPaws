@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
+using KindPaws.Application.Helpers;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
@@ -16,17 +19,20 @@ public class CreateSpecieHandler
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateSpecieCommand> _validator;
+    private readonly IEntitiesExistenceChecker<CreateSpecieExistenceCheckData> _entitiesExistenceChecker;
 
     public CreateSpecieHandler(
         ILogger<CreateSpecieHandler> logger,
         IUnitOfWork unitOfWork,
         IValidator<CreateSpecieCommand> validator,
-        ISpeciesRepository speciesRepository)
+        ISpeciesRepository speciesRepository,
+        IEntitiesExistenceChecker<CreateSpecieExistenceCheckData> entitiesExistenceChecker)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
         _speciesRepository = speciesRepository;
+        _entitiesExistenceChecker = entitiesExistenceChecker;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -34,31 +40,27 @@ public class CreateSpecieHandler
         CancellationToken cancellationToken = default)
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid)
+        if (!validationResult.IsValid) 
             return validationResult.ToErrorList();
+        
+        var existenceCheckData = command.ToExistenceCheckData();
+        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
+        if (existenceCheckerResult.IsFailure)
+            return existenceCheckerResult.Error.ToErrorList();
 
-        var name = ShortName.Create(command.Name).Value;
-        var specieExistByName = await _speciesRepository.GetByName(name, cancellationToken);
-        if (specieExistByName.IsSuccess)
-            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortName)).ToErrorList();
-
-        var description = MediumDescription.Create(command.Description).Value;
-        var specieId = SpecieId.CreateRandom();
-
-        var specie = new Specie(
-            specieId,
-            name,
-            description);
+        var specie = SpecieHelper.ForceCreateNewSpecie(
+            command.Name, 
+            command.Description);
 
         await _speciesRepository.AddAsync(specie, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("SPECIE created with ID: {specieId}; " +
                                "Properties: {name}, {description}",
-            specieId.Value,
-            name,
-            description);
+            specie.Id.Value,
+            specie.Name.Value,
+            specie.Description.Value);
 
-        return specieId.Value;
+        return specie.Id.Value;
     }
 }

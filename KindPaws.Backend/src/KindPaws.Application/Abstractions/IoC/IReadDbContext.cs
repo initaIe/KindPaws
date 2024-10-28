@@ -1,6 +1,6 @@
 ﻿using KindPaws.Application.DTOs;
 
-namespace KindPaws.Application.Abstractions;
+namespace KindPaws.Application.Abstractions.IoC;
 
 public interface IReadDbContext
 {

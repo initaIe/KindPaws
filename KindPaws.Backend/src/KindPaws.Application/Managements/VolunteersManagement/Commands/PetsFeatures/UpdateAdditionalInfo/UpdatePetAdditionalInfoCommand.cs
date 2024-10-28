@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.Markers;
 using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
@@ -12,4 +13,8 @@ public record UpdatePetAdditionalInfoCommand(
     DateOnly? BirthDate,
     HealthDetailsDTO? HealthDetails,
     BiometricDetailsDTO? BiometricDetails)
-    : ICommand;
+    : ICommand
+{
+    public UpdatePetAdditionalInfoExistenceCheckData ToExistenceCheckData()
+        => new(VolunteerId, PetId);
+}

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -21,6 +22,7 @@ public class AddPetPhotosHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetPhotosCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData> _entitiesExistenceChecker;
 
     public AddPetPhotosHandler(
         ILogger<AddPetPhotosHandler> logger,
@@ -28,7 +30,8 @@ public class AddPetPhotosHandler
         IValidator<AddPetPhotosCommand> validator,
         IFileProvider fileProvider,
         IUnitOfWork unitOfWork,
-        IMessageQueue<IEnumerable<DeleteFileData>> messageQueue)
+        IMessageQueue<IEnumerable<DeleteFileData>> messageQueue,
+        IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData> entitiesExistenceChecker)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
@@ -36,6 +39,7 @@ public class AddPetPhotosHandler
         _fileProvider = fileProvider;
         _unitOfWork = unitOfWork;
         _messageQueue = messageQueue;
+        _entitiesExistenceChecker = entitiesExistenceChecker;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -45,16 +49,11 @@ public class AddPetPhotosHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-
-        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
-        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
-        if (volunteerResult.IsFailure)
-            return volunteerResult.Error.ToErrorList();
-
-        var petId = PetId.Create(command.PetId).Value;
-        var petResult = volunteerResult.Value.GetPetById(petId);
-        if (petResult.IsFailure)
-            return petResult.Error.ToErrorList();
+        
+        var existenceCheckData = command.ToExistenceCheckData();
+        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
+        if (existenceCheckerResult.IsFailure)
+            return existenceCheckerResult.Error.ToErrorList();
 
         List<UploadFileData> uploadFilesData = [];
         foreach (var uploadFileDto in command.UploadFileDtos)
@@ -82,6 +81,12 @@ public class AddPetPhotosHandler
         var petPhotos = uploadFilePathsResult.Value
             .Select(filePath => new Photo(filePath))
             .Select(photo => new PetPhoto(photo, false));
+        
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
+        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
+        
+        var petId = PetId.Create(command.PetId).Value;
+        var petResult = volunteerResult.Value.GetPetById(petId);
 
         petResult.Value.AddPhotos(petPhotos);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

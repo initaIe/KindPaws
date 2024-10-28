@@ -3,7 +3,7 @@ using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Abstractions;
+namespace KindPaws.Application.Abstractions.IoC;
 
 public interface ISpeciesRepository
 {

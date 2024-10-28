@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
-using KindPaws.Domain.Managements.SpeciesManagement.Entities;
+using KindPaws.Application.Helpers;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
@@ -16,17 +16,20 @@ public class AddBreedHandler
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddBreedCommand> _validator;
+    private readonly IEntitiesExistenceChecker<AddBreedExistenceCheckData> _entitiesExistenceChecker;
 
     public AddBreedHandler(
         IUnitOfWork unitOfWork,
         ILogger<AddBreedHandler> logger,
         ISpeciesRepository speciesRepository,
-        IValidator<AddBreedCommand> validator)
+        IValidator<AddBreedCommand> validator,
+        IEntitiesExistenceChecker<AddBreedExistenceCheckData> entitiesExistenceChecker)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
         _speciesRepository = speciesRepository;
         _validator = validator;
+        _entitiesExistenceChecker = entitiesExistenceChecker;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -37,33 +40,27 @@ public class AddBreedHandler
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
 
+        var existenceCheckData = command.ToExistenceCheckData();
+        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
+        if (existenceCheckerResult.IsFailure)
+            return existenceCheckerResult.Error.ToErrorList();
+
+        var breed = BreedHelper.ForceCreateNewBreed(
+            command.Name,
+            command.Description);
+
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
-        if (specieResult.IsFailure)
-            return specieResult.Error.ToErrorList();
-
-        var name = ShortName.Create(command.Name).Value;
-        var breedExistByName = specieResult.Value.GetBreedByName(name);
-        if (breedExistByName.IsSuccess)
-            return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortName)).ToErrorList();
-
-        var description = MediumDescription.Create(command.Description).Value;
-        var breedId = BreedId.CreateRandom();
-
-        var breed = new Breed(
-            breedId,
-            name,
-            description);
 
         specieResult.Value.AddBreed(breed);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("BREED added with ID: {breedId}; " +
                                "Properties: {name}, {description}",
-            breedId.Value,
-            name,
-            description);
+            breed.Id.Value,
+            breed.Name.Value,
+            breed.Description.Value);
 
-        return breedId.Value;
+        return breed.Id.Value;
     }
 }

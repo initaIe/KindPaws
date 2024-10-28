@@ -45,9 +45,9 @@ public class Specie : Entity<SpecieId>, ISoftDeleteable
         _breeds.Add(breed);
     }
 
-    public Result<Breed, Error> GetBreedByGuid(Guid breedGuid)
+    public Result<Breed, Error> GetBreedByGuidId(Guid targetBreedId)
     {
-        var breedId = BreedId.Create(breedGuid);
+        var breedId = BreedId.Create(targetBreedId);
 
         if (breedId.IsFailure)
             return Errors.General.ValueIsInvalid(nameof(breedId));

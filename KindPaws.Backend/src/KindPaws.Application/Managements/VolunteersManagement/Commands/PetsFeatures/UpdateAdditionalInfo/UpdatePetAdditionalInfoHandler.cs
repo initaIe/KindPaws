@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
@@ -17,18 +18,20 @@ public class UpdatePetAdditionalInfoHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-
+    private readonly IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> _entitiesExistenceChecker;
 
     public UpdatePetAdditionalInfoHandler(
         ILogger<UpdatePetAdditionalInfoHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<UpdatePetAdditionalInfoCommand> validator,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, 
+        IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> entitiesExistenceChecker)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _unitOfWork = unitOfWork;
+        _entitiesExistenceChecker = entitiesExistenceChecker;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -39,15 +42,10 @@ public class UpdatePetAdditionalInfoHandler
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
 
-        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
-        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
-        if (volunteerResult.IsFailure)
-            return volunteerResult.Error.ToErrorList();
-
-        var petId = PetId.Create(command.PetId).Value;
-        var petResult = volunteerResult.Value.GetPetById(petId);
-        if (petResult.IsFailure)
-            return petResult.Error.ToErrorList();
+        var existenceCheckData = command.ToExistenceCheckData();
+        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
+        if (existenceCheckerResult.IsFailure)
+            return existenceCheckerResult.Error.ToErrorList();
 
         SupportStatus? supportStatus = null;
         if (command.SupportStatus != null)
@@ -119,6 +117,12 @@ public class UpdatePetAdditionalInfoHandler
                 gender);
         }
 
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
+        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
+        
+        var petId = PetId.Create(command.PetId).Value;
+        var petResult = volunteerResult.Value.GetPetById(petId);
+        
         petResult.Value.UpdateAdditionalInfo(
             supportStatus,
             description,

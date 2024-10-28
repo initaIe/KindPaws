@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
@@ -17,17 +18,20 @@ public class UpdateVolunteerMainInfoHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerMainInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IEntitiesExistenceChecker<UpdateVolunteerMainInfoExistenceCheckData> _entitiesExistenceChecker;
 
     public UpdateVolunteerMainInfoHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
         IValidator<UpdateVolunteerMainInfoCommand> validator,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IEntitiesExistenceChecker<UpdateVolunteerMainInfoExistenceCheckData> entitiesExistenceChecker)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
         _unitOfWork = unitOfWork;
+        _entitiesExistenceChecker = entitiesExistenceChecker;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -38,12 +42,15 @@ public class UpdateVolunteerMainInfoHandler
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
 
+        var existenceCheckData = command.ToExistenceCheckData();
+        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
+        if (existenceCheckerResult.IsFailure)
+            return existenceCheckerResult.Error.ToErrorList();
+        
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
             volunteerId,
             cancellationToken);
-        if (volunteerResult.IsFailure)
-            return volunteerResult.Error.ToErrorList();
 
         var fullName = FullName.Create(
             command.FullName.FirstName,

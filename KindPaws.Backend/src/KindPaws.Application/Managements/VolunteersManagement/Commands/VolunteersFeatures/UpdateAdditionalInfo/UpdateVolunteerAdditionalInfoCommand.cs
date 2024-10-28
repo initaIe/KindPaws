@@ -1,4 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
+using KindPaws.Application.Abstractions.Markers;
 using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
@@ -10,4 +11,8 @@ public record UpdateVolunteerAdditionalInfoCommand(
     int? YearsOfExperience,
     IEnumerable<SocialNetworkDTO>? SocialNetworks,
     IEnumerable<RequisiteDTO>? Requisites)
-    : ICommand;
+    : ICommand
+{
+    public UpdateVolunteerAdditionalInfoExistenceCheckData ToExistenceCheckData()
+        => new(VolunteerId);
+}

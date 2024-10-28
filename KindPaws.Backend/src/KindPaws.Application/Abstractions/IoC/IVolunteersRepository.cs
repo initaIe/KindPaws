@@ -3,7 +3,7 @@ using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Abstractions;
+namespace KindPaws.Application.Abstractions.IoC;
 
 public interface IVolunteersRepository
 {
