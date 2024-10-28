@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.Markers;
+﻿using KindPaws.Application.Abstractions.Markers;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 

@@ -8,9 +8,10 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 
 public class Pet : Entity<PetId>, ISoftDeleteable
 {
+    private bool _isDeleted;
+
     // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private List<PetPhoto> _photos = [];
-    private bool _isDeleted;
 
     // ef core
     private Pet(PetId id) : base(id)

@@ -15,6 +15,7 @@ public class AddPetPhotosHandler
     : ICommandHandler<Guid, AddPetPhotosCommand>
 {
     private const string BucketName = "pet-photos";
+    private readonly IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData> _entitiesExistenceChecker;
 
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;
@@ -22,7 +23,6 @@ public class AddPetPhotosHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetPhotosCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData> _entitiesExistenceChecker;
 
     public AddPetPhotosHandler(
         ILogger<AddPetPhotosHandler> logger,
@@ -49,7 +49,7 @@ public class AddPetPhotosHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-        
+
         var existenceCheckData = command.ToExistenceCheckData();
         var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
         if (existenceCheckerResult.IsFailure)
@@ -81,10 +81,10 @@ public class AddPetPhotosHandler
         var petPhotos = uploadFilePathsResult.Value
             .Select(filePath => new Photo(filePath))
             .Select(photo => new PetPhoto(photo, false));
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
-        
+
         var petId = PetId.Create(command.PetId).Value;
         var petResult = volunteerResult.Value.GetPetById(petId);
 

@@ -1,6 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.ExistValidators;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -16,7 +15,8 @@ public class DeleteVolunteerEntitiesExistenceChecker : IEntitiesExistenceChecker
         _volunteerExistValidator = volunteerExistValidator;
     }
 
-    public async Task<Result<Error>> CheckAsync(DeleteVolunteerExistenceCheckData checkData, CancellationToken cancellationToken)
+    public async Task<Result<Error>> CheckAsync(DeleteVolunteerExistenceCheckData checkData,
+        CancellationToken cancellationToken)
     {
         var isVolunteerByIdExist = await _volunteerExistValidator
             .IsVolunteerByIdExistsAsync(checkData.VolunteerId, cancellationToken);

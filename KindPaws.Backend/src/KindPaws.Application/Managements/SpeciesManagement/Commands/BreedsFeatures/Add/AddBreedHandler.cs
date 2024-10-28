@@ -12,11 +12,11 @@ namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeat
 public class AddBreedHandler
     : ICommandHandler<Guid, AddBreedCommand>
 {
+    private readonly IEntitiesExistenceChecker<AddBreedExistenceCheckData> _entitiesExistenceChecker;
     private readonly ILogger<AddBreedHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddBreedCommand> _validator;
-    private readonly IEntitiesExistenceChecker<AddBreedExistenceCheckData> _entitiesExistenceChecker;
 
     public AddBreedHandler(
         IUnitOfWork unitOfWork,

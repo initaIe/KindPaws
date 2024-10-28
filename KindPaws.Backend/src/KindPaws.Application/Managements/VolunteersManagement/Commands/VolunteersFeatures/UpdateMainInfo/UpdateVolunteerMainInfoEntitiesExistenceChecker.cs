@@ -7,7 +7,7 @@ using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
 
-public class UpdateVolunteerMainInfoEntitiesExistenceChecker 
+public class UpdateVolunteerMainInfoEntitiesExistenceChecker
     : IEntitiesExistenceChecker<UpdateVolunteerMainInfoExistenceCheckData>
 {
     private readonly IVolunteerExistValidator _volunteerExistValidator;
@@ -25,12 +25,12 @@ public class UpdateVolunteerMainInfoEntitiesExistenceChecker
             .IsVolunteerByIdExistsAsync(checkData.VolunteerId, cancellationToken);
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), checkData.VolunteerId);
-        
+
         var isVolunteerByEmailAddressExist = await _volunteerExistValidator
             .IsVolunteerByEmailAddressExistsAsync(checkData.EmailAddress, cancellationToken);
         if (isVolunteerByEmailAddressExist)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(EmailAddress));
-        
+
         var isVolunteerByPhoneNumberExist = await _volunteerExistValidator
             .IsVolunteerByPhoneNumberExistsAsync(checkData.PhoneNumber, cancellationToken);
         if (isVolunteerByPhoneNumberExist)

@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.ExistValidators;
+﻿using KindPaws.Application.Abstractions.ExistValidators;
 using KindPaws.Application.Abstractions.IoC;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +30,7 @@ public class VolunteerExistValidator : IVolunteerExistValidator
             v => v.EmailAddress.Equals(emailAddress, StringComparison.CurrentCultureIgnoreCase),
             cancellationToken);
     }
-    
+
     public async Task<bool> IsVolunteerByPhoneNumberExistsAsync(
         string phoneNumber,
         CancellationToken cancellationToken)

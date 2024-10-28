@@ -34,7 +34,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
     public FullName FullName { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
-    public MediumDescription? Description { get; private set; } 
+    public MediumDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;

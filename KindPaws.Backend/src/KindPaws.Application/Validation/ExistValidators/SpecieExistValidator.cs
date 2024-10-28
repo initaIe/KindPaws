@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.IoC;
+﻿using KindPaws.Application.Abstractions.IoC;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Application.Validation.ExistValidators;
@@ -12,13 +11,13 @@ public class SpecieExistValidator
     {
         _readDbContext = readDbContext;
     }
-    
+
     public async Task<bool> IsSpecieByIdExistsAsync(Guid specieId, CancellationToken cancellationToken)
     {
         return await _readDbContext.Species.AnyAsync(
             s => s.Id == specieId, cancellationToken);
     }
-    
+
     public async Task<bool> IsSpecieByNameExistsAsync(string name, CancellationToken cancellationToken)
     {
         return await _readDbContext.Species.AnyAsync(

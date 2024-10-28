@@ -20,7 +20,7 @@ public static class VolunteerHelper
             fullNameDTO.Patronymic).Value;
         var volunteerEmailAddress = EmailAddress.Create(emailAddress).Value;
         var volunteerPhoneNumber = PhoneNumber.Create(phoneNumber).Value;
-        
+
         return new Volunteer(
             volunteerId,
             volunteerFullName,

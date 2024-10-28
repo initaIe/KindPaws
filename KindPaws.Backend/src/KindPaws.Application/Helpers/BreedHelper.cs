@@ -11,7 +11,7 @@ public static class BreedHelper
         var breedId = BreedId.CreateRandom();
         var breedName = ShortName.Create(name).Value;
         var breedDescription = MediumDescription.Create(description).Value;
-        
+
         return new Breed(
             breedId,
             breedName,

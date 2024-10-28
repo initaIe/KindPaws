@@ -2,5 +2,5 @@
 
 public interface IPetExistValidator
 {
-     Task<bool> IsPetByIdExists(Guid petId, CancellationToken cancellationToken);
+    Task<bool> IsPetByIdExists(Guid petId, CancellationToken cancellationToken);
 }

@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.Markers;
+﻿using KindPaws.Application.Abstractions.Markers;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 
@@ -9,5 +8,7 @@ public record CreateSpecieCommand(
     : ICommand
 {
     public CreateSpecieExistenceCheckData ToExistenceCheckData()
-        => new(Name);
+    {
+        return new CreateSpecieExistenceCheckData(Name);
+    }
 }

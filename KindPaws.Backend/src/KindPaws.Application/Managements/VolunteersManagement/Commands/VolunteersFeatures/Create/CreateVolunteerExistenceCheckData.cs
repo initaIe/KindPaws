@@ -4,5 +4,5 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 
 public record CreateVolunteerExistenceCheckData(
     string EmailAddress,
-    string PhoneNumber) 
+    string PhoneNumber)
     : IExistenceCheckData;

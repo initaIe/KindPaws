@@ -3,10 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
-using KindPaws.Domain.Managements.VolunteersManagement.Entities;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
@@ -15,11 +12,11 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 public class AddPetHandler
     : ICommandHandler<Guid, AddPetCommand>
 {
+    private readonly IEntitiesExistenceChecker<AddPetExistenceCheckData> _entitiesExistenceChecker;
     private readonly ILogger<AddPetHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IEntitiesExistenceChecker<AddPetExistenceCheckData> _entitiesExistenceChecker;
 
     public AddPetHandler(
         ILogger<AddPetHandler> logger,
@@ -42,14 +39,14 @@ public class AddPetHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-        
+
         var existenceCheckData = command.ToExistenceCheckData();
         var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
         if (existenceCheckerResult.IsFailure)
             return existenceCheckerResult.Error.ToErrorList();
 
         var pet = PetHelper.ForceCreateNewPet(command.Name, command.SpecieId, command.BreedId);
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 

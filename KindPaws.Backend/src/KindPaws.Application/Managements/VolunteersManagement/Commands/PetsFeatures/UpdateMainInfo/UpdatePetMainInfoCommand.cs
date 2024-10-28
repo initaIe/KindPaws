@@ -1,6 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.Markers;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
+﻿using KindPaws.Application.Abstractions.Markers;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
 
@@ -13,5 +11,7 @@ public record UpdatePetMainInfoCommand(
     : ICommand
 {
     public UpdatePetMainInfoExistenceCheckData ToExistenceCheckData()
-        => new(VolunteerId, PetId, SpecieId, BreedId);
+    {
+        return new UpdatePetMainInfoExistenceCheckData(VolunteerId, PetId, SpecieId, BreedId);
+    }
 }

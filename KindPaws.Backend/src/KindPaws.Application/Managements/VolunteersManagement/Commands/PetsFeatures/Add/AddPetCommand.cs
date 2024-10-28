@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.Markers;
+﻿using KindPaws.Application.Abstractions.Markers;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 
@@ -11,5 +10,7 @@ public record AddPetCommand(
     : ICommand
 {
     public AddPetExistenceCheckData ToExistenceCheckData()
-        => new(VolunteerId, SpecieId, BreedId);
+    {
+        return new AddPetExistenceCheckData(VolunteerId, SpecieId, BreedId);
+    }
 }

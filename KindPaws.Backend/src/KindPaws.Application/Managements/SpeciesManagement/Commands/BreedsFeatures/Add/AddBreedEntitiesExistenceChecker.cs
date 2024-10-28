@@ -10,8 +10,8 @@ namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeat
 
 public class AddBreedEntitiesExistenceChecker : IEntitiesExistenceChecker<AddBreedExistenceCheckData>
 {
-    private readonly ISpecieExistValidator _specieExistValidator;
     private readonly IBreedExistValidator _breedExistValidator;
+    private readonly ISpecieExistValidator _specieExistValidator;
 
 
     public AddBreedEntitiesExistenceChecker(

@@ -3,12 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
-using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.ValueObjects;
-using KindPaws.Domain.Shared.ValueObjects.IDs;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
@@ -16,11 +11,11 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public class CreateVolunteerHandler
     : ICommandHandler<Guid, CreateVolunteerCommand>
 {
+    private readonly IEntitiesExistenceChecker<CreateVolunteerExistenceCheckData> _entitiesExistenceChecker;
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateVolunteerCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IEntitiesExistenceChecker<CreateVolunteerExistenceCheckData> _entitiesExistenceChecker;
 
     public CreateVolunteerHandler(
         IVolunteersRepository volunteersRepository,

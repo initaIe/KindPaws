@@ -11,11 +11,11 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public class DeleteVolunteerHandler
     : ICommandHandler<Guid, DeleteVolunteerCommand>
 {
+    private readonly IEntitiesExistenceChecker<DeleteVolunteerExistenceCheckData> _entitiesExistenceChecker;
     private readonly ILogger<DeleteVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<DeleteVolunteerCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IEntitiesExistenceChecker<DeleteVolunteerExistenceCheckData> _entitiesExistenceChecker;
 
     public DeleteVolunteerHandler(
         IVolunteersRepository volunteersRepository,
@@ -43,7 +43,7 @@ public class DeleteVolunteerHandler
         var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
         if (existenceCheckerResult.IsFailure)
             return existenceCheckerResult.Error.ToErrorList();
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 

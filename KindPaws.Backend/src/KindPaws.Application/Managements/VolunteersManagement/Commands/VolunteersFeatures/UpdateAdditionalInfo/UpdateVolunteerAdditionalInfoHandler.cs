@@ -14,18 +14,20 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public class UpdateVolunteerAdditionalInfoHandler
     : ICommandHandler<Guid, UpdateVolunteerAdditionalInfoCommand>
 {
+    private readonly IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData>
+        _entitiesExistenceChecker;
+
     private readonly ILogger<UpdateVolunteerAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerAdditionalInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData> _entitiesExistenceChecker;
 
 
     public UpdateVolunteerAdditionalInfoHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<UpdateVolunteerAdditionalInfoHandler> logger,
         IValidator<UpdateVolunteerAdditionalInfoCommand> validator,
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData> entitiesExistenceChecker)
     {
         _volunteersRepository = volunteersRepository;
@@ -47,7 +49,7 @@ public class UpdateVolunteerAdditionalInfoHandler
         var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
         if (existenceCheckerResult.IsFailure)
             return existenceCheckerResult.Error.ToErrorList();
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
             volunteerId,

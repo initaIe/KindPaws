@@ -15,13 +15,14 @@ public class CreateVolunteerEntitiesExistenceChecker : IEntitiesExistenceChecker
         _volunteerExistValidator = volunteerExistValidator;
     }
 
-    public async Task<Result<Error>> CheckAsync(CreateVolunteerExistenceCheckData checkData, CancellationToken cancellationToken)
+    public async Task<Result<Error>> CheckAsync(CreateVolunteerExistenceCheckData checkData,
+        CancellationToken cancellationToken)
     {
         var isVolunteerByEmailAddressExist = await _volunteerExistValidator
             .IsVolunteerByEmailAddressExistsAsync(checkData.EmailAddress, cancellationToken);
         if (isVolunteerByEmailAddressExist)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(EmailAddress));
-        
+
         var isVolunteerByPhoneNumberExist = await _volunteerExistValidator
             .IsVolunteerByPhoneNumberExistsAsync(checkData.PhoneNumber, cancellationToken);
         if (isVolunteerByPhoneNumberExist)

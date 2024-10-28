@@ -3,11 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
-using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
-using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
-using KindPaws.Domain.Shared.ValueObjects.IDs;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
@@ -15,11 +11,11 @@ namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFea
 public class CreateSpecieHandler
     : ICommandHandler<Guid, CreateSpecieCommand>
 {
+    private readonly IEntitiesExistenceChecker<CreateSpecieExistenceCheckData> _entitiesExistenceChecker;
     private readonly ILogger<CreateSpecieHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateSpecieCommand> _validator;
-    private readonly IEntitiesExistenceChecker<CreateSpecieExistenceCheckData> _entitiesExistenceChecker;
 
     public CreateSpecieHandler(
         ILogger<CreateSpecieHandler> logger,
@@ -40,16 +36,16 @@ public class CreateSpecieHandler
         CancellationToken cancellationToken = default)
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid) 
+        if (!validationResult.IsValid)
             return validationResult.ToErrorList();
-        
+
         var existenceCheckData = command.ToExistenceCheckData();
         var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
         if (existenceCheckerResult.IsFailure)
             return existenceCheckerResult.Error.ToErrorList();
 
         var specie = SpecieHelper.ForceCreateNewSpecie(
-            command.Name, 
+            command.Name,
             command.Description);
 
         await _speciesRepository.AddAsync(specie, cancellationToken);

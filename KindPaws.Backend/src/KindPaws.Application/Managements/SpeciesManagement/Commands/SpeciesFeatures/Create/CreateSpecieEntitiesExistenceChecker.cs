@@ -1,6 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.ExistValidators;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;

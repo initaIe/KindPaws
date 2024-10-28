@@ -7,11 +7,11 @@ using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 
-public class UpdatePetAdditionalInfoEntitiesExistenceChecker 
+public class UpdatePetAdditionalInfoEntitiesExistenceChecker
     : IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData>
 {
-    private readonly IVolunteerExistValidator _volunteerExistValidator;
     private readonly IPetExistValidator _petExistValidator;
+    private readonly IVolunteerExistValidator _volunteerExistValidator;
 
     public UpdatePetAdditionalInfoEntitiesExistenceChecker(
         IVolunteerExistValidator volunteerExistValidator,
@@ -29,7 +29,7 @@ public class UpdatePetAdditionalInfoEntitiesExistenceChecker
             .IsVolunteerByIdExistsAsync(checkData.VolunteerId, cancellationToken);
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), checkData.VolunteerId);
-        
+
         var isPetByIdExist = await _petExistValidator
             .IsPetByIdExists(checkData.PetId, cancellationToken);
         if (!isPetByIdExist)

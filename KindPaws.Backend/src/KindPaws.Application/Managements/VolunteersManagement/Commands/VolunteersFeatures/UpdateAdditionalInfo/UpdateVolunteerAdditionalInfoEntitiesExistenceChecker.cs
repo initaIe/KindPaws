@@ -1,13 +1,12 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.ExistValidators;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 
-public class UpdateVolunteerAdditionalInfoEntitiesExistenceChecker 
+public class UpdateVolunteerAdditionalInfoEntitiesExistenceChecker
     : IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData>
 {
     private readonly IVolunteerExistValidator _volunteerExistValidator;

@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.Markers;
+﻿using KindPaws.Application.Abstractions.Markers;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 
@@ -10,5 +9,7 @@ public record AddBreedCommand(
     : ICommand
 {
     public AddBreedExistenceCheckData ToExistenceCheckData()
-        => new(SpecieId, Name);
+    {
+        return new AddBreedExistenceCheckData(SpecieId, Name);
+    }
 }

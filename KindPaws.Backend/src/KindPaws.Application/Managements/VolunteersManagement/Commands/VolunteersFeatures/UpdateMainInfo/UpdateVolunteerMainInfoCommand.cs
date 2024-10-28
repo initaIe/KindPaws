@@ -1,5 +1,4 @@
-﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.Markers;
+﻿using KindPaws.Application.Abstractions.Markers;
 using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
@@ -12,5 +11,7 @@ public record UpdateVolunteerMainInfoCommand(
     : ICommand
 {
     public UpdateVolunteerMainInfoExistenceCheckData ToExistenceCheckData()
-        => new(VolunteerId, EmailAddress, PhoneNumber);
+    {
+        return new UpdateVolunteerMainInfoExistenceCheckData(VolunteerId, EmailAddress, PhoneNumber);
+    }
 }

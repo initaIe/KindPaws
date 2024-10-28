@@ -1,7 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.ExistValidators;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
-using KindPaws.Application.Validation.ExistValidators;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
@@ -12,9 +10,9 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 
 public class AddPetEntitiesExistenceChecker : IEntitiesExistenceChecker<AddPetExistenceCheckData>
 {
-    private readonly IVolunteerExistValidator _volunteerExistValidator;
-    private readonly ISpecieExistValidator _specieExistValidator;
     private readonly IBreedExistValidator _breedExistValidator;
+    private readonly ISpecieExistValidator _specieExistValidator;
+    private readonly IVolunteerExistValidator _volunteerExistValidator;
 
     public AddPetEntitiesExistenceChecker(
         IVolunteerExistValidator volunteerExistValidator,

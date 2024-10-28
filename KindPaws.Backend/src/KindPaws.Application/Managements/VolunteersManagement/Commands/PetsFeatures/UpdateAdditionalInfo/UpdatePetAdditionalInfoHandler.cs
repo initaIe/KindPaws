@@ -14,17 +14,17 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 public class UpdatePetAdditionalInfoHandler
     : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>
 {
+    private readonly IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> _entitiesExistenceChecker;
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> _entitiesExistenceChecker;
 
     public UpdatePetAdditionalInfoHandler(
         ILogger<UpdatePetAdditionalInfoHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<UpdatePetAdditionalInfoCommand> validator,
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> entitiesExistenceChecker)
     {
         _logger = logger;
@@ -119,10 +119,10 @@ public class UpdatePetAdditionalInfoHandler
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
-        
+
         var petId = PetId.Create(command.PetId).Value;
         var petResult = volunteerResult.Value.GetPetById(petId);
-        
+
         petResult.Value.UpdateAdditionalInfo(
             supportStatus,
             description,

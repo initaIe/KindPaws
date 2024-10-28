@@ -9,8 +9,8 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 
 public class AddPetPhotosEntitiesExistenceChecker : IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData>
 {
-    private readonly IVolunteerExistValidator _volunteerExistValidator;
     private readonly IPetExistValidator _petExistValidator;
+    private readonly IVolunteerExistValidator _volunteerExistValidator;
 
     public AddPetPhotosEntitiesExistenceChecker(
         IVolunteerExistValidator volunteerExistValidator,
@@ -28,7 +28,7 @@ public class AddPetPhotosEntitiesExistenceChecker : IEntitiesExistenceChecker<Ad
             .IsVolunteerByIdExistsAsync(checkData.VolunteerId, cancellationToken);
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), checkData.VolunteerId);
-        
+
         var isPetByIdExist = await _petExistValidator
             .IsPetByIdExists(checkData.PetId, cancellationToken);
         if (!isPetByIdExist)

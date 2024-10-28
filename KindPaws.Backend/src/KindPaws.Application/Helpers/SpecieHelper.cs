@@ -1,5 +1,4 @@
 ﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
-using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
@@ -12,7 +11,7 @@ public static class SpecieHelper
         var specieId = SpecieId.CreateRandom();
         var specieName = ShortName.Create(name).Value;
         var specieDescription = MediumDescription.Create(description).Value;
-        
+
         return new Specie(
             specieId,
             specieName,
