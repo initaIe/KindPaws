@@ -11,8 +11,8 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 {
     private readonly List<Pet> _pets = [];
     private bool _isDeleted;
-    private List<Requisite> _requisites;
-    private List<SocialNetwork> _socialNetworks;
+    private List<Requisite> _requisites = [];
+    private List<SocialNetwork> _socialNetworks = [];
 
     // ef core
     private Volunteer(VolunteerId id) : base(id)
@@ -21,30 +21,20 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
 
     public Volunteer(
         VolunteerId id,
-        IEnumerable<SocialNetwork>? socialNetworks,
-        IEnumerable<Requisite>? requisites,
         FullName fullName,
         EmailAddress emailAddress,
-        PhoneNumber phoneNumber,
-        MediumDescription? description,
-        Address? address,
-        YearsOfExperience? yearsOfExperience)
+        PhoneNumber phoneNumber)
         : base(id)
     {
-        _socialNetworks = socialNetworks?.ToList() ?? [];
-        _requisites = requisites?.ToList() ?? [];
         FullName = fullName;
         EmailAddress = emailAddress;
         PhoneNumber = phoneNumber;
-        Description = description;
-        Address = address;
-        YearsOfExperience = yearsOfExperience;
     }
 
     public FullName FullName { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
-    public MediumDescription? Description { get; private set; }
+    public MediumDescription? Description { get; private set; } 
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;

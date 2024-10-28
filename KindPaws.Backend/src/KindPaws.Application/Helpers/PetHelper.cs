@@ -16,14 +16,7 @@ public static class PetHelper
 
         return new Pet(
             petId,
-            petType,
             petName,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            petType);
     }
 }

@@ -8,7 +8,8 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 
 public class Pet : Entity<PetId>, ISoftDeleteable
 {
-    private readonly List<PetPhoto> _photos;
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
+    private List<PetPhoto> _photos = [];
     private bool _isDeleted;
 
     // ef core
@@ -18,31 +19,17 @@ public class Pet : Entity<PetId>, ISoftDeleteable
 
     public Pet(
         PetId id,
-        PetType petType,
         ShortName name,
-        SupportStatus? supportStatus,
-        MediumDescription? description,
-        PetColor? color,
-        Age? age,
-        HealthDetails? healthDetails,
-        BiometricDetails? biometricDetails,
-        IEnumerable<PetPhoto>? photos)
+        PetType petType)
         : base(id)
     {
-        PetType = petType;
         Name = name;
-        CreationDateTime = DateTime.UtcNow; // TODO: UTC
-        SupportStatus = supportStatus;
-        Description = description;
-        Color = color;
-        Age = age;
-        HealthDetails = healthDetails ?? HealthDetails.CreateNullable();
-        BiometricDetails = biometricDetails ?? BiometricDetails.CreateNullable();
-        _photos = photos?.ToList() ?? [];
+        PetType = petType;
+        CreationDateTime = DateTime.UtcNow; // TODO: fix UTC
     }
 
-    public PetType PetType { get; private set; }
     public ShortName Name { get; private set; }
+    public PetType PetType { get; private set; }
     public DateTime CreationDateTime { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
     public MediumDescription? Description { get; private set; }

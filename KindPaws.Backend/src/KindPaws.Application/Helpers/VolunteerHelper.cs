@@ -23,13 +23,8 @@ public static class VolunteerHelper
         
         return new Volunteer(
             volunteerId,
-            null,
-            null,
             volunteerFullName,
             volunteerEmailAddress,
-            volunteerPhoneNumber,
-            null,
-            null,
-            null);
+            volunteerPhoneNumber);
     }
 }
