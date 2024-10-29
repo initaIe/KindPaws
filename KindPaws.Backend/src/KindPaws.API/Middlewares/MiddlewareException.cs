@@ -1,6 +1,5 @@
 ﻿using KindPaws.API.Response;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.API.Middlewares;
 

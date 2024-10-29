@@ -4,7 +4,6 @@ using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -98,10 +97,10 @@ public class UpdateVolunteerAdditionalInfoHandler
     }
 
     private void Log(
-        VolunteerId volunteerId, 
+        VolunteerId volunteerId,
         MediumDescription? description,
         Address? address,
-        YearsOfExperience? yearsOfExperience, 
+        YearsOfExperience? yearsOfExperience,
         IEnumerable<SocialNetwork> socialNetworks,
         IEnumerable<Requisite> requisites)
     {

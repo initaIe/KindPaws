@@ -5,7 +5,6 @@ using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;

@@ -7,7 +7,8 @@ using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
 
-public class DeleteVolunteerEntitiesExistenceValidator : IEntitiesExistenceValidator<DeleteVolunteerExistenceValidationData>
+public class
+    DeleteVolunteerEntitiesExistenceValidator : IEntitiesExistenceValidator<DeleteVolunteerExistenceValidationData>
 {
     private readonly IVolunteerExistenceValidator _volunteerExistenceValidator;
 

@@ -1,6 +1,5 @@
 ﻿using KindPaws.Application.Abstractions.Markers;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.Application.Abstractions;
 

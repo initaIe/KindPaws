@@ -12,7 +12,7 @@ public class BreedExistenceValidator : IBreedExistenceValidator
     {
         _readDbContext = readDbContext;
     }
-    
+
     public async Task<bool> IsBreedWithIdExistsAsync(
         Guid breedId,
         CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public class BreedExistenceValidator : IBreedExistenceValidator
     }
 
     public async Task<bool> IsBreedWithNameExistsForSpecieWithIdAsync(
-        Guid specieId,  
+        Guid specieId,
         string breedName,
         CancellationToken cancellationToken)
     {

@@ -5,7 +5,6 @@ using KindPaws.Application.Extensions;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,9 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public class UpdateVolunteerMainInfoHandler
     : ICommandHandler<Guid, UpdateVolunteerMainInfoCommand>
 {
-    private readonly IEntitiesExistenceValidator<UpdateVolunteerMainInfoExistenceValidationData> _entitiesExistenceValidator;
+    private readonly IEntitiesExistenceValidator<UpdateVolunteerMainInfoExistenceValidationData>
+        _entitiesExistenceValidator;
+
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerMainInfoCommand> _validator;

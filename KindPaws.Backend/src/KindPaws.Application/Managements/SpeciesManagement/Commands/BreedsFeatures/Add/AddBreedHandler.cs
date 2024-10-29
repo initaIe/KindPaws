@@ -5,7 +5,6 @@ using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
@@ -50,7 +49,7 @@ public class AddBreedHandler
 
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
-        
+
         var breed = BreedHelper.ForceCreateNewBreed(command.Name, command.Description);
 
         specieResult.Value.AddBreed(breed);
@@ -60,7 +59,7 @@ public class AddBreedHandler
 
         return breed.Id.Value;
     }
-    
+
     private void Log(Breed breed)
     {
         _logger.LogInformation("BREED added with ID: {Id}; " +
@@ -70,4 +69,3 @@ public class AddBreedHandler
             breed.Description);
     }
 }
-

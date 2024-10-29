@@ -40,7 +40,8 @@ public class UpdatePetMainInfoEntitiesExistenceValidator
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), validationData.VolunteerId);
 
         var isPetWithIdExistForVolunteerWithId = await _petExistenceValidator
-            .IsPetWithIdExistsForVolunteerWithIdAsync(validationData.VolunteerId, validationData.PetId, cancellationToken);
+            .IsPetWithIdExistsForVolunteerWithIdAsync(validationData.VolunteerId, validationData.PetId,
+                cancellationToken);
         if (!isPetWithIdExistForVolunteerWithId)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), validationData.PetId);
 
@@ -50,7 +51,8 @@ public class UpdatePetMainInfoEntitiesExistenceValidator
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpecieId);
 
         var isBreedWithIdExistForSpecieWithId = await _breedExistenceValidator
-            .IsBreedWithIdExistsForSpecieWithIdAsync(validationData.SpecieId, validationData.BreedId, cancellationToken);
+            .IsBreedWithIdExistsForSpecieWithIdAsync(validationData.SpecieId, validationData.BreedId,
+                cancellationToken);
         if (!isBreedWithIdExistForSpecieWithId)
             return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), validationData.BreedId);
 

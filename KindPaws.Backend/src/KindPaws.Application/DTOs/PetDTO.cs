@@ -15,5 +15,5 @@ public class PetDTO
     public DateTime CreationDateTime { get; init; }
     public int Position { get; init; }
     public IEnumerable<PetPhotoDTO> Photos { get; init; } = [];
-    public Guid VolunteerId { get; init; } 
+    public Guid VolunteerId { get; init; }
 }

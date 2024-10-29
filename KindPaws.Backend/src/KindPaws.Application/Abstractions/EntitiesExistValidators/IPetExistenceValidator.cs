@@ -3,11 +3,11 @@
 public interface IPetExistenceValidator
 {
     Task<bool> IsPetWithIdExistsAsync(
-        Guid petId, 
+        Guid petId,
         CancellationToken cancellationToken);
-    
+
     Task<bool> IsPetWithIdExistsForVolunteerWithIdAsync(
         Guid volunteerId,
-        Guid petId, 
+        Guid petId,
         CancellationToken cancellationToken);
 }

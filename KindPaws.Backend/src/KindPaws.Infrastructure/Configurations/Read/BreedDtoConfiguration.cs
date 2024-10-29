@@ -21,7 +21,7 @@ public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDTO>
         // DESCRIPTION
         builder.Property(breed => breed.Description)
             .HasColumnName("description");
-        
+
         // SPECIE ID
         builder.Property(breed => breed.SpecieId)
             .HasColumnName("specie_id");

@@ -7,7 +7,8 @@ using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 
-public class CreateVolunteerEntitiesExistenceValidator : IEntitiesExistenceValidator<CreateVolunteerExistenceValidationData>
+public class
+    CreateVolunteerEntitiesExistenceValidator : IEntitiesExistenceValidator<CreateVolunteerExistenceValidationData>
 {
     private readonly IVolunteerExistenceValidator _volunteerExistenceValidator;
 

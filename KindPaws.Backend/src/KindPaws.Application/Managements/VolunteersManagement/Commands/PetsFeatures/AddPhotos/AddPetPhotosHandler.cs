@@ -5,7 +5,6 @@ using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
@@ -16,7 +15,7 @@ public class AddPetPhotosHandler
     : ICommandHandler<Guid, AddPetPhotosCommand>
 {
     private const string BucketName = "pet-photos";
-    
+
     private readonly IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> _entitiesExistenceValidator;
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;

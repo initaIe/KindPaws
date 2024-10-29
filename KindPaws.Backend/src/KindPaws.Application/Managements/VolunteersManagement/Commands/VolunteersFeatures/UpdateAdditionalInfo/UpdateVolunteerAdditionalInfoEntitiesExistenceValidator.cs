@@ -12,7 +12,8 @@ public class UpdateVolunteerAdditionalInfoEntitiesExistenceValidator
 {
     private readonly IVolunteerExistenceValidator _volunteerExistenceValidator;
 
-    public UpdateVolunteerAdditionalInfoEntitiesExistenceValidator(IVolunteerExistenceValidator volunteerExistenceValidator)
+    public UpdateVolunteerAdditionalInfoEntitiesExistenceValidator(
+        IVolunteerExistenceValidator volunteerExistenceValidator)
     {
         _volunteerExistenceValidator = volunteerExistenceValidator;
     }

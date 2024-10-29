@@ -4,7 +4,6 @@ using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -15,7 +14,9 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 public class UpdatePetAdditionalInfoHandler
     : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>
 {
-    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData> _entitiesExistenceValidator;
+    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData>
+        _entitiesExistenceValidator;
+
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
@@ -144,9 +145,9 @@ public class UpdatePetAdditionalInfoHandler
         SupportStatus? supportStatus,
         MediumDescription? description,
         PetColor? color,
-        Age? age, 
-        HealthDetails? healthDetails, 
-        BiometricDetails? biometricDetails, 
+        Age? age,
+        HealthDetails? healthDetails,
+        BiometricDetails? biometricDetails,
         VolunteerId volunteerId)
     {
         _logger.LogInformation("PET updated additional info with ID: {Id}; " +

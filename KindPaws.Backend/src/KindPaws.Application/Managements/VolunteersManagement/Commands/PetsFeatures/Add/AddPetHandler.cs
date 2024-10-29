@@ -5,7 +5,6 @@ using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
@@ -67,7 +66,6 @@ public class AddPetHandler
             "PET created with ID: {Id}; " +
             "Properties: {PetType}, {PetName}; " +
             "Owner ID : {VolunteerId}",
-            
             pet.Id,
             pet.PetType,
             pet.Name,

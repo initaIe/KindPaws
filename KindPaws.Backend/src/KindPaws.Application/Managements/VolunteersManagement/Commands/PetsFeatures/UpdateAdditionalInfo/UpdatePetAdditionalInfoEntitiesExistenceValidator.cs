@@ -32,7 +32,8 @@ public class UpdatePetAdditionalInfoEntitiesExistenceValidator
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), validationData.VolunteerId);
 
         var isPetWithIdExistForVolunteerWithId = await _petExistenceValidator
-            .IsPetWithIdExistsForVolunteerWithIdAsync(validationData.VolunteerId,validationData.PetId, cancellationToken);
+            .IsPetWithIdExistsForVolunteerWithIdAsync(validationData.VolunteerId, validationData.PetId,
+                cancellationToken);
         if (!isPetWithIdExistForVolunteerWithId)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), validationData.PetId);
 

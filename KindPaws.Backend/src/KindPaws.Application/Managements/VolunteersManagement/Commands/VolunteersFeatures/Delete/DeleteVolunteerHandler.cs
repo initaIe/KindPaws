@@ -3,7 +3,6 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
@@ -56,11 +55,11 @@ public class DeleteVolunteerHandler
 
         return volunteerId.Value;
     }
-    
+
     private void Log(VolunteerId volunteerId)
     {
         _logger.LogInformation(
-            "VOLUNTEER soft deleted with ID: {Id}", 
+            "VOLUNTEER soft deleted with ID: {Id}",
             volunteerId);
     }
 }

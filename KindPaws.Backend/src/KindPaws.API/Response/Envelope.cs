@@ -1,5 +1,4 @@
 ﻿using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.API.Response;
 

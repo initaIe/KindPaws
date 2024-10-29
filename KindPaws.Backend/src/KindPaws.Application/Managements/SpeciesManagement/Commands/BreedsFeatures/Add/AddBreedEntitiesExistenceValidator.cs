@@ -32,7 +32,8 @@ public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<Ad
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpeciesId);
 
         var isBreedWithNameExistsForSpecieWithId = await _breedExistenceValidator
-            .IsBreedWithNameExistsForSpecieWithIdAsync(validationData.SpeciesId, validationData.BreedName, cancellationToken);
+            .IsBreedWithNameExistsForSpecieWithIdAsync(validationData.SpeciesId, validationData.BreedName,
+                cancellationToken);
         if (isBreedWithNameExistsForSpecieWithId)
             return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortName));
 
