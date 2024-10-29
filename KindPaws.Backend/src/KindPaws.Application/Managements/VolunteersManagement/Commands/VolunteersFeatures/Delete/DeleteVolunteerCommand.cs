@@ -6,7 +6,5 @@ public record DeleteVolunteerCommand(Guid VolunteerId)
     : ICommand
 {
     public DeleteVolunteerExistenceValidationData ToExistenceValidationData()
-    {
-        return new DeleteVolunteerExistenceValidationData(VolunteerId);
-    }
+        => new(VolunteerId);
 }

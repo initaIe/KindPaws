@@ -11,7 +11,5 @@ public record UpdatePetMainInfoCommand(
     : ICommand
 {
     public UpdatePetMainInfoExistenceValidationData ToExistenceValidationData()
-    {
-        return new UpdatePetMainInfoExistenceValidationData(VolunteerId, PetId, SpecieId, BreedId);
-    }
+        => new(VolunteerId, PetId, SpecieId, BreedId);
 }

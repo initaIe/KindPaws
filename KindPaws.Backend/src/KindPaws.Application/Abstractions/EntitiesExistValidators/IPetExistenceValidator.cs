@@ -10,4 +10,12 @@ public interface IPetExistenceValidator
         Guid volunteerId,
         Guid petId,
         CancellationToken cancellationToken);
+    
+    Task<bool> IsPetWithSpecieIdExistsAsync(
+        Guid specieId,
+        CancellationToken cancellationToken);
+    
+    Task<bool> IsPetWithBreedIdExistsAsync(
+        Guid breedId,
+        CancellationToken cancellationToken);
 }

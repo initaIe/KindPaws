@@ -12,15 +12,5 @@ public record UpdatePetAdditionalInfoRequest(
     BiometricDetailsDTO? BiometricDetails)
 {
     public UpdatePetAdditionalInfoCommand ToCommand(Guid id, Guid petId)
-    {
-        return new UpdatePetAdditionalInfoCommand(
-            id,
-            petId,
-            SupportStatus,
-            Description,
-            Color,
-            BirthDate,
-            HealthDetails,
-            BiometricDetails);
-    }
+        => new(id, petId, SupportStatus, Description, Color, BirthDate, HealthDetails, BiometricDetails);
 }

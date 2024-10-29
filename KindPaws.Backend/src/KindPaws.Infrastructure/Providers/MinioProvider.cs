@@ -125,8 +125,6 @@ public class MinioProvider : IFileProvider
         return getObjectLinkResult.Value;
     }
 
-    #region Heleprs
-
     private async Task<Result<bool, Error>> BucketExistsAsync(
         string bucketName,
         CancellationToken cancellationToken = default)
@@ -311,6 +309,4 @@ public class MinioProvider : IFileProvider
             return MinioErrors.Failure(nameof(RemoveObjectAsync));
         }
     }
-
-    #endregion
 }

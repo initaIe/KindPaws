@@ -9,7 +9,5 @@ public record AddBreedCommand(
     : ICommand
 {
     public AddBreedExistenceValidationData ToExistenceValidationData()
-    {
-        return new AddBreedExistenceValidationData(SpecieId, Name);
-    }
+        => new(SpecieId, Name);
 }

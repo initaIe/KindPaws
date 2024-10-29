@@ -31,10 +31,10 @@ public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<Ad
         if (!isSpecieWithIdExist)
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpeciesId);
 
-        var isBreedWithNameExistsForSpecieWithId = await _breedExistenceValidator
+        var isBreedWithNameExistForSpecieWithId = await _breedExistenceValidator
             .IsBreedWithNameExistsForSpecieWithIdAsync(validationData.SpeciesId, validationData.BreedName,
                 cancellationToken);
-        if (isBreedWithNameExistsForSpecieWithId)
+        if (isBreedWithNameExistForSpecieWithId)
             return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortName));
 
         return true;

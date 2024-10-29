@@ -10,7 +10,5 @@ public record AddPetPhotosCommand(
     : ICommand
 {
     public AddPetPhotosExistenceValidationData ToExistenceValidationData()
-    {
-        return new AddPetPhotosExistenceValidationData(VolunteerId, PetId);
-    }
+        => new(VolunteerId, PetId);
 }

@@ -46,21 +46,21 @@ public class Specie : Entity<SpecieId>, ISoftDeleteable
         _breeds.Add(breed);
     }
 
-    public Result<Breed, Error> GetBreedByGuidId(Guid targetBreedId)
+    public void DeleteBreed(Breed breed)
     {
-        var breedId = BreedId.Create(targetBreedId);
+        _breeds.Remove(breed);
+    }
 
-        if (breedId.IsFailure)
-            return Errors.General.ValueIsInvalid(nameof(breedId));
-
-        var breed = _breeds.FirstOrDefault(x => x.Id == breedId.Value);
+    public Result<Breed, Error> GetBreedById(BreedId breedId)
+    {
+        var breed = _breeds.FirstOrDefault(x => x.Id == breedId);
 
         if (breed == null)
             return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), breedId.Value);
 
         return breed;
     }
-
+    
     public Result<Breed, Error> GetBreedByName(ShortName name)
     {
         var breed = _breeds.FirstOrDefault(x => x.Name == name);

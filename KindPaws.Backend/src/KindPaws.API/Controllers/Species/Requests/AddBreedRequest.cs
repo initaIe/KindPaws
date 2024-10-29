@@ -7,10 +7,5 @@ public record AddBreedRequest(
     string Description)
 {
     public AddBreedCommand ToCommand(Guid id)
-    {
-        return new AddBreedCommand(
-            id,
-            Name,
-            Description);
-    }
+        => new(id, Name, Description);
 }

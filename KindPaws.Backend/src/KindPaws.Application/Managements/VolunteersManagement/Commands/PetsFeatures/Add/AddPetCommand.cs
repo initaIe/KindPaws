@@ -10,7 +10,5 @@ public record AddPetCommand(
     : ICommand
 {
     public AddPetExistenceValidationData ToExistenceValidationData()
-    {
-        return new AddPetExistenceValidationData(VolunteerId, SpecieId, BreedId);
-    }
+        => new(VolunteerId, SpecieId, BreedId);
 }

@@ -8,7 +8,5 @@ public record CreateSpecieCommand(
     : ICommand
 {
     public CreateSpecieExistenceValidationData ToExistenceValidationData()
-    {
-        return new CreateSpecieExistenceValidationData(Name);
-    }
+        => new(Name);
 }

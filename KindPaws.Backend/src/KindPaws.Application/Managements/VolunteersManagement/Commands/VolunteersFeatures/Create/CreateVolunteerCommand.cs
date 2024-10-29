@@ -10,7 +10,5 @@ public record CreateVolunteerCommand(
     : ICommand
 {
     public CreateVolunteerExistenceValidationData ToExistenceValidationData()
-    {
-        return new CreateVolunteerExistenceValidationData(EmailAddress, PhoneNumber);
-    }
+        => new(EmailAddress, PhoneNumber);
 }

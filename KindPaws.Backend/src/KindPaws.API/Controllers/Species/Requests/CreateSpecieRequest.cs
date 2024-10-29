@@ -7,7 +7,5 @@ public record CreateSpecieRequest(
     string Description)
 {
     public CreateSpecieCommand ToCommand()
-    {
-        return new CreateSpecieCommand(Name, Description);
-    }
+        => new(Name, Description);
 }

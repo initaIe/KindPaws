@@ -3,10 +3,10 @@ using KindPaws.Domain.Shared;
 
 namespace KindPaws.Application.Abstractions;
 
-public interface IEntitiesExistenceValidator<in TExistenceCheckData>
-    where TExistenceCheckData : IExistenceValidationData
+public interface IEntitiesExistenceValidator<in TExistenceValdiationData>
+    where TExistenceValdiationData : IExistenceValidationData
 {
     Task<Result<Error>> ValidateAsync(
-        TExistenceCheckData checkData,
+        TExistenceValdiationData existenceValidationData,
         CancellationToken cancellationToken);
 }

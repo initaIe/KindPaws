@@ -11,13 +11,5 @@ public record UpdateVolunteerAdditionalInfoRequest(
     IEnumerable<RequisiteDTO>? Requisites)
 {
     public UpdateVolunteerAdditionalInfoCommand ToCommand(Guid id)
-    {
-        return new UpdateVolunteerAdditionalInfoCommand(
-            id,
-            Description,
-            Address,
-            YearsOfExperience,
-            SocialNetworks,
-            Requisites);
-    }
+        => new(id, Description, Address, YearsOfExperience, SocialNetworks, Requisites);
 }

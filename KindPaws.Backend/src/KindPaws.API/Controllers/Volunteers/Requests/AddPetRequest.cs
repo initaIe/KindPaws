@@ -8,11 +8,5 @@ public record AddPetRequest(
     string Name)
 {
     public AddPetCommand ToCommand(Guid id)
-    {
-        return new AddPetCommand(
-            id,
-            SpecieId,
-            BreedId,
-            Name);
-    }
+        => new(id, SpecieId, BreedId, Name);
 }

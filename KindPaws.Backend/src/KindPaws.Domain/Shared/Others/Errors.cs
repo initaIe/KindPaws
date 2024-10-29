@@ -51,5 +51,14 @@ public static class Errors
             name ??= "Value";
             return Error.Validation("value.character.set.is.invalid", $"{name} character set is invalid");
         }
+
+        public static Error OperationCanNotBePerformed(string? operationName = null, string? text = null)
+        {
+            operationName ??= "Operation";
+            text ??= "";
+            return Error.Validation(
+                "operation.can.not.be.performed",
+                $"{operationName} can not be performed {text}");
+        }
     }
 }

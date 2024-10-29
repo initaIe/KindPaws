@@ -8,12 +8,5 @@ public record UpdatePetMainInfoRequest(
     string Name)
 {
     public UpdatePetMainInfoCommand ToCommand(Guid id, Guid petId)
-    {
-        return new UpdatePetMainInfoCommand(
-            id,
-            petId,
-            SpecieId,
-            BreedId,
-            Name);
-    }
+        => new(id, petId, SpecieId, BreedId, Name);
 }

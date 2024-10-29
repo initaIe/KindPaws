@@ -9,11 +9,5 @@ public record UpdateVolunteerMainInfoRequest(
     string PhoneNumber)
 {
     public UpdateVolunteerMainInfoCommand ToCommand(Guid id)
-    {
-        return new UpdateVolunteerMainInfoCommand(
-            id,
-            FullName,
-            EmailAddress,
-            PhoneNumber);
-    }
+        => new(id, FullName, EmailAddress, PhoneNumber);
 }

@@ -29,4 +29,20 @@ public class PetExistenceValidator : IPetExistenceValidator
         return await _readDbContext.Pets.AnyAsync(
             p => p.VolunteerId == volunteerId && p.Id == petId, cancellationToken);
     }
+
+    public async Task<bool> IsPetWithSpecieIdExistsAsync(
+        Guid specieId, 
+        CancellationToken cancellationToken)
+    {
+        return await _readDbContext.Pets.AnyAsync(
+            p => p.SpecieId == specieId, cancellationToken);
+    }
+
+    public async Task<bool> IsPetWithBreedIdExistsAsync(
+        Guid breedId,
+        CancellationToken cancellationToken)
+    {
+        return await _readDbContext.Pets.AnyAsync(
+            p => p.BreedId == breedId, cancellationToken);
+    }
 }

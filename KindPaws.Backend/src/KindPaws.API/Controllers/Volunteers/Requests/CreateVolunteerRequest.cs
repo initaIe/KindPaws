@@ -9,7 +9,5 @@ public record CreateVolunteerRequest(
     string PhoneNumber)
 {
     public CreateVolunteerCommand ToCommand()
-    {
-        return new CreateVolunteerCommand(FullName, EmailAddress, PhoneNumber);
-    }
+        => new(FullName, EmailAddress, PhoneNumber);
 }

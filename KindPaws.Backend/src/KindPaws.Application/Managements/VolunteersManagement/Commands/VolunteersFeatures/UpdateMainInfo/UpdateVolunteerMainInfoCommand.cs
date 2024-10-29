@@ -11,7 +11,5 @@ public record UpdateVolunteerMainInfoCommand(
     : ICommand
 {
     public UpdateVolunteerMainInfoExistenceValidationData ToExistenceValidationData()
-    {
-        return new UpdateVolunteerMainInfoExistenceValidationData(VolunteerId, EmailAddress, PhoneNumber);
-    }
+        => new(VolunteerId, EmailAddress, PhoneNumber);
 }
