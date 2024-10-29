@@ -2,6 +2,7 @@
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;

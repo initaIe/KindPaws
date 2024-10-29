@@ -10,8 +10,8 @@ public record UpdateVolunteerMainInfoCommand(
     string PhoneNumber)
     : ICommand
 {
-    public UpdateVolunteerMainInfoExistenceCheckData ToExistenceCheckData()
+    public UpdateVolunteerMainInfoExistenceValidationData ToExistenceValidationData()
     {
-        return new UpdateVolunteerMainInfoExistenceCheckData(VolunteerId, EmailAddress, PhoneNumber);
+        return new UpdateVolunteerMainInfoExistenceValidationData(VolunteerId, EmailAddress, PhoneNumber);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;

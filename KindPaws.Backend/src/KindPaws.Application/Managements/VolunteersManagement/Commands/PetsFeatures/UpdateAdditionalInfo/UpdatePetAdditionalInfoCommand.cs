@@ -14,8 +14,8 @@ public record UpdatePetAdditionalInfoCommand(
     BiometricDetailsDTO? BiometricDetails)
     : ICommand
 {
-    public UpdatePetAdditionalInfoExistenceCheckData ToExistenceCheckData()
+    public UpdatePetAdditionalInfoExistenceValidationData ToExistenceValidationData()
     {
-        return new UpdatePetAdditionalInfoExistenceCheckData(VolunteerId, PetId);
+        return new UpdatePetAdditionalInfoExistenceValidationData(VolunteerId, PetId);
     }
 }

@@ -9,8 +9,8 @@ public record AddPetCommand(
     string Name)
     : ICommand
 {
-    public AddPetExistenceCheckData ToExistenceCheckData()
+    public AddPetExistenceValidationData ToExistenceValidationData()
     {
-        return new AddPetExistenceCheckData(VolunteerId, SpecieId, BreedId);
+        return new AddPetExistenceValidationData(VolunteerId, SpecieId, BreedId);
     }
 }

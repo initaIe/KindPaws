@@ -1,5 +1,6 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs.FileProvider;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using Microsoft.Extensions.Logging;

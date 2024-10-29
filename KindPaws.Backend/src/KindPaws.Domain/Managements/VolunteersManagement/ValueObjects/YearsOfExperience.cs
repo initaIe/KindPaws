@@ -1,4 +1,5 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.Constraints;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;

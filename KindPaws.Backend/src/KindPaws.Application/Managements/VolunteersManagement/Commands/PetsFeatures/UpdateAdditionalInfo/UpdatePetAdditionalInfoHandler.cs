@@ -3,6 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
@@ -14,7 +15,7 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 public class UpdatePetAdditionalInfoHandler
     : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>
 {
-    private readonly IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> _entitiesExistenceChecker;
+    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
@@ -25,27 +26,28 @@ public class UpdatePetAdditionalInfoHandler
         IVolunteersRepository volunteersRepository,
         IValidator<UpdatePetAdditionalInfoCommand> validator,
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceChecker<UpdatePetAdditionalInfoExistenceCheckData> entitiesExistenceChecker)
+        IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceChecker = entitiesExistenceChecker;
+        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
         UpdatePetAdditionalInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid)
-            return validationResult.ToErrorList();
+        var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!commandValidationResult.IsValid)
+            return commandValidationResult.ToErrorList();
 
-        var existenceCheckData = command.ToExistenceCheckData();
-        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
-        if (existenceCheckerResult.IsFailure)
-            return existenceCheckerResult.Error.ToErrorList();
+        var entitiesExistenceValidationData = command.ToExistenceValidationData();
+        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
+            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
+        if (entitiesExistenceValidationResult.IsFailure)
+            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         SupportStatus? supportStatus = null;
         if (command.SupportStatus != null)
@@ -64,8 +66,8 @@ public class UpdatePetAdditionalInfoHandler
             age = Age.Create(command.BirthDate.Value).Value;
 
         MediumDescription? healthDescription = null;
-        IEnumerable<Vaccine>? vaccines = null;
-        IEnumerable<Disease>? diseases = null;
+        List<Vaccine> vaccines = [];
+        List<Disease> diseases = [];
         HealthStatus? healthStatus = null;
         bool? isNeutered = null;
 
@@ -76,10 +78,10 @@ public class UpdatePetAdditionalInfoHandler
                 healthDescription = MediumDescription.Create(command.HealthDetails.Description).Value;
 
             if (command.HealthDetails.Vaccines != null)
-                vaccines = command.HealthDetails.Vaccines.Select(v => Vaccine.Create(v).Value);
+                vaccines = command.HealthDetails.Vaccines.Select(v => Vaccine.Create(v).Value).ToList();
 
             if (command.HealthDetails.Diseases != null)
-                diseases = command.HealthDetails.Diseases.Select(v => Disease.Create(v).Value);
+                diseases = command.HealthDetails.Diseases.Select(v => Disease.Create(v).Value).ToList();
 
             if (command.HealthDetails.HealthStatus != null)
                 healthStatus = HealthStatus.Create(command.HealthDetails.HealthStatus).Value;
@@ -132,19 +134,32 @@ public class UpdatePetAdditionalInfoHandler
             biometricDetails);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("PET updated additional info with ID: {petId}; " +
-                               "Properties: {supportStatus}, {description}, {color}, {age}, {healthDetails}, " +
-                               "{biometricDetails}; " +
-                               "Owner ID : {volunteerId}",
-            petId.Value,
+        Log(petId, supportStatus, description, color, age, healthDetails, biometricDetails, volunteerId);
+
+        return petId.Value;
+    }
+
+    private void Log(
+        PetId petId,
+        SupportStatus? supportStatus,
+        MediumDescription? description,
+        PetColor? color,
+        Age? age, 
+        HealthDetails? healthDetails, 
+        BiometricDetails? biometricDetails, 
+        VolunteerId volunteerId)
+    {
+        _logger.LogInformation("PET updated additional info with ID: {Id}; " +
+                               "Properties: {SupportStatus}, {Description}, {Color}, {Age}, {HealthDetails}, " +
+                               "{BiometricDetails}; " +
+                               "Owner ID : {VolunteerId}",
+            petId,
             supportStatus,
             description,
             color,
             age,
             healthDetails,
             biometricDetails,
-            volunteerId.Value);
-
-        return petId.Value;
+            volunteerId);
     }
 }

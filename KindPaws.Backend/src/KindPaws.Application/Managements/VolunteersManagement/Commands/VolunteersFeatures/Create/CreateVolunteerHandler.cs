@@ -3,6 +3,8 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
+using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +13,7 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public class CreateVolunteerHandler
     : ICommandHandler<Guid, CreateVolunteerCommand>
 {
-    private readonly IEntitiesExistenceChecker<CreateVolunteerExistenceCheckData> _entitiesExistenceChecker;
+    private readonly IEntitiesExistenceValidator<CreateVolunteerExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateVolunteerCommand> _validator;
@@ -22,27 +24,28 @@ public class CreateVolunteerHandler
         ILogger<CreateVolunteerHandler> logger,
         IValidator<CreateVolunteerCommand> validator,
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceChecker<CreateVolunteerExistenceCheckData> entitiesExistenceChecker)
+        IEntitiesExistenceValidator<CreateVolunteerExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceChecker = entitiesExistenceChecker;
+        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
         CreateVolunteerCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid)
-            return validationResult.ToErrorList();
+        var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!commandValidationResult.IsValid)
+            return commandValidationResult.ToErrorList();
 
-        var existenceCheckData = command.ToExistenceCheckData();
-        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
-        if (existenceCheckerResult.IsFailure)
-            return existenceCheckerResult.Error.ToErrorList();
+        var entitiesExistenceValidationData = command.ToExistenceValidationData();
+        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
+            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
+        if (entitiesExistenceValidationResult.IsFailure)
+            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var volunteer = VolunteerHelper.ForceCreateNewVolunteer(
             command.FullName,
@@ -52,13 +55,18 @@ public class CreateVolunteerHandler
         await _volunteersRepository.AddAsync(volunteer, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("VOLUNTEER created with ID: {VolunteerId}; " +
+        Log(volunteer);
+
+        return volunteer.Id.Value;
+    }
+
+    private void Log(Volunteer volunteer)
+    {
+        _logger.LogInformation("VOLUNTEER created with ID: {Id}; " +
                                "Properties: {FullName}, {EmailAddress}, {PhoneNumber}",
-            volunteer.Id.Value,
+            volunteer.Id,
             volunteer.FullName,
             volunteer.EmailAddress,
             volunteer.PhoneNumber);
-
-        return volunteer.Id.Value;
     }
 }

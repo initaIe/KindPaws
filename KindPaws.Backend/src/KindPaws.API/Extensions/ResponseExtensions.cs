@@ -1,4 +1,5 @@
 ﻿using KindPaws.API.Response;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.Others.Enums;
 using Microsoft.AspNetCore.Mvc;

@@ -10,8 +10,8 @@ public record UpdatePetMainInfoCommand(
     string Name)
     : ICommand
 {
-    public UpdatePetMainInfoExistenceCheckData ToExistenceCheckData()
+    public UpdatePetMainInfoExistenceValidationData ToExistenceValidationData()
     {
-        return new UpdatePetMainInfoExistenceCheckData(VolunteerId, PetId, SpecieId, BreedId);
+        return new UpdatePetMainInfoExistenceValidationData(VolunteerId, PetId, SpecieId, BreedId);
     }
 }

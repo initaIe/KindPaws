@@ -5,8 +5,8 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public record DeleteVolunteerCommand(Guid VolunteerId)
     : ICommand
 {
-    public DeleteVolunteerExistenceCheckData ToExistenceCheckData()
+    public DeleteVolunteerExistenceValidationData ToExistenceValidationData()
     {
-        return new DeleteVolunteerExistenceCheckData(VolunteerId);
+        return new DeleteVolunteerExistenceValidationData(VolunteerId);
     }
 }

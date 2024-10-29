@@ -63,5 +63,9 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
         // POSITION
         builder.Property(p => p.Position)
             .HasColumnName("position");
+        
+        // VOLUNTEER ID
+        builder.Property(p => p.VolunteerId)
+            .HasColumnName("volunteer_id");
     }
 }

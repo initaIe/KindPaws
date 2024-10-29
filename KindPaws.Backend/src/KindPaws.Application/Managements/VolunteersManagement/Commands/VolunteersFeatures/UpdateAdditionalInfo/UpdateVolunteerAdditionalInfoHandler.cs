@@ -3,6 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
@@ -14,8 +15,8 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.Volunte
 public class UpdateVolunteerAdditionalInfoHandler
     : ICommandHandler<Guid, UpdateVolunteerAdditionalInfoCommand>
 {
-    private readonly IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData>
-        _entitiesExistenceChecker;
+    private readonly IEntitiesExistenceValidator<UpdateVolunteerAdditionalInfoExistenceValidationData>
+        _entitiesExistenceValidator;
 
     private readonly ILogger<UpdateVolunteerAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
@@ -28,27 +29,28 @@ public class UpdateVolunteerAdditionalInfoHandler
         ILogger<UpdateVolunteerAdditionalInfoHandler> logger,
         IValidator<UpdateVolunteerAdditionalInfoCommand> validator,
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceChecker<UpdateVolunteerAdditionalInfoExistenceCheckData> entitiesExistenceChecker)
+        IEntitiesExistenceValidator<UpdateVolunteerAdditionalInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceChecker = entitiesExistenceChecker;
+        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
         UpdateVolunteerAdditionalInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid)
-            return validationResult.ToErrorList();
+        var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!commandValidationResult.IsValid)
+            return commandValidationResult.ToErrorList();
 
-        var existenceCheckData = command.ToExistenceCheckData();
-        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
-        if (existenceCheckerResult.IsFailure)
-            return existenceCheckerResult.Error.ToErrorList();
+        var entitiesExistenceValidationData = command.ToExistenceValidationData();
+        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
+            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
+        if (entitiesExistenceValidationResult.IsFailure)
+            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(
@@ -70,17 +72,17 @@ public class UpdateVolunteerAdditionalInfoHandler
             yearsOfExperience = YearsOfExperience.Create(
                 command.YearsOfExperience.Value).Value;
 
-        IEnumerable<SocialNetwork>? socialNetworks = null;
+        List<SocialNetwork> socialNetworks = [];
         if (command.SocialNetworks != null && command.SocialNetworks.Any())
             socialNetworks = command.SocialNetworks
                 .Select(x => SocialNetwork.Create(x.Name, x.Link))
-                .Select(x => x.Value);
+                .Select(x => x.Value).ToList();
 
-        IEnumerable<Requisite>? requisites = null;
+        List<Requisite> requisites = [];
         if (command.Requisites != null && command.Requisites.Any())
             requisites = command.Requisites
                 .Select(x => Requisite.Create(x.Name, x.Description))
-                .Select(x => x.Value);
+                .Select(x => x.Value).ToList();
 
         volunteerResult.Value.UpdateAdditionalInfo(
             description,
@@ -90,17 +92,28 @@ public class UpdateVolunteerAdditionalInfoHandler
             requisites);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+        Log(volunteerId, description, address, yearsOfExperience, socialNetworks, requisites);
+
+        return volunteerId.Value;
+    }
+
+    private void Log(
+        VolunteerId volunteerId, 
+        MediumDescription? description,
+        Address? address,
+        YearsOfExperience? yearsOfExperience, 
+        IEnumerable<SocialNetwork> socialNetworks,
+        IEnumerable<Requisite> requisites)
+    {
         _logger.LogInformation
-        ("VOLUNTEER updated additional info with ID: {VolunteerId}; " +
+        ("VOLUNTEER updated additional info with ID: {Id}; " +
          "Updated properties: {Description}, {Address}, {YearsOfExperience}, " +
          "{SocialNetworks}, {Requisites}",
-            volunteerId.Value,
+            volunteerId,
             description,
             address,
             yearsOfExperience,
-            socialNetworks ?? [],
-            requisites ?? []);
-
-        return volunteerId.Value;
+            socialNetworks,
+            requisites);
     }
 }

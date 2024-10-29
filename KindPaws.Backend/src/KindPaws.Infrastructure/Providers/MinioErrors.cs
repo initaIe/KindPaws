@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Shared.Others;
+﻿using KindPaws.Domain.Shared;
+using KindPaws.Domain.Shared.Others;
 
 namespace KindPaws.Infrastructure.Providers;
 

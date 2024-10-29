@@ -12,8 +12,8 @@ public record UpdateVolunteerAdditionalInfoCommand(
     IEnumerable<RequisiteDTO>? Requisites)
     : ICommand
 {
-    public UpdateVolunteerAdditionalInfoExistenceCheckData ToExistenceCheckData()
+    public UpdateVolunteerAdditionalInfoExistenceValidationData ToExistenceValidationData()
     {
-        return new UpdateVolunteerAdditionalInfoExistenceCheckData(VolunteerId);
+        return new UpdateVolunteerAdditionalInfoExistenceValidationData(VolunteerId);
     }
 }

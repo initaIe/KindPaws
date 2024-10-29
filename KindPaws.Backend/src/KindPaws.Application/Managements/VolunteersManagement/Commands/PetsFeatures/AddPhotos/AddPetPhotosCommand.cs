@@ -9,8 +9,8 @@ public record AddPetPhotosCommand(
     IEnumerable<UploadFileDTO> UploadFileDtos)
     : ICommand
 {
-    public AddPetPhotosExistenceCheckData ToExistenceCheckData()
+    public AddPetPhotosExistenceValidationData ToExistenceValidationData()
     {
-        return new AddPetPhotosExistenceCheckData(VolunteerId, PetId);
+        return new AddPetPhotosExistenceValidationData(VolunteerId, PetId);
     }
 }

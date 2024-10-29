@@ -7,8 +7,8 @@ public record CreateSpecieCommand(
     string Description)
     : ICommand
 {
-    public CreateSpecieExistenceCheckData ToExistenceCheckData()
+    public CreateSpecieExistenceValidationData ToExistenceValidationData()
     {
-        return new CreateSpecieExistenceCheckData(Name);
+        return new CreateSpecieExistenceValidationData(Name);
     }
 }

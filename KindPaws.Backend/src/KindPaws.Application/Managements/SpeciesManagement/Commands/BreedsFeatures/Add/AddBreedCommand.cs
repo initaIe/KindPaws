@@ -8,8 +8,8 @@ public record AddBreedCommand(
     string Description)
     : ICommand
 {
-    public AddBreedExistenceCheckData ToExistenceCheckData()
+    public AddBreedExistenceValidationData ToExistenceValidationData()
     {
-        return new AddBreedExistenceCheckData(SpecieId, Name);
+        return new AddBreedExistenceValidationData(SpecieId, Name);
     }
 }

@@ -4,6 +4,7 @@ using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -15,8 +16,8 @@ public class AddPetPhotosHandler
     : ICommandHandler<Guid, AddPetPhotosCommand>
 {
     private const string BucketName = "pet-photos";
-    private readonly IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData> _entitiesExistenceChecker;
-
+    
+    private readonly IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> _entitiesExistenceValidator;
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;
     private readonly IMessageQueue<IEnumerable<DeleteFileData>> _messageQueue;
@@ -31,7 +32,7 @@ public class AddPetPhotosHandler
         IFileProvider fileProvider,
         IUnitOfWork unitOfWork,
         IMessageQueue<IEnumerable<DeleteFileData>> messageQueue,
-        IEntitiesExistenceChecker<AddPetPhotosExistenceCheckData> entitiesExistenceChecker)
+        IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
@@ -39,21 +40,22 @@ public class AddPetPhotosHandler
         _fileProvider = fileProvider;
         _unitOfWork = unitOfWork;
         _messageQueue = messageQueue;
-        _entitiesExistenceChecker = entitiesExistenceChecker;
+        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
         AddPetPhotosCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid)
-            return validationResult.ToErrorList();
+        var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!commandValidationResult.IsValid)
+            return commandValidationResult.ToErrorList();
 
-        var existenceCheckData = command.ToExistenceCheckData();
-        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
-        if (existenceCheckerResult.IsFailure)
-            return existenceCheckerResult.Error.ToErrorList();
+        var entitiesExistenceValidationData = command.ToExistenceValidationData();
+        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
+            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
+        if (entitiesExistenceValidationResult.IsFailure)
+            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         List<UploadFileData> uploadFilesData = [];
         foreach (var uploadFileDto in command.UploadFileDtos)
@@ -91,13 +93,18 @@ public class AddPetPhotosHandler
         petResult.Value.AddPhotos(petPhotos);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("PET added photos with ID: {petId}; " +
-                               "Photo names: {photoName} " +
-                               "Owner ID : {volunteerId}",
-            petId.Value,
-            uploadFilePathsResult.Value.Select(f => f.Value),
-            volunteerId.Value);
+        Log(petId, uploadFilePathsResult.Value, volunteerId);
 
         return petId.Value;
+    }
+
+    private void Log(PetId petId, IEnumerable<FilePath> uploadedFilePaths, VolunteerId volunteerId)
+    {
+        _logger.LogInformation("PET added photos with ID: {Id}; " +
+                               "Photo paths: {PhotoPaths} " +
+                               "Owner ID : {VolunteerId}",
+            petId,
+            uploadedFilePaths,
+            volunteerId);
     }
 }

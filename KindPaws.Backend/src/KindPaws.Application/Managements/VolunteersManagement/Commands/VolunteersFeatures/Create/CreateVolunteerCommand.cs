@@ -9,8 +9,8 @@ public record CreateVolunteerCommand(
     string PhoneNumber)
     : ICommand
 {
-    public CreateVolunteerExistenceCheckData ToExistenceCheckData()
+    public CreateVolunteerExistenceValidationData ToExistenceValidationData()
     {
-        return new CreateVolunteerExistenceCheckData(EmailAddress, PhoneNumber);
+        return new CreateVolunteerExistenceValidationData(EmailAddress, PhoneNumber);
     }
 }

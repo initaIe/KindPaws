@@ -3,6 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -13,7 +14,7 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 public class UpdatePetMainInfoHandler
     : ICommandHandler<Guid, UpdatePetMainInfoCommand>
 {
-    private readonly IEntitiesExistenceChecker<UpdatePetMainInfoExistenceCheckData> _entitiesExistenceChecker;
+    private readonly IEntitiesExistenceValidator<UpdatePetMainInfoExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<UpdatePetMainInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetMainInfoCommand> _validator;
@@ -24,27 +25,28 @@ public class UpdatePetMainInfoHandler
         IVolunteersRepository volunteersRepository,
         IValidator<UpdatePetMainInfoCommand> validator,
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceChecker<UpdatePetMainInfoExistenceCheckData> entitiesExistenceChecker)
+        IEntitiesExistenceValidator<UpdatePetMainInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceChecker = entitiesExistenceChecker;
+        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
         UpdatePetMainInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid)
-            return validationResult.ToErrorList();
+        var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!commandValidationResult.IsValid)
+            return commandValidationResult.ToErrorList();
 
-        var existenceCheckData = command.ToExistenceCheckData();
-        var existenceCheckerResult = await _entitiesExistenceChecker.CheckAsync(existenceCheckData, cancellationToken);
-        if (existenceCheckerResult.IsFailure)
-            return existenceCheckerResult.Error.ToErrorList();
+        var entitiesExistenceValidationData = command.ToExistenceValidationData();
+        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
+            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
+        if (entitiesExistenceValidationResult.IsFailure)
+            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
@@ -61,14 +63,19 @@ public class UpdatePetMainInfoHandler
             petName);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("PET updated main info with ID: {petId}; " +
-                               "Properties: {petType}, {petName}; " +
-                               "Owner ID : {volunteerId}",
-            petId.Value,
-            petType,
-            petName,
-            volunteerId.Value);
+        Log(petId, petType, petName, volunteerId);
 
         return petId.Value;
+    }
+
+    private void Log(PetId petId, PetType petType, ShortName petName, VolunteerId volunteerId)
+    {
+        _logger.LogInformation("PET updated main info with ID: {Id}; " +
+                               "Properties: {PetType}, {PetName}; " +
+                               "Owner ID : {VolunteerId}",
+            petId,
+            petType,
+            petName,
+            volunteerId);
     }
 }
