@@ -7,12 +7,12 @@ public record Envelope
     private Envelope(object? result, ErrorList? errors)
     {
         Result = result;
-        Errors = errors;
+        Errors = ResponseErrorList.FromErrorList(errors);
         CreationDateTime = DateTime.Now;
     }
 
     public object? Result { get; }
-    public ErrorList? Errors { get; }
+    public ResponseErrorList? Errors { get; }
     public DateTime CreationDateTime { get; }
 
     public static Envelope Ok(object? result = null)
