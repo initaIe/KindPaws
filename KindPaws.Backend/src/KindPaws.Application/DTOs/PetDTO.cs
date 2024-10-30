@@ -14,6 +14,6 @@ public class PetDTO
     public BiometricDetailsDTO? BiometricDetails { get; init; }
     public DateTime CreationDateTime { get; init; }
     public int Position { get; init; }
-    public IEnumerable<PetPhotoDTO> Photos { get; init; } = [];
+    public PetPhotoDTO[] Photos { get; init; } = [];
     public Guid VolunteerId { get; init; }
 }

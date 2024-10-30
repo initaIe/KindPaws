@@ -23,7 +23,8 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
 
         // NAME
         builder.Property(p => p.Name)
-            .HasColumnName("name");
+            .HasColumnName("name")
+            .HasColumnType("citext");
 
         // CREATION DATE
         builder.Property(p => p.CreationDateTime)

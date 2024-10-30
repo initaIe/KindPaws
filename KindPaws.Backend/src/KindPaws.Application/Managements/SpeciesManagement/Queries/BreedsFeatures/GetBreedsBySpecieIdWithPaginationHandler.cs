@@ -27,8 +27,7 @@ public class GetBreedsBySpecieIdWithPaginationHandler
         GetBreedsBySpecieIdWithPaginationQuery query,
         CancellationToken cancellationToken)
     {
-        var breedsQuery = _readDbContext.Breeds
-            .Where(b=>b.SpecieId == query.SpecieId);
+        var breedsQuery = _readDbContext.Breeds;
 
         // TODO add validation, filtration, sort and logger
 

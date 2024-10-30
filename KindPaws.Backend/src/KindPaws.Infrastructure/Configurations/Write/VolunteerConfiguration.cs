@@ -30,16 +30,19 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             fb.Property(x => x.FirstName)
                 .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
                 .HasColumnName("first_name")
+                .HasColumnType("citext")
                 .IsRequired();
 
             fb.Property(x => x.LastName)
                 .HasMaxLength(FullNameConstraints.MaxLastNameLength)
                 .HasColumnName("last_name")
+                .HasColumnType("citext")
                 .IsRequired();
 
             fb.Property(x => x.Patronymic)
                 .HasMaxLength(FullNameConstraints.MaxPatronymicLength)
                 .HasColumnName("patronymic")
+                .HasColumnType("citext")
                 .IsRequired(false);
         });
 
@@ -49,6 +52,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             emailAddress.Property(x => x.Value)
                 .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
                 .HasColumnName("email_address")
+                .HasColumnType("citext")
                 .IsRequired();
         });
 

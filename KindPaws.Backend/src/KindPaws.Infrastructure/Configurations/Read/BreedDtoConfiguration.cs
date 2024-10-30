@@ -16,7 +16,8 @@ public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDTO>
 
         // NAME
         builder.Property(breed => breed.Name)
-            .HasColumnName("name");
+            .HasColumnName("name")
+            .HasColumnType("citext");
 
         // DESCRIPTION
         builder.Property(breed => breed.Description)

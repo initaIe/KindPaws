@@ -46,6 +46,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             name.Property(pet => pet.Value)
                 .HasMaxLength(ShortNameConstraints.MaxLength)
                 .HasColumnName("name")
+                .HasColumnType("citext")
                 .IsRequired();
         });
 

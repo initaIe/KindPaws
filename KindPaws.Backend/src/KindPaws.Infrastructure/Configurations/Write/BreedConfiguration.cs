@@ -1,4 +1,5 @@
-﻿using KindPaws.Domain.Managements.SpeciesManagement.Entities;
+﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
+using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,6 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
 
         // ID
         builder.HasKey(breed => breed.Id);
-
         builder.Property(breed => breed.Id)
             .HasConversion(
                 breedId => breedId.Value,
@@ -27,6 +27,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             name.Property(x => x.Value)
                 .HasMaxLength(ShortNameConstraints.MaxLength)
                 .HasColumnName("name")
+                .HasColumnType("citext")
                 .IsRequired();
         });
 
@@ -38,8 +39,8 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 .HasColumnName("description")
                 .IsRequired();
         });
-
-        // SOFT DELETE
+        
+       // SOFT DELETE
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted")

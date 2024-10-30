@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KindPaws.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030113654_Init3")]
+    partial class Init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("citext")
+                                .HasColumnType("character varying(50)")
                                 .HasColumnName("name");
                         });
 
@@ -146,7 +149,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("citext")
+                                .HasColumnType("character varying(100)")
                                 .HasColumnName("email_address");
                         });
 
@@ -157,18 +160,18 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("citext")
+                                .HasColumnType("character varying(100)")
                                 .HasColumnName("first_name");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("citext")
+                                .HasColumnType("character varying(100)")
                                 .HasColumnName("last_name");
 
                             b1.Property<string>("Patronymic")
                                 .HasMaxLength(100)
-                                .HasColumnType("citext")
+                                .HasColumnType("character varying(100)")
                                 .HasColumnName("patronymic");
                         });
 
@@ -248,7 +251,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("citext")
+                                .HasColumnType("character varying(50)")
                                 .HasColumnName("name");
                         });
 

@@ -1,11 +1,14 @@
 ﻿using KindPaws.API.Controllers.Species.Queries;
 using KindPaws.API.Controllers.Species.Requests;
 using KindPaws.API.Extensions;
+using KindPaws.Application.Abstractions;
+using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
+using KindPaws.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;
@@ -15,7 +18,7 @@ public class SpeciesController : ApplicationController
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateSpecieRequest request,
-        [FromServices] CreateSpecieHandler handler,
+        [FromServices] ICommandHandler<Guid, CreateSpecieCommand> handler,
         CancellationToken token = default)
     {
         var command = request.ToCommand();
@@ -30,7 +33,7 @@ public class SpeciesController : ApplicationController
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(
         [FromRoute] Guid id,
-        [FromServices] DeleteSpecieHandler handler,
+        [FromServices] ICommandHandler<Guid, DeleteSpecieCommand> handler,
         CancellationToken token = default)
     {
         var command = new DeleteSpecieCommand(id);
@@ -43,10 +46,10 @@ public class SpeciesController : ApplicationController
     }
 
     [HttpPost("{id:guid}/breeds")]
-    public async Task<IActionResult> AddPet(
+    public async Task<IActionResult> AddBreed(
         [FromRoute] Guid id,
         [FromBody] AddBreedRequest request,
-        [FromServices] AddBreedHandler handler,
+        [FromServices] ICommandHandler<Guid, AddBreedCommand> handler,
         CancellationToken token = default)
     {
         var command = request.ToCommand(id);
@@ -62,7 +65,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> DeleteBreedById(
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
-        [FromServices] DeleteBreedHandler handler,
+        [FromServices] ICommandHandler<Guid, DeleteBreedCommand> handler,
         CancellationToken token = default)
     {
         var command = new DeleteBreedCommand(id, breedId);
@@ -77,7 +80,7 @@ public class SpeciesController : ApplicationController
     [HttpGet]
     public async Task<IActionResult> GetSpeciesWithPagination(
         [FromQuery] GetSpeciesWithPaginationRequest request,
-        [FromServices] GetSpeciesWithPaginationHandler handler,
+        [FromServices] IQueryHandler<PagedList<SpecieDTO>, GetSpeciesWithPaginationQuery> handler,
         CancellationToken token = default)
     {
         var query = request.ToQuery();

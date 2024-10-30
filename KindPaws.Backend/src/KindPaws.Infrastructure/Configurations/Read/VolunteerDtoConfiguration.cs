@@ -19,18 +19,22 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         builder.ComplexProperty(v => v.FullName, fb =>
         {
             fb.Property(x => x.FirstName)
-                .HasColumnName("first_name");
+                .HasColumnName("first_name")
+                .HasColumnType("citext");
 
             fb.Property(x => x.LastName)
-                .HasColumnName("last_name");
+                .HasColumnName("last_name")
+                .HasColumnType("citext");
 
             fb.Property(x => x.Patronymic)
-                .HasColumnName("patronymic");
+                .HasColumnName("patronymic")
+                .HasColumnType("citext");
         });
 
         // EMAIL ADDRESS
         builder.Property(v => v.EmailAddress)
-            .HasColumnName("email_address");
+            .HasColumnName("email_address")
+            .HasColumnType("citext");
 
         // PHONE NUMBER
         builder.Property(v => v.PhoneNumber)
@@ -62,6 +66,6 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         // PETS
         builder.HasMany(v => v.Pets)
             .WithOne()
-            .HasForeignKey("volunteer_id");
+            .HasForeignKey(p=>p.VolunteerId);
     }
 }

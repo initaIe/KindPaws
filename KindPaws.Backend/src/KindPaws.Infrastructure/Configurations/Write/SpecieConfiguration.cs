@@ -14,7 +14,6 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
 
         // ID
         builder.HasKey(specie => specie.Id);
-
         builder.Property(specie => specie.Id)
             .HasConversion(
                 specieId => specieId.Value,
@@ -33,6 +32,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             name.Property(x => x.Value)
                 .HasMaxLength(ShortNameConstraints.MaxLength)
                 .HasColumnName("name")
+                .HasColumnType("citext")
                 .IsRequired();
         });
 

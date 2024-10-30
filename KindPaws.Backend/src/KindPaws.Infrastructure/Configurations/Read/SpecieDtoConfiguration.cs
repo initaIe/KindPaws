@@ -16,7 +16,8 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDTO>
 
         // NAME
         builder.Property(specie => specie.Name)
-            .HasColumnName("name");
+            .HasColumnName("name")
+            .HasColumnType("citext");
 
         // DESCRIPTION
         builder.Property(specie => specie.Description)
@@ -25,6 +26,6 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDTO>
         // BREEDS
         builder.HasMany(specie => specie.Breeds)
             .WithOne()
-            .HasForeignKey("specie_id");
+            .HasForeignKey(b => b.SpecieId);
     }
 }

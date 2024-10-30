@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241029154806_Init")]
+    [Migration("20241030112417_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -96,7 +96,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
+                                .HasColumnType("citext")
                                 .HasColumnName("name");
                         });
 

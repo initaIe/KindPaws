@@ -27,7 +27,7 @@ public class VolunteerExistenceValidator : IVolunteerExistenceValidator
         CancellationToken cancellationToken)
     {
         return await _readDbContext.Volunteers.AnyAsync(
-            v => v.EmailAddress.Equals(emailAddress, StringComparison.CurrentCultureIgnoreCase),
+            v => v.EmailAddress == emailAddress,
             cancellationToken);
     }
 
@@ -36,7 +36,7 @@ public class VolunteerExistenceValidator : IVolunteerExistenceValidator
         CancellationToken cancellationToken)
     {
         return await _readDbContext.Volunteers.AnyAsync(
-            v => v.PhoneNumber.Equals(phoneNumber, StringComparison.CurrentCultureIgnoreCase),
+            v => v.PhoneNumber == phoneNumber,
             cancellationToken);
     }
 }

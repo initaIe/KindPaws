@@ -55,7 +55,7 @@ namespace KindPaws.Infrastructure.Migrations
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     specie_id = table.Column<Guid>(type: "uuid", nullable: true),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    name = table.Column<string>(type: "citext", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {

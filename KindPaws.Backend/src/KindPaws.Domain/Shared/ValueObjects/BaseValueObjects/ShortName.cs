@@ -18,7 +18,8 @@ public record ShortName
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(ShortName));
 
-        input = input.Trim();
+        input = input.Trim().ToLower();
+        input = char.ToUpper(input[0]) + input.Substring(1); // TODO
 
         if (!StringValidator.IsInRange(
                 input,

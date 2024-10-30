@@ -22,6 +22,6 @@ public class SpecieExistenceValidator : ISpecieExistenceValidator
     public async Task<bool> IsSpecieByNameExistsAsync(string name, CancellationToken cancellationToken)
     {
         return await _readDbContext.Species.AnyAsync(
-            s => s.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase), cancellationToken);
+            s => s.Name == name, cancellationToken);
     }
 }

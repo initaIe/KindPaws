@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
-using KindPaws.Application.Abstractions.Markers;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
@@ -94,7 +93,7 @@ public static class ServiceExtensions
             .AddScoped<IQueryHandler<PagedList<SpecieDTO>, GetSpeciesWithPaginationQuery>,
                 GetSpeciesWithPaginationHandler>();
     }
-    
+
     private static IServiceCollection AddExistenceValidators(this IServiceCollection services)
     {
         return services
@@ -140,7 +139,7 @@ public static class ServiceExtensions
             .AddScoped<IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData>,
                 DeleteSpecieEntitiesExistenceValidator>();
     }
-    
+
     private static IServiceCollection AddEntitiesExistenceValidators(this IServiceCollection services)
     {
         return services
@@ -148,7 +147,5 @@ public static class ServiceExtensions
             .AddScoped<ISpecieExistenceValidator, SpecieExistenceValidator>()
             .AddScoped<IPetExistenceValidator, PetExistenceValidator>()
             .AddScoped<IVolunteerExistenceValidator, VolunteerExistenceValidator>();
-
     }
-
 }

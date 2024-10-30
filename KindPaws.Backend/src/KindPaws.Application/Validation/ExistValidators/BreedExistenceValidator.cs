@@ -38,7 +38,7 @@ public class BreedExistenceValidator : IBreedExistenceValidator
         CancellationToken cancellationToken)
     {
         return await _readDbContext.Breeds.AnyAsync(
-            b => b.SpecieId == specieId && b.Name.Equals(breedName, StringComparison.CurrentCultureIgnoreCase),
+            b => b.SpecieId == specieId && b.Name == breedName,
             cancellationToken);
     }
 }
