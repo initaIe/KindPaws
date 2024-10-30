@@ -10,7 +10,7 @@ public class DeleteBreedCommandValidator : AbstractValidator<DeleteBreedCommand>
     {
         RuleFor(d => d.SpecieId)
             .MustBeValueObject(SpecieId.Create);
-        
+
         RuleFor(d => d.BreedId)
             .MustBeValueObject(BreedId.Create);
     }

@@ -60,7 +60,7 @@ public class Specie : Entity<SpecieId>, ISoftDeleteable
 
         return breed;
     }
-    
+
     public Result<Breed, Error> GetBreedByName(ShortName name)
     {
         var breed = _breeds.FirstOrDefault(x => x.Name == name);

@@ -6,23 +6,22 @@ using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
 
-public class DeleteBreedHandler
-    : ICommandHandler<Guid, DeleteBreedCommand>
+public class DeleteSpecieHandler : ICommandHandler<Guid, DeleteSpecieCommand>
 {
-    private readonly IEntitiesExistenceValidator<DeleteBreedExistenceValidationData> _entitiesExistenceValidator;
-    private readonly ILogger<DeleteBreedHandler> _logger;
+    private readonly IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData> _entitiesExistenceValidator;
+    private readonly ILogger<DeleteSpecieHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<DeleteBreedCommand> _validator;
+    private readonly IValidator<DeleteSpecieCommand> _validator;
 
-    public DeleteBreedHandler(
-        IEntitiesExistenceValidator<DeleteBreedExistenceValidationData> entitiesExistenceValidator,
-        ILogger<DeleteBreedHandler> logger,
+    public DeleteSpecieHandler(
+        IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData> entitiesExistenceValidator,
+        ILogger<DeleteSpecieHandler> logger,
         ISpeciesRepository speciesRepository,
         IUnitOfWork unitOfWork,
-        IValidator<DeleteBreedCommand> validator)
+        IValidator<DeleteSpecieCommand> validator)
     {
         _entitiesExistenceValidator = entitiesExistenceValidator;
         _logger = logger;
@@ -32,7 +31,7 @@ public class DeleteBreedHandler
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
-        DeleteBreedCommand command,
+        DeleteSpecieCommand command,
         CancellationToken cancellationToken = default)
     {
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -46,23 +45,20 @@ public class DeleteBreedHandler
             return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var specieId = SpecieId.Create(command.SpecieId).Value;
-        var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
+        var specie = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
 
-        var breedId = BreedId.Create(command.BreedId).Value;
-        var breed = specieResult.Value.GetBreedById(breedId).Value;
-
-        specieResult.Value.DeleteBreed(breed);
+        _speciesRepository.Delete(specie.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        Log(breedId);
+        Log(specieId);
 
-        return breedId.Value;
+        return specieId.Value;
     }
 
-    private void Log(BreedId breedId)
+    private void Log(SpecieId specieId)
     {
         _logger.LogInformation(
-            "BREED soft deleted with ID: {Id}",
-            breedId);
+            "SPECIE soft deleted with ID: {Id}",
+            specieId);
     }
 }

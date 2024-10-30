@@ -1,5 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.EntitiesExistValidators;
+using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
@@ -21,7 +21,7 @@ public class
         CancellationToken cancellationToken)
     {
         var isVolunteerByIdExist = await _volunteerExistenceValidator
-            .IsVolunteerWithIdExistsAsync(validationData.VolunteerId, cancellationToken);
+            .IsVolunteerByIdExistsAsync(validationData.VolunteerId, cancellationToken);
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), validationData.VolunteerId);
 

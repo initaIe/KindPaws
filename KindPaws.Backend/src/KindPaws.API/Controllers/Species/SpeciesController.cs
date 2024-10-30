@@ -1,8 +1,11 @@
-﻿using KindPaws.API.Controllers.Species.Requests;
+﻿using KindPaws.API.Controllers.Species.Queries;
+using KindPaws.API.Controllers.Species.Requests;
 using KindPaws.API.Extensions;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
+using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;
@@ -16,6 +19,21 @@ public class SpeciesController : ApplicationController
         CancellationToken token = default)
     {
         var command = request.ToCommand();
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(
+        [FromRoute] Guid id,
+        [FromServices] DeleteSpecieHandler handler,
+        CancellationToken token = default)
+    {
+        var command = new DeleteSpecieCommand(id);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -39,8 +57,8 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
-    [HttpPost("{id:guid}/breeds/{breedId:guid}")]
+
+    [HttpDelete("{id:guid}/breeds/{breedId:guid}")]
     public async Task<IActionResult> DeleteBreedById(
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
@@ -54,5 +72,18 @@ public class SpeciesController : ApplicationController
             return result.Error.ToResponse();
 
         return Ok(result.Value);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetSpeciesWithPagination(
+        [FromQuery] GetSpeciesWithPaginationRequest request,
+        [FromServices] GetSpeciesWithPaginationHandler handler,
+        CancellationToken token = default)
+    {
+        var query = request.ToQuery();
+
+        var result = await handler.HandleAsync(query, token);
+
+        return Ok(result);
     }
 }

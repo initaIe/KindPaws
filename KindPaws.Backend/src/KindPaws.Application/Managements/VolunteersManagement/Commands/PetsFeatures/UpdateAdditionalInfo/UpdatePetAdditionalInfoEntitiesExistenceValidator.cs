@@ -1,5 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.EntitiesExistValidators;
+using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Shared;
@@ -27,12 +27,12 @@ public class UpdatePetAdditionalInfoEntitiesExistenceValidator
         CancellationToken cancellationToken)
     {
         var isVolunteerByIdExist = await _volunteerExistenceValidator
-            .IsVolunteerWithIdExistsAsync(validationData.VolunteerId, cancellationToken);
+            .IsVolunteerByIdExistsAsync(validationData.VolunteerId, cancellationToken);
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), validationData.VolunteerId);
 
         var isPetWithIdExistForVolunteerWithId = await _petExistenceValidator
-            .IsPetWithIdExistsForVolunteerWithIdAsync(validationData.VolunteerId, validationData.PetId,
+            .IsPetByIdForVolunteerByIdExistsAsync(validationData.VolunteerId, validationData.PetId,
                 cancellationToken);
         if (!isPetWithIdExistForVolunteerWithId)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), validationData.PetId);

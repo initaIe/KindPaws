@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Abstractions.EntitiesExistValidators;
+﻿using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Application.Abstractions.IoC;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ public class VolunteerExistenceValidator : IVolunteerExistenceValidator
         _readDbContext = readDbContext;
     }
 
-    public async Task<bool> IsVolunteerWithIdExistsAsync(
+    public async Task<bool> IsVolunteerByIdExistsAsync(
         Guid volunteerId,
         CancellationToken cancellationToken)
     {
@@ -22,7 +22,7 @@ public class VolunteerExistenceValidator : IVolunteerExistenceValidator
             cancellationToken);
     }
 
-    public async Task<bool> IsVolunteerWithEmailAddressExistsAsync(
+    public async Task<bool> IsVolunteerByEmailAddressExistsAsync(
         string emailAddress,
         CancellationToken cancellationToken)
     {
@@ -31,7 +31,7 @@ public class VolunteerExistenceValidator : IVolunteerExistenceValidator
             cancellationToken);
     }
 
-    public async Task<bool> IsVolunteerWithPhoneNumberExistsAsync(
+    public async Task<bool> IsVolunteerByPhoneNumberExistsAsync(
         string phoneNumber,
         CancellationToken cancellationToken)
     {

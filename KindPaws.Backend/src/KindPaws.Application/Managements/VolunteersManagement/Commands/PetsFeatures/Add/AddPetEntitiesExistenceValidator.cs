@@ -1,5 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.EntitiesExistValidators;
+using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
@@ -30,17 +30,17 @@ public class AddPetEntitiesExistenceValidator : IEntitiesExistenceValidator<AddP
         CancellationToken cancellationToken)
     {
         var isVolunteerByIdExist = await _volunteerExistenceValidator
-            .IsVolunteerWithIdExistsAsync(validationData.VolunteerId, cancellationToken);
+            .IsVolunteerByIdExistsAsync(validationData.VolunteerId, cancellationToken);
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), validationData.VolunteerId);
 
         var isSpecieByIdExist = await _specieExistenceValidator
-            .IsSpecieWithIdExistsAsync(validationData.SpecieId, cancellationToken);
+            .IsSpecieByIdExistsAsync(validationData.SpecieId, cancellationToken);
         if (!isSpecieByIdExist)
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpecieId);
 
         var isBreedByIdExistForSpecieWithId = await _breedExistenceValidator
-            .IsBreedWithIdExistsForSpecieWithIdAsync(validationData.SpecieId, validationData.BreedId,
+            .IsBreedByIdForSpecieByIdExistsAsync(validationData.SpecieId, validationData.BreedId,
                 cancellationToken);
         if (!isBreedByIdExistForSpecieWithId)
             return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), validationData.BreedId);

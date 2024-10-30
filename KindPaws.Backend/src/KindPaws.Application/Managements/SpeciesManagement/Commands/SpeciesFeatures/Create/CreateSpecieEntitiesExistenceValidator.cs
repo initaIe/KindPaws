@@ -1,5 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.EntitiesExistValidators;
+using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
@@ -21,7 +21,7 @@ public class CreateSpecieEntitiesExistenceValidator : IEntitiesExistenceValidato
         CancellationToken cancellationToken)
     {
         var isSpecieByNameExist = await _specieExistenceValidator
-            .IsSpecieWithNameExistsAsync(validationData.Name, cancellationToken);
+            .IsSpecieByNameExistsAsync(validationData.Name, cancellationToken);
         if (isSpecieByNameExist)
             return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortName));
 

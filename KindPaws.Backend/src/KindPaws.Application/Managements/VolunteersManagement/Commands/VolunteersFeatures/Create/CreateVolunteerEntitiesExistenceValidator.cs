@@ -1,5 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.EntitiesExistValidators;
+using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
@@ -21,12 +21,12 @@ public class
         CancellationToken cancellationToken)
     {
         var isVolunteerByEmailAddressExist = await _volunteerExistenceValidator
-            .IsVolunteerWithEmailAddressExistsAsync(validationData.EmailAddress, cancellationToken);
+            .IsVolunteerByEmailAddressExistsAsync(validationData.EmailAddress, cancellationToken);
         if (isVolunteerByEmailAddressExist)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(EmailAddress));
 
         var isVolunteerByPhoneNumberExist = await _volunteerExistenceValidator
-            .IsVolunteerWithPhoneNumberExistsAsync(validationData.PhoneNumber, cancellationToken);
+            .IsVolunteerByPhoneNumberExistsAsync(validationData.PhoneNumber, cancellationToken);
         if (isVolunteerByPhoneNumberExist)
             return Errors.General.RecordAlreadyExist(nameof(Volunteer), nameof(PhoneNumber));
 

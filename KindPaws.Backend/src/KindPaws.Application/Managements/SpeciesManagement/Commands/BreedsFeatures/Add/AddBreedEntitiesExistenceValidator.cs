@@ -1,5 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
-using KindPaws.Application.Abstractions.EntitiesExistValidators;
+using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared;
@@ -27,12 +27,12 @@ public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<Ad
         CancellationToken cancellationToken)
     {
         var isSpecieWithIdExist = await _specieExistenceValidator
-            .IsSpecieWithIdExistsAsync(validationData.SpeciesId, cancellationToken);
+            .IsSpecieByIdExistsAsync(validationData.SpeciesId, cancellationToken);
         if (!isSpecieWithIdExist)
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpeciesId);
 
         var isBreedWithNameExistForSpecieWithId = await _breedExistenceValidator
-            .IsBreedWithNameExistsForSpecieWithIdAsync(validationData.SpeciesId, validationData.BreedName,
+            .IsBreedByNameForSpecieByIdExistsAsync(validationData.SpeciesId, validationData.BreedName,
                 cancellationToken);
         if (isBreedWithNameExistForSpecieWithId)
             return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortName));

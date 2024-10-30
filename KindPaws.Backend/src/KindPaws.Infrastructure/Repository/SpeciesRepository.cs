@@ -46,7 +46,7 @@ public class SpeciesRepository : ISpeciesRepository
         return specie;
     }
 
-    public async Task<Result<Specie, Error>> GetByName(
+    public async Task<Result<Specie, Error>> GetByNameAsync(
         ShortName name,
         CancellationToken cancellationToken = default)
     {

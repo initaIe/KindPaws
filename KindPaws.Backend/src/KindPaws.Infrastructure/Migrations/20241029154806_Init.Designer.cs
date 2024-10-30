@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241024111034_Init")]
+    [Migration("20241029154806_Init")]
     partial class Init
     {
         /// <inheritdoc />

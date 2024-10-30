@@ -4,16 +4,17 @@ using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
 
-namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
+namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
 
-public class GetVolunteersWithPaginationHandler
-    : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersWithPaginationQuery>
+public class GetSpeciesWithPaginationHandler
+    : IQueryHandler<PagedList<SpecieDTO>, GetSpeciesWithPaginationQuery>
+
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetVolunteersWithPaginationHandler(
+    public GetSpeciesWithPaginationHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
@@ -23,15 +24,15 @@ public class GetVolunteersWithPaginationHandler
         _readDbContext = readDbContext;
     }
 
-    public async Task<PagedList<VolunteerDTO>> HandleAsync(
-        GetVolunteersWithPaginationQuery query,
+    public async Task<PagedList<SpecieDTO>> HandleAsync(
+        GetSpeciesWithPaginationQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteerQuery = _readDbContext.Volunteers;
+        var specieQuery = _readDbContext.Species;
 
         // TODO add validation, filtration, sort and logger
 
-        return await volunteerQuery.ToPagedList(
+        return await specieQuery.ToPagedList(
             query.Pagination.PageNumber,
             query.Pagination.PageSize,
             cancellationToken);

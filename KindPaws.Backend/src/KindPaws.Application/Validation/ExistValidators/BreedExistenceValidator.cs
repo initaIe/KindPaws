@@ -1,4 +1,4 @@
-﻿using KindPaws.Application.Abstractions.EntitiesExistValidators;
+﻿using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Application.Abstractions.IoC;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ public class BreedExistenceValidator : IBreedExistenceValidator
         _readDbContext = readDbContext;
     }
 
-    public async Task<bool> IsBreedWithIdExistsAsync(
+    public async Task<bool> IsBreedByIdExistsAsync(
         Guid breedId,
         CancellationToken cancellationToken)
     {
@@ -22,7 +22,7 @@ public class BreedExistenceValidator : IBreedExistenceValidator
             cancellationToken);
     }
 
-    public async Task<bool> IsBreedWithIdExistsForSpecieWithIdAsync(
+    public async Task<bool> IsBreedByIdForSpecieByIdExistsAsync(
         Guid specieId,
         Guid breedId,
         CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ public class BreedExistenceValidator : IBreedExistenceValidator
             cancellationToken);
     }
 
-    public async Task<bool> IsBreedWithNameExistsForSpecieWithIdAsync(
+    public async Task<bool> IsBreedByNameForSpecieByIdExistsAsync(
         Guid specieId,
         string breedName,
         CancellationToken cancellationToken)
