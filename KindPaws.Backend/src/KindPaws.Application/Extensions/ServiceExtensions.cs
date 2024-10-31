@@ -3,17 +3,19 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
@@ -56,24 +58,35 @@ public static class ServiceExtensions
     private static IServiceCollection AddVolunteersCommandHandlers(this IServiceCollection services)
     {
         return services
-            .AddScoped<ICommandHandler<Guid, CreateVolunteerCommand>, CreateVolunteerHandler>()
-            .AddScoped<ICommandHandler<Guid, DeleteVolunteerCommand>, DeleteVolunteerHandler>()
+            .AddScoped<ICommandHandler<Guid, CreateVolunteerCommand>,
+                CreateVolunteerHandler>()
+            .AddScoped<ICommandHandler<Guid, SoftDeleteVolunteerCommand>,
+                SoftDeleteVolunteerHandler>()
             .AddScoped<ICommandHandler<Guid, UpdateVolunteerAdditionalInfoCommand>,
                 UpdateVolunteerAdditionalInfoHandler>()
-            .AddScoped<ICommandHandler<Guid, UpdateVolunteerMainInfoCommand>, UpdateVolunteerMainInfoHandler>();
+            .AddScoped<ICommandHandler<Guid, UpdateVolunteerMainInfoCommand>,
+                UpdateVolunteerMainInfoHandler>()
+            .AddScoped<ICommandHandler<Guid, DeletePetPhotosCommand>,
+                DeletePetPhotosHandler>()
+            .AddScoped<ICommandHandler<Guid, AddPetCommand>,
+                AddPetHandler>()
+            .AddScoped<ICommandHandler<Guid, AddPetPhotosCommand>,
+                AddPetPhotosHandler>()
+            .AddScoped<ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>,
+                UpdatePetAdditionalInfoHandler>()
+            .AddScoped<ICommandHandler<Guid, UpdatePetMainInfoCommand>,
+                UpdatePetMainInfoHandler>()
+            .AddScoped<ICommandHandler<Guid, SoftDeletePetCommand>,
+                SoftDeletePetHandler>();
     }
 
     private static IServiceCollection AddSpeciesCommandHandlers(this IServiceCollection services)
     {
         return services
             .AddScoped<ICommandHandler<Guid, AddBreedCommand>, AddBreedHandler>()
-            .AddScoped<ICommandHandler<Guid, DeleteBreedCommand>, DeleteBreedHandler>()
+            .AddScoped<ICommandHandler<Guid, SoftDeleteBreedCommand>, SoftDeleteBreedHandler>()
             .AddScoped<ICommandHandler<Guid, CreateSpecieCommand>, CreateSpecieHandler>()
-            .AddScoped<ICommandHandler<Guid, DeleteSpecieCommand>, DeleteSpecieHandler>()
-            .AddScoped<ICommandHandler<Guid, AddPetCommand>, AddPetHandler>()
-            .AddScoped<ICommandHandler<Guid, AddPetPhotosCommand>, AddPetPhotosHandler>()
-            .AddScoped<ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>, UpdatePetAdditionalInfoHandler>()
-            .AddScoped<ICommandHandler<Guid, UpdatePetMainInfoCommand>, UpdatePetMainInfoHandler>();
+            .AddScoped<ICommandHandler<Guid, SoftDeleteSpecieCommand>, SoftDeleteSpecieHandler>();
     }
 
     private static IServiceCollection AddVolunteersQueryHandlers(this IServiceCollection services)
@@ -119,12 +132,16 @@ public static class ServiceExtensions
                 UpdatePetMainInfoEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<CreateVolunteerExistenceValidationData>,
                 CreateVolunteerEntitiesExistenceValidator>()
-            .AddScoped<IEntitiesExistenceValidator<DeleteVolunteerExistenceValidationData>,
-                DeleteVolunteerEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<SoftDeleteVolunteerExistenceValidationData>,
+                SoftDeleteVolunteerEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<UpdateVolunteerAdditionalInfoExistenceValidationData>,
                 UpdateVolunteerAdditionalInfoEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<UpdateVolunteerMainInfoExistenceValidationData>,
-                UpdateVolunteerMainInfoEntitiesExistenceValidator>();
+                UpdateVolunteerMainInfoEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData>,
+                DeletePetPhotosEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<SoftDeletePetExistenceValidationData>,
+                SoftDeletePetEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddSpeciesExistenceValidators(this IServiceCollection services)
@@ -132,12 +149,12 @@ public static class ServiceExtensions
         return services
             .AddScoped<IEntitiesExistenceValidator<AddBreedExistenceValidationData>,
                 AddBreedEntitiesExistenceValidator>()
-            .AddScoped<IEntitiesExistenceValidator<DeleteBreedExistenceValidationData>,
-                DeleteBreedEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<SoftDeleteBreedExistenceValidationData>,
+                SoftDeleteBreedEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<CreateSpecieExistenceValidationData>,
                 CreateSpecieEntitiesExistenceValidator>()
-            .AddScoped<IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData>,
-                DeleteSpecieEntitiesExistenceValidator>();
+            .AddScoped<IEntitiesExistenceValidator<SoftDeleteSpecieExistenceValidationData>,
+                SoftDeleteSpecieEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddEntitiesExistenceValidators(this IServiceCollection services)

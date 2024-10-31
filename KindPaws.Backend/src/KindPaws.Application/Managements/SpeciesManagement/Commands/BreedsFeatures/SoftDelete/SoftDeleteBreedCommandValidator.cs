@@ -2,11 +2,11 @@
 using KindPaws.Application.Validation;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 
-public class DeleteBreedCommandValidator : AbstractValidator<DeleteBreedCommand>
+public class SoftDeleteBreedCommandValidator : AbstractValidator<SoftDeleteBreedCommand>
 {
-    public DeleteBreedCommandValidator()
+    public SoftDeleteBreedCommandValidator()
     {
         RuleFor(d => d.SpecieId)
             .MustBeValueObject(SpecieId.Create);

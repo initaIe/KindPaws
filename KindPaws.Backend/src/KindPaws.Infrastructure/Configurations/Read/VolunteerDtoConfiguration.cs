@@ -66,6 +66,6 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         // PETS
         builder.HasMany(v => v.Pets)
             .WithOne()
-            .HasForeignKey(p=>p.VolunteerId);
+            .HasForeignKey(p => p.VolunteerId);
     }
 }

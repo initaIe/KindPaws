@@ -1,17 +1,13 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
-using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.Entities;
 
-public class Pet : Entity<PetId>, ISoftDeleteable
+public class Pet : Entity<PetId>, IFullDeletable
 {
-    private bool _isDeleted;
-
-    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private List<PetPhoto> _photos = [];
 
     // ef core
@@ -37,20 +33,14 @@ public class Pet : Entity<PetId>, ISoftDeleteable
     public MediumDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
     public Age? Age { get; private set; }
-    public HealthDetails HealthDetails { get; private set; }
-    public BiometricDetails BiometricDetails { get; private set; }
+    public HealthDetails HealthDetails { get; private set; } = HealthDetails.CreateNullable();
+    public BiometricDetails BiometricDetails { get; private set; } = BiometricDetails.CreateNullable();
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
+    public bool IsSoftDeleted { get; private set; }
+    public DateTime? SoftDeletedDateTime { get; private set; }
+    public bool IsHardDeleted { get; private set; }
 
-    public void Delete()
-    {
-        _isDeleted = true;
-    }
-
-    public void Restore()
-    {
-        _isDeleted = false;
-    }
 
     public void UpdateMainInfo(
         PetType petType,
@@ -81,6 +71,12 @@ public class Pet : Entity<PetId>, ISoftDeleteable
         _photos.AddRange(photos.ToList());
     }
 
+    public void DeletePhotos(IEnumerable<PetPhoto> photos)
+    {
+        foreach (var photo in photos)
+            _photos.Remove(photo);
+    }
+
     public void SetPosition(Position position)
     {
         Position = position;
@@ -104,5 +100,22 @@ public class Pet : Entity<PetId>, ISoftDeleteable
 
         SetPosition(decreasedPositionResult.Value);
         return true;
+    }
+
+    public void SoftDelete()
+    {
+        IsSoftDeleted = true;
+        SoftDeletedDateTime = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsSoftDeleted = false;
+        SoftDeletedDateTime = null;
+    }
+
+    public void HardDelete()
+    {
+        IsHardDeleted = true;
     }
 }

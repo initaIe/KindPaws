@@ -48,10 +48,17 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
         // Breeds auto include
         builder.Navigation(specie => specie.Breeds).AutoInclude();
 
-        // SOFT DELETE
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted")
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted")
             .IsRequired();
+
+        // SOFT DELETE DATE TIME
+        builder.Property(b => b.SoftDeletedDateTime)
+            .HasColumnName("soft_delete_datetime")
+            .IsRequired(false);
+
+        // HARD DELETE PROPERTY IGNORE
+        builder.Ignore(b => b.IsHardDeleted);
     }
 }

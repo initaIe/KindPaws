@@ -109,10 +109,17 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // PETS AUTO INCLUDE
         builder.Navigation(v => v.Pets).AutoInclude();
 
-        // SOFT DELETE
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted")
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted")
             .IsRequired();
+
+        // SOFT DELETE DATE TIME
+        builder.Property(b => b.SoftDeletedDateTime)
+            .HasColumnName("soft_delete_datetime")
+            .IsRequired(false);
+
+        // HARD DELETE PROPERTY IGNORE
+        builder.Ignore(b => b.IsHardDeleted);
     }
 }

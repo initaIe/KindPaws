@@ -24,9 +24,14 @@ public class VolunteersRepository : IVolunteersRepository
         await _dbContext.Volunteers.AddAsync(volunteer, cancellationToken);
     }
 
-    public void Delete(
-        Volunteer volunteer)
+    public void SoftDelete(Volunteer volunteer)
     {
+        _dbContext.Volunteers.Remove(volunteer);
+    }
+
+    public void HardDelete(Volunteer volunteer)
+    {
+        volunteer.HardDelete();
         _dbContext.Volunteers.Remove(volunteer);
     }
 

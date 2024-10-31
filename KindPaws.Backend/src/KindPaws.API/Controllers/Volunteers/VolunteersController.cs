@@ -6,10 +6,12 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
@@ -69,13 +71,13 @@ public class VolunteersController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(
+    [HttpDelete("{id:guid}/soft")]
+    public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid id,
-        [FromServices] ICommandHandler<Guid, DeleteVolunteerCommand> handler,
+        [FromServices] ICommandHandler<Guid, SoftDeleteVolunteerCommand> handler,
         CancellationToken token = default)
     {
-        var command = new DeleteVolunteerCommand(id);
+        var command = new SoftDeleteVolunteerCommand(id);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -181,6 +183,40 @@ public class VolunteersController : ApplicationController
 
         var result = await handler.HandleAsync(query, token);
 
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+
+    // TODO: http??
+    [HttpDelete("{id:guid}/pets/{petId:guid}/photos")]
+    public async Task<IActionResult> DeletePetPhotos(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromBody] DeletePetPhotosRequest request,
+        [FromServices] ICommandHandler<Guid, DeletePetPhotosCommand> handler,
+        CancellationToken token = default)
+    {
+        var command = request.ToCommand(id, petId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+
+    [HttpDelete("{id:guid}/pets/{petId:guid}/soft")]
+    public async Task<IActionResult> SoftDeletePet(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromServices] ICommandHandler<Guid, SoftDeletePetCommand> handler,
+        CancellationToken token = default)
+    {
+        var command = new SoftDeletePetCommand(id, petId);
+
+        var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
             return result.Error.ToResponse();
 

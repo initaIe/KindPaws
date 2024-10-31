@@ -19,7 +19,7 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
         builder.Property(p => p.SpecieId)
             .HasColumnName("specie_id");
         builder.Property(p => p.BreedId)
-            .HasColumnName("breed_guid");
+            .HasColumnName("breed_id");
 
         // NAME
         builder.Property(p => p.Name)

@@ -6,22 +6,22 @@ using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 
-public class DeleteSpecieHandler : ICommandHandler<Guid, DeleteSpecieCommand>
+public class SoftDeleteSpecieHandler : ICommandHandler<Guid, SoftDeleteSpecieCommand>
 {
-    private readonly IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData> _entitiesExistenceValidator;
-    private readonly ILogger<DeleteSpecieHandler> _logger;
+    private readonly IEntitiesExistenceValidator<SoftDeleteSpecieExistenceValidationData> _entitiesExistenceValidator;
+    private readonly ILogger<SoftDeleteSpecieHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<DeleteSpecieCommand> _validator;
+    private readonly IValidator<SoftDeleteSpecieCommand> _validator;
 
-    public DeleteSpecieHandler(
-        IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData> entitiesExistenceValidator,
-        ILogger<DeleteSpecieHandler> logger,
+    public SoftDeleteSpecieHandler(
+        IEntitiesExistenceValidator<SoftDeleteSpecieExistenceValidationData> entitiesExistenceValidator,
+        ILogger<SoftDeleteSpecieHandler> logger,
         ISpeciesRepository speciesRepository,
         IUnitOfWork unitOfWork,
-        IValidator<DeleteSpecieCommand> validator)
+        IValidator<SoftDeleteSpecieCommand> validator)
     {
         _entitiesExistenceValidator = entitiesExistenceValidator;
         _logger = logger;
@@ -31,7 +31,7 @@ public class DeleteSpecieHandler : ICommandHandler<Guid, DeleteSpecieCommand>
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
-        DeleteSpecieCommand command,
+        SoftDeleteSpecieCommand command,
         CancellationToken cancellationToken = default)
     {
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -47,7 +47,7 @@ public class DeleteSpecieHandler : ICommandHandler<Guid, DeleteSpecieCommand>
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var specie = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
 
-        _speciesRepository.Delete(specie.Value);
+        _speciesRepository.SoftDelete(specie.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(specieId);

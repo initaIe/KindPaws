@@ -6,23 +6,23 @@ using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 
-public class DeleteBreedHandler
-    : ICommandHandler<Guid, DeleteBreedCommand>
+public class SoftDeleteBreedHandler
+    : ICommandHandler<Guid, SoftDeleteBreedCommand>
 {
-    private readonly IEntitiesExistenceValidator<DeleteBreedExistenceValidationData> _entitiesExistenceValidator;
-    private readonly ILogger<DeleteBreedHandler> _logger;
+    private readonly IEntitiesExistenceValidator<SoftDeleteBreedExistenceValidationData> _entitiesExistenceValidator;
+    private readonly ILogger<SoftDeleteBreedHandler> _logger;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<DeleteBreedCommand> _validator;
+    private readonly IValidator<SoftDeleteBreedCommand> _validator;
 
-    public DeleteBreedHandler(
-        IEntitiesExistenceValidator<DeleteBreedExistenceValidationData> entitiesExistenceValidator,
-        ILogger<DeleteBreedHandler> logger,
+    public SoftDeleteBreedHandler(
+        IEntitiesExistenceValidator<SoftDeleteBreedExistenceValidationData> entitiesExistenceValidator,
+        ILogger<SoftDeleteBreedHandler> logger,
         ISpeciesRepository speciesRepository,
         IUnitOfWork unitOfWork,
-        IValidator<DeleteBreedCommand> validator)
+        IValidator<SoftDeleteBreedCommand> validator)
     {
         _entitiesExistenceValidator = entitiesExistenceValidator;
         _logger = logger;
@@ -32,7 +32,7 @@ public class DeleteBreedHandler
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
-        DeleteBreedCommand command,
+        SoftDeleteBreedCommand command,
         CancellationToken cancellationToken = default)
     {
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -49,9 +49,8 @@ public class DeleteBreedHandler
         var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
 
         var breedId = BreedId.Create(command.BreedId).Value;
-        var breed = specieResult.Value.GetBreedById(breedId).Value;
 
-        specieResult.Value.DeleteBreed(breed);
+        specieResult.Value.SoftDeleteBreed(breedId);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(breedId);

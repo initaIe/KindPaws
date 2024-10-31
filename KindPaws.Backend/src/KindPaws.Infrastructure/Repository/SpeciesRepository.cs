@@ -24,9 +24,14 @@ public class SpeciesRepository : ISpeciesRepository
         await _dbContext.Species.AddAsync(specie, cancellationToken);
     }
 
-    public void Delete(
-        Specie specie)
+    public void SoftDelete(Specie specie)
     {
+        _dbContext.Species.Remove(specie);
+    }
+
+    public void HardDelete(Specie specie)
+    {
+        specie.HardDelete();
         _dbContext.Species.Remove(specie);
     }
 

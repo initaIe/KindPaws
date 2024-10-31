@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KindPaws.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031104541_Init5")]
+    partial class Init5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +31,10 @@ namespace KindPaws.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<bool>("IsHardDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_hard_deleted");
 
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
@@ -70,6 +77,10 @@ namespace KindPaws.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<bool>("IsHardDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_hard_deleted");
 
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
@@ -128,6 +139,10 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsHardDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_hard_deleted");
 
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
@@ -235,6 +250,10 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("health_details");
 
+                    b.Property<bool>("IsHardDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_hard_deleted");
+
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_soft_deleted");
@@ -274,7 +293,7 @@ namespace KindPaws.Infrastructure.Migrations
 
                             b1.Property<Guid>("BreedId")
                                 .HasColumnType("uuid")
-                                .HasColumnName("breed_id");
+                                .HasColumnName("breed_guid");
 
                             b1.Property<Guid>("SpecieId")
                                 .HasColumnType("uuid")

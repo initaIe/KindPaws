@@ -7,10 +7,9 @@ using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 
-public class Specie : Entity<SpecieId>, ISoftDeleteable
+public class Specie : Entity<SpecieId>, IFullDeletable
 {
     private readonly List<Breed> _breeds = [];
-    private bool _isDeleted;
 
     // ef core
     private Specie(SpecieId id) : base(id)
@@ -30,44 +29,54 @@ public class Specie : Entity<SpecieId>, ISoftDeleteable
     public ShortName Name { get; private set; }
     public MediumDescription Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
-
-    public void Delete()
-    {
-        _isDeleted = true;
-    }
-
-    public void Restore()
-    {
-        _isDeleted = false;
-    }
+    public bool IsSoftDeleted { get; private set; }
+    public DateTime? SoftDeletedDateTime { get; private set; }
+    public bool IsHardDeleted { get; private set; }
 
     public void AddBreed(Breed breed)
     {
         _breeds.Add(breed);
     }
 
-    public void DeleteBreed(Breed breed)
+    public Result<Error> HardDeleteBreed(BreedId breedId)
     {
+        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
+
+        if (breed == null)
+            return Errors.General.RecordNotFound(nameof(Breed), nameof(breedId), breedId.Value);
+
+        breed.HardDelete();
         _breeds.Remove(breed);
+        return true;
     }
 
-    public Result<Breed, Error> GetBreedById(BreedId breedId)
+    public Result<Error> SoftDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.FirstOrDefault(x => x.Id == breedId);
+        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
 
         if (breed == null)
-            return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), breedId.Value);
+            return Errors.General.RecordNotFound(nameof(Breed), nameof(breedId), breedId.Value);
 
-        return breed;
+        breed.SoftDelete();
+        return true;
     }
 
-    public Result<Breed, Error> GetBreedByName(ShortName name)
+    public void SoftDelete()
     {
-        var breed = _breeds.FirstOrDefault(x => x.Name == name);
+        IsSoftDeleted = true;
+        SoftDeletedDateTime = DateTime.UtcNow;
+    }
 
-        if (breed == null)
-            return Errors.General.RecordNotFound(nameof(Breed), nameof(ShortName), name.Value);
+    public void Restore()
+    {
+        IsSoftDeleted = false;
+        SoftDeletedDateTime = null;
+        _breeds.ForEach(breed => breed.Restore());
+    }
 
-        return breed;
+    public void HardDelete()
+    {
+        IsHardDeleted = true;
+        _breeds.ForEach(breed => breed.HardDelete());
     }
 }

@@ -14,8 +14,6 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFea
 public class AddPetPhotosHandler
     : ICommandHandler<Guid, AddPetPhotosCommand>
 {
-    private const string BucketName = "pet-photos";
-
     private readonly IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> _entitiesExistenceValidator;
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;
@@ -65,7 +63,10 @@ public class AddPetPhotosHandler
             if (filePath.IsFailure)
                 return filePath.Error.ToErrorList();
 
-            var uploadFileData = new UploadFileData(BucketName, filePath.Value, uploadFileDto.Stream);
+            var uploadFileData = new UploadFileData(
+                Constants.FileProvider.PetPhotosBucketName,
+                filePath.Value,
+                uploadFileDto.Stream);
             uploadFilesData.Add(uploadFileData);
         }
 

@@ -5,19 +5,19 @@ using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 
-public class
-    DeleteVolunteerEntitiesExistenceValidator : IEntitiesExistenceValidator<DeleteVolunteerExistenceValidationData>
+public class SoftDeleteVolunteerEntitiesExistenceValidator
+    : IEntitiesExistenceValidator<SoftDeleteVolunteerExistenceValidationData>
 {
     private readonly IVolunteerExistenceValidator _volunteerExistenceValidator;
 
-    public DeleteVolunteerEntitiesExistenceValidator(IVolunteerExistenceValidator volunteerExistenceValidator)
+    public SoftDeleteVolunteerEntitiesExistenceValidator(IVolunteerExistenceValidator volunteerExistenceValidator)
     {
         _volunteerExistenceValidator = volunteerExistenceValidator;
     }
 
-    public async Task<Result<Error>> ValidateAsync(DeleteVolunteerExistenceValidationData validationData,
+    public async Task<Result<Error>> ValidateAsync(SoftDeleteVolunteerExistenceValidationData validationData,
         CancellationToken cancellationToken)
     {
         var isVolunteerByIdExist = await _volunteerExistenceValidator

@@ -1,5 +1,4 @@
-﻿using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
-using KindPaws.Domain.Managements.SpeciesManagement.Entities;
+﻿using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared.Constraints.ValueObjectsConstraints;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.EntityFrameworkCore;
@@ -39,11 +38,18 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 .HasColumnName("description")
                 .IsRequired();
         });
-        
-       // SOFT DELETE
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted")
+
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted")
             .IsRequired();
+
+        // SOFT DELETE DATE TIME
+        builder.Property(b => b.SoftDeletedDateTime)
+            .HasColumnName("soft_delete_datetime")
+            .IsRequired(false);
+
+        // HARD DELETE PROPERTY IGNORE
+        builder.Ignore(b => b.IsHardDeleted);
     }
 }

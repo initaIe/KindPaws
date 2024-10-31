@@ -2,6 +2,6 @@
 
 public interface IMessageQueue<TMessage>
 {
-    Task WriteAsync(TMessage deleteFilesData, CancellationToken cancellationToken = default);
+    Task WriteAsync(TMessage message, CancellationToken cancellationToken = default);
     Task<TMessage> ReadAsync(CancellationToken cancellationToken = default);
 }

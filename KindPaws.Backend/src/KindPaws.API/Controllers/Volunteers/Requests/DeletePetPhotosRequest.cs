@@ -1,11 +1,10 @@
-﻿using KindPaws.Application.DTOs;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
+﻿using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
 
 namespace KindPaws.API.Controllers.Volunteers.Requests;
 
-public record DeletePetPhotosRequest(IEnumerable<DeleteFileDTO> DeleteFileDtos)
+public record DeletePetPhotosRequest(IEnumerable<string> PhotosPaths)
 
 {
     public DeletePetPhotosCommand ToCommand(Guid id, Guid petId)
-        => new(id, petId, DeleteFileDtos);
+        => new(id, petId, PhotosPaths);
 }

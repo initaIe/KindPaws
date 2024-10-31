@@ -4,9 +4,9 @@ using KindPaws.API.Extensions;
 using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Delete;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
 using KindPaws.Application.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -30,13 +30,13 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(
+    [HttpDelete("{id:guid}/soft")]
+    public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid id,
-        [FromServices] ICommandHandler<Guid, DeleteSpecieCommand> handler,
+        [FromServices] ICommandHandler<Guid, SoftDeleteSpecieCommand> handler,
         CancellationToken token = default)
     {
-        var command = new DeleteSpecieCommand(id);
+        var command = new SoftDeleteSpecieCommand(id);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -61,14 +61,14 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}/breeds/{breedId:guid}")]
-    public async Task<IActionResult> DeleteBreedById(
+    [HttpDelete("{id:guid}/breeds/{breedId:guid}/soft")]
+    public async Task<IActionResult> SoftDeleteBreed(
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
-        [FromServices] ICommandHandler<Guid, DeleteBreedCommand> handler,
+        [FromServices] ICommandHandler<Guid, SoftDeleteBreedCommand> handler,
         CancellationToken token = default)
     {
-        var command = new DeleteBreedCommand(id, breedId);
+        var command = new SoftDeleteBreedCommand(id, breedId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)

@@ -6,33 +6,33 @@ using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Delete;
+namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 
-public class DeleteVolunteerHandler
-    : ICommandHandler<Guid, DeleteVolunteerCommand>
+public class SoftDeletePetHandler
+    : ICommandHandler<Guid, SoftDeletePetCommand>
 {
-    private readonly IEntitiesExistenceValidator<DeleteVolunteerExistenceValidationData> _entitiesExistenceValidator;
-    private readonly ILogger<DeleteVolunteerHandler> _logger;
+    private readonly IEntitiesExistenceValidator<SoftDeletePetExistenceValidationData> _entitiesExistenceValidator;
+    private readonly ILogger<SoftDeletePetHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<DeleteVolunteerCommand> _validator;
+    private readonly IValidator<SoftDeletePetCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
-    public DeleteVolunteerHandler(
-        IVolunteersRepository volunteersRepository,
-        ILogger<DeleteVolunteerHandler> logger,
-        IValidator<DeleteVolunteerCommand> validator,
+    public SoftDeletePetHandler(
+        IEntitiesExistenceValidator<SoftDeletePetExistenceValidationData> entitiesExistenceValidator,
+        ILogger<SoftDeletePetHandler> logger,
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceValidator<DeleteVolunteerExistenceValidationData> entitiesExistenceValidator)
+        IValidator<SoftDeletePetCommand> validator,
+        IVolunteersRepository volunteersRepository)
     {
-        _volunteersRepository = volunteersRepository;
-        _logger = logger;
-        _validator = validator;
-        _unitOfWork = unitOfWork;
         _entitiesExistenceValidator = entitiesExistenceValidator;
+        _logger = logger;
+        _unitOfWork = unitOfWork;
+        _validator = validator;
+        _volunteersRepository = volunteersRepository;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
-        DeleteVolunteerCommand command,
+        SoftDeletePetCommand command,
         CancellationToken cancellationToken = default)
     {
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -48,18 +48,20 @@ public class DeleteVolunteerHandler
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
-        _volunteersRepository.Delete(volunteerResult.Value);
+        var petId = PetId.Create(command.PetId).Value;
+
+        volunteerResult.Value.SoftDeletePet(petId);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        Log(volunteerId);
+        Log(petId);
 
-        return volunteerId.Value;
+        return Guid.NewGuid();
     }
 
-    private void Log(VolunteerId volunteerId)
+    private void Log(PetId petId)
     {
         _logger.LogInformation(
-            "VOLUNTEER soft deleted with ID: {Id}",
-            volunteerId);
+            "PET soft deleted with ID: {Id}",
+            petId);
     }
 }

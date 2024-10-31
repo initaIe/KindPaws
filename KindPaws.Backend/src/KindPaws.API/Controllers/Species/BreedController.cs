@@ -1,4 +1,5 @@
-﻿using KindPaws.Application.Abstractions;
+﻿using KindPaws.API.Controllers.Species.Queries;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
 using KindPaws.Application.Models;
@@ -10,11 +11,11 @@ public class BreedController : ApplicationController
 {
     [HttpGet]
     public async Task<IActionResult> GetBreedsBySpecieId(
-        [FromQuery] GetBreedsBySpecieIdWithPaginationQuery request,
+        [FromQuery] GetBreedsBySpecieIdWithPaginationRequest request,
         [FromServices] IQueryHandler<PagedList<BreedDTO>, GetBreedsBySpecieIdWithPaginationQuery> handler,
         CancellationToken token = default)
     {
-        var query = new GetBreedsBySpecieIdWithPaginationQuery(request.SpecieId, request.Pagination);
+        var query = request.ToQuery();
 
         var result = await handler.HandleAsync(query, token);
 

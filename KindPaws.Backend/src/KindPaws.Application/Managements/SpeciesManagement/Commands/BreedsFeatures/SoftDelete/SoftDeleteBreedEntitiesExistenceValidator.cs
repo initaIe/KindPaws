@@ -1,20 +1,21 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
+using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Delete;
+namespace KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 
-public class DeleteSpecieEntitiesExistenceValidator
-    : IEntitiesExistenceValidator<DeleteSpecieExistenceValidationData>
+public class SoftDeleteBreedEntitiesExistenceValidator
+    : IEntitiesExistenceValidator<SoftDeleteBreedExistenceValidationData>
 {
     private readonly IBreedExistenceValidator _breedExistenceValidator;
     private readonly ISpecieExistenceValidator _specieExistenceValidator;
     private readonly IPetExistenceValidator _petExistenceValidator;
 
-    public DeleteSpecieEntitiesExistenceValidator(
+    public SoftDeleteBreedEntitiesExistenceValidator(
         IBreedExistenceValidator breedExistenceValidator,
         ISpecieExistenceValidator specieExistenceValidator,
         IPetExistenceValidator petExistenceValidator)
@@ -25,20 +26,25 @@ public class DeleteSpecieEntitiesExistenceValidator
     }
 
     public async Task<Result<Error>> ValidateAsync(
-        DeleteSpecieExistenceValidationData validationData,
+        SoftDeleteBreedExistenceValidationData validationData,
         CancellationToken cancellationToken)
     {
-        var isSpecieByIdExist = await _specieExistenceValidator
+        var isSpecieWithIdExist = await _specieExistenceValidator
             .IsSpecieByIdExistsAsync(validationData.SpecieId, cancellationToken);
-        if (!isSpecieByIdExist)
+        if (!isSpecieWithIdExist)
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpecieId);
 
-        var isPetBySpecieIdExist = await _petExistenceValidator
-            .IsPetBySpecieIdExistsAsync(validationData.SpecieId, cancellationToken);
-        if (isPetBySpecieIdExist)
+        var isBreedWithIdExistForSpecieWithId = await _breedExistenceValidator
+            .IsBreedByIdForSpecieByIdExistsAsync(validationData.SpecieId, validationData.BreedId, cancellationToken);
+        if (!isBreedWithIdExistForSpecieWithId)
+            return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), validationData.BreedId);
+
+        var isPetWithBreedIdExist = await _petExistenceValidator
+            .IsPetByBreedIdExistsAsync(validationData.BreedId, cancellationToken);
+        if (isPetWithBreedIdExist)
             return Errors.General.OperationCanNotBePerformed(
-                "Delete specie",
-                "because exists pet with this specie");
+                "Delete breed",
+                "because exists pet with this breed");
 
         return true;
     }

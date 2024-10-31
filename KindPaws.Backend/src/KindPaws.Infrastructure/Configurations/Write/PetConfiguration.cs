@@ -36,7 +36,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 .IsRequired();
 
             petType.Property(x => x.BreedId)
-                .HasColumnName("breed_guid")
+                .HasColumnName("breed_id")
                 .IsRequired();
         });
 
@@ -116,10 +116,17 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 .IsRequired();
         });
 
-        // SOFT DELETE
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted")
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted")
             .IsRequired();
+
+        // SOFT DELETE DATE TIME
+        builder.Property(b => b.SoftDeletedDateTime)
+            .HasColumnName("soft_delete_datetime")
+            .IsRequired(false);
+
+        // HARD DELETE PROPERTY IGNORE
+        builder.Ignore(b => b.IsHardDeleted);
     }
 }

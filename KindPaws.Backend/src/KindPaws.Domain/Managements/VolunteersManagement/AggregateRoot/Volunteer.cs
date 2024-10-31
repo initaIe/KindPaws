@@ -8,10 +8,9 @@ using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 
-public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
+public class Volunteer : Entity<VolunteerId>, IFullDeletable
 {
     private readonly List<Pet> _pets = [];
-    private bool _isDeleted;
     private List<Requisite> _requisites = [];
     private List<SocialNetwork> _socialNetworks = [];
 
@@ -41,16 +40,9 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
-
-    public void Delete()
-    {
-        _isDeleted = true;
-    }
-
-    public void Restore()
-    {
-        _isDeleted = false;
-    }
+    public bool IsSoftDeleted { get; private set; }
+    public DateTime? SoftDeletedDateTime { get; private set; }
+    public bool IsHardDeleted { get; private set; }
 
     public int GetCountPetsAlreadyFoundHome()
     {
@@ -106,12 +98,39 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
         return true;
     }
 
-    public Result<Error> DeletePet(Pet pet)
+    public Result<Error> HardDeletePet(PetId petId)
     {
+        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+
+        if (pet == null)
+            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+
+        pet.HardDelete();
         _pets.Remove(pet);
 
-        var petsToDecreasePosition
-            = _pets.Where(p => p.Position.Value > pet.Position.Value);
+        MovePetsAfterDeletion(pet.Position);
+
+        return true;
+    }
+
+    public Result<Error> SoftDeletePet(PetId petId)
+    {
+        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+
+        if (pet == null)
+            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+
+        pet.SoftDelete();
+
+        MovePetsAfterDeletion(pet.Position);
+
+        return true;
+    }
+
+    // ADD CHECK FOR _isDeletedPet
+    private Result<Error> MovePetsAfterDeletion(Position deletedPetPosition)
+    {
+        var petsToDecreasePosition = _pets.Where(p => p.Position.Value > deletedPetPosition.Value);
 
         foreach (var petToDecreasePosition in petsToDecreasePosition)
         {
@@ -175,5 +194,24 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeleteable
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 
         return pet;
+    }
+
+    public void SoftDelete()
+    {
+        IsSoftDeleted = true;
+        SoftDeletedDateTime = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsSoftDeleted = false;
+        SoftDeletedDateTime = null;
+        _pets.ForEach(p => p.Restore());
+    }
+
+    public void HardDelete()
+    {
+        IsHardDeleted = true;
+        _pets.ForEach(pet => pet.HardDelete());
     }
 }

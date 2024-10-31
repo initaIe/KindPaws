@@ -6,15 +6,15 @@ using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
-namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
+namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 
 public class
-    DeletePetPhotosEntitiesExistenceValidator : IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData>
+    SoftDeletePetEntitiesExistenceValidator : IEntitiesExistenceValidator<SoftDeletePetExistenceValidationData>
 {
-    private readonly IPetExistenceValidator _petExistenceValidator;
     private readonly IVolunteerExistenceValidator _volunteerExistenceValidator;
+    private readonly IPetExistenceValidator _petExistenceValidator;
 
-    public DeletePetPhotosEntitiesExistenceValidator(
+    public SoftDeletePetEntitiesExistenceValidator(
         IVolunteerExistenceValidator volunteerExistenceValidator,
         IPetExistenceValidator petExistenceValidator)
     {
@@ -23,7 +23,7 @@ public class
     }
 
     public async Task<Result<Error>> ValidateAsync(
-        DeletePetPhotosExistenceValidationData validationData,
+        SoftDeletePetExistenceValidationData validationData,
         CancellationToken cancellationToken)
     {
         var isVolunteerByIdExist = await _volunteerExistenceValidator
@@ -31,9 +31,9 @@ public class
         if (!isVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Volunteer), nameof(VolunteerId), validationData.VolunteerId);
 
-        var isPetWithIdExistForVolunteerWithId = await _petExistenceValidator
+        var isPetByIdExist = await _petExistenceValidator
             .IsPetByIdForVolunteerByIdExistsAsync(validationData.VolunteerId, validationData.PetId, cancellationToken);
-        if (!isPetWithIdExistForVolunteerWithId)
+        if (!isPetByIdExist)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), validationData.PetId);
 
         return true;

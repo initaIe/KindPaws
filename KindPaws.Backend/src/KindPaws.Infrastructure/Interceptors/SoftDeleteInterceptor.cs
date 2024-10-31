@@ -1,4 +1,4 @@
-﻿using KindPaws.Domain.Shared.Others;
+﻿using KindPaws.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -15,13 +15,14 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
             return await base.SavingChangesAsync(eventData, result, cancellationToken);
 
         var entries = eventData.Context.ChangeTracker
-            .Entries<ISoftDeleteable>()
+            .Entries<IFullDeletable>()
             .Where(e => e.State == EntityState.Deleted);
 
         foreach (var entry in entries)
         {
+            if (entry.Entity.IsHardDeleted) continue;
             entry.State = EntityState.Modified;
-            entry.Entity.Delete();
+            entry.Entity.SoftDelete();
         }
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
