@@ -1,6 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared;

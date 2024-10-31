@@ -2,7 +2,6 @@
 using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
@@ -15,6 +14,7 @@ public class HardDeleteVolunteerHandler
 {
     private readonly IEntitiesExistenceValidator<HardDeleteVolunteerExistenceValidationData>
         _entitiesExistenceValidator;
+
     private readonly ILogger<HardDeleteVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<HardDeleteVolunteerCommand> _validator;
@@ -22,8 +22,8 @@ public class HardDeleteVolunteerHandler
 
     public HardDeleteVolunteerHandler(
         IEntitiesExistenceValidator<HardDeleteVolunteerExistenceValidationData> entitiesExistenceValidator,
-        ILogger<HardDeleteVolunteerHandler> logger, 
-        IUnitOfWork unitOfWork, 
+        ILogger<HardDeleteVolunteerHandler> logger,
+        IUnitOfWork unitOfWork,
         IValidator<HardDeleteVolunteerCommand> validator,
         IVolunteersRepository volunteersRepository)
     {

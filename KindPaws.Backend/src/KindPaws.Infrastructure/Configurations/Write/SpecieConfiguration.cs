@@ -26,7 +26,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .HasForeignKey("specie_id")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-        
+
         // NAME
         builder.ComplexProperty(specie => specie.Name, name =>
         {

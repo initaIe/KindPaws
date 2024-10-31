@@ -46,7 +46,7 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{id:guid}/hard")]
     public async Task<IActionResult> HardDelete(
         [FromRoute] Guid id,
@@ -93,7 +93,7 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{id:guid}/breeds/{breedId:guid}/hard")]
     public async Task<IActionResult> HardDeleteBreed(
         [FromRoute] Guid id,

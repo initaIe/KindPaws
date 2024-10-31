@@ -6,12 +6,12 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 public record HealthDetails
 {
     public static readonly HealthDetails Empty = new HealthDetails(
-        null, 
-        null, 
-        null, 
-        null, 
+        null,
+        null,
+        null,
+        null,
         null);
-    
+
     [JsonConstructor]
     private HealthDetails()
     {

@@ -2,7 +2,6 @@
 using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 using Microsoft.Extensions.Logging;
@@ -18,9 +17,9 @@ public class HardDeleteSpecieHandler : ICommandHandler<Guid, HardDeleteSpecieCom
     private readonly IValidator<HardDeleteSpecieCommand> _validator;
 
     public HardDeleteSpecieHandler(
-        IEntitiesExistenceValidator<HardDeleteSpecieExistenceValidationData> entitiesExistenceValidator, 
+        IEntitiesExistenceValidator<HardDeleteSpecieExistenceValidationData> entitiesExistenceValidator,
         ILogger<HardDeleteSpecieHandler> logger,
-        ISpeciesRepository speciesRepository, 
+        ISpeciesRepository speciesRepository,
         IUnitOfWork unitOfWork,
         IValidator<HardDeleteSpecieCommand> validator)
     {

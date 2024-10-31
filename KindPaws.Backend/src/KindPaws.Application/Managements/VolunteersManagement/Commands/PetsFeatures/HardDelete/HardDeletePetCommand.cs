@@ -1,5 +1,4 @@
 ﻿using KindPaws.Application.Abstractions.Markers;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.HardDelete;
 

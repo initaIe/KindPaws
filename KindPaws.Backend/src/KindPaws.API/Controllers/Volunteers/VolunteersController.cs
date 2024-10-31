@@ -40,7 +40,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPost("{id:guid}/pets")]
     public async Task<IActionResult> AddPet(
         [FromRoute] Guid id,
@@ -56,7 +56,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPost("{id:guid}/pets/{petId:guid}/photos")]
     public async Task<IActionResult> AddPetPhotos(
         [FromRoute] Guid id,
@@ -109,7 +109,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPut("{id:guid}/main-info")]
     public async Task<IActionResult> UpdateMainInfo(
         [FromRoute] Guid id,
@@ -141,7 +141,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPut("{id:guid}/pets/{petId:guid}/main-info")]
     public async Task<IActionResult> UpdatePetMainInfo(
         [FromRoute] Guid id,
@@ -221,7 +221,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{id:guid}/pets/{petId:guid}/hard")]
     public async Task<IActionResult> HardDeletePet(
         [FromRoute] Guid id,
@@ -237,7 +237,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{id:guid}/pets/{petId:guid}/photos")]
     public async Task<IActionResult> DeletePetPhotos(
         [FromRoute] Guid id,

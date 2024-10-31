@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 using KindPaws.Application.Validation;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
 
