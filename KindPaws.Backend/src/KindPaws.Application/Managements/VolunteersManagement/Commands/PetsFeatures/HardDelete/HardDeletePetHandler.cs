@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.HardDelete;
 
+// TODO: add delete photos in minio
 public class HardDeletePetHandler
     : ICommandHandler<Guid, HardDeletePetCommand>
 {

@@ -12,6 +12,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeature
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.HardDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
@@ -231,6 +232,21 @@ public class VolunteersController : ApplicationController
         CancellationToken token = default)
     {
         var command = new HardDeletePetCommand(id, petId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpDelete("{id:guid}/hard")]
+    public async Task<IActionResult> HardDelete(
+        [FromRoute] Guid id,
+        [FromServices] ICommandHandler<Guid, HardDeleteVolunteerCommand> handler,
+        CancellationToken token = default)
+    {
+        var command = new HardDeleteVolunteerCommand(id);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)

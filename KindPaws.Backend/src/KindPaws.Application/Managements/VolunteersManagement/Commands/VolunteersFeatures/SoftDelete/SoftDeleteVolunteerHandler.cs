@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 
+// TODO: add delete pets photo minio
 public class SoftDeleteVolunteerHandler
     : ICommandHandler<Guid, SoftDeleteVolunteerCommand>
 {

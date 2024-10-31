@@ -16,6 +16,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeature
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.HardDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
@@ -80,7 +81,9 @@ public static class ServiceExtensions
             .AddScoped<ICommandHandler<Guid, SoftDeletePetCommand>,
                 SoftDeletePetHandler>()
             .AddScoped<ICommandHandler<Guid, HardDeletePetCommand>,
-                HardDeletePetHandler>();
+                HardDeletePetHandler>()
+            .AddScoped<ICommandHandler<Guid, HardDeleteVolunteerCommand>,
+                HardDeleteVolunteerHandler>();
     }
 
     private static IServiceCollection AddSpeciesCommandHandlers(this IServiceCollection services)
@@ -146,7 +149,9 @@ public static class ServiceExtensions
             .AddScoped<IEntitiesExistenceValidator<SoftDeletePetExistenceValidationData>,
                 SoftDeletePetEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<HardDeletePetExistenceValidationData>,
-                HardDeletePetEntitiesExistenceValidator>();
+                HardDeletePetEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<HardDeleteVolunteerExistenceValidationData>,
+                HardDeleteVolunteerEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddSpeciesExistenceValidators(this IServiceCollection services)
