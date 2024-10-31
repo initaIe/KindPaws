@@ -3,8 +3,10 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.HardDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
+using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.HardDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
@@ -92,7 +94,9 @@ public static class ServiceExtensions
             .AddScoped<ICommandHandler<Guid, AddBreedCommand>, AddBreedHandler>()
             .AddScoped<ICommandHandler<Guid, SoftDeleteBreedCommand>, SoftDeleteBreedHandler>()
             .AddScoped<ICommandHandler<Guid, CreateSpecieCommand>, CreateSpecieHandler>()
-            .AddScoped<ICommandHandler<Guid, SoftDeleteSpecieCommand>, SoftDeleteSpecieHandler>();
+            .AddScoped<ICommandHandler<Guid, SoftDeleteSpecieCommand>, SoftDeleteSpecieHandler>()
+            .AddScoped<ICommandHandler<Guid, HardDeleteBreedCommand>, HardDeleteBreedHandler>()
+            .AddScoped<ICommandHandler<Guid, HardDeleteSpecieCommand>, HardDeleteSpecieHandler>();
     }
 
     private static IServiceCollection AddVolunteersQueryHandlers(this IServiceCollection services)
@@ -164,7 +168,11 @@ public static class ServiceExtensions
             .AddScoped<IEntitiesExistenceValidator<CreateSpecieExistenceValidationData>,
                 CreateSpecieEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<SoftDeleteSpecieExistenceValidationData>,
-                SoftDeleteSpecieEntitiesExistenceValidator>();
+                SoftDeleteSpecieEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<HardDeleteBreedExistenceValidationData>,
+                HardDeleteBreedEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<HardDeleteSpecieExistenceValidationData>,
+                HardDeleteSpecieEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddEntitiesExistenceValidators(this IServiceCollection services)
