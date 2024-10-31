@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KindPaws.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031141802_Init8")]
+    partial class Init8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("soft_delete_datetime");
 
-                    b.Property<Guid>("specie_id")
+                    b.Property<Guid?>("specie_id")
                         .HasColumnType("uuid")
                         .HasColumnName("specie_id");
 
@@ -253,7 +256,11 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("support_status");
 
-                    b.Property<Guid>("volunteer_id")
+                    b.Property<Guid?>("VolunteerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("volunteer_id");
+
+                    b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
 
@@ -293,10 +300,17 @@ namespace KindPaws.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_pets");
 
-                    b.HasIndex("volunteer_id")
+                    b.HasIndex("VolunteerId")
                         .HasDatabaseName("ix_pets_volunteer_id");
 
-                    b.ToTable("pets", (string)null);
+                    b.HasIndex("volunteer_id")
+                        .HasDatabaseName("ix_pets_volunteer_id1");
+
+                    b.ToTable("pets", null, t =>
+                        {
+                            t.Property("volunteer_id")
+                                .HasColumnName("volunteer_id1");
+                        });
                 });
 
             modelBuilder.Entity("KindPaws.Domain.Managements.SpeciesManagement.Entities.Breed", b =>
@@ -305,18 +319,21 @@ namespace KindPaws.Infrastructure.Migrations
                         .WithMany("Breeds")
                         .HasForeignKey("specie_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_breeds_species_specie_id");
                 });
 
             modelBuilder.Entity("KindPaws.Domain.Managements.VolunteersManagement.Entities.Pet", b =>
                 {
                     b.HasOne("KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer", null)
+                        .WithMany()
+                        .HasForeignKey("VolunteerId")
+                        .HasConstraintName("fk_pets_volunteers_volunteer_id");
+
+                    b.HasOne("KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer", null)
                         .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_pets_volunteers_volunteer_id");
+                        .HasConstraintName("fk_pets_volunteers_volunteer_id1");
                 });
 
             modelBuilder.Entity("KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot.Specie", b =>

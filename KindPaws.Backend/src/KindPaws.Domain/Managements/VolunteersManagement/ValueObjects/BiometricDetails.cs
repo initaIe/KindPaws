@@ -4,6 +4,11 @@ namespace KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 public record BiometricDetails
 {
+    public static readonly BiometricDetails Empty = new BiometricDetails(
+        null, 
+        null, 
+        null);
+    
     public BiometricDetails(
         Height? height,
         Weight? weight,
@@ -17,9 +22,4 @@ public record BiometricDetails
     public Height? Height { get; }
     public Weight? Weight { get; }
     public Gender? Gender { get; }
-
-    public static BiometricDetails CreateNullable()
-    {
-        return new BiometricDetails(null, null, null);
-    }
 }

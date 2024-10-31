@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KindPaws.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031141945_Init9")]
+    partial class Init9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("soft_delete_datetime");
 
-                    b.Property<Guid>("specie_id")
+                    b.Property<Guid?>("specie_id")
                         .HasColumnType("uuid")
                         .HasColumnName("specie_id");
 
@@ -253,7 +256,7 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("support_status");
 
-                    b.Property<Guid>("volunteer_id")
+                    b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
 
@@ -305,7 +308,6 @@ namespace KindPaws.Infrastructure.Migrations
                         .WithMany("Breeds")
                         .HasForeignKey("specie_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_breeds_species_specie_id");
                 });
 
@@ -315,7 +317,6 @@ namespace KindPaws.Infrastructure.Migrations
                         .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
                 });
 

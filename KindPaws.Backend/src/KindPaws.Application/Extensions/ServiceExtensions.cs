@@ -11,6 +11,7 @@ using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.Add;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.HardDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
@@ -77,7 +78,9 @@ public static class ServiceExtensions
             .AddScoped<ICommandHandler<Guid, UpdatePetMainInfoCommand>,
                 UpdatePetMainInfoHandler>()
             .AddScoped<ICommandHandler<Guid, SoftDeletePetCommand>,
-                SoftDeletePetHandler>();
+                SoftDeletePetHandler>()
+            .AddScoped<ICommandHandler<Guid, HardDeletePetCommand>,
+                HardDeletePetHandler>();
     }
 
     private static IServiceCollection AddSpeciesCommandHandlers(this IServiceCollection services)
@@ -141,7 +144,9 @@ public static class ServiceExtensions
             .AddScoped<IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData>,
                 DeletePetPhotosEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<SoftDeletePetExistenceValidationData>,
-                SoftDeletePetEntitiesExistenceValidator>();
+                SoftDeletePetEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<HardDeletePetExistenceValidationData>,
+                HardDeletePetEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddSpeciesExistenceValidators(this IServiceCollection services)

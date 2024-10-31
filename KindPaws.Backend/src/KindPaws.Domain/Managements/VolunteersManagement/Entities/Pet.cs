@@ -33,14 +33,13 @@ public class Pet : Entity<PetId>, IFullDeletable
     public MediumDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
     public Age? Age { get; private set; }
-    public HealthDetails HealthDetails { get; private set; } = HealthDetails.CreateNullable();
-    public BiometricDetails BiometricDetails { get; private set; } = BiometricDetails.CreateNullable();
+    public HealthDetails HealthDetails { get; private set; } = HealthDetails.Empty;
+    public BiometricDetails BiometricDetails { get; private set; } = BiometricDetails.Empty;
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
     public bool IsHardDeleted { get; private set; }
-
 
     public void UpdateMainInfo(
         PetType petType,
@@ -62,8 +61,8 @@ public class Pet : Entity<PetId>, IFullDeletable
         Description = description;
         Color = petColor;
         Age = age;
-        HealthDetails = healthDetails ?? HealthDetails.CreateNullable();
-        BiometricDetails = biometricDetails ?? BiometricDetails.CreateNullable();
+        HealthDetails = healthDetails ?? HealthDetails.Empty;
+        BiometricDetails = biometricDetails ?? BiometricDetails.Empty;
     }
 
     public void AddPhotos(IEnumerable<PetPhoto> photos)

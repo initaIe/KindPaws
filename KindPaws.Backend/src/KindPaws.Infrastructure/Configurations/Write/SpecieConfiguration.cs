@@ -24,8 +24,9 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
         builder.HasMany(specie => specie.Breeds)
             .WithOne()
             .HasForeignKey("specie_id")
-            .OnDelete(DeleteBehavior.Cascade);
-
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+        
         // NAME
         builder.ComplexProperty(specie => specie.Name, name =>
         {
