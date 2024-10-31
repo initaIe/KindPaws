@@ -76,7 +76,7 @@ public class Pet : Entity<PetId>, IFullDeletable
             _photos.Remove(photo);
     }
 
-    public void SetPosition(Position position)
+    public void UpdatePosition(Position position)
     {
         Position = position;
     }
@@ -87,7 +87,7 @@ public class Pet : Entity<PetId>, IFullDeletable
         if (increasedPositionResult.IsFailure)
             return increasedPositionResult.Error;
 
-        SetPosition(increasedPositionResult.Value);
+        UpdatePosition(increasedPositionResult.Value);
         return true;
     }
 
@@ -97,7 +97,7 @@ public class Pet : Entity<PetId>, IFullDeletable
         if (decreasedPositionResult.IsFailure)
             return decreasedPositionResult.Error;
 
-        SetPosition(decreasedPositionResult.Value);
+        UpdatePosition(decreasedPositionResult.Value);
         return true;
     }
 

@@ -11,6 +11,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeature
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdatePosition;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.HardDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
@@ -165,6 +166,23 @@ public class VolunteersController : ApplicationController
         [FromRoute] Guid petId,
         [FromBody] UpdatePetAdditionalInfoRequest request,
         [FromServices] ICommandHandler<Guid, UpdatePetAdditionalInfoCommand> handler,
+        CancellationToken token = default)
+    {
+        var command = request.ToCommand(id, petId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpPut("{id:guid}/pets/{petId:guid}/position")]
+    public async Task<IActionResult> UpdatePetPosition(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromBody] UpdatePetPositionRequest request,
+        [FromServices] ICommandHandler<Guid, UpdatePetPositionCommand> handler,
         CancellationToken token = default)
     {
         var command = request.ToCommand(id, petId);

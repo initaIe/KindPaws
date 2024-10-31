@@ -40,6 +40,4 @@ public record Position
 
         return increasePosition;
     }
-
-    // public static implicit operator int(Position position) => position.Value; // TODO:??
 }

@@ -17,6 +17,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeature
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdatePosition;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.Create;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.HardDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.SoftDelete;
@@ -85,7 +86,9 @@ public static class ServiceExtensions
             .AddScoped<ICommandHandler<Guid, HardDeletePetCommand>,
                 HardDeletePetHandler>()
             .AddScoped<ICommandHandler<Guid, HardDeleteVolunteerCommand>,
-                HardDeleteVolunteerHandler>();
+                HardDeleteVolunteerHandler>()
+            .AddScoped<ICommandHandler<Guid, UpdatePetPositionCommand>,
+                UpdatePetPositionHandler>();
     }
 
     private static IServiceCollection AddSpeciesCommandHandlers(this IServiceCollection services)
@@ -155,7 +158,9 @@ public static class ServiceExtensions
             .AddScoped<IEntitiesExistenceValidator<HardDeletePetExistenceValidationData>,
                 HardDeletePetEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<HardDeleteVolunteerExistenceValidationData>,
-                HardDeleteVolunteerEntitiesExistenceValidator>();
+                HardDeleteVolunteerEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<UpdatePetPositionExistenceValidationData>,
+                UpdatePetPositionEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddSpeciesExistenceValidators(this IServiceCollection services)

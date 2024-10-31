@@ -2,6 +2,7 @@
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.Others;
+using KindPaws.Domain.Shared.Others.Helpers;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -45,19 +46,14 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
     public bool IsHardDeleted { get; private set; }
 
     public int GetCountPetsAlreadyFoundHome()
-    {
-        return _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
-    }
+        => _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
 
     public int GetCountPetsLookingHome()
-    {
-        return _pets.Count(x => x.SupportStatus == SupportStatus.LookingHome);
-    }
+        => _pets.Count(x => x.SupportStatus == SupportStatus.LookingHome);
 
     public int GetCountPetsNeedHelp()
-    {
-        return _pets.Count(x => x.SupportStatus == SupportStatus.NeedSupport);
-    }
+        => _pets.Count(x => x.SupportStatus == SupportStatus.NeedSupport);
+
 
     public void UpdateMainInfo(
         FullName fullName,
@@ -83,109 +79,6 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
         _requisites = requisites?.ToList() ?? [];
     }
 
-    // TODO: refactor position methods
-    public Result<Error> AddPet(Pet pet)
-    {
-        var lastPositionNumber = _pets.Count + Position.ChangeUnit;
-
-        var positionResult = Position.Create(lastPositionNumber);
-        if (positionResult.IsFailure)
-            return positionResult.Error; // TODO: throw exception mb?
-
-        pet.SetPosition(positionResult.Value);
-
-        _pets.Add(pet);
-        return true;
-    }
-
-    public Result<Error> HardDeletePet(PetId petId)
-    {
-        var pet = _pets.FirstOrDefault(p => p.Id == petId);
-
-        if (pet == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
-
-        pet.HardDelete();
-        _pets.Remove(pet);
-
-        MovePetsAfterDeletion(pet.Position);
-
-        return true;
-    }
-
-    public Result<Error> SoftDeletePet(PetId petId)
-    {
-        var pet = _pets.FirstOrDefault(p => p.Id == petId);
-
-        if (pet == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
-
-        pet.SoftDelete();
-
-        MovePetsAfterDeletion(pet.Position);
-
-        return true;
-    }
-
-    // ADD CHECK FOR _isDeletedPet
-    private Result<Error> MovePetsAfterDeletion(Position deletedPetPosition)
-    {
-        var petsToDecreasePosition = _pets.Where(p => p.Position.Value > deletedPetPosition.Value);
-
-        foreach (var petToDecreasePosition in petsToDecreasePosition)
-        {
-            var decreasePositionResult = petToDecreasePosition.DecreasePosition();
-            if (decreasePositionResult.IsFailure)
-                return decreasePositionResult.Error;
-        }
-
-        return true;
-    }
-
-    public Result<Error> MovePet(Pet pet, Position position)
-    {
-        if (pet.Position.Value == position.Value || _pets.Count == 1)
-            return true;
-
-        var lastPosition = Position.Create(_pets.Count);
-        if (lastPosition.IsFailure)
-            return lastPosition.Error;
-
-        if (position.Value > lastPosition.Value.Value) position = lastPosition.Value;
-
-        var isIncrease = pet.Position.Value < position.Value;
-
-        if (isIncrease)
-        {
-            var petsToDecreasePosition = _pets.Where(p =>
-                p.Position.Value > pet.Position.Value
-                && p.Position.Value <= position.Value);
-
-            foreach (var petToDecreasePosition in petsToDecreasePosition)
-            {
-                var decreasePositionResult = petToDecreasePosition.DecreasePosition();
-                if (decreasePositionResult.IsFailure)
-                    return decreasePositionResult.Error;
-            }
-        }
-        else
-        {
-            var petsToIncreasePosition = _pets.Where(p =>
-                p.Position.Value < pet.Position.Value
-                && p.Position.Value >= position.Value);
-
-            foreach (var petToIncreasePosition in petsToIncreasePosition)
-            {
-                var increasePositionResult = petToIncreasePosition.IncreasePosition();
-                if (increasePositionResult.IsFailure)
-                    return increasePositionResult.Error;
-            }
-        }
-
-        pet.SetPosition(position);
-        return true;
-    }
-
     public Result<Pet, Error> GetPetById(PetId petId)
     {
         var pet = _pets.FirstOrDefault(x => x.Id == petId);
@@ -195,6 +88,20 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
 
         return pet;
     }
+
+    public Result<Error> AddPet(Pet pet)
+    {
+        var getLastPositionResult = GeneratePositionForNewPet();
+        if (getLastPositionResult.IsFailure)
+            return getLastPositionResult.Error;
+
+        pet.UpdatePosition(getLastPositionResult.Value);
+        _pets.Add(pet);
+        return true;
+    }
+
+
+    #region Deletion methods
 
     public void SoftDelete()
     {
@@ -214,4 +121,119 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
         IsHardDeleted = true;
         _pets.ForEach(pet => pet.HardDelete());
     }
+
+    public Result<Error> HardDeletePet(PetId petId)
+    {
+        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+
+        if (pet == null)
+            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+
+        pet.HardDelete();
+        _pets.Remove(pet);
+
+        AlignPetPositionsAfterDelete(pet.Position);
+
+        return true;
+    }
+
+    public Result<Error> SoftDeletePet(PetId petId)
+    {
+        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+
+        if (pet == null)
+            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+
+        pet.SoftDelete();
+
+        AlignPetPositionsAfterDelete(pet.Position);
+
+        return true;
+    }
+
+    #endregion
+
+    #region Position methods
+
+    private Result<Error> AlignPetPositionsAfterDelete(Position deletedPetPosition)
+    {
+        var petsToDecreasePosition = _pets.Where(p => p.Position.Value > deletedPetPosition.Value);
+
+        foreach (var petToDecreasePosition in petsToDecreasePosition)
+        {
+            var decreasePositionResult = petToDecreasePosition.DecreasePosition();
+            if (decreasePositionResult.IsFailure)
+                return decreasePositionResult.Error;
+        }
+
+        return true;
+    }
+
+    private Result<Position, Error> GeneratePositionForNewPet()
+    {
+        var lastPositionNumber = _pets.Count + Position.ChangeUnit;
+        var positionResult = Position.Create(lastPositionNumber);
+        return positionResult;
+    }
+
+    public Result<Error> MovePet(PetId petId, Position newPosition)
+    {
+        var movablePet = _pets.FirstOrDefault(p => p.Id == petId);
+        if (movablePet == null)
+            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+
+        if (movablePet.Position.Value == newPosition.Value || _pets.Count == 1)
+            return true;
+
+        var lastPosition = Position.Create(_pets.Count);
+        if (lastPosition.IsFailure)
+            return lastPosition.Error;
+
+        if (newPosition.Value > lastPosition.Value.Value)
+            newPosition = lastPosition.Value;
+
+        var isIncrease = movablePet.Position.Value < newPosition.Value;
+
+        if (isIncrease)
+            DecreasePetsPositionsWhenMovePet(movablePet, newPosition);
+        else
+            IncreasePetsPositionsWhenMovePet(movablePet, newPosition);
+
+        movablePet.UpdatePosition(newPosition);
+        return true;
+    }
+
+    private Result<Error> DecreasePetsPositionsWhenMovePet(Pet movablePet, Position newPosition)
+    {
+        var petsToDecreasePosition = _pets.Where(p =>
+            p.Position.Value > movablePet.Position.Value
+            && p.Position.Value <= newPosition.Value);
+
+        foreach (var petToDecreasePosition in petsToDecreasePosition)
+        {
+            var decreasePositionResult = petToDecreasePosition.DecreasePosition();
+            if (decreasePositionResult.IsFailure)
+                return decreasePositionResult.Error;
+        }
+
+        return true;
+    }
+
+    private Result<Error> IncreasePetsPositionsWhenMovePet(Pet movablePet, Position newPosition)
+    {
+        var petsToIncreasePosition = _pets.Where(p =>
+            p.Position.Value < movablePet.Position.Value
+            && p.Position.Value >= newPosition.Value);
+
+        foreach (var petToIncreasePosition in petsToIncreasePosition)
+        {
+            var increasePositionResult = petToIncreasePosition.IncreasePosition();
+            if (increasePositionResult.IsFailure)
+                return increasePositionResult.Error;
+        }
+
+        return true;
+    }
+
+    #endregion
 }
