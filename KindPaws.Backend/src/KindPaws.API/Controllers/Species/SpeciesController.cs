@@ -108,7 +108,7 @@ public class SpeciesController : ApplicationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetSpeciesWithPagination(
+    public async Task<IActionResult> GetSpeciesWithPaginationAndFilter(
         [FromQuery] GetSpeciesWithPaginationAndFilterRequest request,
         [FromServices] GetSpeciesWithPaginationAndFilterHandler handler,
         CancellationToken token = default)
