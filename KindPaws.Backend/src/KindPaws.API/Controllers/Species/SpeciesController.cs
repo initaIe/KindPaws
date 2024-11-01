@@ -1,8 +1,6 @@
 ﻿using KindPaws.API.Controllers.Species.Queries;
 using KindPaws.API.Controllers.Species.Requests;
 using KindPaws.API.Extensions;
-using KindPaws.Application.Abstractions;
-using KindPaws.Application.DTOs;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.Add;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.HardDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures.SoftDelete;
@@ -10,7 +8,6 @@ using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeature
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.HardDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
-using KindPaws.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;
@@ -20,7 +17,7 @@ public class SpeciesController : ApplicationController
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateSpecieRequest request,
-        [FromServices] ICommandHandler<Guid, CreateSpecieCommand> handler,
+        [FromServices] CreateSpecieHandler handler,
         CancellationToken token = default)
     {
         var command = request.ToCommand();
@@ -35,7 +32,7 @@ public class SpeciesController : ApplicationController
     [HttpDelete("{id:guid}/soft")]
     public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid id,
-        [FromServices] ICommandHandler<Guid, SoftDeleteSpecieCommand> handler,
+        [FromServices] SoftDeleteSpecieHandler handler,
         CancellationToken token = default)
     {
         var command = new SoftDeleteSpecieCommand(id);
@@ -50,7 +47,7 @@ public class SpeciesController : ApplicationController
     [HttpDelete("{id:guid}/hard")]
     public async Task<IActionResult> HardDelete(
         [FromRoute] Guid id,
-        [FromServices] ICommandHandler<Guid, HardDeleteSpecieCommand> handler,
+        [FromServices] HardDeleteSpecieHandler handler,
         CancellationToken token = default)
     {
         var command = new HardDeleteSpecieCommand(id);
@@ -66,7 +63,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> AddBreed(
         [FromRoute] Guid id,
         [FromBody] AddBreedRequest request,
-        [FromServices] ICommandHandler<Guid, AddBreedCommand> handler,
+        [FromServices] AddBreedHandler handler,
         CancellationToken token = default)
     {
         var command = request.ToCommand(id);
@@ -82,7 +79,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> SoftDeleteBreed(
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
-        [FromServices] ICommandHandler<Guid, SoftDeleteBreedCommand> handler,
+        [FromServices] SoftDeleteBreedHandler handler,
         CancellationToken token = default)
     {
         var command = new SoftDeleteBreedCommand(id, breedId);
@@ -98,7 +95,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> HardDeleteBreed(
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
-        [FromServices] ICommandHandler<Guid, HardDeleteBreedCommand> handler,
+        [FromServices] HardDeleteBreedHandler handler,
         CancellationToken token = default)
     {
         var command = new HardDeleteBreedCommand(id, breedId);
@@ -112,8 +109,8 @@ public class SpeciesController : ApplicationController
 
     [HttpGet]
     public async Task<IActionResult> GetSpeciesWithPagination(
-        [FromQuery] GetSpeciesWithPaginationRequest request,
-        [FromServices] IQueryHandler<PagedList<SpecieDTO>, GetSpeciesWithPaginationQuery> handler,
+        [FromQuery] GetSpeciesWithPaginationAndFilterRequest request,
+        [FromServices] GetSpeciesWithPaginationAndFilterHandler handler,
         CancellationToken token = default)
     {
         var query = request.ToQuery();

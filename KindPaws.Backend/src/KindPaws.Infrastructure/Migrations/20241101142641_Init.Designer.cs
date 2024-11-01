@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241030112417_Init")]
+    [Migration("20241101142641_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace KindPaws.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -32,9 +32,13 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<bool>("_isDeleted")
+                    b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
+                        .HasColumnName("is_soft_deleted");
+
+                    b.Property<DateTime?>("SoftDeletedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_delete_datetime");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot.Specie.Description#MediumDescription", b1 =>
                         {
@@ -54,7 +58,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
+                                .HasColumnType("citext")
                                 .HasColumnName("name");
                         });
 
@@ -70,11 +74,15 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<bool>("_isDeleted")
+                    b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
+                        .HasColumnName("is_soft_deleted");
 
-                    b.Property<Guid?>("specie_id")
+                    b.Property<DateTime?>("SoftDeletedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_delete_datetime");
+
+                    b.Property<Guid>("specie_id")
                         .HasColumnType("uuid")
                         .HasColumnName("specie_id");
 
@@ -124,6 +132,10 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("character varying(2000)")
                         .HasColumnName("description");
 
+                    b.Property<bool>("IsSoftDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_soft_deleted");
+
                     b.Property<string>("Requisites")
                         .IsRequired()
                         .HasColumnType("jsonb")
@@ -134,13 +146,13 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("social_networks");
 
+                    b.Property<DateTime?>("SoftDeletedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_delete_datetime");
+
                     b.Property<int?>("YearsOfExperience")
                         .HasColumnType("integer")
                         .HasColumnName("years_of_experience");
-
-                    b.Property<bool>("_isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("EmailAddress", "KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot.Volunteer.EmailAddress#EmailAddress", b1 =>
                         {
@@ -149,7 +161,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("citext")
                                 .HasColumnName("email_address");
                         });
 
@@ -160,18 +172,18 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("citext")
                                 .HasColumnName("first_name");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("citext")
                                 .HasColumnName("last_name");
 
                             b1.Property<string>("Patronymic")
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("citext")
                                 .HasColumnName("patronymic");
                         });
 
@@ -226,21 +238,25 @@ namespace KindPaws.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("health_details");
 
+                    b.Property<bool>("IsSoftDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_soft_deleted");
+
                     b.Property<string>("Photos")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("photos");
+
+                    b.Property<DateTime?>("SoftDeletedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_delete_datetime");
 
                     b.Property<string>("SupportStatus")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("support_status");
 
-                    b.Property<bool>("_isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<Guid?>("volunteer_id")
+                    b.Property<Guid>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
 
@@ -251,7 +267,7 @@ namespace KindPaws.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
+                                .HasColumnType("citext")
                                 .HasColumnName("name");
                         });
 
@@ -261,7 +277,7 @@ namespace KindPaws.Infrastructure.Migrations
 
                             b1.Property<Guid>("BreedId")
                                 .HasColumnType("uuid")
-                                .HasColumnName("breed_guid");
+                                .HasColumnName("breed_id");
 
                             b1.Property<Guid>("SpecieId")
                                 .HasColumnType("uuid")
@@ -292,6 +308,7 @@ namespace KindPaws.Infrastructure.Migrations
                         .WithMany("Breeds")
                         .HasForeignKey("specie_id")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_breeds_species_specie_id");
                 });
 
@@ -301,6 +318,7 @@ namespace KindPaws.Infrastructure.Migrations
                         .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
                 });
 

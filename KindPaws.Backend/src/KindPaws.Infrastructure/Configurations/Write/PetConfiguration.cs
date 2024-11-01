@@ -93,19 +93,22 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // HEALTH DETAILS
         builder.Property(p => p.HealthDetails)
             .HasColumnName("health_details")
-            .MapJsonb()
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired();
 
         // BIOMETRIC DETAILS
         builder.Property(p => p.BiometricDetails)
             .HasColumnName("biometric_details")
-            .MapJsonb()
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired();
 
         // PHOTOS DETAILS
         builder.Property(p => p.Photos)
             .HasColumnName("photos")
-            .MapJsonb()
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired();
 
         // POSITION

@@ -77,7 +77,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // ADDRESS
         builder.Property(p => p.Address)
             .HasColumnName("address")
-            .MapJsonb()
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired(false); // nullable json
 
         // YEARS OF EXPERIENCE
@@ -91,13 +92,15 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         // SOCIAL NETWORKS
         builder.Property(p => p.SocialNetworks)
             .HasColumnName("social_networks")
-            .MapJsonb()
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired();
 
         // REQUISITES
         builder.Property(p => p.Requisites)
             .HasColumnName("requisites")
-            .MapJsonb()
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
             .IsRequired();
 
         // PETS

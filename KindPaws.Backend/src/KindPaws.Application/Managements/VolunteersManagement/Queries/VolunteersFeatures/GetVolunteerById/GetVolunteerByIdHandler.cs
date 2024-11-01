@@ -26,7 +26,6 @@ public class GetVolunteerByIdHandler
         _readDbContext = readDbContext;
     }
 
-    // TODO: mb change response
     public async Task<Result<VolunteerDTO, ErrorList>> HandleAsync(
         GetVolunteerByIdQuery query,
         CancellationToken cancellationToken)
@@ -38,7 +37,7 @@ public class GetVolunteerByIdHandler
         var volunteerId = VolunteerId.Create(query.VolunteerId).Value;
 
         var volunteer = await volunteerQuery
-            .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
+            .SingleOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
             return Errors.General.RecordNotFound(

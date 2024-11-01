@@ -11,8 +11,8 @@ public class BreedController : ApplicationController
 {
     [HttpGet]
     public async Task<IActionResult> GetBreedsBySpecieId(
-        [FromQuery] GetBreedsBySpecieIdWithPaginationRequest request,
-        [FromServices] IQueryHandler<PagedList<BreedDTO>, GetBreedsBySpecieIdWithPaginationQuery> handler,
+        [FromQuery] GetBreedsWithPaginationAndFilterRequest request,
+        [FromServices] GetBreedsWithPaginationAndFilterHandler handler,
         CancellationToken token = default)
     {
         var query = request.ToQuery();

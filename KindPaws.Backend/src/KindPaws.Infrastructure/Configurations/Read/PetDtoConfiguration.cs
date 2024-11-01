@@ -1,4 +1,6 @@
-﻿using KindPaws.Application.DTOs;
+﻿using System.Text.Json;
+using KindPaws.Application.DTOs;
+using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -49,18 +51,30 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
         // HEALTH DETAILS
         builder.Property(p => p.HealthDetails)
             .HasColumnName("health_details")
-            .MapJsonb();
+            .HasColumnType("jsonb")
+            .HasConversion(
+                healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => HealthDetailsDTO.GetFromDomainModel(
+                    JsonSerializer.Deserialize<HealthDetails>(json, JsonSerializerOptions.Default)!));
 
         // BIOMETRIC DETAILS
         builder.Property(p => p.BiometricDetails)
             .HasColumnName("biometric_details")
-            .MapJsonb();
+            .HasColumnType("jsonb")
+            .HasConversion(
+                biometricDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => BiometricDetailsDTO.GetFromDomainModel(
+                    JsonSerializer.Deserialize<BiometricDetails>(json, JsonSerializerOptions.Default)!));
 
         // PHOTOS DETAILS
         builder.Property(p => p.Photos)
             .HasColumnName("photos")
-            .MapJsonb();
-
+            .HasColumnType("jsonb")
+            .HasConversion(
+                photos => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<IEnumerable<PetPhoto>>(json, JsonSerializerOptions.Default)!
+                    .Select(PetPhotoDTO.GetFromDomainModel).ToArray());
+        
         // POSITION
         builder.Property(p => p.Position)
             .HasColumnName("position");

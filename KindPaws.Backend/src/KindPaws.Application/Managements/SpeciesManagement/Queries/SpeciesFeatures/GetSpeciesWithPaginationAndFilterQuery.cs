@@ -3,4 +3,7 @@ using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
 
-public record GetSpeciesWithPaginationQuery(PaginationDTO Pagination) : IQuery;
+public record GetSpeciesWithPaginationAndFilterQuery(
+    PaginationDTO Pagination,
+    string? Name) 
+    : IQuery;

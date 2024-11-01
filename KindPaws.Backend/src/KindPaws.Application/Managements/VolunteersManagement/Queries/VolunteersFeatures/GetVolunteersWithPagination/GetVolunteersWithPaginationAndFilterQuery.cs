@@ -3,4 +3,9 @@ using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 
-public record GetVolunteersWithPaginationQuery(PaginationDTO Pagination) : IQuery;
+public record GetVolunteersWithPaginationAndFilterQuery(
+    PaginationDTO Pagination, 
+    string? FirstName,
+    string? LastName, 
+    string? Patronymic)
+    : IQuery;

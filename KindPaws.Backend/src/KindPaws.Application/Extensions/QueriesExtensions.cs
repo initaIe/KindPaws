@@ -1,4 +1,5 @@
-﻿using KindPaws.Application.Models;
+﻿using System.Linq.Expressions;
+using KindPaws.Application.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Application.Extensions;
@@ -25,5 +26,13 @@ public static class QueriesExtensions
             PageNumber = pageNumber,
             TotalCount = totalCount
         };
+    }
+
+    public static IQueryable<T> WhereIf<T>(
+        this IQueryable<T> source,
+        bool condition,
+        Expression<Func<T, bool>> predicate)
+    {
+        return condition ? source.Where(predicate) : source;
     }
 }

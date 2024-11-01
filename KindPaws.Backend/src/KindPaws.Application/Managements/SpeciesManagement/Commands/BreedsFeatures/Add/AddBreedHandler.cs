@@ -3,6 +3,7 @@ using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Helpers;
+using KindPaws.Domain.Managements.SpeciesManagement.AggregateRoot;
 using KindPaws.Domain.Managements.SpeciesManagement.Entities;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -55,17 +56,22 @@ public class AddBreedHandler
         specieResult.Value.AddBreed(breed);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        Log(breed);
+        Log(specieResult.Value, breed);
 
         return breed.Id.Value;
     }
 
-    private void Log(Breed breed)
+    private void Log(Specie specie, Breed breed)
     {
-        _logger.LogInformation("BREED added with ID: {Id}; " +
-                               "Properties: {Name}, {Description}",
-            breed.Id,
-            breed.Name,
-            breed.Description);
+        _logger.LogInformation(
+            """
+            [Specie, AddBreed]
+            SPECIE:
+            {Specie};
+            Breed:
+            {Breed}
+            """,
+            specie,
+            breed);
     }
 }

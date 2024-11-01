@@ -3,10 +3,11 @@ using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
 
 namespace KindPaws.API.Controllers.Species.Queries;
 
-public record GetBreedsBySpecieIdWithPaginationRequest(
-    Guid SpecieId,
-    PaginationDTO Pagination)
+public record GetBreedsWithPaginationAndFilterRequest(
+    PaginationDTO Pagination,
+    Guid? SpecieId,
+    string? Name)
 {
-    public GetBreedsBySpecieIdWithPaginationQuery ToQuery()
-        => new(SpecieId, Pagination);
+    public GetBreedsWithPaginationAndFilterQuery ToQuery()
+        => new(Pagination, SpecieId, Name);
 }

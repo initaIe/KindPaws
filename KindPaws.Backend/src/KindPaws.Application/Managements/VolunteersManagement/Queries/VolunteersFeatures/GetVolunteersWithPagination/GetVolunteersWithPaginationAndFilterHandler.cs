@@ -6,14 +6,14 @@ using KindPaws.Application.Models;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 
-public class GetVolunteersWithPaginationHandler
-    : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersWithPaginationQuery>
+public class GetVolunteersWithPaginationAndFilterHandler
+    : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersWithPaginationAndFilterQuery>
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetVolunteersWithPaginationHandler(
+    public GetVolunteersWithPaginationAndFilterHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
@@ -24,14 +24,26 @@ public class GetVolunteersWithPaginationHandler
     }
 
     public async Task<PagedList<VolunteerDTO>> HandleAsync(
-        GetVolunteersWithPaginationQuery query,
+        GetVolunteersWithPaginationAndFilterQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteerQuery = _readDbContext.Volunteers;
+        var volunteersQuery = _readDbContext.Volunteers;
+
+        volunteersQuery = volunteersQuery.WhereIf(
+            query.FirstName != null,
+            v => v.FullName.FirstName.Contains(query.FirstName!));
+        
+        volunteersQuery = volunteersQuery.WhereIf(
+            query.LastName != null,
+            v => v.FullName.LastName.Contains(query.LastName!));
+        
+        volunteersQuery = volunteersQuery.WhereIf(
+            query.Patronymic != null,
+            v => v.FullName.Patronymic != null && v.FullName.Patronymic.Contains(query.LastName!));
 
         // TODO add validation, filtration, sort and logger
 
-        return await volunteerQuery.ToPagedList(
+        return await volunteersQuery.ToPagedList(
             query.Pagination.PageNumber,
             query.Pagination.PageSize,
             cancellationToken);

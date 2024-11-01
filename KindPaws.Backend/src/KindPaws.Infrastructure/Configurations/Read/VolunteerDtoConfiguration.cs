@@ -1,4 +1,7 @@
-﻿using KindPaws.Application.DTOs;
+﻿using System.Text.Json;
+using KindPaws.Application.DTOs;
+using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -47,7 +50,11 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         // ADDRESS
         builder.Property(p => p.Address)
             .HasColumnName("address")
-            .MapJsonb();
+            .HasColumnType("jsonb")
+            .HasConversion(
+                address => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => AddressDTO.GetFromDomainModel(
+                    JsonSerializer.Deserialize<Address>(json, JsonSerializerOptions.Default)!));
 
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
@@ -56,12 +63,20 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDTO>
         // SOCIAL NETWORKS
         builder.Property(p => p.SocialNetworks)
             .HasColumnName("social_networks")
-            .MapJsonb();
+            .HasColumnType("jsonb")
+            .HasConversion(
+                socialNetworks => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<IEnumerable<SocialNetwork>>(json, JsonSerializerOptions.Default)!
+                    .Select(SocialNetworkDTO.GetFromDomainModel).ToArray());
 
         // REQUISITES
         builder.Property(p => p.Requisites)
             .HasColumnName("requisites")
-            .MapJsonb();
+            .HasColumnType("jsonb")
+            .HasConversion(
+                requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!
+                    .Select(RequisiteDTO.GetFromDomainModel).ToArray());
 
         // PETS
         builder.HasMany(v => v.Pets)
