@@ -1,5 +1,6 @@
 ﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
+using KindPaws.Domain.Shared.Others;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.BaseValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -68,6 +69,27 @@ public class Pet : Entity<PetId>, IFullDeletable
     public void AddPhotos(IEnumerable<PetPhoto> photos)
     {
         _photos.AddRange(photos.ToList());
+    }
+
+    public Result<Error> SetMainPhoto(FilePath photoFilePath)
+    {
+        var petPhoto = _photos.FirstOrDefault(p=>p.Photo.FilePath == photoFilePath);
+        if (petPhoto == null)
+            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetPhoto));
+
+        var oldMainPhoto = _photos.FirstOrDefault(p => p.IsMain);
+        if (oldMainPhoto != null)
+        {
+            _photos.Remove(oldMainPhoto);
+            var updatedOldMainPetPhoto = new PetPhoto(oldMainPhoto.Photo, false);
+            _photos.Add(updatedOldMainPetPhoto);
+        }
+        
+        _photos.Remove(petPhoto);
+        var newMainPhoto = new PetPhoto(petPhoto.Photo, true);
+        _photos.Add(newMainPhoto);
+
+        return true;
     }
 
     public void DeletePhotos(IEnumerable<PetPhoto> photos)

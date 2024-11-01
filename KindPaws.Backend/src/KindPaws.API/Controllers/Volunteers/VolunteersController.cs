@@ -8,6 +8,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeature
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.HardDelete;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SetMainPhoto;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
@@ -183,6 +184,23 @@ public class VolunteersController : ApplicationController
         [FromRoute] Guid petId,
         [FromBody] UpdatePetPositionRequest request,
         [FromServices] ICommandHandler<Guid, UpdatePetPositionCommand> handler,
+        CancellationToken token = default)
+    {
+        var command = request.ToCommand(id, petId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpPut("{id:guid}/pets/{petId:guid}/main-photo")]
+    public async Task<IActionResult> SetPetMainPhoto(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromBody] SetPetMainPhotoRequest request,
+        [FromServices] ICommandHandler<Guid, SetPetMainPhotoCommand> handler,
         CancellationToken token = default)
     {
         var command = request.ToCommand(id, petId);

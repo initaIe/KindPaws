@@ -14,6 +14,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeature
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.DeletePhotos;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.HardDelete;
+using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SetMainPhoto;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SoftDelete;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.UpdateMainInfo;
@@ -88,7 +89,9 @@ public static class ServiceExtensions
             .AddScoped<ICommandHandler<Guid, HardDeleteVolunteerCommand>,
                 HardDeleteVolunteerHandler>()
             .AddScoped<ICommandHandler<Guid, UpdatePetPositionCommand>,
-                UpdatePetPositionHandler>();
+                UpdatePetPositionHandler>()
+            .AddScoped<ICommandHandler<Guid, SetPetMainPhotoCommand>,
+                SetPetMainPhotoHandler>();
     }
 
     private static IServiceCollection AddSpeciesCommandHandlers(this IServiceCollection services)
@@ -160,7 +163,9 @@ public static class ServiceExtensions
             .AddScoped<IEntitiesExistenceValidator<HardDeleteVolunteerExistenceValidationData>,
                 HardDeleteVolunteerEntitiesExistenceValidator>()
             .AddScoped<IEntitiesExistenceValidator<UpdatePetPositionExistenceValidationData>,
-                UpdatePetPositionEntitiesExistenceValidator>();
+                UpdatePetPositionEntitiesExistenceValidator>()
+            .AddScoped<IEntitiesExistenceValidator<SetPetMainPhotoExistenceValidationData>,
+                SetPetMainPhotoEntitiesExistenceValidator>();
     }
 
     private static IServiceCollection AddSpeciesExistenceValidators(this IServiceCollection services)
