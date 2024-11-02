@@ -10,7 +10,7 @@ public record GetPetsRequest(
     string? Name,
     string? SupportStatus,
     string? Color,
-    string? Age,
+    int? Age,
     Guid? VolunteerId)
 {
     public GetPetsQuery ToCommand()

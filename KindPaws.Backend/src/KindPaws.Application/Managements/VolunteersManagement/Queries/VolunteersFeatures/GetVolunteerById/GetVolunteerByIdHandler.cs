@@ -30,19 +30,19 @@ public class GetVolunteerByIdHandler
         GetVolunteerByIdQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteerQuery = _readDbContext.Volunteers;
+        var volunteersQuery = _readDbContext.Volunteers;
 
         // TODO add validation, filtration, sort and logger
 
         var volunteerId = VolunteerId.Create(query.VolunteerId).Value;
 
-        var volunteer = await volunteerQuery
+        var volunteer = await volunteersQuery
             .SingleOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
             return Errors.General.RecordNotFound(
                     nameof(Volunteer),
-                    nameof(volunteerId),
+                    nameof(VolunteerId),
                     volunteerId.Value)
                 .ToErrorList();
 
