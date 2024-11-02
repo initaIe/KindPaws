@@ -35,11 +35,11 @@ public class GetPetsHandler
             "volunteerid" => pet => pet.VolunteerId,
             _ => pet => pet.Id
         };
-        
+
         petsQuery = query.SortDirection?.ToLower() == "descending"
             ? petsQuery.OrderByDescending(keySelector)
             : petsQuery.OrderBy(keySelector);
-        
+
         petsQuery = petsQuery.WhereIf(
             query.SpecieId != null,
             p => p.SpecieId == query.SpecieId!.Value);
@@ -67,11 +67,11 @@ public class GetPetsHandler
         petsQuery = petsQuery.WhereIf(
             query.VolunteerId != null,
             p => p.VolunteerId == query.VolunteerId!.Value);
-        
+
         petsQuery = petsQuery.WhereIf(
             query.PositionFrom != null,
             p => p.Position >= query.PositionFrom!.Value);
-        
+
         petsQuery = petsQuery.WhereIf(
             query.PositionTo != null,
             p => p.Position <= query.PositionTo!.Value);

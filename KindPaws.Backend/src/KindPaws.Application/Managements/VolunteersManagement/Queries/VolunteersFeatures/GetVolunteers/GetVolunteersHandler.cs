@@ -4,7 +4,6 @@ using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
-using KindPaws.Domain.Shared.Others.Validation.Validators;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteers;
 
@@ -37,11 +36,11 @@ public class GetVolunteersHandler
             "yearsofexperience" => volunteer => volunteer.YearsOfExperience!,
             _ => volunteer => volunteer.Id
         };
-        
+
         volunteersQuery = query.SortDirection?.ToLower() == "descending"
             ? volunteersQuery.OrderByDescending(keySelector)
             : volunteersQuery.OrderBy(keySelector);
-        
+
         volunteersQuery = volunteersQuery.WhereIf(
             !string.IsNullOrWhiteSpace(query.FirstName),
             v => v.FullName.FirstName.Contains(query.FirstName!));

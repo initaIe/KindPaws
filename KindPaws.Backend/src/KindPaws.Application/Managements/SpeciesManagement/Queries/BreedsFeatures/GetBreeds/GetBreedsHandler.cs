@@ -30,11 +30,11 @@ public class GetBreedsHandler
             "specieid" => (breed) => breed.SpecieId,
             _ => (breed) => breed.Id
         };
-        
+
         breedsQuery = query.SortDirection?.ToLower() == "descending"
             ? breedsQuery.OrderByDescending(keySelector)
             : breedsQuery.OrderBy(keySelector);
-        
+
         breedsQuery.WhereIf(
             query.SpecieId != null,
             b => b.SpecieId == query.SpecieId!.Value);

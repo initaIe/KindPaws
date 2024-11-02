@@ -28,11 +28,11 @@ public class GetSpeciesHandler
             "name" => (specie) => specie.Name,
             _ => (specie) => specie.Id
         };
-        
+
         speciesQuery = query.SortDirection?.ToLower() == "descending"
             ? speciesQuery.OrderByDescending(keySelector)
             : speciesQuery.OrderBy(keySelector);
-        
+
         speciesQuery = speciesQuery.WhereIf(
             !string.IsNullOrWhiteSpace(query.Name),
             s => s.Name.Contains(query.Name!));
