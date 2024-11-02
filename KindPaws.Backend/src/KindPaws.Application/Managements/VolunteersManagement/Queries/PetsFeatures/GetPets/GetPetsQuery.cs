@@ -5,6 +5,8 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Queries.PetsFeat
 public record GetPetsQuery(
     int PageNumber,
     int PageSize,
+    string? SortBy,
+    string? SortDirection,
     Guid? SpecieId,
     Guid? BreedId,
     string? Name,

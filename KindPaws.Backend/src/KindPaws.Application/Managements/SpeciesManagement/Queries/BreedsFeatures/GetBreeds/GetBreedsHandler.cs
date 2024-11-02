@@ -1,4 +1,5 @@
-﻿using KindPaws.Application.Abstractions;
+﻿using System.Linq.Expressions;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
@@ -23,6 +24,17 @@ public class GetBreedsHandler
     {
         var breedsQuery = _readDbContext.Breeds;
 
+        Expression<Func<BreedDTO, object>> keySelector = query.SortBy?.ToLower() switch
+        {
+            "name" => (breed) => breed.Name,
+            "specieid" => (breed) => breed.SpecieId,
+            _ => (breed) => breed.Id
+        };
+        
+        breedsQuery = query.SortDirection?.ToLower() == "descending"
+            ? breedsQuery.OrderByDescending(keySelector)
+            : breedsQuery.OrderBy(keySelector);
+        
         breedsQuery.WhereIf(
             query.SpecieId != null,
             b => b.SpecieId == query.SpecieId!.Value);

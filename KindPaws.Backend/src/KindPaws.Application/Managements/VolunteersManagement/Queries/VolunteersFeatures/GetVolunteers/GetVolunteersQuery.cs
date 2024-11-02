@@ -5,6 +5,8 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Queries.Voluntee
 public record GetVolunteersQuery(
     int PageNumber,
     int PageSize,
+    string? SortBy,
+    string? SortDirection,
     string? FirstName,
     string? LastName,
     string? Patronymic)

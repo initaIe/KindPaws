@@ -5,5 +5,7 @@ namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeat
 public record GetSpeciesQuery(
     int PageNumber,
     int PageSize,
+    string? SortBy,
+    string? SortDirection,
     string? Name)
     : IQuery;

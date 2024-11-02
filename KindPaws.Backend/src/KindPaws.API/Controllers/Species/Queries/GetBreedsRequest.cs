@@ -5,6 +5,8 @@ namespace KindPaws.API.Controllers.Species.Queries;
 public record GetBreedsRequest(
     int PageNumber,
     int PageSize,
+    string? SortBy,
+    string? SortDirection,
     Guid? SpecieId,
     string? Name)
 {
@@ -12,6 +14,8 @@ public record GetBreedsRequest(
         => new(
             PageNumber,
             PageSize,
+            SortBy,
+            SortDirection,
             SpecieId,
             Name);
 }

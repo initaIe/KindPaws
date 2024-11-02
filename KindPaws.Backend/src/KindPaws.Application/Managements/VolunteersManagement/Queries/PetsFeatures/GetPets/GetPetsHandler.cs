@@ -1,4 +1,5 @@
-﻿using KindPaws.Application.Abstractions;
+﻿using System.Linq.Expressions;
+using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
@@ -22,6 +23,23 @@ public class GetPetsHandler
     {
         var petsQuery = _readDbContext.Pets;
 
+        Expression<Func<PetDTO, object>> keySelector = query.SortBy?.ToLower() switch
+        {
+            "specieid" => pet => pet.SpecieId,
+            "breedid" => pet => pet.BreedId,
+            "name" => pet => pet.Name,
+            "supportstatus" => pet => pet.SupportStatus!,
+            "color" => pet => pet.Color!,
+            "age" => pet => pet.Age!,
+            "position" => pet => pet.Position,
+            "volunteerid" => pet => pet.VolunteerId,
+            _ => pet => pet.Id
+        };
+        
+        petsQuery = query.SortDirection?.ToLower() == "descending"
+            ? petsQuery.OrderByDescending(keySelector)
+            : petsQuery.OrderBy(keySelector);
+        
         petsQuery = petsQuery.WhereIf(
             query.SpecieId != null,
             p => p.SpecieId == query.SpecieId!.Value);
