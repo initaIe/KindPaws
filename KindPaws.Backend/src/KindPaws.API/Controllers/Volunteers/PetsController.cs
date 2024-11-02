@@ -20,7 +20,7 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPetById(
         [FromRoute] Guid id,

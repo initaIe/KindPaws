@@ -52,8 +52,8 @@ public class GetPetsHandler
             p => p.VolunteerId == query.VolunteerId!.Value);
 
         return await petsQuery.ToPagedList(
-            query.Pagination.PageNumber,
-            query.Pagination.PageSize,
+            query.PageNumber,
+            query.PageSize,
             cancellationToken);
     }
 }

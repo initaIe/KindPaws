@@ -1,10 +1,10 @@
 ﻿using KindPaws.Application.Abstractions.Markers;
-using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.PetsFeatures.GetPets;
 
 public record GetPetsQuery(
-    PaginationDTO Pagination,
+    int PageNumber,
+    int PageSize,
     Guid? SpecieId,
     Guid? BreedId,
     string? Name,

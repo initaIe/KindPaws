@@ -1,5 +1,5 @@
 ﻿using KindPaws.API.Controllers.Species.Queries;
-using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
+using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures.GetBreeds;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;

@@ -7,7 +7,7 @@ using KindPaws.Application.Managements.SpeciesManagement.Commands.BreedsFeatures
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.Create;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.HardDelete;
 using KindPaws.Application.Managements.SpeciesManagement.Commands.SpeciesFeatures.SoftDelete;
-using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
+using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures.GetSpecies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Species;
@@ -106,7 +106,7 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetSpecies(
         [FromQuery] GetSpeciesRequest request,

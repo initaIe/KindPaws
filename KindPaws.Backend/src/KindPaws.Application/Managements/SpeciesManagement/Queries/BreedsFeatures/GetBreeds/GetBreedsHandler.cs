@@ -4,17 +4,16 @@ using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
+namespace KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures.GetBreeds;
 
-public class GetSpeciesHandler
-    : IQueryHandler<PagedList<SpecieDTO>, GetSpeciesWithPaginationAndFilterQuery>
-
+public class GetBreedsHandler
+    : IQueryHandler<PagedList<BreedDTO>, GetBreedsQuery>
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetSpeciesHandler(
+    public GetBreedsHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
@@ -24,21 +23,25 @@ public class GetSpeciesHandler
         _readDbContext = readDbContext;
     }
 
-    public async Task<PagedList<SpecieDTO>> HandleAsync(
-        GetSpeciesWithPaginationAndFilterQuery query,
+    public async Task<PagedList<BreedDTO>> HandleAsync(
+        GetBreedsQuery query,
         CancellationToken cancellationToken)
     {
-        var speciesQuery = _readDbContext.Species;
+        var breedsQuery = _readDbContext.Breeds;
 
-        speciesQuery = speciesQuery.WhereIf(
+        breedsQuery.WhereIf(
+            query.SpecieId != null,
+            b => b.SpecieId == query.SpecieId!.Value);
+
+        breedsQuery.WhereIf(
             query.Name != null,
-            x => x.Name.Contains(query.Name!));
+            b => b.Name.Contains(query.Name!));
 
         // TODO add validation, filtration, sort and logger
 
-        return await speciesQuery.ToPagedList(
-            query.Pagination.PageNumber,
-            query.Pagination.PageSize,
+        return await breedsQuery.ToPagedList(
+            query.PageNumber,
+            query.PageSize,
             cancellationToken);
     }
 }

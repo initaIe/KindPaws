@@ -17,7 +17,7 @@ using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersF
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateAdditionalInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Commands.VolunteersFeatures.UpdateMainInfo;
 using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
-using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
+using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Volunteers;

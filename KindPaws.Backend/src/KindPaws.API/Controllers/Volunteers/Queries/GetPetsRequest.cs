@@ -1,10 +1,10 @@
-﻿using KindPaws.Application.DTOs;
-using KindPaws.Application.Managements.VolunteersManagement.Queries.PetsFeatures.GetPets;
+﻿using KindPaws.Application.Managements.VolunteersManagement.Queries.PetsFeatures.GetPets;
 
 namespace KindPaws.API.Controllers.Volunteers.Queries;
 
 public record GetPetsRequest(
-    PaginationDTO Pagination,
+    int PageNumber,
+    int PageSize,
     Guid? SpecieId,
     Guid? BreedId,
     string? Name,
@@ -14,7 +14,9 @@ public record GetPetsRequest(
     Guid? VolunteerId)
 {
     public GetPetsQuery ToQuery()
-        => new(Pagination,
+        => new(
+            PageNumber,
+            PageSize,
             SpecieId,
             BreedId,
             Name,

@@ -1,12 +1,15 @@
-﻿using KindPaws.Application.DTOs;
-using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
+﻿using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures.GetSpecies;
 
 namespace KindPaws.API.Controllers.Species.Queries;
 
 public record GetSpeciesRequest(
-    PaginationDTO Pagination,
+    int PageNumber,
+    int PageSize,
     string? Name)
 {
-    public GetSpeciesWithPaginationAndFilterQuery ToQuery()
-        => new(Pagination, Name);
+    public GetSpeciesQuery ToQuery()
+        => new(
+            PageNumber,
+            PageSize,
+            Name);
 }

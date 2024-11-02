@@ -4,7 +4,7 @@ using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
 
-namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
+namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteers;
 
 public class GetVolunteersHandler
     : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersQuery>
@@ -44,8 +44,8 @@ public class GetVolunteersHandler
         // TODO add validation, filtration, sort and logger
 
         return await volunteersQuery.ToPagedList(
-            query.Pagination.PageNumber,
-            query.Pagination.PageSize,
+            query.PageNumber,
+            query.PageSize,
             cancellationToken);
     }
 }

@@ -1,13 +1,17 @@
-﻿using KindPaws.Application.DTOs;
-using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
+﻿using KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures.GetBreeds;
 
 namespace KindPaws.API.Controllers.Species.Queries;
 
 public record GetBreedsRequest(
-    PaginationDTO Pagination,
+    int PageNumber,
+    int PageSize,
     Guid? SpecieId,
     string? Name)
 {
     public GetBreedsQuery ToQuery()
-        => new(Pagination, SpecieId, Name);
+        => new(
+            PageNumber,
+            PageSize,
+            SpecieId,
+            Name);
 }

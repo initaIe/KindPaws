@@ -4,16 +4,17 @@ using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
 
-namespace KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
+namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures.GetSpecies;
 
-public class GetBreedsHandler
-    : IQueryHandler<PagedList<BreedDTO>, GetBreedsQuery>
+public class GetSpeciesHandler
+    : IQueryHandler<PagedList<SpecieDTO>, GetSpeciesQuery>
+
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetBreedsHandler(
+    public GetSpeciesHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
@@ -23,25 +24,21 @@ public class GetBreedsHandler
         _readDbContext = readDbContext;
     }
 
-    public async Task<PagedList<BreedDTO>> HandleAsync(
-        GetBreedsQuery query,
+    public async Task<PagedList<SpecieDTO>> HandleAsync(
+        GetSpeciesQuery query,
         CancellationToken cancellationToken)
     {
-        var breedsQuery = _readDbContext.Breeds;
+        var speciesQuery = _readDbContext.Species;
 
-        breedsQuery.WhereIf(
-            query.SpecieId != null,
-            b => b.SpecieId == query.SpecieId!.Value);
-
-        breedsQuery.WhereIf(
+        speciesQuery = speciesQuery.WhereIf(
             query.Name != null,
-            b => b.Name.Contains(query.Name!));
+            x => x.Name.Contains(query.Name!));
 
         // TODO add validation, filtration, sort and logger
 
-        return await breedsQuery.ToPagedList(
-            query.Pagination.PageNumber,
-            query.Pagination.PageSize,
+        return await speciesQuery.ToPagedList(
+            query.PageNumber,
+            query.PageSize,
             cancellationToken);
     }
 }

@@ -1,14 +1,19 @@
-﻿using KindPaws.Application.DTOs;
-using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
+﻿using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteers;
 
 namespace KindPaws.API.Controllers.Volunteers.Queries;
 
 public record GetVolunteersRequest(
-    PaginationDTO Pagination,
+    int PageNumber,
+    int PageSize,
     string? FirstName,
     string? LastName,
     string? Patronymic)
 {
     public GetVolunteersQuery ToQuery()
-        => new(Pagination, FirstName, LastName, Patronymic);
+        => new(
+            PageNumber,
+            PageSize,
+            FirstName,
+            LastName,
+            Patronymic);
 }
