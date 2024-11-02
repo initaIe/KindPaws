@@ -73,7 +73,7 @@ public class Pet : Entity<PetId>, IFullDeletable
 
     public Result<Error> SetMainPhoto(FilePath photoFilePath)
     {
-        var petPhoto = _photos.FirstOrDefault(p=>p.Photo.FilePath == photoFilePath);
+        var petPhoto = _photos.FirstOrDefault(p => p.Photo.FilePath == photoFilePath);
         if (petPhoto == null)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetPhoto));
 
@@ -84,7 +84,7 @@ public class Pet : Entity<PetId>, IFullDeletable
             var updatedOldMainPetPhoto = new PetPhoto(oldMainPhoto.Photo, false);
             _photos.Add(updatedOldMainPetPhoto);
         }
-        
+
         _photos.Remove(petPhoto);
         var newMainPhoto = new PetPhoto(petPhoto.Photo, true);
         _photos.Add(newMainPhoto);

@@ -1,6 +1,5 @@
 ﻿using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.EntitiesExistenceValidators;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Domain.Managements.VolunteersManagement.AggregateRoot;
 using KindPaws.Domain.Managements.VolunteersManagement.Entities;
 using KindPaws.Domain.Shared;
@@ -9,7 +8,7 @@ using KindPaws.Domain.Shared.ValueObjects.IDs;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SetMainPhoto;
 
-public class SetPetMainPhotoEntitiesExistenceValidator 
+public class SetPetMainPhotoEntitiesExistenceValidator
     : IEntitiesExistenceValidator<SetPetMainPhotoExistenceValidationData>
 {
     private readonly IPetExistenceValidator _petExistenceValidator;

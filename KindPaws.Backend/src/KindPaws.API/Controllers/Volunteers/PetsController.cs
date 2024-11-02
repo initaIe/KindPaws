@@ -1,7 +1,5 @@
-﻿using KindPaws.API.Controllers.Volunteers.Queries;
-using KindPaws.API.Extensions;
+﻿using KindPaws.API.Extensions;
 using KindPaws.Application.Managements.VolunteersManagement.Queries.PetsFeatures.GetPetById;
-using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteerById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.API.Controllers.Volunteers;

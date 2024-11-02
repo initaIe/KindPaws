@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using KindPaws.Application.DTOs;
 using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
-using KindPaws.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -74,7 +73,7 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDTO>
                 photos => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IEnumerable<PetPhoto>>(json, JsonSerializerOptions.Default)!
                     .Select(PetPhotoDTO.GetFromDomainModel).ToArray());
-        
+
         // POSITION
         builder.Property(p => p.Position)
             .HasColumnName("position");

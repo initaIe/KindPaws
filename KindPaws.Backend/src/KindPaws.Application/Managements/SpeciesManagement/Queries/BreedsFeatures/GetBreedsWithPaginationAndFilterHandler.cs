@@ -32,7 +32,7 @@ public class GetBreedsWithPaginationAndFilterHandler
         breedsQuery.WhereIf(
             query.SpecieId != null,
             b => b.SpecieId == query.SpecieId!.Value);
-        
+
         breedsQuery.WhereIf(
             query.Name != null,
             b => b.Name.Contains(query.Name!));

@@ -1,6 +1,4 @@
 ﻿using KindPaws.Application.Abstractions.Markers;
-using KindPaws.Application.DTOs;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.SetMainPhoto;
 

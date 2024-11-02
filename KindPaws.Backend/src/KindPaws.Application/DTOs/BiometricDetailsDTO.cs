@@ -8,5 +8,5 @@ public record BiometricDetailsDTO(
     string? Gender)
 {
     public static BiometricDetailsDTO GetFromDomainModel(BiometricDetails biometricDetails)
-        => new (biometricDetails.Height?.Value, biometricDetails.Weight?.Value, biometricDetails.Gender?.Value);
+        => new(biometricDetails.Height?.Value, biometricDetails.Weight?.Value, biometricDetails.Gender?.Value);
 }

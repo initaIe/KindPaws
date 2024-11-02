@@ -5,5 +5,5 @@ namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeat
 
 public record GetSpeciesWithPaginationAndFilterQuery(
     PaginationDTO Pagination,
-    string? Name) 
+    string? Name)
     : IQuery;

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -8,7 +7,8 @@ namespace KindPaws.Infrastructure.Extensions;
 
 public static class FluentApiExtensions
 {
-    public static PropertyBuilder<TProperty> HasJsonConversion<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
+    public static PropertyBuilder<TProperty> HasJsonConversion<TProperty>(
+        this PropertyBuilder<TProperty> propertyBuilder)
     {
         var converter = new ValueConverter<TProperty, string>(
             v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),

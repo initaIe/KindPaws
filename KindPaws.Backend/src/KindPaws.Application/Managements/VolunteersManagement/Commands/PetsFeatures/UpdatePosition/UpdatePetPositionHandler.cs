@@ -55,9 +55,9 @@ public class UpdatePetPositionHandler : ICommandHandler<Guid, UpdatePetPositionC
         var movePetResult = volunteerResult.Value.MovePet(petId, position);
         if (movePetResult.IsFailure)
             return movePetResult.Error.ToErrorList();
-        
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         Log(petId, position, volunteerId);
 
         return petId.Value;

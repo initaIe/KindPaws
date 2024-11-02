@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
 using KindPaws.Application.Abstractions;
 using KindPaws.Application.Abstractions.IoC;
-using KindPaws.Application.DTOs.FileProvider;
 using KindPaws.Application.Extensions;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 using KindPaws.Domain.Shared;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -23,11 +20,11 @@ public class SetPetMainPhotoHandler
     private readonly IVolunteersRepository _volunteersRepository;
 
     public SetPetMainPhotoHandler(
-        IEntitiesExistenceValidator<SetPetMainPhotoExistenceValidationData> entitiesExistenceValidator, 
+        IEntitiesExistenceValidator<SetPetMainPhotoExistenceValidationData> entitiesExistenceValidator,
         IFileProvider fileProvider,
-        ILogger<SetPetMainPhotoHandler> logger, 
-        IUnitOfWork unitOfWork, 
-        IValidator<SetPetMainPhotoCommand> validator, 
+        ILogger<SetPetMainPhotoHandler> logger,
+        IUnitOfWork unitOfWork,
+        IValidator<SetPetMainPhotoCommand> validator,
         IVolunteersRepository volunteersRepository)
     {
         _entitiesExistenceValidator = entitiesExistenceValidator;
@@ -62,7 +59,7 @@ public class SetPetMainPhotoHandler
         var setMainPhotoResult = petResult.Value.SetMainPhoto(filePath);
         if (setMainPhotoResult.IsFailure)
             return setMainPhotoResult.Error.ToErrorList();
-        
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(petId, filePath, volunteerId);

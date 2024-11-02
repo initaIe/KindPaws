@@ -1,5 +1,4 @@
-﻿using KindPaws.Domain.Managements.VolunteersManagement.Entities;
-using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
+﻿using KindPaws.Domain.Managements.VolunteersManagement.ValueObjects;
 
 namespace KindPaws.Application.DTOs;
 
@@ -8,5 +7,5 @@ public record PetPhotoDTO(
     bool IsMain)
 {
     public static PetPhotoDTO GetFromDomainModel(PetPhoto petPhoto)
-    => new (petPhoto.Photo.FilePath.Value, petPhoto.IsMain);
+        => new(petPhoto.Photo.FilePath.Value, petPhoto.IsMain);
 }

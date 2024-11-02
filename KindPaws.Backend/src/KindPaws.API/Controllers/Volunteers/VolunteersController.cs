@@ -173,7 +173,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPut("{id:guid}/pets/{petId:guid}/position")]
     public async Task<IActionResult> UpdatePetPosition(
         [FromRoute] Guid id,
@@ -190,7 +190,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPut("{id:guid}/pets/{petId:guid}/main-photo")]
     public async Task<IActionResult> SetPetMainPhoto(
         [FromRoute] Guid id,

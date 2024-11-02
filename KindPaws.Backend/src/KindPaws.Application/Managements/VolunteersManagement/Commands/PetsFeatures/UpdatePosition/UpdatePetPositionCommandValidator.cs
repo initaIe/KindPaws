@@ -14,7 +14,7 @@ public class UpdatePetPositionCommandValidator : AbstractValidator<UpdatePetPosi
 
         RuleFor(u => u.PetId)
             .MustBeValueObject(PetId.Create);
-        
+
         RuleFor(u => u.Position)
             .MustBeValueObject(Position.Create);
     }

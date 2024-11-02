@@ -32,11 +32,11 @@ public class GetVolunteersWithPaginationAndFilterHandler
         volunteersQuery = volunteersQuery.WhereIf(
             query.FirstName != null,
             v => v.FullName.FirstName.Contains(query.FirstName!));
-        
+
         volunteersQuery = volunteersQuery.WhereIf(
             query.LastName != null,
             v => v.FullName.LastName.Contains(query.LastName!));
-        
+
         volunteersQuery = volunteersQuery.WhereIf(
             query.Patronymic != null,
             v => v.FullName.Patronymic != null && v.FullName.Patronymic.Contains(query.LastName!));

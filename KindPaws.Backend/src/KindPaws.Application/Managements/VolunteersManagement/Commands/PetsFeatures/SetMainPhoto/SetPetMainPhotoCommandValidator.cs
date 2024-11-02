@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using KindPaws.Application.Managements.VolunteersManagement.Commands.PetsFeatures.AddPhotos;
 using KindPaws.Application.Validation;
 using KindPaws.Domain.Shared.ValueObjects;
 using KindPaws.Domain.Shared.ValueObjects.IDs;
@@ -15,7 +14,7 @@ public class SetPetMainPhotoCommandValidator : AbstractValidator<SetPetMainPhoto
 
         RuleFor(s => s.PetId)
             .MustBeValueObject(PetId.Create);
-        
+
         RuleFor(s => s.Path)
             .MustBeValueObject(FilePath.Create);
     }

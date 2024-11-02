@@ -29,10 +29,10 @@ public class GetSpeciesWithPaginationAndFilterHandler
         CancellationToken cancellationToken)
     {
         var speciesQuery = _readDbContext.Species;
-        
+
         speciesQuery = speciesQuery.WhereIf(
-                query.Name != null, 
-                x => x.Name.Contains(query.Name!));
+            query.Name != null,
+            x => x.Name.Contains(query.Name!));
 
         // TODO add validation, filtration, sort and logger
 

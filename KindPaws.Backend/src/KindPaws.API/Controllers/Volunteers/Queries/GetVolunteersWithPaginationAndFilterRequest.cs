@@ -4,9 +4,9 @@ using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFe
 namespace KindPaws.API.Controllers.Volunteers.Queries;
 
 public record GetVolunteersWithPaginationAndFilterRequest(
-    PaginationDTO Pagination, 
+    PaginationDTO Pagination,
     string? FirstName,
-    string? LastName, 
+    string? LastName,
     string? Patronymic)
 {
     public GetVolunteersWithPaginationAndFilterQuery ToQuery()
