@@ -8,7 +8,6 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Queries.PetsFeat
 
 public class GetPetsHandler
     : IQueryHandler<PagedList<PetDTO>, GetPetsQuery>
-
 {
     private readonly IReadDbContext _readDbContext;
 
@@ -32,16 +31,16 @@ public class GetPetsHandler
             p => p.BreedId == query.BreedId!.Value);
 
         petsQuery = petsQuery.WhereIf(
-            query.Name != null,
+            !string.IsNullOrWhiteSpace(query.Name),
             p => p.Name.Contains(query.Name!));
 
         petsQuery = petsQuery.WhereIf(
-            query.SupportStatus != null,
-            p => p.SupportStatus != null && p.SupportStatus.Contains(query.Name!));
+            !string.IsNullOrWhiteSpace(query.SupportStatus),
+            p => p.SupportStatus != null && p.SupportStatus.Contains(query.SupportStatus!));
 
         petsQuery = petsQuery.WhereIf(
-            query.Color != null,
-            p => p.Color != null && p.Color.Contains(query.Name!));
+            !string.IsNullOrWhiteSpace(query.Color),
+            p => p.Color != null && p.Color.Contains(query.Color!));
 
         petsQuery = petsQuery.WhereIf(
             query.Age != null,
@@ -50,6 +49,14 @@ public class GetPetsHandler
         petsQuery = petsQuery.WhereIf(
             query.VolunteerId != null,
             p => p.VolunteerId == query.VolunteerId!.Value);
+        
+        petsQuery = petsQuery.WhereIf(
+            query.PositionFrom != null,
+            p => p.Position >= query.PositionFrom!.Value);
+        
+        petsQuery = petsQuery.WhereIf(
+            query.PositionTo != null,
+            p => p.Position <= query.PositionTo!.Value);
 
         return await petsQuery.ToPagedList(
             query.PageNumber,

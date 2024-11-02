@@ -3,23 +3,18 @@ using KindPaws.Application.Abstractions.IoC;
 using KindPaws.Application.DTOs;
 using KindPaws.Application.Extensions;
 using KindPaws.Application.Models;
+using KindPaws.Domain.Shared.Others.Validation.Validators;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteers;
 
 public class GetVolunteersHandler
     : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersQuery>
 {
-    // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
-    // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
     public GetVolunteersHandler(
-        // ILogger<GetVolunteersWithPaginationHandler> logger,
-        // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
     {
-        // _logger = logger;
-        // _validator = validator;
         _readDbContext = readDbContext;
     }
 
@@ -30,18 +25,16 @@ public class GetVolunteersHandler
         var volunteersQuery = _readDbContext.Volunteers;
 
         volunteersQuery = volunteersQuery.WhereIf(
-            query.FirstName != null,
+            !string.IsNullOrWhiteSpace(query.FirstName),
             v => v.FullName.FirstName.Contains(query.FirstName!));
 
         volunteersQuery = volunteersQuery.WhereIf(
-            query.LastName != null,
+            !string.IsNullOrWhiteSpace(query.LastName),
             v => v.FullName.LastName.Contains(query.LastName!));
 
         volunteersQuery = volunteersQuery.WhereIf(
-            query.Patronymic != null,
+            !string.IsNullOrWhiteSpace(query.Patronymic),
             v => v.FullName.Patronymic != null && v.FullName.Patronymic.Contains(query.LastName!));
-
-        // TODO add validation, filtration, sort and logger
 
         return await volunteersQuery.ToPagedList(
             query.PageNumber,

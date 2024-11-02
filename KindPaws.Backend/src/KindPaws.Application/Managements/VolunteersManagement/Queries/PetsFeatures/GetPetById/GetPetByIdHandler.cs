@@ -24,8 +24,6 @@ public class GetPetByIdHandler : IQueryHandler<Result<PetDTO, ErrorList>, GetPet
     {
         var petsQuery = _readDbContext.Pets;
 
-        // TODO add validation, filtration, sort and logger
-
         var petId = PetId.Create(query.PetId).Value;
 
         var pet = await petsQuery

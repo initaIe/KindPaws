@@ -12,17 +12,11 @@ namespace KindPaws.Application.Managements.VolunteersManagement.Queries.Voluntee
 public class GetVolunteerByIdHandler
     : IQueryHandler<Result<VolunteerDTO, ErrorList>, GetVolunteerByIdQuery>
 {
-    // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
-    // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
     public GetVolunteerByIdHandler(
-        // ILogger<GetVolunteersWithPaginationHandler> logger,
-        // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
     {
-        // _logger = logger;
-        // _validator = validator;
         _readDbContext = readDbContext;
     }
 
@@ -31,8 +25,6 @@ public class GetVolunteerByIdHandler
         CancellationToken cancellationToken)
     {
         var volunteersQuery = _readDbContext.Volunteers;
-
-        // TODO add validation, filtration, sort and logger
 
         var volunteerId = VolunteerId.Create(query.VolunteerId).Value;
 

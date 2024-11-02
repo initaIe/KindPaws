@@ -11,5 +11,7 @@ public record GetPetsQuery(
     string? SupportStatus,
     string? Color,
     int? Age,
+    int? PositionFrom,
+    int? PositionTo,
     Guid? VolunteerId)
     : IQuery;

@@ -11,6 +11,8 @@ public record GetPetsRequest(
     string? SupportStatus,
     string? Color,
     int? Age,
+    int? PositionFrom,
+    int? PositionTo,
     Guid? VolunteerId)
 {
     public GetPetsQuery ToQuery()
@@ -23,5 +25,7 @@ public record GetPetsRequest(
             SupportStatus,
             Color,
             Age,
+            PositionFrom,
+            PositionTo,
             VolunteerId);
 }

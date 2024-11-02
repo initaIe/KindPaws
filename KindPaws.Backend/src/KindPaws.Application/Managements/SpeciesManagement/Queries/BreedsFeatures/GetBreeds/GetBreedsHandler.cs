@@ -9,17 +9,11 @@ namespace KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatu
 public class GetBreedsHandler
     : IQueryHandler<PagedList<BreedDTO>, GetBreedsQuery>
 {
-    // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
-    // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
     public GetBreedsHandler(
-        // ILogger<GetVolunteersWithPaginationHandler> logger,
-        // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
     {
-        // _logger = logger;
-        // _validator = validator;
         _readDbContext = readDbContext;
     }
 
@@ -34,10 +28,8 @@ public class GetBreedsHandler
             b => b.SpecieId == query.SpecieId!.Value);
 
         breedsQuery.WhereIf(
-            query.Name != null,
+            !string.IsNullOrWhiteSpace(query.Name),
             b => b.Name.Contains(query.Name!));
-
-        // TODO add validation, filtration, sort and logger
 
         return await breedsQuery.ToPagedList(
             query.PageNumber,
