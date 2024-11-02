@@ -106,11 +106,11 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-
+    
     [HttpGet]
-    public async Task<IActionResult> GetSpeciesWithPaginationAndFilter(
-        [FromQuery] GetSpeciesWithPaginationAndFilterRequest request,
-        [FromServices] GetSpeciesWithPaginationAndFilterHandler handler,
+    public async Task<IActionResult> GetSpecies(
+        [FromQuery] GetSpeciesRequest request,
+        [FromServices] GetSpeciesHandler handler,
         CancellationToken token = default)
     {
         var query = request.ToQuery();

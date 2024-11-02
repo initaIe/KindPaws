@@ -6,14 +6,14 @@ using KindPaws.Application.Models;
 
 namespace KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFeatures.GetVolunteersWithPagination;
 
-public class GetVolunteersWithPaginationAndFilterHandler
-    : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersWithPaginationAndFilterQuery>
+public class GetVolunteersHandler
+    : IQueryHandler<PagedList<VolunteerDTO>, GetVolunteersQuery>
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetVolunteersWithPaginationAndFilterHandler(
+    public GetVolunteersHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
@@ -24,7 +24,7 @@ public class GetVolunteersWithPaginationAndFilterHandler
     }
 
     public async Task<PagedList<VolunteerDTO>> HandleAsync(
-        GetVolunteersWithPaginationAndFilterQuery query,
+        GetVolunteersQuery query,
         CancellationToken cancellationToken)
     {
         var volunteersQuery = _readDbContext.Volunteers;

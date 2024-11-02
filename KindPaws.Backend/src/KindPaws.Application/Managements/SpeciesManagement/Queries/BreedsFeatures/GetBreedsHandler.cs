@@ -6,14 +6,14 @@ using KindPaws.Application.Models;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
 
-public class GetBreedsWithPaginationAndFilterHandler
-    : IQueryHandler<PagedList<BreedDTO>, GetBreedsWithPaginationAndFilterQuery>
+public class GetBreedsHandler
+    : IQueryHandler<PagedList<BreedDTO>, GetBreedsQuery>
 {
     // private readonly ILogger<GetVolunteersWithPaginationHandler> _logger;
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetBreedsWithPaginationAndFilterHandler(
+    public GetBreedsHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)
@@ -24,7 +24,7 @@ public class GetBreedsWithPaginationAndFilterHandler
     }
 
     public async Task<PagedList<BreedDTO>> HandleAsync(
-        GetBreedsWithPaginationAndFilterQuery query,
+        GetBreedsQuery query,
         CancellationToken cancellationToken)
     {
         var breedsQuery = _readDbContext.Breeds;

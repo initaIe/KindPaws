@@ -6,7 +6,7 @@ using KindPaws.Application.Models;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures;
 
-public class GetSpeciesWithPaginationAndFilterHandler
+public class GetSpeciesHandler
     : IQueryHandler<PagedList<SpecieDTO>, GetSpeciesWithPaginationAndFilterQuery>
 
 {
@@ -14,7 +14,7 @@ public class GetSpeciesWithPaginationAndFilterHandler
     // private readonly IValidator<GetVolunteersWithPaginationQuery> _validator;
     private readonly IReadDbContext _readDbContext;
 
-    public GetSpeciesWithPaginationAndFilterHandler(
+    public GetSpeciesHandler(
         // ILogger<GetVolunteersWithPaginationHandler> logger,
         // IValidator<GetVolunteersWithPaginationQuery> validator,
         IReadDbContext readDbContext)

@@ -3,7 +3,7 @@ using KindPaws.Application.DTOs;
 
 namespace KindPaws.Application.Managements.SpeciesManagement.Queries.BreedsFeatures;
 
-public record GetBreedsWithPaginationAndFilterQuery(
+public record GetBreedsQuery(
     PaginationDTO Pagination,
     Guid? SpecieId,
     string? Name)

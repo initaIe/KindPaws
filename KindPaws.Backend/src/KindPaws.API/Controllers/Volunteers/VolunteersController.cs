@@ -80,9 +80,9 @@ public class VolunteersController : ApplicationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetVolunteersWithPaginationAndFilter(
-        [FromQuery] GetVolunteersWithPaginationAndFilterRequest request,
-        [FromServices] GetVolunteersWithPaginationAndFilterHandler handler,
+    public async Task<IActionResult> GetVolunteers(
+        [FromQuery] GetVolunteersRequest request,
+        [FromServices] GetVolunteersHandler handler,
         CancellationToken token = default)
     {
         var query = request.ToQuery();

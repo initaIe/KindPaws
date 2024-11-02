@@ -3,12 +3,12 @@ using KindPaws.Application.Managements.VolunteersManagement.Queries.VolunteersFe
 
 namespace KindPaws.API.Controllers.Volunteers.Queries;
 
-public record GetVolunteersWithPaginationAndFilterRequest(
+public record GetVolunteersRequest(
     PaginationDTO Pagination,
     string? FirstName,
     string? LastName,
     string? Patronymic)
 {
-    public GetVolunteersWithPaginationAndFilterQuery ToQuery()
+    public GetVolunteersQuery ToQuery()
         => new(Pagination, FirstName, LastName, Patronymic);
 }

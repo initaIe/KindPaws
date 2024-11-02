@@ -7,9 +7,9 @@ namespace KindPaws.API.Controllers.Species;
 public class BreedController : ApplicationController
 {
     [HttpGet]
-    public async Task<IActionResult> GetBreedsWithPaginationAndFilter(
-        [FromQuery] GetBreedsWithPaginationAndFilterRequest request,
-        [FromServices] GetBreedsWithPaginationAndFilterHandler handler,
+    public async Task<IActionResult> GetBreeds(
+        [FromQuery] GetBreedsRequest request,
+        [FromServices] GetBreedsHandler handler,
         CancellationToken token = default)
     {
         var query = request.ToQuery();

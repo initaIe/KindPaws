@@ -13,7 +13,7 @@ public record GetPetsRequest(
     int? Age,
     Guid? VolunteerId)
 {
-    public GetPetsQuery ToCommand()
+    public GetPetsQuery ToQuery()
         => new(Pagination,
             SpecieId,
             BreedId,

@@ -3,7 +3,7 @@ using KindPaws.Application.Managements.SpeciesManagement.Queries.SpeciesFeatures
 
 namespace KindPaws.API.Controllers.Species.Queries;
 
-public record GetSpeciesWithPaginationAndFilterRequest(
+public record GetSpeciesRequest(
     PaginationDTO Pagination,
     string? Name)
 {
