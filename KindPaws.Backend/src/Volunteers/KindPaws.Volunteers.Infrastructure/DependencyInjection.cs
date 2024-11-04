@@ -30,11 +30,11 @@ public static class DependencyInjection
             .AddMessageQueues()
             .AddHostedServices()
             .AddServices();
-            
+
 
         return services;
     }
-    
+
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
     {
         services.AddScoped<VolunteersWriteDbContext>();
@@ -42,28 +42,28 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
-    
+
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
 
         return services;
     }
-    
+
     private static IServiceCollection AddFileProviders(this IServiceCollection services)
     {
         services.AddScoped<IFileProvider, MinioProvider>();
 
         return services;
     }
-    
+
     private static IServiceCollection AddMinio(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -82,22 +82,22 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     private static IServiceCollection AddMessageQueues(this IServiceCollection services)
     {
-        services.AddSingleton<IMessageQueue<IEnumerable<DeleteFileData>>, 
+        services.AddSingleton<IMessageQueue<IEnumerable<DeleteFileData>>,
             FilesCleanerMessageQueue<IEnumerable<DeleteFileData>>>();
 
         return services;
     }
-    
+
     private static IServiceCollection AddHostedServices(this IServiceCollection services)
     {
         services.AddHostedService<FilesCleanerBackgroundService>();
 
         return services;
     }
-    
+
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IFilesCleanerService, FilesCleanerService>();

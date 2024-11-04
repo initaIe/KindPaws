@@ -1,6 +1,4 @@
 using KindPaws.SharedKernel.Others.DeletionManagement;
-using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;

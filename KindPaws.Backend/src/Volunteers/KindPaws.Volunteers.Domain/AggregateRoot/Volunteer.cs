@@ -133,7 +133,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
         if (pet == null)
             return;
-        
+
         pet.SoftDelete();
         AlignPetPositionsAfterDelete(pet.Position);
     }

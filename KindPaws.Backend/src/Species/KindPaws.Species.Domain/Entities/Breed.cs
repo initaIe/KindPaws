@@ -22,7 +22,7 @@ public class Breed : Entity<BreedId>, ISoftDeletable
         Description = description;
     }
 
-    public ShortName Name { get; private set; } 
+    public ShortName Name { get; private set; }
     public MediumDescription Description { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }

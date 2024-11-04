@@ -14,11 +14,11 @@ public static class DependencyInjection
             .AddDbContexts()
             .AddUnitOfWork()
             .AddRepositories();
-            
+
 
         return services;
     }
-    
+
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
     {
         services.AddScoped<SpeciesWriteDbContext>();
@@ -26,14 +26,14 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
-    
+
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
