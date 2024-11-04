@@ -80,7 +80,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
     public Result<Pet, Error> GetPetById(PetId petId)
     {
-        var pet = _pets.SingleOrDefault(x => x.Id == petId);
+        var pet = _pets.FirstOrDefault(x => x.Id == petId);
 
         if (pet == null)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
@@ -118,7 +118,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
     public void HardDeletePet(PetId petId)
     {
-        var pet = _pets.SingleOrDefault(p => p.Id == petId);
+        var pet = _pets.FirstOrDefault(p => p.Id == petId);
 
         if (pet == null)
             return;
@@ -129,7 +129,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
     public void SoftDeletePet(PetId petId)
     {
-        var pet = _pets.SingleOrDefault(p => p.Id == petId);
+        var pet = _pets.FirstOrDefault(p => p.Id == petId);
 
         if (pet == null)
             return;

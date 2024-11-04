@@ -40,7 +40,7 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
 
     public void HardDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.SingleOrDefault(b => b.Id == breedId);
+        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
 
         if (breed == null)
             return;
@@ -50,7 +50,7 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
 
     public void SoftDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.SingleOrDefault(b => b.Id == breedId);
+        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
 
         if (breed == null)
             return;

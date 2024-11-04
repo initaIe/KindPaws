@@ -29,7 +29,7 @@ public class GetVolunteerByIdHandler
         var volunteerId = VolunteerId.Create(query.VolunteerId).Value;
 
         var volunteer = await volunteersQuery
-            .SingleOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
+            .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
             return Errors.General.RecordNotFound(

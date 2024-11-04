@@ -27,7 +27,7 @@ public class GetPetByIdHandler : IQueryHandler<Result<PetDto, ErrorList>, GetPet
         var petId = PetId.Create(query.PetId).Value;
 
         var pet = await petsQuery
-            .SingleOrDefaultAsync(v => v.Id == query.PetId, cancellationToken);
+            .FirstOrDefaultAsync(v => v.Id == query.PetId, cancellationToken);
 
         if (pet == null)
             return Errors.General.RecordNotFound(
