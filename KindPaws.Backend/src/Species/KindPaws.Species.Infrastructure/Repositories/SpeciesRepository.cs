@@ -45,20 +45,4 @@ public class SpeciesRepository : ISpeciesRepository
 
         return specie;
     }
-
-    public async Task<Result<Specie, Error>> GetByNameAsync(
-        ShortName name,
-        CancellationToken cancellationToken = default)
-    {
-        var specie = await _dbContext.Species
-            .FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
-
-        if (specie == null)
-            return Errors.General.RecordNotFound(
-                nameof(Specie),
-                nameof(SpecieId),
-                name.Value);
-
-        return specie;
-    }
 }

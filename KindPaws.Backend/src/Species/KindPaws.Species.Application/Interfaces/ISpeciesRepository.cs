@@ -17,8 +17,4 @@ public interface ISpeciesRepository
     Task<Result<Specie, Error>> GetByIdAsync(
         SpecieId specieId,
         CancellationToken cancellationToken = default);
-
-    Task<Result<Specie, Error>> GetByNameAsync(
-        ShortName name,
-        CancellationToken cancellationToken = default);
 }

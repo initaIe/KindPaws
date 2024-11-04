@@ -30,38 +30,6 @@ public class VolunteersRepository : IVolunteersRepository
         _dbContext.Volunteers.Remove(volunteer);
     }
 
-    public async Task<Result<Volunteer, Error>> GetByEmailAddressAsync(
-        EmailAddress emailAddress,
-        CancellationToken cancellationToken = default)
-    {
-        var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.EmailAddress == emailAddress, cancellationToken);
-
-        if (volunteer == null)
-            return Errors.General.RecordNotFound(
-                nameof(Volunteer),
-                nameof(EmailAddress),
-                emailAddress.Value);
-
-        return volunteer;
-    }
-
-    public async Task<Result<Volunteer, Error>> GetByPhoneNumberAsync(
-        PhoneNumber phoneNumber,
-        CancellationToken cancellationToken = default)
-    {
-        var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(v => v.PhoneNumber == phoneNumber, cancellationToken);
-
-        if (volunteer == null)
-            return Errors.General.RecordNotFound(
-                nameof(Volunteer),
-                nameof(PhoneNumber),
-                phoneNumber.Value);
-
-        return volunteer;
-    }
-
     public async Task<Result<Volunteer, Error>> GetByIdAsync(
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default)
