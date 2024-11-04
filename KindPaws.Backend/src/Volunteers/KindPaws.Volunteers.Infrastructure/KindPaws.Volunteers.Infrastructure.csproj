@@ -16,7 +16,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
       <ProjectReference Include="..\KindPaws.Volunteers.Application\KindPaws.Volunteers.Application.csproj" />
-    </ItemGroup>
+      <ProjectReference Include="..\KindPaws.Volunteers.Domain\KindPaws.Volunteers.Domain.csproj" />
+    </ItemGroup>    
 
 </Project>

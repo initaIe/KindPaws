@@ -26,9 +26,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\Shared\KindPaws.Framework\KindPaws.Framework.csproj" />
       <ProjectReference Include="..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
       <ProjectReference Include="..\Species\KindPaws.Species.Application\KindPaws.Species.Application.csproj" />
       <ProjectReference Include="..\Species\KindPaws.Species.Contracts\KindPaws.Species.Contracts.csproj" />
+      <ProjectReference Include="..\Species\KindPaws.Species.Domain\KindPaws.Species.Domain.csproj" />
       <ProjectReference Include="..\Species\KindPaws.Species.Infrastructure\KindPaws.Species.Infrastructure.csproj" />
       <ProjectReference Include="..\Species\KindPaws.Species.Presentation\KindPaws.Species.Presentation.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Application\KindPaws.Volunteers.Application.csproj" />
@@ -36,6 +38,6 @@
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Domain\KindPaws.Volunteers.Domain.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Infrastructure\KindPaws.Volunteers.Infrastructure.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Presentation\KindPaws.Volunteers.Presentation.csproj" />
-    </ItemGroup>
+    </ItemGroup>    
 
 </Project>
