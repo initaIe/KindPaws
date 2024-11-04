@@ -1,0 +1,129 @@
+﻿using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.Volunteers.Domain.AggregateRoot;
+using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace KindPaws.Volunteers.Infrastructure.Configurations.Write;
+
+public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
+{
+    public void Configure(EntityTypeBuilder<Volunteer> builder)
+    {
+        builder.ToTable("volunteers");
+
+        // ID
+        builder.HasKey(v => v.Id);
+        builder.Property(v => v.Id)
+            .HasConversion(
+                petId => petId.Value,
+                value => VolunteerId.Create(value).Value)
+            .HasColumnName("id");
+
+        // FULLNAME
+        builder.ComplexProperty(v => v.FullName, fb =>
+        {
+            fb.Property(x => x.FirstName)
+                .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
+                .HasColumnName("first_name")
+                .HasColumnType("citext")
+                .IsRequired();
+
+            fb.Property(x => x.LastName)
+                .HasMaxLength(FullNameConstraints.MaxLastNameLength)
+                .HasColumnName("last_name")
+                .HasColumnType("citext")
+                .IsRequired();
+
+            fb.Property(x => x.Patronymic)
+                .HasMaxLength(FullNameConstraints.MaxPatronymicLength)
+                .HasColumnName("patronymic")
+                .HasColumnType("citext")
+                .IsRequired(false);
+        });
+
+        // EMAIL ADDRESS
+        builder.ComplexProperty(volunteer => volunteer.EmailAddress, emailAddress =>
+        {
+            emailAddress.Property(x => x.Value)
+                .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
+                .HasColumnName("email_address")
+                .HasColumnType("citext")
+                .IsRequired();
+        });
+
+        // PHONE NUMBER
+        builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>
+        {
+            phoneNumber.Property(x => x.Value)
+                .HasMaxLength(PhoneNumberConstraints.MaxLength)
+                .HasColumnName("phone_number")
+                .IsRequired();
+        });
+
+        // DESCRIPTION
+        builder.Property(v => v.Description)
+            .HasConversion(
+                d => d!.Value,
+                d => MediumDescription.Create(d).Value)
+            .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired(false);
+
+        // ADDRESS
+        builder.Property(p => p.Address)
+            .HasColumnName("address")
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
+            .IsRequired(false); // nullable json
+
+        // YEARS OF EXPERIENCE
+        builder.Property(v => v.YearsOfExperience)
+            .HasConversion(
+                y => y!.Value,
+                y => YearsOfExperience.Create(y).Value)
+            .HasColumnName("years_of_experience")
+            .IsRequired(false);
+
+        // SOCIAL NETWORKS
+        builder.Property(p => p.SocialNetworks)
+            .HasColumnName("social_networks")
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
+            .IsRequired();
+
+        // REQUISITES
+        builder.Property(p => p.Requisites)
+            .HasColumnName("requisites")
+            .HasColumnType("jsonb")
+            .HasJsonConversion()
+            .IsRequired();
+
+        // PETS
+        builder.HasMany(v => v.Pets)
+            .WithOne()
+            .HasForeignKey("volunteer_id")
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        // PETS AUTO INCLUDE
+        builder.Navigation(v => v.Pets).AutoInclude();
+
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted")
+            .IsRequired();
+
+        // SOFT DELETE DATE TIME
+        builder.Property(b => b.SoftDeletedDateTime)
+            .HasColumnName("soft_delete_datetime")
+            .IsRequired(false);
+
+        // HARD DELETE PROPERTY IGNORE
+        builder.Ignore(b => b.IsHardDeleted);
+    }
+}

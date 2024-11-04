@@ -1,0 +1,41 @@
+﻿using KindPaws.Core.Abstractions;
+using KindPaws.Core.Dtos;
+using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Others.ResultManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace KindPaws.Volunteers.Application.Features.Pets.Queries.GetPetById;
+
+public class GetPetByIdHandler : IQueryHandler<Result<PetDto, ErrorList>, GetPetByIdQuery>
+{
+    private readonly IVolunteersReadDbContext _readDbContext;
+
+    public GetPetByIdHandler(IVolunteersReadDbContext readDbContext)
+    {
+        _readDbContext = readDbContext;
+    }
+
+    public async Task<Result<PetDto, ErrorList>> HandleAsync(
+        GetPetByIdQuery query,
+        CancellationToken cancellationToken)
+    {
+        var petsQuery = _readDbContext.Pets;
+
+        var petId = PetId.Create(query.PetId).Value;
+
+        var pet = await petsQuery
+            .SingleOrDefaultAsync(v => v.Id == query.PetId, cancellationToken);
+
+        if (pet == null)
+            return Errors.General.RecordNotFound(
+                    nameof(Pet),
+                    nameof(PetId),
+                    petId.Value)
+                .ToErrorList();
+
+        return pet;
+    }
+}
