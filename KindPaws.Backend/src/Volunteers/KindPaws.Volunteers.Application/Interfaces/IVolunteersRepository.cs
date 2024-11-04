@@ -24,6 +24,5 @@ public interface IVolunteersRepository
         Volunteer volunteer,
         CancellationToken cancellationToken = default);
 
-    void SoftDelete(Volunteer volunteer);
-    void HardDelete(Volunteer volunteer);
+    void Delete(Volunteer volunteer);
 }

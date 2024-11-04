@@ -46,9 +46,9 @@ public class SoftDeleteSpecieHandler : ICommandHandler<Guid, SoftDeleteSpecieCom
             return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var specieId = SpecieId.Create(command.SpecieId).Value;
-        var specie = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
+        var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
 
-        _speciesRepository.SoftDelete(specie.Value);
+        specieResult.Value.SoftDelete();
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(specieId);

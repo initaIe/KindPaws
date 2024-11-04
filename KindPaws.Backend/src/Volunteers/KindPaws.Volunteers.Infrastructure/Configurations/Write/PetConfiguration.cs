@@ -128,8 +128,5 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(b => b.SoftDeletedDateTime)
             .HasColumnName("soft_delete_datetime")
             .IsRequired(false);
-
-        // HARD DELETE PROPERTY IGNORE
-        builder.Ignore(b => b.IsHardDeleted);
     }
 }

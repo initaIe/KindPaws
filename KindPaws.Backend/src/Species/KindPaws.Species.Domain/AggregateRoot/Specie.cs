@@ -8,7 +8,7 @@ using KindPaws.Species.Domain.Entities;
 
 namespace KindPaws.Species.Domain.AggregateRoot;
 
-public class Specie : Entity<SpecieId>, IFullDeletable
+public class Specie : Entity<SpecieId>, ISoftDeletable
 {
     private readonly List<Breed> _breeds = [];
 
@@ -32,40 +32,37 @@ public class Specie : Entity<SpecieId>, IFullDeletable
     public IReadOnlyList<Breed> Breeds => _breeds;
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
-    public bool IsHardDeleted { get; private set; }
 
     public void AddBreed(Breed breed)
     {
         _breeds.Add(breed);
     }
 
-    public Result<Error> HardDeleteBreed(BreedId breedId)
+    public void HardDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
+        var breed = _breeds.SingleOrDefault(b => b.Id == breedId);
 
         if (breed == null)
-            return Errors.General.RecordNotFound(nameof(Breed), nameof(breedId), breedId.Value);
+            return;
 
-        breed.HardDelete();
         _breeds.Remove(breed);
-        return true;
     }
 
-    public Result<Error> SoftDeleteBreed(BreedId breedId)
+    public void SoftDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
+        var breed = _breeds.SingleOrDefault(b => b.Id == breedId);
 
         if (breed == null)
-            return Errors.General.RecordNotFound(nameof(Breed), nameof(breedId), breedId.Value);
+            return;
 
         breed.SoftDelete();
-        return true;
     }
 
     public void SoftDelete()
     {
         IsSoftDeleted = true;
         SoftDeletedDateTime = DateTime.UtcNow;
+        _breeds.ForEach(breed => breed.SoftDelete());
     }
 
     public void Restore()
@@ -73,11 +70,5 @@ public class Specie : Entity<SpecieId>, IFullDeletable
         IsSoftDeleted = false;
         SoftDeletedDateTime = null;
         _breeds.ForEach(breed => breed.Restore());
-    }
-
-    public void HardDelete()
-    {
-        IsHardDeleted = true;
-        _breeds.ForEach(breed => breed.HardDelete());
     }
 }

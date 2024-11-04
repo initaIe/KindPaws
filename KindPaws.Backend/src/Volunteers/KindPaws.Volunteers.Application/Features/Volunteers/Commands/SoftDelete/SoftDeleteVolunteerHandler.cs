@@ -52,7 +52,7 @@ public class SoftDeleteVolunteerHandler
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
-        _volunteersRepository.SoftDelete(volunteerResult.Value);
+        volunteerResult.Value.SoftDelete();
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(volunteerId);

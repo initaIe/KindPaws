@@ -8,7 +8,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.Entities;
 
-public class Pet : Entity<PetId>, IFullDeletable
+public class Pet : Entity<PetId>, ISoftDeletable
 {
     private List<PetPhoto> _photos = [];
 
@@ -41,7 +41,6 @@ public class Pet : Entity<PetId>, IFullDeletable
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
-    public bool IsHardDeleted { get; private set; }
 
     public void UpdateMainInfo(
         PetType petType,
@@ -134,10 +133,6 @@ public class Pet : Entity<PetId>, IFullDeletable
     {
         IsSoftDeleted = false;
         SoftDeletedDateTime = null;
-    }
-
-    public void HardDelete()
-    {
-        IsHardDeleted = true;
+        // TODO: give position after restore
     }
 }

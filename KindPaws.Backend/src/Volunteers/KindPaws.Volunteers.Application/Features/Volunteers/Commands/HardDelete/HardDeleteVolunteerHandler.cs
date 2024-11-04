@@ -52,7 +52,7 @@ public class HardDeleteVolunteerHandler
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
-        _volunteersRepository.HardDelete(volunteerResult.Value);
+        _volunteersRepository.Delete(volunteerResult.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(volunteerId);

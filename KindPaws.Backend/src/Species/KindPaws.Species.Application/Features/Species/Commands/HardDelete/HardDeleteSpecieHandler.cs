@@ -48,7 +48,7 @@ public class HardDeleteSpecieHandler : ICommandHandler<Guid, HardDeleteSpecieCom
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var specie = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);
 
-        _speciesRepository.HardDelete(specie.Value);
+        _speciesRepository.Delete(specie.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(specieId);

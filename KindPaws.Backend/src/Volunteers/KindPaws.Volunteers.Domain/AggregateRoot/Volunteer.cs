@@ -9,7 +9,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.AggregateRoot;
 
-public class Volunteer : Entity<VolunteerId>, IFullDeletable
+public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 {
     private readonly List<Pet> _pets = [];
     private List<Requisite> _requisites = [];
@@ -43,7 +43,6 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
     public IReadOnlyList<Pet> Pets => _pets;
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
-    public bool IsHardDeleted { get; private set; }
 
     public int GetCountPetsAlreadyFoundHome()
         => _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
@@ -81,7 +80,7 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
 
     public Result<Pet, Error> GetPetById(PetId petId)
     {
-        var pet = _pets.FirstOrDefault(x => x.Id == petId);
+        var pet = _pets.SingleOrDefault(x => x.Id == petId);
 
         if (pet == null)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
@@ -107,6 +106,7 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
     {
         IsSoftDeleted = true;
         SoftDeletedDateTime = DateTime.UtcNow;
+        _pets.ForEach(p => p.SoftDelete());
     }
 
     public void Restore()
@@ -116,39 +116,26 @@ public class Volunteer : Entity<VolunteerId>, IFullDeletable
         _pets.ForEach(p => p.Restore());
     }
 
-    public void HardDelete()
+    public void HardDeletePet(PetId petId)
     {
-        IsHardDeleted = true;
-        _pets.ForEach(pet => pet.HardDelete());
-    }
-
-    public Result<Error> HardDeletePet(PetId petId)
-    {
-        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+        var pet = _pets.SingleOrDefault(p => p.Id == petId);
 
         if (pet == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+            return;
 
-        pet.HardDelete();
         _pets.Remove(pet);
-
         AlignPetPositionsAfterDelete(pet.Position);
-
-        return true;
     }
 
-    public Result<Error> SoftDeletePet(PetId petId)
+    public void SoftDeletePet(PetId petId)
     {
-        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+        var pet = _pets.SingleOrDefault(p => p.Id == petId);
 
         if (pet == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
-
+            return;
+        
         pet.SoftDelete();
-
         AlignPetPositionsAfterDelete(pet.Position);
-
-        return true;
     }
 
     #endregion

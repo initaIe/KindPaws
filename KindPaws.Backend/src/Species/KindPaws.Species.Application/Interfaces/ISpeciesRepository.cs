@@ -12,8 +12,7 @@ public interface ISpeciesRepository
         Specie specie,
         CancellationToken cancellationToken = default);
 
-    void SoftDelete(Specie specie);
-    void HardDelete(Specie specie);
+    void Delete(Specie specie);
 
     Task<Result<Specie, Error>> GetByIdAsync(
         SpecieId specieId,
