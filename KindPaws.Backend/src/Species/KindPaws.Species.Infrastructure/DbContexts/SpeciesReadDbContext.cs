@@ -30,12 +30,10 @@ public class SpeciesReadDbContext(IConfiguration configuration)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.HasDefaultSchema("species");
+        modelBuilder.HasDefaultSchema("species");
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(SpeciesReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
-
-        // modelBuilder.Entity<IssueDto>().HasQueryFilter(i => !i.IsDeleted);
     }
 }

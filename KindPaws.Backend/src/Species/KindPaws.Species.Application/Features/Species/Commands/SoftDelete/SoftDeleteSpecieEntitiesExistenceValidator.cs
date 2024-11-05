@@ -4,6 +4,7 @@ using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;
+using KindPaws.Volunteers.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Species.Application.Features.Species.Commands.SoftDelete;
@@ -12,10 +13,14 @@ public class SoftDeleteSpecieEntitiesExistenceValidator
     : IEntitiesExistenceValidator<SoftDeleteSpecieExistenceValidationData>
 {
     private readonly ISpeciesReadDbContext _readDbContext;
+    private readonly IVolunteersContract _volunteersContract;
 
-    public SoftDeleteSpecieEntitiesExistenceValidator(ISpeciesReadDbContext readDbContext)
+    public SoftDeleteSpecieEntitiesExistenceValidator(
+        ISpeciesReadDbContext readDbContext,
+        IVolunteersContract volunteersContract)
     {
         _readDbContext = readDbContext;
+        _volunteersContract = volunteersContract;
     }
 
     public async Task<Result<Error>> ValidateAsync(
@@ -27,12 +32,12 @@ public class SoftDeleteSpecieEntitiesExistenceValidator
         if (!isSpecieByIdExist)
             return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpecieId);
 
-        // var isPetBySpecieIdExist = await _petExistenceValidator
-        //     .IsPetBySpecieIdExistsAsync(validationData.SpecieId, cancellationToken);
-        // if (isPetBySpecieIdExist)
-        //     return Errors.General.OperationCanNotBePerformed(
-        //         "Delete specie",
-        //         "because exists pet with this specie");
+        var isPetBySpecieIdExist = await _volunteersContract
+            .IsPetBySpecieIdExistsAsync(validationData.SpecieId, cancellationToken);
+        if (isPetBySpecieIdExist)
+            return Errors.General.OperationCanNotBePerformed(
+                "Soft delete specie",
+                "because exist pet with this specie");
 
         return true;
     }

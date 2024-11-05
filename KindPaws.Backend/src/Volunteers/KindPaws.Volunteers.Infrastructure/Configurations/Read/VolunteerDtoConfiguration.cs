@@ -81,5 +81,12 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         builder.HasMany(v => v.Pets)
             .WithOne()
             .HasForeignKey(p => p.VolunteerId);
+
+        // IS SOFT DELETED
+        builder.Property(v => v.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted");
+
+        // QUERY FILTER IS SOT DELETED
+        builder.HasQueryFilter(v => !v.IsSoftDeleted);
     }
 }

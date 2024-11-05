@@ -5,6 +5,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.Entities;
+using KindPaws.Volunteers.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Species.Application.Features.Breeds.Commands.HardDelete;
@@ -13,10 +14,14 @@ public class HardDeleteBreedEntitiesExistenceValidator
     : IEntitiesExistenceValidator<HardDeleteBreedExistenceValidationData>
 {
     private readonly ISpeciesReadDbContext _readDbContext;
+    private readonly IVolunteersContract _volunteersContract;
 
-    public HardDeleteBreedEntitiesExistenceValidator(ISpeciesReadDbContext readDbContext)
+    public HardDeleteBreedEntitiesExistenceValidator(
+        ISpeciesReadDbContext readDbContext,
+        IVolunteersContract volunteersContract)
     {
         _readDbContext = readDbContext;
+        _volunteersContract = volunteersContract;
     }
 
     public async Task<Result<Error>> ValidateAsync(
@@ -33,12 +38,12 @@ public class HardDeleteBreedEntitiesExistenceValidator
         if (!isBreedWithIdExistForSpecieWithId)
             return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), validationData.BreedId);
 
-        // var isPetWithBreedIdExist = await _readDbContext.Pets.AnyAsync(
-        //     p => p.BreedId == breedId, cancellationToken);
-        // if (isPetWithBreedIdExist)
-        //     return Errors.General.OperationCanNotBePerformed(
-        //         "Delete breed",
-        //         "because exists pet with this breed");
+        var isPetByBreedIdExist = await _volunteersContract
+            .IsPetByBreedIdExistsAsync(validationData.BreedId, cancellationToken);
+        if (isPetByBreedIdExist)
+            return Errors.General.OperationCanNotBePerformed(
+                "Hard delete breed",
+                "because exist pet with this breed");
 
         return true;
     }

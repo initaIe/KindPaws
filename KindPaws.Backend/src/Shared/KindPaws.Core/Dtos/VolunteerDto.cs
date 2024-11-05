@@ -12,4 +12,5 @@ public class VolunteerDto
     public AddressDto? Address { get; init; }
     public int? YearsOfExperience { get; init; }
     public PetDto[] Pets { get; init; }
+    public bool IsSoftDeleted { get; init; }
 }

@@ -5,7 +5,7 @@ public class PetDto
     public Guid Id { get; init; }
     public Guid SpecieId { get; init; }
     public Guid BreedId { get; init; }
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; init; }
     public string? SupportStatus { get; init; }
     public string? Description { get; init; }
     public string? Color { get; init; }
@@ -16,4 +16,5 @@ public class PetDto
     public int Position { get; init; }
     public PetPhotoDto[] Photos { get; init; } = [];
     public Guid VolunteerId { get; init; }
+    public bool IsSoftDeleted { get; init; }
 }

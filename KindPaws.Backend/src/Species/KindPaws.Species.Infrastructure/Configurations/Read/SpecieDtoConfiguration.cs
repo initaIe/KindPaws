@@ -27,5 +27,12 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDto>
         builder.HasMany(specie => specie.Breeds)
             .WithOne()
             .HasForeignKey(b => b.SpecieId);
+
+        // IS SOFT DELETED
+        builder.Property(s => s.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted");
+
+        // QUERY FILTER IS SOT DELETED
+        builder.HasQueryFilter(s => !s.IsSoftDeleted);
     }
 }

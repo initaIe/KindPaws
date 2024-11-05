@@ -3,7 +3,6 @@ using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Interfaces;
 using KindPaws.Volunteers.Domain.AggregateRoot;
-using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 

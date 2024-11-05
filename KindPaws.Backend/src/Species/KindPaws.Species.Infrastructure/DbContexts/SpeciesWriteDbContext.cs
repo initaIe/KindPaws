@@ -26,7 +26,7 @@ public class SpeciesWriteDbContext(IConfiguration configuration) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.HasDefaultSchema("species");
+        modelBuilder.HasDefaultSchema("species");
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(SpeciesWriteDbContext).Assembly,

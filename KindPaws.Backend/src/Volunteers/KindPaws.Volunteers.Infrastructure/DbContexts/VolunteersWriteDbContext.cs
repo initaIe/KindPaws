@@ -29,7 +29,7 @@ public class VolunteersWriteDbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.HasDefaultSchema("volunteers");
+        modelBuilder.HasDefaultSchema("volunteers");
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(VolunteersWriteDbContext).Assembly,

@@ -1,0 +1,25 @@
+﻿using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Contracts;
+using Microsoft.EntityFrameworkCore;
+
+namespace KindPaws.Volunteers.Presentation;
+
+public class VolunteersContract : IVolunteersContract
+{
+    private readonly IVolunteersReadDbContext _readDbContext;
+
+    public VolunteersContract(IVolunteersReadDbContext readDbContext)
+    {
+        _readDbContext = readDbContext;
+    }
+
+    public Task<bool> IsPetByBreedIdExistsAsync(Guid breedId, CancellationToken cancellationToken)
+    {
+        return _readDbContext.Pets.AnyAsync(p => p.BreedId == breedId, cancellationToken);
+    }
+
+    public Task<bool> IsPetBySpecieIdExistsAsync(Guid specieId, CancellationToken cancellationToken)
+    {
+        return _readDbContext.Pets.AnyAsync(p => p.SpecieId == specieId, cancellationToken);
+    }
+}

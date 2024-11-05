@@ -26,5 +26,12 @@ public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDto>
         // SPECIE ID
         builder.Property(breed => breed.SpecieId)
             .HasColumnName("specie_id");
+
+        // IS SOFT DELETED
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted");
+
+        // QUERY FILTER IS SOT DELETED
+        builder.HasQueryFilter(b => !b.IsSoftDeleted);
     }
 }

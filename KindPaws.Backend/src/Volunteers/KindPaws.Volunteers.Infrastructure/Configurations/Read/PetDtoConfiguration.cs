@@ -80,5 +80,12 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         // VOLUNTEER ID
         builder.Property(p => p.VolunteerId)
             .HasColumnName("volunteer_id");
+
+        // IS SOFT DELETED
+        builder.Property(p => p.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted");
+
+        // QUERY FILTER IS SOT DELETED
+        builder.HasQueryFilter(p => !p.IsSoftDeleted);
     }
 }

@@ -2,6 +2,7 @@
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Species.Contracts;
 using KindPaws.Volunteers.Application.Interfaces;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
@@ -13,10 +14,14 @@ public class UpdatePetMainInfoEntitiesExistenceValidator
     : IEntitiesExistenceValidator<UpdatePetMainInfoExistenceValidationData>
 {
     private readonly IVolunteersReadDbContext _readDbContext;
+    private readonly ISpeciesContract _speciesContract;
 
-    public UpdatePetMainInfoEntitiesExistenceValidator(IVolunteersReadDbContext readDbContext)
+    public UpdatePetMainInfoEntitiesExistenceValidator(
+        IVolunteersReadDbContext readDbContext,
+        ISpeciesContract speciesContract)
     {
         _readDbContext = readDbContext;
+        _speciesContract = speciesContract;
     }
 
     public async Task<Result<Error>> ValidateAsync(
@@ -33,16 +38,15 @@ public class UpdatePetMainInfoEntitiesExistenceValidator
         if (!isPetByIdForVolunteerByIdExist)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), validationData.PetId);
 
-        // var isSpecieByIdExist = await _specieExistenceValidator
-        //     .IsSpecieByIdExistsAsync(validationData.SpecieId, cancellationToken);
-        // if (!isSpecieByIdExist)
-        //     return Errors.General.RecordNotFound(nameof(Specie), nameof(SpecieId), validationData.SpecieId);
-        //
-        // var isBreedWithIdExistForSpecieWithId = await _breedExistenceValidator
-        //     .IsBreedByIdForSpecieByIdExistsAsync(validationData.SpecieId, validationData.BreedId,
-        //         cancellationToken);
-        // if (!isBreedWithIdExistForSpecieWithId)
-        //     return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), validationData.BreedId);
+        var isSpecieByIdExist = await _speciesContract
+            .IsSpecieByIdExistsAsync(validationData.SpecieId, cancellationToken);
+        if (!isSpecieByIdExist)
+            return Errors.General.RecordNotFound("Specie", "SpecieId", validationData.SpecieId);
+
+        var isBreedByIdForSpecieByIdExist = await _speciesContract
+            .IsBreedByIdForSpecieByIdExistsAsync(validationData.BreedId, validationData.SpecieId, cancellationToken);
+        if (!isBreedByIdForSpecieByIdExist)
+            return Errors.General.RecordNotFound("Breed", "BreedId", validationData.BreedId);
 
         return true;
     }

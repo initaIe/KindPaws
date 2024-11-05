@@ -30,12 +30,10 @@ public class VolunteersReadDbContext(IConfiguration configuration)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.HasDefaultSchema("volunteers");
+        modelBuilder.HasDefaultSchema("volunteers");
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(VolunteersReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
-
-        // modelBuilder.Entity<IssueDto>().HasQueryFilter(i => !i.IsDeleted);
     }
 }
