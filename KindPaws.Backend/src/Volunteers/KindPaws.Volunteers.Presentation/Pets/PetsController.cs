@@ -20,11 +20,40 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
+    
+    [HttpGet("dapper")]
+    public async Task<IActionResult> GetPetsDapper(
+        [FromQuery] GetPetsRequest request,
+        [FromServices] GetPetsDapperHandler handler,
+        CancellationToken token = default)
+    {
+        var query = request.ToQuery();
+
+        var result = await handler.HandleAsync(query, token);
+
+        return Ok(result);
+    }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPetById(
         [FromRoute] Guid id,
         [FromServices] GetPetByIdHandler handler,
+        CancellationToken token = default)
+    {
+        var query = new GetPetByIdQuery(id);
+
+        var result = await handler.HandleAsync(query, token);
+
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpGet("{id:guid}/dapper")]
+    public async Task<IActionResult> GetPetByIdDapper(
+        [FromRoute] Guid id,
+        [FromServices] GetPetByIdDapperHandler handler,
         CancellationToken token = default)
     {
         var query = new GetPetByIdQuery(id);

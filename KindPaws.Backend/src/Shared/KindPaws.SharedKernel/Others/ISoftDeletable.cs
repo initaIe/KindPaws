@@ -1,4 +1,4 @@
-﻿namespace KindPaws.SharedKernel.Others.DeletionManagement;
+﻿namespace KindPaws.SharedKernel.Others;
 
 public interface ISoftDeletable
 {

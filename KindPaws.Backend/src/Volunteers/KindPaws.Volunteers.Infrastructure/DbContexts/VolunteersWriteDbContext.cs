@@ -6,9 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Volunteers.Infrastructure.DbContexts;
 
-public class VolunteersWriteDbContext(
-    IConfiguration configuration,
-    IServiceProvider serviceProvider)
+public class VolunteersWriteDbContext(IConfiguration configuration)
     : DbContext
 {
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();

@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Interfaces;
 using KindPaws.Volunteers.Domain.AggregateRoot;

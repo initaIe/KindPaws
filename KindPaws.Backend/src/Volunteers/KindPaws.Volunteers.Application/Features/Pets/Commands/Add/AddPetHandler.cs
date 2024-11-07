@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.Enums;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Application.Interfaces;
 using KindPaws.Volunteers.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Commands.Add;
@@ -24,7 +26,7 @@ public class AddPetHandler
         ILogger<AddPetHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetCommand> validator,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<AddPetExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;

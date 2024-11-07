@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Dtos;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Core.Abstractions;

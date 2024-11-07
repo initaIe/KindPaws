@@ -1,5 +1,5 @@
-﻿using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
+﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;

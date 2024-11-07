@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.Enums;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePosition;
@@ -21,7 +23,7 @@ public class UpdatePetPositionHandler : ICommandHandler<Guid, UpdatePetPositionC
     public UpdatePetPositionHandler(
         IEntitiesExistenceValidator<UpdatePetPositionExistenceValidationData> entitiesExistenceValidator,
         ILogger<UpdatePetPositionHandler> logger,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
         IValidator<UpdatePetPositionCommand> validator,
         IVolunteersRepository volunteersRepository)
     {

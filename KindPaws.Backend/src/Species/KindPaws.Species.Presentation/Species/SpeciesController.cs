@@ -119,4 +119,17 @@ public class SpeciesController : ApplicationController
 
         return Ok(result);
     }
+    
+    [HttpGet("dapper")]
+    public async Task<IActionResult> GetSpeciesDapper(
+        [FromQuery] GetSpeciesRequest request,
+        [FromServices] GetSpeciesDapperHandler handler,
+        CancellationToken token = default)
+    {
+        var query = request.ToQuery();
+
+        var result = await handler.HandleAsync(query, token);
+
+        return Ok(result);
+    }
 }

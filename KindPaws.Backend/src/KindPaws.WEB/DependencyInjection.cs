@@ -11,7 +11,7 @@ namespace KindPaws.WEB;
 
 public static class DependencyInjection
 {
-    // Добавление модуля Species (Infrastructure and Presentation layers).
+    // Добавление модуля Species (Infrastructure and Presentation layers) + Dapper flag.
     public static IServiceCollection AddSpeciesModule(
         this IServiceCollection services)
     {
@@ -75,6 +75,8 @@ public static class DependencyInjection
             .WithScopedLifetime());
 
         services.AddValidatorsFromAssemblies(assemblies);
+        
+        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }

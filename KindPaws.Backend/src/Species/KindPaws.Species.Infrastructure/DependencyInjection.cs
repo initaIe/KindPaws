@@ -12,10 +12,9 @@ public static class DependencyInjection
     {
         services
             .AddDbContexts()
-            .AddUnitOfWork()
+            .AddDataBase()
             .AddRepositories();
-
-
+        
         return services;
     }
 
@@ -27,9 +26,10 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    private static IServiceCollection AddDataBase(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(SharedKernel.Enums.Modules.Species);
+        services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
         return services;
     }

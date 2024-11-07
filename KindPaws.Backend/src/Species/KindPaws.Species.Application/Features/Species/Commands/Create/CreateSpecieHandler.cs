@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.Enums;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.Species.Application.Helpers;
 using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Species.Application.Features.Species.Commands.Create;
@@ -21,7 +23,7 @@ public class CreateSpecieHandler
 
     public CreateSpecieHandler(
         ILogger<CreateSpecieHandler> logger,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         IValidator<CreateSpecieCommand> validator,
         ISpeciesRepository speciesRepository,
         IEntitiesExistenceValidator<CreateSpecieExistenceValidationData> entitiesExistenceValidator)

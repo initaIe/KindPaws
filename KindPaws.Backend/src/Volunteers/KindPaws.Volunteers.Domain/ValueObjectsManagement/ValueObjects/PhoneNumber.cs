@@ -1,7 +1,6 @@
-﻿using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
-using KindPaws.SharedKernel.Utilities.ValidationManagement.Validators;
-using KindPaws.SharedKernel.Utilities.ValidationManagement.ValidatorsAddons;
+﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -28,7 +27,7 @@ public record PhoneNumber
                 PhoneNumberConstraints.MaxLength))
             return Errors.General.ValueOutOfRange(nameof(PhoneNumber));
 
-        if (!PhoneNumberValidator.Validate(input, PhoneNumberAddon.RuPhoneNumberPattern))
+        if (!PhoneNumberValidator.Validate(input))
             return Errors.General.ValueFormatIsInvalid(nameof(PhoneNumber));
 
         return new PhoneNumber(input);

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 

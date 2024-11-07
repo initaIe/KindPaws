@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
-using KindPaws.SharedKernel.Utilities.ValidationManagement.Validators;
+using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;

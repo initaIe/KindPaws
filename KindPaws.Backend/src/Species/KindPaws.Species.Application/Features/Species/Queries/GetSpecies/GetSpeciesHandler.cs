@@ -29,7 +29,7 @@ public class GetSpeciesHandler
             _ => (specie) => specie.Id
         };
 
-        speciesQuery = query.SortDirection?.ToLower() == "descending"
+        speciesQuery = query.SortDirection?.ToLower() == "desc"
             ? speciesQuery.OrderByDescending(keySelector)
             : speciesQuery.OrderBy(keySelector);
 

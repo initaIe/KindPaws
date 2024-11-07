@@ -23,7 +23,7 @@ public static class DependencyInjection
     {
         services
             .AddDbContexts()
-            .AddUnitOfWork()
+            .AddDataBase()
             .AddRepositories()
             .AddFileProviders()
             .AddMinio(configuration)
@@ -43,9 +43,11 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    private static IServiceCollection AddDataBase(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(SharedKernel.Enums.Modules.Volunteers);
+        // services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
+        // Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }

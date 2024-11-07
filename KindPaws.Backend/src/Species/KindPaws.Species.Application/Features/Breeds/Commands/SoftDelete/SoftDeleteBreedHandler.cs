@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.Enums;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Application.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Species.Application.Features.Breeds.Commands.SoftDelete;
@@ -22,7 +24,7 @@ public class SoftDeleteBreedHandler
         IEntitiesExistenceValidator<SoftDeleteBreedExistenceValidationData> entitiesExistenceValidator,
         ILogger<SoftDeleteBreedHandler> logger,
         ISpeciesRepository speciesRepository,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         IValidator<SoftDeleteBreedCommand> validator)
     {
         _entitiesExistenceValidator = entitiesExistenceValidator;

@@ -1,4 +1,4 @@
-﻿namespace KindPaws.SharedKernel.Utilities.ValidationManagement.Validators;
+﻿namespace KindPaws.SharedKernel.Utilities.Validators;
 
 public static class StringValidator
 {

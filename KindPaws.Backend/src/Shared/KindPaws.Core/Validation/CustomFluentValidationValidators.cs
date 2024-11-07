@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 
 namespace KindPaws.Core.Validation;
 

@@ -1,4 +1,4 @@
-﻿namespace KindPaws.SharedKernel.Others.ResultManagement;
+﻿namespace KindPaws.SharedKernel.Others;
 
 public class Result
 {

@@ -3,12 +3,14 @@ using KindPaws.Core;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Dtos;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.Enums;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Interfaces;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePhotos;
@@ -28,7 +30,7 @@ public class DeletePetPhotosHandler
         IVolunteersRepository volunteersRepository,
         IValidator<DeletePetPhotosCommand> validator,
         IFileProvider fileProvider,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;

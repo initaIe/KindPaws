@@ -1,13 +1,15 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.Enums;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Others.ResultManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Application.Helpers;
 using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Species.Application.Features.Breeds.Commands.Add;
@@ -22,7 +24,7 @@ public class AddBreedHandler
     private readonly IValidator<AddBreedCommand> _validator;
 
     public AddBreedHandler(
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         ILogger<AddBreedHandler> logger,
         ISpeciesRepository speciesRepository,
         IValidator<AddBreedCommand> validator,
