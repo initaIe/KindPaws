@@ -62,6 +62,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => SupportStatus.Create(value).Value)
             .HasMaxLength(SupportStatusConstraints.MaxLength)
             .HasColumnName("support_status")
+            .HasColumnType("citext")
             .IsRequired(false);
 
         // DESCRIPTION
@@ -80,6 +81,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => PetColor.Create(value).Value)
             .HasMaxLength(PetColorConstraints.MaxLength)
             .HasColumnName("color")
+            .HasColumnType("citext")
             .IsRequired(false);
 
         // AGE

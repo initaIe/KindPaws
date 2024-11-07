@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Data;
+using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
@@ -41,6 +42,8 @@ public class AddBreedHandler
         AddBreedCommand command,
         CancellationToken cancellationToken = default)
     {
+        var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
+        
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();

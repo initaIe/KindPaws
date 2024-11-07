@@ -17,7 +17,7 @@ public class UnitOfWork : IUnitOfWork
     public async Task<IDbTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
         var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-
+        
         return transaction.GetDbTransaction();
     }
 
