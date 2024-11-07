@@ -13,12 +13,12 @@ public class VolunteersContract : IVolunteersContract
         _readDbContext = readDbContext;
     }
 
-    public Task<bool> IsPetByBreedIdExistsAsync(Guid breedId, CancellationToken cancellationToken)
+    public Task<bool> IsPetByBreedIdExistsAsync(Guid breedId, CancellationToken cancellationToken = default)
     {
         return _readDbContext.Pets.AnyAsync(p => p.BreedId == breedId, cancellationToken);
     }
 
-    public Task<bool> IsPetBySpecieIdExistsAsync(Guid specieId, CancellationToken cancellationToken)
+    public Task<bool> IsPetBySpecieIdExistsAsync(Guid specieId, CancellationToken cancellationToken = default)
     {
         return _readDbContext.Pets.AnyAsync(p => p.SpecieId == specieId, cancellationToken);
     }

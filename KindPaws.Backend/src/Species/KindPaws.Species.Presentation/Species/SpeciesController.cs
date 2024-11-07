@@ -18,7 +18,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> Create(
         [FromBody] CreateSpecieRequest request,
         [FromServices] CreateSpecieHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var command = request.ToCommand();
 
@@ -33,7 +33,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid id,
         [FromServices] SoftDeleteSpecieHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var command = new SoftDeleteSpecieCommand(id);
 
@@ -48,7 +48,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> HardDelete(
         [FromRoute] Guid id,
         [FromServices] HardDeleteSpecieHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var command = new HardDeleteSpecieCommand(id);
 
@@ -64,7 +64,7 @@ public class SpeciesController : ApplicationController
         [FromRoute] Guid id,
         [FromBody] AddBreedRequest request,
         [FromServices] AddBreedHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var command = request.ToCommand(id);
 
@@ -80,7 +80,7 @@ public class SpeciesController : ApplicationController
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
         [FromServices] SoftDeleteBreedHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var command = new SoftDeleteBreedCommand(id, breedId);
 
@@ -96,7 +96,7 @@ public class SpeciesController : ApplicationController
         [FromRoute] Guid id,
         [FromRoute] Guid breedId,
         [FromServices] HardDeleteBreedHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var command = new HardDeleteBreedCommand(id, breedId);
 
@@ -111,7 +111,7 @@ public class SpeciesController : ApplicationController
     public async Task<IActionResult> GetSpecies(
         [FromQuery] GetSpeciesRequest request,
         [FromServices] GetSpeciesHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = request.ToQuery();
 
@@ -119,12 +119,12 @@ public class SpeciesController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [HttpGet("dapper")]
     public async Task<IActionResult> GetSpeciesDapper(
         [FromQuery] GetSpeciesRequest request,
         [FromServices] GetSpeciesDapperHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = request.ToQuery();
 

@@ -20,7 +20,7 @@ public class GetVolunteersHandler
 
     public async Task<PagedList<VolunteerDto>> HandleAsync(
         GetVolunteersQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var volunteersQuery = _readDbContext.Volunteers;
 

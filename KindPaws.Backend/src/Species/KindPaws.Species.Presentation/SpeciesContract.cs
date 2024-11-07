@@ -13,18 +13,18 @@ public class SpeciesContract : ISpeciesContract
         _readDbContext = readDbContext;
     }
 
-    public Task<bool> IsSpecieByIdExistsAsync(Guid specieId, CancellationToken cancellationToken)
+    public Task<bool> IsSpecieByIdExistsAsync(Guid specieId, CancellationToken cancellationToken = default)
     {
         return _readDbContext.Species.AnyAsync(s => s.Id == specieId, cancellationToken);
     }
 
-    public Task<bool> IsBreedByIdExistsAsync(Guid breedId, CancellationToken cancellationToken)
+    public Task<bool> IsBreedByIdExistsAsync(Guid breedId, CancellationToken cancellationToken = default)
     {
         return _readDbContext.Breeds.AnyAsync(b => b.Id == breedId, cancellationToken);
     }
 
     public Task<bool> IsBreedByIdForSpecieByIdExistsAsync(Guid breedId, Guid specieId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return _readDbContext.Breeds.AnyAsync(b => b.Id == breedId && b.SpecieId == specieId, cancellationToken);
     }

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Dapper;
+using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Species.Infrastructure;
 using KindPaws.Species.Presentation;
@@ -75,8 +76,8 @@ public static class DependencyInjection
             .WithScopedLifetime());
 
         services.AddValidatorsFromAssemblies(assemblies);
-        
-        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }

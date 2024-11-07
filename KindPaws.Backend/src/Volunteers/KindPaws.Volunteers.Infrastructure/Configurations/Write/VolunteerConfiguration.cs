@@ -47,23 +47,26 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         // EMAIL ADDRESS
-        builder.ComplexProperty(volunteer => volunteer.EmailAddress, emailAddress =>
-        {
-            emailAddress.Property(x => x.Value)
-                .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
-                .HasColumnName("email_address")
-                .HasColumnType("citext")
-                .IsRequired();
-        });
+        builder.Property(v => v.EmailAddress)
+            .HasConversion(
+                emailAddress => emailAddress.Value,
+                value => EmailAddress.Create(value).Value)
+            .HasMaxLength(EmailAddressConstraints.MaxLength)
+            .HasColumnName("email_address")
+            .HasColumnType("citext")
+            .IsRequired();
+        builder.HasIndex(s=>s.EmailAddress).IsUnique();
 
         // PHONE NUMBER
-        builder.ComplexProperty(volunteer => volunteer.PhoneNumber, phoneNumber =>
-        {
-            phoneNumber.Property(x => x.Value)
-                .HasMaxLength(PhoneNumberConstraints.MaxLength)
-                .HasColumnName("phone_number")
-                .IsRequired();
-        });
+        builder.Property(v => v.PhoneNumber)
+            .HasConversion(
+                phoneNumber => phoneNumber.Value,
+                value => PhoneNumber.Create(value).Value)
+            .HasMaxLength(PhoneNumberConstraints.MaxLength)
+            .HasColumnName("phone_number")
+            .HasColumnType("citext")
+            .IsRequired();
+        builder.HasIndex(s=>s.PhoneNumber).IsUnique();
 
         // DESCRIPTION
         builder.Property(v => v.Description)

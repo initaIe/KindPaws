@@ -29,7 +29,8 @@ public class UpdateVolunteerMainInfoHandler
         IVolunteersRepository volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
         IValidator<UpdateVolunteerMainInfoCommand> validator,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<UpdateVolunteerMainInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;

@@ -27,7 +27,8 @@ public class SoftDeleteVolunteerHandler
         IVolunteersRepository volunteersRepository,
         ILogger<SoftDeleteVolunteerHandler> logger,
         IValidator<SoftDeleteVolunteerCommand> validator,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<SoftDeleteVolunteerExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;

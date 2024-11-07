@@ -23,7 +23,8 @@ public class UpdatePetPositionHandler : ICommandHandler<Guid, UpdatePetPositionC
     public UpdatePetPositionHandler(
         IEntitiesExistenceValidator<UpdatePetPositionExistenceValidationData> entitiesExistenceValidator,
         ILogger<UpdatePetPositionHandler> logger,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IValidator<UpdatePetPositionCommand> validator,
         IVolunteersRepository volunteersRepository)
     {

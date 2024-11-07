@@ -30,7 +30,8 @@ public class UpdateVolunteerAdditionalInfoHandler
         IVolunteersRepository volunteersRepository,
         ILogger<UpdateVolunteerAdditionalInfoHandler> logger,
         IValidator<UpdateVolunteerAdditionalInfoCommand> validator,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<UpdateVolunteerAdditionalInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;

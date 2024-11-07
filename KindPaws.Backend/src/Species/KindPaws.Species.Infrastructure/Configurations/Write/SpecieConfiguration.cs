@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
@@ -28,14 +29,15 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .IsRequired();
 
         // NAME
-        builder.ComplexProperty(specie => specie.Name, name =>
-        {
-            name.Property(x => x.Value)
-                .HasMaxLength(ShortNameConstraints.MaxLength)
-                .HasColumnName("name")
-                .HasColumnType("citext")
-                .IsRequired();
-        });
+        builder.Property(specie => specie.Name)
+            .HasConversion(
+                name => name.Value,
+                value => ShortName.Create(value).Value)
+            .HasMaxLength(ShortNameConstraints.MaxLength)
+            .HasColumnName("name")
+            .HasColumnType("citext")
+            .IsRequired();
+        builder.HasIndex(s=>s.Name).IsUnique();
 
         // DESCRIPTION
         builder.ComplexProperty(specie => specie.Description, description =>

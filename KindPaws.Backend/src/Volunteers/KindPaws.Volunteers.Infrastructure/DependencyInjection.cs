@@ -2,6 +2,7 @@
 using KindPaws.Core.Dtos;
 using KindPaws.Core.Messaging;
 using KindPaws.Core.Options;
+using KindPaws.SharedKernel.Enums;
 using KindPaws.Volunteers.Application.Interfaces;
 using KindPaws.Volunteers.Infrastructure.BackgroundServices;
 using KindPaws.Volunteers.Infrastructure.DbContexts;
@@ -45,7 +46,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDataBase(this IServiceCollection services)
     {
-        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(SharedKernel.Enums.Modules.Volunteers);
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Volunteers);
         // services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
         // Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 

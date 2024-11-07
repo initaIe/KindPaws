@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Species.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -21,14 +22,15 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasColumnName("id");
 
         // NAME
-        builder.ComplexProperty(breed => breed.Name, name =>
-        {
-            name.Property(x => x.Value)
-                .HasMaxLength(ShortNameConstraints.MaxLength)
-                .HasColumnName("name")
-                .HasColumnType("citext")
-                .IsRequired();
-        });
+        builder.Property(breed => breed.Name)
+            .HasConversion(
+                name => name.Value,
+                value => ShortName.Create(value).Value)
+            .HasMaxLength(ShortNameConstraints.MaxLength)
+            .HasColumnName("name")
+            .HasColumnType("citext")
+            .IsRequired();
+        builder.HasIndex(b=>b.Name).IsUnique();
 
         // DESCRIPTION
         builder.ComplexProperty(breed => breed.Description, description =>

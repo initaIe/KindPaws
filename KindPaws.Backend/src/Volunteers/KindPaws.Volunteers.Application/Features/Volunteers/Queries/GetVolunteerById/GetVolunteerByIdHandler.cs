@@ -22,7 +22,7 @@ public class GetVolunteerByIdHandler
 
     public async Task<Result<VolunteerDto, ErrorList>> HandleAsync(
         GetVolunteerByIdQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var volunteersQuery = _readDbContext.Volunteers;
 

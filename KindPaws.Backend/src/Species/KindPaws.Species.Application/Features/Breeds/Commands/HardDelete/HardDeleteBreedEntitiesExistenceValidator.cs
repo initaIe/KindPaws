@@ -26,7 +26,7 @@ public class HardDeleteBreedEntitiesExistenceValidator
 
     public async Task<Result<Error>> ValidateAsync(
         HardDeleteBreedExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isSpecieByIdExist = await _readDbContext.Species.AnyAsync(
             s => s.Id == validationData.SpecieId, cancellationToken);

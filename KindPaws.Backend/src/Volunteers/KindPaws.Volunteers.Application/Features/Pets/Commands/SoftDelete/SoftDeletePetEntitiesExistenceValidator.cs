@@ -21,7 +21,7 @@ public class
 
     public async Task<Result<Error>> ValidateAsync(
         SoftDeletePetExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isVolunteerByIdExist = await _readDbContext.Volunteers.AnyAsync(
             v => v.Id == validationData.VolunteerId, cancellationToken);

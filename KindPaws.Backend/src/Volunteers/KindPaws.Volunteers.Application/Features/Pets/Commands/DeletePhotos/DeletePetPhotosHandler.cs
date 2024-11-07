@@ -30,7 +30,8 @@ public class DeletePetPhotosHandler
         IVolunteersRepository volunteersRepository,
         IValidator<DeletePetPhotosCommand> validator,
         IFileProvider fileProvider,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;

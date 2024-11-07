@@ -21,7 +21,7 @@ public class UpdatePetPositionEntitiesExistenceValidator
 
     public async Task<Result<Error>> ValidateAsync(
         UpdatePetPositionExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isVolunteerByIdExist = await _readDbContext.Volunteers.AnyAsync(
             v => v.Id == validationData.VolunteerId, cancellationToken);

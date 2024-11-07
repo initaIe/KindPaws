@@ -19,7 +19,7 @@ public class GetBreedsHandler
 
     public async Task<PagedList<BreedDto>> HandleAsync(
         GetBreedsQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var breedsQuery = _readDbContext.Breeds;
 

@@ -19,7 +19,7 @@ public class
     }
 
     public async Task<Result<Error>> ValidateAsync(CreateVolunteerExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isVolunteerByEmailAddressExist = await _readDbContext.Volunteers.AnyAsync(
             v => v.EmailAddress == validationData.EmailAddress, cancellationToken);

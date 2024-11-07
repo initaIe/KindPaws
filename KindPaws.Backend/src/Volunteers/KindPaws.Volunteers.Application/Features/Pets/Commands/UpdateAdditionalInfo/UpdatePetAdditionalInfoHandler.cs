@@ -29,7 +29,8 @@ public class UpdatePetAdditionalInfoHandler
         ILogger<UpdatePetAdditionalInfoHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<UpdatePetAdditionalInfoCommand> validator,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;

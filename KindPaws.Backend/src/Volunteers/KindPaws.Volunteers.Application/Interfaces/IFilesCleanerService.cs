@@ -2,5 +2,5 @@
 
 public interface IFilesCleanerService
 {
-    Task ProcessAsync(CancellationToken cancellationToken);
+    Task ProcessAsync(CancellationToken cancellationToken = default);
 }

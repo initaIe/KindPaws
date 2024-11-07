@@ -9,5 +9,5 @@ public interface IEntitiesExistenceValidator<in TExistenceValidationData>
 {
     Task<Result<Error>> ValidateAsync(
         TExistenceValidationData existenceValidationData,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken = default);
 }

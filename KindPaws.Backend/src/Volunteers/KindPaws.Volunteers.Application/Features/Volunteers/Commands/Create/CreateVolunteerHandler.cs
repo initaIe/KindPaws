@@ -25,7 +25,8 @@ public class CreateVolunteerHandler
         IVolunteersRepository volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
         IValidator<CreateVolunteerCommand> validator,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<CreateVolunteerExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;

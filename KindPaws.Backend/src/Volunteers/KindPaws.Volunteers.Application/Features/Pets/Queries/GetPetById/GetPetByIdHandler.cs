@@ -20,7 +20,7 @@ public class GetPetByIdHandler : IQueryHandler<Result<PetDto, ErrorList>, GetPet
 
     public async Task<Result<PetDto, ErrorList>> HandleAsync(
         GetPetByIdQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var petsQuery = _readDbContext.Pets;
 

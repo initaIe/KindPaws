@@ -14,14 +14,17 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
             migrationBuilder.EnsureSchema(
                 name: "volunteers");
 
-            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS citext;");
-            
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:citext", ",,");
+
             migrationBuilder.CreateTable(
                 name: "volunteers",
                 schema: "volunteers",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    email_address = table.Column<string>(type: "citext", maxLength: 256, nullable: false),
+                    phone_number = table.Column<string>(type: "citext", maxLength: 15, nullable: false),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     address = table.Column<string>(type: "jsonb", nullable: true),
                     years_of_experience = table.Column<int>(type: "integer", nullable: true),
@@ -29,11 +32,9 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                     requisites = table.Column<string>(type: "jsonb", nullable: false),
                     is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     soft_delete_datetime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    email_address = table.Column<string>(type: "citext", maxLength: 100, nullable: false),
                     first_name = table.Column<string>(type: "citext", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "citext", maxLength: 100, nullable: false),
-                    patronymic = table.Column<string>(type: "citext", maxLength: 100, nullable: true),
-                    phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false)
+                    patronymic = table.Column<string>(type: "citext", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -47,9 +48,9 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     creation_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    support_status = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    support_status = table.Column<string>(type: "citext", maxLength: 100, nullable: true),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
-                    color = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    color = table.Column<string>(type: "citext", maxLength: 100, nullable: true),
                     date_birth = table.Column<DateOnly>(type: "date", nullable: true),
                     health_details = table.Column<string>(type: "jsonb", nullable: false),
                     biometric_details = table.Column<string>(type: "jsonb", nullable: false),
@@ -79,6 +80,20 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                 schema: "volunteers",
                 table: "pets",
                 column: "volunteer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_volunteers_email_address",
+                schema: "volunteers",
+                table: "volunteers",
+                column: "email_address",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_volunteers_phone_number",
+                schema: "volunteers",
+                table: "volunteers",
+                column: "phone_number",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -91,8 +106,6 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "volunteers",
                 schema: "volunteers");
-            
-            migrationBuilder.Sql("DROP EXTENSION IF EXISTS citext;");
         }
     }
 }

@@ -19,7 +19,7 @@ public class GetSpeciesHandler
 
     public async Task<PagedList<SpecieDto>> HandleAsync(
         GetSpeciesQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var speciesQuery = _speciesReadDbContext.Species;
 

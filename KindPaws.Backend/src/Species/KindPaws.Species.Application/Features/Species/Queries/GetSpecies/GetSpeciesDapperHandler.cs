@@ -17,7 +17,7 @@ public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSp
 
     public async Task<PagedList<SpecieDto>> HandleAsync(
         GetSpeciesQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         using var connection = _sqlConnectionFactory.Create();
         connection.Open();
@@ -32,13 +32,13 @@ public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSp
             "name" => "name",
             _ => "id"
         };
-        
+
         string orderDirection = query.SortDirection?.ToLower() switch
         {
             "desc" => "desc",
             _ => "asc"
         };
-        
+
         builder.OrderBy($"{orderBy} {orderDirection}");
         builder.AddPaginationParameters(query.PageSize, query.PageNumber);
 

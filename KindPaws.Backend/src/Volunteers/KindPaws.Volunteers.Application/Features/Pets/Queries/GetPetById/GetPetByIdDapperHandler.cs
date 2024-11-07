@@ -21,7 +21,7 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
 
     public async Task<Result<PetDto, ErrorList>> HandleAsync(
         GetPetByIdQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         using var connection = _sqlConnectionFactory.Create();
         connection.Open();
@@ -53,34 +53,34 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
         );
 
         var petResponse = await connection.QueryFirstOrDefaultAsync<(
-                Guid id, 
+                Guid id,
                 Guid specie_id,
                 Guid breed_id,
-                string name, 
-                string support_status, 
-                string description, 
+                string name,
+                string support_status,
+                string description,
                 string color,
                 DateTime date_birth,
                 string health_details,
                 string biometric_details,
                 DateTime creation_date_time,
-                string photos, 
-                int position, 
+                string photos,
+                int position,
                 Guid volunteer_id,
                 bool is_soft_deleted)>
             (selector.RawSql, selector.Parameters);
 
         if (petResponse.id == Guid.Empty)
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), query.PetId).ToErrorList();
-        
+
         var healthDetails = JsonSerializer.Deserialize<HealthDetails>(petResponse.health_details)!
             .ToDto();
-        
+
         var biometricDetails = JsonSerializer.Deserialize<BiometricDetails>(petResponse.biometric_details)!
             .ToDto();
-        
+
         var photos = JsonSerializer.Deserialize<IEnumerable<PetPhoto>>(petResponse.photos)!
-            .Select(p=>p.ToDto());
+            .Select(p => p.ToDto());
 
         var dateBirth = DateOnly.FromDateTime(petResponse.date_birth);
 
@@ -102,7 +102,7 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
             VolunteerId = petResponse.volunteer_id,
             IsSoftDeleted = petResponse.is_soft_deleted
         };
-        
+
         return petDto;
     }
 }

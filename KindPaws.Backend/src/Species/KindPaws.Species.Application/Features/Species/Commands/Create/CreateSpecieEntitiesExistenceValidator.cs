@@ -19,7 +19,7 @@ public class CreateSpecieEntitiesExistenceValidator : IEntitiesExistenceValidato
 
     public async Task<Result<Error>> ValidateAsync(
         CreateSpecieExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isSpecieByNameExist = await _readDbContext.Species.AnyAsync(
             s => s.Name == validationData.Name, cancellationToken);

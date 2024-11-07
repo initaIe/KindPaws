@@ -12,7 +12,7 @@ public class PetsController : ApplicationController
     public async Task<IActionResult> GetPets(
         [FromQuery] GetPetsRequest request,
         [FromServices] GetPetsHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = request.ToQuery();
 
@@ -20,12 +20,12 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [HttpGet("dapper")]
     public async Task<IActionResult> GetPetsDapper(
         [FromQuery] GetPetsRequest request,
         [FromServices] GetPetsDapperHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = request.ToQuery();
 
@@ -38,7 +38,7 @@ public class PetsController : ApplicationController
     public async Task<IActionResult> GetPetById(
         [FromRoute] Guid id,
         [FromServices] GetPetByIdHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = new GetPetByIdQuery(id);
 
@@ -49,12 +49,12 @@ public class PetsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpGet("{id:guid}/dapper")]
     public async Task<IActionResult> GetPetByIdDapper(
         [FromRoute] Guid id,
         [FromServices] GetPetByIdDapperHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = new GetPetByIdQuery(id);
 

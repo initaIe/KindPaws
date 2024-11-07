@@ -14,7 +14,7 @@ public class PetDapperDto
     public string BiometricDetails { get; init; } = string.Empty;
     public DateTime CreationDateTime { get; init; }
     public int Position { get; init; }
-    public string Photos { get; init; }= string.Empty;
+    public string Photos { get; init; } = string.Empty;
     public Guid VolunteerId { get; init; }
     public bool IsSoftDeleted { get; init; }
 }

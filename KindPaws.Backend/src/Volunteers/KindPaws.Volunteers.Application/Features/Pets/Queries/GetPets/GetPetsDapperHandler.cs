@@ -19,13 +19,13 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
 
     public async Task<PagedList<PetDto>> HandleAsync(
         GetPetsQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         using var connection = _sqlConnectionFactory.Create();
         connection.Open();
 
         var builder = new SqlBuilder();
-        
+
         var orderByFieldsTuples = new (string queryOrderByField, string dbColumnName)[]
         {
             ("specieid", "specieId"),
@@ -37,8 +37,8 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
             ("position", "position"),
             ("volunteerid", "volunteerId"),
         };
-        
-        var filterTuples = new(bool condition, string sql)[]
+
+        var filterTuples = new (bool condition, string sql)[]
         {
             (query.SpecieId != null && !GuidValidator.IsEmpty(query.SpecieId!.Value), "specie_id = @SpecieId"),
             (query.BreedId != null && !GuidValidator.IsEmpty(query.BreedId!.Value), "breed_id = @BreedId"),
@@ -46,12 +46,13 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
             (!string.IsNullOrWhiteSpace(query.SupportStatus), "support_status LIKE @SupportStatus"),
             (!string.IsNullOrWhiteSpace(query.Color), "color LIKE @Color"),
             (query.Age != null, "date_birth = @DateBirth"),
-            (query.VolunteerId != null && !GuidValidator.IsEmpty(query.VolunteerId!.Value), "volunteer_id = @VolunteerId"),
+            (query.VolunteerId != null && !GuidValidator.IsEmpty(query.VolunteerId!.Value),
+                "volunteer_id = @VolunteerId"),
             (query.PositionFrom != null, "position >= @PositionFrom"),
             (query.PositionTo != null, "position <= @PositionTo")
         };
-        
-        var filterParameterTuples = new(string parameterName, object? parameterValue)[]
+
+        var filterParameterTuples = new (string parameterName, object? parameterValue)[]
         {
             ("@SpecieId", query.SpecieId),
             ("@BreedId", query.BreedId),
@@ -63,7 +64,7 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
             ("@PositionFrom", query.PositionFrom),
             ("@PositionTo", query.PositionTo)
         };
-        
+
         builder.ApplyFiltration(filterTuples, filterParameterTuples);
         builder.AddOrderBy(orderByFieldsTuples, query.SortBy, query.SortDirection);
         builder.AddPaginationParameters(query.PageSize, query.PageNumber);
@@ -74,7 +75,7 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
             /**where**/
             """
         );
-        
+
         var selector = builder.AddTemplate(
             """
             SELECT
@@ -100,7 +101,7 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
             OFFSET @Offset
             """
         );
-        
+
         var totalCount = await connection.ExecuteScalarAsync<long>(counter.RawSql, counter.Parameters);
         var petDapperDtos = await connection.QueryAsync<PetDapperDto>
             (selector.RawSql, selector.Parameters);

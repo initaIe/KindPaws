@@ -14,7 +14,7 @@ public class SqlConnectionFactory : ISqlConnectionFactory
     {
         _configuration = configuration;
     }
-    
+
     public IDbConnection Create() =>
         new NpgsqlConnection(_configuration.GetConnectionString(Constants.Database.Postgres));
 }

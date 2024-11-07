@@ -32,7 +32,8 @@ public class AddPetPhotosHandler
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetPhotosCommand> validator,
         IFileProvider fileProvider,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IMessageQueue<IEnumerable<DeleteFileData>> messageQueue,
         IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> entitiesExistenceValidator)
     {

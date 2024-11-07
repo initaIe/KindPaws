@@ -22,7 +22,7 @@ public class AddPetEntitiesExistenceValidator : IEntitiesExistenceValidator<AddP
 
     public async Task<Result<Error>> ValidateAsync(
         AddPetExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isVolunteerByIdExist = await _readDbContext.Volunteers.AnyAsync(
             v => v.Id == validationData.VolunteerId, cancellationToken);

@@ -23,7 +23,8 @@ public class HardDeletePetHandler
     public HardDeletePetHandler(
         IEntitiesExistenceValidator<HardDeletePetExistenceValidationData> entitiesExistenceValidator,
         ILogger<HardDeletePetHandler> logger,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IValidator<HardDeletePetCommand> validator,
         IVolunteersRepository volunteersRepository)
     {

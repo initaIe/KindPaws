@@ -20,7 +20,7 @@ public class UpdateVolunteerAdditionalInfoEntitiesExistenceValidator
 
     public async Task<Result<Error>> ValidateAsync(
         UpdateVolunteerAdditionalInfoExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isVolunteerByIdExist = await _readDbContext.Volunteers.AnyAsync(
             v => v.Id == validationData.VolunteerId, cancellationToken);

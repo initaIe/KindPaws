@@ -26,7 +26,8 @@ public class HardDeleteVolunteerHandler
     public HardDeleteVolunteerHandler(
         IEntitiesExistenceValidator<HardDeleteVolunteerExistenceValidationData> entitiesExistenceValidator,
         ILogger<HardDeleteVolunteerHandler> logger,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IValidator<HardDeleteVolunteerCommand> validator,
         IVolunteersRepository volunteersRepository)
     {

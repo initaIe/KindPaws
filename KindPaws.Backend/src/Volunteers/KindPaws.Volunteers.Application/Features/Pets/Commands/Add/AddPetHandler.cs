@@ -26,7 +26,8 @@ public class AddPetHandler
         ILogger<AddPetHandler> logger,
         IVolunteersRepository volunteersRepository,
         IValidator<AddPetCommand> validator,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IEntitiesExistenceValidator<AddPetExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;

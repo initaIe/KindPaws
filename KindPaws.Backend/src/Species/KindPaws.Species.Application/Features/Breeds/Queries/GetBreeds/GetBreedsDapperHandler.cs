@@ -7,7 +7,7 @@ using KindPaws.SharedKernel.Utilities.Validators;
 
 namespace KindPaws.Species.Application.Features.Breeds.Queries.GetBreeds;
 
-public class GetBreedsDapperHandler: IQueryHandler<PagedList<BreedDto>, GetBreedsQuery>
+public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDto>, GetBreedsQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -18,7 +18,7 @@ public class GetBreedsDapperHandler: IQueryHandler<PagedList<BreedDto>, GetBreed
 
     public async Task<PagedList<BreedDto>> HandleAsync(
         GetBreedsQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         using var connection = _sqlConnectionFactory.Create();
         connection.Open();
@@ -29,20 +29,20 @@ public class GetBreedsDapperHandler: IQueryHandler<PagedList<BreedDto>, GetBreed
             builder.Where("name LIKE @Name", new { name = $"%{query.Name}%" });
         if (query.SpecieId != null && !GuidValidator.IsEmpty(query.SpecieId!.Value))
             builder.Where("specie_id = @SpecieId", new { specie_id = query.SpecieId });
-        
+
         string orderBy = query.SortBy?.ToLower() switch
         {
             "name" => "name",
             "specieid" => "specieid",
             _ => "id"
         };
-        
+
         string orderDirection = query.SortDirection?.ToLower() switch
         {
             "desc" => "desc",
             _ => "asc"
         };
-        
+
         builder.OrderBy($"{orderBy} {orderDirection}");
         builder.AddPaginationParameters(query.PageSize, query.PageNumber);
 

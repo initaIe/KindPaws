@@ -21,7 +21,7 @@ public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<Ad
 
     public async Task<Result<Error>> ValidateAsync(
         AddBreedExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isSpecieByIdExist = await _readDbContext.Species.AnyAsync(
             s => s.Id == validationData.SpeciesId, cancellationToken);

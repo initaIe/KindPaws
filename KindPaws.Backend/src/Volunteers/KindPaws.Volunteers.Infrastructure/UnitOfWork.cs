@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using KindPaws.Core.Abstractions;
 using KindPaws.Volunteers.Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace KindPaws.Volunteers.Infrastructure;
@@ -14,9 +15,11 @@ public class UnitOfWork : IUnitOfWork
         _dbContext = dbContext;
     }
 
-    public async Task<IDbTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task<IDbTransaction> BeginTransactionAsync(
+        IsolationLevel isolationLevel,
+        CancellationToken cancellationToken = default)
     {
-        var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        var transaction = await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
 
         return transaction.GetDbTransaction();
     }

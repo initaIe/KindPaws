@@ -11,7 +11,7 @@ public class BreedController : ApplicationController
     public async Task<IActionResult> GetBreeds(
         [FromQuery] GetBreedsRequest request,
         [FromServices] GetBreedsHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = request.ToQuery();
 
@@ -19,12 +19,12 @@ public class BreedController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [HttpGet("dapper")]
     public async Task<IActionResult> GetBreedsDapper(
         [FromQuery] GetBreedsRequest request,
         [FromServices] GetBreedsDapperHandler handler,
-        CancellationToken token = default)
+        CancellationToken token)
     {
         var query = request.ToQuery();
 

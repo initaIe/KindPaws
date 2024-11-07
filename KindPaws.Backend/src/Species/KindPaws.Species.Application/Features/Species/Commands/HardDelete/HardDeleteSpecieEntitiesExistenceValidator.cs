@@ -25,7 +25,7 @@ public class HardDeleteSpecieEntitiesExistenceValidator
 
     public async Task<Result<Error>> ValidateAsync(
         HardDeleteSpecieExistenceValidationData validationData,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var isSpecieByIdExist = await _readDbContext.Species.AnyAsync(
             s => s.Id == validationData.SpecieId, cancellationToken);

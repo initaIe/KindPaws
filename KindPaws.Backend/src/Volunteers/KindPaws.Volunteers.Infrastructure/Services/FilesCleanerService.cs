@@ -22,7 +22,7 @@ public class FilesCleanerService : IFilesCleanerService
         _fileProvider = fileProvider;
     }
 
-    public async Task ProcessAsync(CancellationToken cancellationToken)
+    public async Task ProcessAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("FilesCleanerService starts finding unnecessary files in minio.");
         var deleteFilesData = await _messageQueue.ReadAsync(cancellationToken);

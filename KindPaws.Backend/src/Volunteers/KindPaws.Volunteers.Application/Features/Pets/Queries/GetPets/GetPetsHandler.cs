@@ -19,7 +19,7 @@ public class GetPetsHandler
 
     public async Task<PagedList<PetDto>> HandleAsync(
         GetPetsQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var petsQuery = _readDbContext.Pets;
 

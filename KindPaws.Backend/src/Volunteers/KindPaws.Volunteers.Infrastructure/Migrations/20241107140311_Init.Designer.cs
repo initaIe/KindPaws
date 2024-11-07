@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Volunteers.Infrastructure.Migrations
 {
     [DbContext(typeof(VolunteersWriteDbContext))]
-    [Migration("20241107112939_Init1")]
-    partial class Init1
+    [Migration("20241107140311_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,9 +43,21 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                         .HasColumnType("character varying(2000)")
                         .HasColumnName("description");
 
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("citext")
+                        .HasColumnName("email_address");
+
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_soft_deleted");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("citext")
+                        .HasColumnName("phone_number");
 
                     b.Property<string>("Requisites")
                         .IsRequired()
@@ -64,17 +76,6 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                     b.Property<int?>("YearsOfExperience")
                         .HasColumnType("integer")
                         .HasColumnName("years_of_experience");
-
-                    b.ComplexProperty<Dictionary<string, object>>("EmailAddress", "KindPaws.Volunteers.Domain.AggregateRoot.Volunteer.EmailAddress#EmailAddress", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("citext")
-                                .HasColumnName("email_address");
-                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("FullName", "KindPaws.Volunteers.Domain.AggregateRoot.Volunteer.FullName#FullName", b1 =>
                         {
@@ -98,19 +99,16 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                                 .HasColumnName("patronymic");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("PhoneNumber", "KindPaws.Volunteers.Domain.AggregateRoot.Volunteer.PhoneNumber#PhoneNumber", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(15)
-                                .HasColumnType("character varying(15)")
-                                .HasColumnName("phone_number");
-                        });
-
                     b.HasKey("Id")
                         .HasName("pk_volunteers");
+
+                    b.HasIndex("EmailAddress")
+                        .IsUnique()
+                        .HasDatabaseName("ix_volunteers_email_address");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_volunteers_phone_number");
 
                     b.ToTable("volunteers", "volunteers");
                 });

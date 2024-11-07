@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Species.Infrastructure.Migrations
 {
     [DbContext(typeof(SpeciesWriteDbContext))]
-    [Migration("20241105091608_Init")]
+    [Migration("20241107140328_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,6 +25,7 @@ namespace KindPaws.Species.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("KindPaws.Species.Domain.AggregateRoot.Specie", b =>
@@ -36,6 +37,12 @@ namespace KindPaws.Species.Infrastructure.Migrations
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_soft_deleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("citext")
+                        .HasColumnName("name");
 
                     b.Property<DateTime?>("SoftDeletedDateTime")
                         .HasColumnType("timestamp with time zone")
@@ -52,19 +59,12 @@ namespace KindPaws.Species.Infrastructure.Migrations
                                 .HasColumnName("description");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("Name", "KindPaws.Species.Domain.AggregateRoot.Specie.Name#ShortName", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("citext")
-                                .HasColumnName("name");
-                        });
-
                     b.HasKey("Id")
                         .HasName("pk_species");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_species_name");
 
                     b.ToTable("species", "species");
                 });
@@ -78,6 +78,12 @@ namespace KindPaws.Species.Infrastructure.Migrations
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_soft_deleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("citext")
+                        .HasColumnName("name");
 
                     b.Property<DateTime?>("SoftDeletedDateTime")
                         .HasColumnType("timestamp with time zone")
@@ -98,19 +104,12 @@ namespace KindPaws.Species.Infrastructure.Migrations
                                 .HasColumnName("description");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("Name", "KindPaws.Species.Domain.Entities.Breed.Name#ShortName", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("citext")
-                                .HasColumnName("name");
-                        });
-
                     b.HasKey("Id")
                         .HasName("pk_breeds");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_breeds_name");
 
                     b.HasIndex("specie_id")
                         .HasDatabaseName("ix_breeds_specie_id");

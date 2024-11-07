@@ -26,7 +26,8 @@ public class SetPetMainPhotoHandler
         IEntitiesExistenceValidator<SetPetMainPhotoExistenceValidationData> entitiesExistenceValidator,
         IFileProvider fileProvider,
         ILogger<SetPetMainPhotoHandler> logger,
-        [FromKeyedServices(Modules.Volunteers)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Modules.Volunteers)]
+        IUnitOfWork unitOfWork,
         IValidator<SetPetMainPhotoCommand> validator,
         IVolunteersRepository volunteersRepository)
     {
