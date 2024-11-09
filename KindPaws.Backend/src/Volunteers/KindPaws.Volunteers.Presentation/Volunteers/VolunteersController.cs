@@ -16,6 +16,7 @@ using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateMainInf
 using KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteerById;
 using KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteers;
 using KindPaws.Volunteers.Presentation.Volunteers.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.Volunteers.Presentation.Volunteers;

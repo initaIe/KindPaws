@@ -37,7 +37,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .HasColumnName("name")
             .HasColumnType("citext")
             .IsRequired();
-        builder.HasIndex(s=>s.Name).IsUnique();
+        builder.HasIndex(s => s.Name).IsUnique();
 
         // DESCRIPTION
         builder.ComplexProperty(specie => specie.Description, description =>

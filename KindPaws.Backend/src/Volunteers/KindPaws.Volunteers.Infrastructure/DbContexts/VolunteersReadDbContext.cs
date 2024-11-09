@@ -1,4 +1,5 @@
-﻿using KindPaws.Core;
+﻿using EntityFramework.Exceptions.PostgreSQL;
+using KindPaws.Core;
 using KindPaws.Core.Dtos;
 using KindPaws.Volunteers.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ public class VolunteersReadDbContext(IConfiguration configuration)
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateLoggerFactory())
             .EnableSensitiveDataLogging()
+            .UseExceptionProcessor()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 

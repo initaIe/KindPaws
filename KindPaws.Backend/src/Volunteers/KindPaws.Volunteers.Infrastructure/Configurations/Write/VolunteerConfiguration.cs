@@ -55,7 +55,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("email_address")
             .HasColumnType("citext")
             .IsRequired();
-        builder.HasIndex(s=>s.EmailAddress).IsUnique();
+        builder.HasIndex(s => s.EmailAddress).IsUnique();
 
         // PHONE NUMBER
         builder.Property(v => v.PhoneNumber)
@@ -66,7 +66,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("phone_number")
             .HasColumnType("citext")
             .IsRequired();
-        builder.HasIndex(s=>s.PhoneNumber).IsUnique();
+        builder.HasIndex(s => s.PhoneNumber).IsUnique();
 
         // DESCRIPTION
         builder.Property(v => v.Description)

@@ -30,7 +30,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasColumnName("name")
             .HasColumnType("citext")
             .IsRequired();
-        builder.HasIndex(b=>b.Name).IsUnique();
+        builder.HasIndex(b => b.Name).IsUnique();
 
         // DESCRIPTION
         builder.ComplexProperty(breed => breed.Description, description =>

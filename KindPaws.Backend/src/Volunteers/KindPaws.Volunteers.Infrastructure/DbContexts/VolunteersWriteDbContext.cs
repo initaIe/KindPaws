@@ -1,4 +1,5 @@
-﻿using KindPaws.Core;
+﻿using EntityFramework.Exceptions.PostgreSQL;
+using KindPaws.Core;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,8 @@ public class VolunteersWriteDbContext(IConfiguration configuration)
             .UseNpgsql(configuration.GetConnectionString(Constants.Database.Postgres))
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateLoggerFactory())
-            .EnableSensitiveDataLogging();
+            .EnableSensitiveDataLogging()
+            .UseExceptionProcessor();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

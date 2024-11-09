@@ -18,7 +18,9 @@ public static class DependencyInjection
     {
         services.AddSpeciesInfrastructure();
         services.AddSpeciesPresentation();
-
+        
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
+        
         return services;
     }
 
@@ -76,8 +78,6 @@ public static class DependencyInjection
             .WithScopedLifetime());
 
         services.AddValidatorsFromAssemblies(assemblies);
-
-        DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }

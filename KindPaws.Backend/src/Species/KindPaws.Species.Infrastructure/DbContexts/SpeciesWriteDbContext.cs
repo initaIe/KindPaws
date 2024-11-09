@@ -1,4 +1,5 @@
-﻿using KindPaws.Core;
+﻿using EntityFramework.Exceptions.PostgreSQL;
+using KindPaws.Core;
 using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,13 +22,14 @@ public class SpeciesWriteDbContext(IConfiguration configuration) : DbContext
             .UseNpgsql(configuration.GetConnectionString(Constants.Database.Postgres))
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateLoggerFactory())
-            .EnableSensitiveDataLogging();
+            .EnableSensitiveDataLogging()
+            .UseExceptionProcessor();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("species");
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(SpeciesWriteDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Write") ?? false);

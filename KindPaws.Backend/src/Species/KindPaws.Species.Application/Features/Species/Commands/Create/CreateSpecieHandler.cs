@@ -1,9 +1,11 @@
-﻿using FluentValidation;
+﻿using EntityFramework.Exceptions.Common;
+using FluentValidation;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.Species.Application.Helpers;
 using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;
@@ -43,22 +45,29 @@ public class CreateSpecieHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
+        try
+        {
+            var entitiesExistenceValidationData = command.ToExistenceValidationData();
+            var entitiesExistenceValidationResult = await _entitiesExistenceValidator
+                .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
+            if (entitiesExistenceValidationResult.IsFailure)
+                return entitiesExistenceValidationResult.Error.ToErrorList();
 
-        var specie = SpecieHelper.ForceCreateNewSpecie(
-            command.Name,
-            command.Description);
+            var specie = SpecieHelper.ForceCreateNewSpecie(
+                command.Name,
+                command.Description);
 
-        await _speciesRepository.AddAsync(specie, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _speciesRepository.AddAsync(specie, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        Log(specie);
+            Log(specie);
 
-        return specie.Id.Value;
+            return specie.Id.Value;
+        }
+        catch (UniqueConstraintException e) when (e.ConstraintName is "ix_species_name")
+        {
+            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortName)).ToErrorList();
+        }
     }
 
     private void Log(Specie specie)

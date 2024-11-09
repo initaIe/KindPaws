@@ -1,5 +1,6 @@
 using KindPaws.WEB;
 using KindPaws.WEB.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,10 @@ builder.Services.AddSpeciesModule();
 builder.Services.AddVolunteersModule(builder.Configuration);
 builder.Services.AddApplicationLayers();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme);
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Add exception middleware
@@ -31,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
