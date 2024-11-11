@@ -10,3 +10,10 @@ public interface ICommandHandler<TResponse, in TCommand> where TCommand : IComma
         TCommand command,
         CancellationToken cancellationToken = default);
 }
+
+public interface ICommandHandler<in TCommand> where TCommand : ICommand
+{
+    Task<Result<ErrorList>> HandleAsync(
+        TCommand command,
+        CancellationToken cancellationToken = default);
+}

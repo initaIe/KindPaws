@@ -2,6 +2,7 @@
 
 public static class Errors
 {
+    // TODO: фикс Error.N на нот фаунд и тд и тп, а то везде Validation.
     public static class General
     {
         public static Error ValueIsInvalid(string? name = null)
@@ -59,6 +60,18 @@ public static class Errors
             return Error.Validation(
                 "operation.can.not.be.performed",
                 $"{operationName} can not be performed {text}");
+        }
+    }
+
+    // TODO: отдельные ошибки модулей вынести в модули,
+    // убрать класс general т.к. тут в errors и так будут храниться general дефол пресет ошибки
+    public static class Accounts
+    {
+        public static Error CredentialsAreInvalid()
+        {
+            return Error.Validation(
+                "account.credentials.are.invalid",
+                $"Account credentials are invalid");
         }
     }
 }

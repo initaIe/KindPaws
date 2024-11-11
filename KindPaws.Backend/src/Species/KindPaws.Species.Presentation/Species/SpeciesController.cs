@@ -29,13 +29,13 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}/soft")]
+    [HttpDelete("{specieId:guid}/soft")]
     public async Task<IActionResult> SoftDelete(
-        [FromRoute] Guid id,
+        [FromRoute] Guid specieId,
         [FromServices] SoftDeleteSpecieHandler handler,
         CancellationToken token)
     {
-        var command = new SoftDeleteSpecieCommand(id);
+        var command = new SoftDeleteSpecieCommand(specieId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -44,13 +44,13 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}/hard")]
+    [HttpDelete("{specieId:guid}/hard")]
     public async Task<IActionResult> HardDelete(
-        [FromRoute] Guid id,
+        [FromRoute] Guid specieId,
         [FromServices] HardDeleteSpecieHandler handler,
         CancellationToken token)
     {
-        var command = new HardDeleteSpecieCommand(id);
+        var command = new HardDeleteSpecieCommand(specieId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -59,14 +59,14 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpPost("{id:guid}/breeds")]
+    [HttpPost("{specieId:guid}/breeds")]
     public async Task<IActionResult> AddBreed(
-        [FromRoute] Guid id,
+        [FromRoute] Guid specieId,
         [FromBody] AddBreedRequest request,
         [FromServices] AddBreedHandler handler,
         CancellationToken token)
     {
-        var command = request.ToCommand(id);
+        var command = request.ToCommand(specieId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -75,14 +75,14 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}/breeds/{breedId:guid}/soft")]
+    [HttpDelete("{specieId:guid}/breeds/{breedId:guid}/soft")]
     public async Task<IActionResult> SoftDeleteBreed(
-        [FromRoute] Guid id,
+        [FromRoute] Guid specieId,
         [FromRoute] Guid breedId,
         [FromServices] SoftDeleteBreedHandler handler,
         CancellationToken token)
     {
-        var command = new SoftDeleteBreedCommand(id, breedId);
+        var command = new SoftDeleteBreedCommand(specieId, breedId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)
@@ -91,14 +91,14 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpDelete("{id:guid}/breeds/{breedId:guid}/hard")]
+    [HttpDelete("{specieId:guid}/breeds/{breedId:guid}/hard")]
     public async Task<IActionResult> HardDeleteBreed(
-        [FromRoute] Guid id,
+        [FromRoute] Guid specieId,
         [FromRoute] Guid breedId,
         [FromServices] HardDeleteBreedHandler handler,
         CancellationToken token)
     {
-        var command = new HardDeleteBreedCommand(id, breedId);
+        var command = new HardDeleteBreedCommand(specieId, breedId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)

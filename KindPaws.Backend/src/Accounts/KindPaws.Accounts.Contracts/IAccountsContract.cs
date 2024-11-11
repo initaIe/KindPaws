@@ -1,4 +1,4 @@
-namespace KindPaws.Accounts.Presentation;
+namespace KindPaws.Accounts.Contracts;
 
 public interface IAccountsContract
 {

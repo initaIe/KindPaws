@@ -1,4 +1,5 @@
-﻿using KindPaws.Core;
+﻿using KindPaws.Accounts.Domain;
+using KindPaws.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,8 @@ namespace KindPaws.Accounts.Infrastructure;
 
 public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
 {
-    // public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
-    // public DbSet<Permission> Permissions => Set<Permission>();
-    // public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
-    // public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
-    // public DbSet<StudentAccount> StudentAccounts => Set<StudentAccount>();
-    // public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,6 +27,9 @@ public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbCo
 
         modelBuilder.HasDefaultSchema("accounts");
 
+        modelBuilder.Entity<User>()
+            .ToTable("users");
+        
         modelBuilder.Entity<Role>()
             .ToTable("roles");
 
@@ -51,7 +51,6 @@ public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbCo
         // modelBuilder.ApplyConfigurationsFromAssembly(
         //     typeof(AccountsWriteDbContext).Assembly,
         //     type => type.FullName?.Contains("Configurations.Write") ?? false);
-
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

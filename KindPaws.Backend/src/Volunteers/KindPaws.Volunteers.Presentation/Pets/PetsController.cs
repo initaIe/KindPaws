@@ -34,13 +34,13 @@ public class PetsController : ApplicationController
         return Ok(result);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{petId:guid}")]
     public async Task<IActionResult> GetPetById(
-        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
         [FromServices] GetPetByIdHandler handler,
         CancellationToken token)
     {
-        var query = new GetPetByIdQuery(id);
+        var query = new GetPetByIdQuery(petId);
 
         var result = await handler.HandleAsync(query, token);
 
@@ -50,13 +50,13 @@ public class PetsController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpGet("{id:guid}/dapper")]
+    [HttpGet("{petId:guid}/dapper")]
     public async Task<IActionResult> GetPetByIdDapper(
-        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
         [FromServices] GetPetByIdDapperHandler handler,
         CancellationToken token)
     {
-        var query = new GetPetByIdQuery(id);
+        var query = new GetPetByIdQuery(petId);
 
         var result = await handler.HandleAsync(query, token);
 

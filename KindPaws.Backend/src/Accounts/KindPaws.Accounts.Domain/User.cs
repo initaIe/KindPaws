@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace KindPaws.Accounts.Infrastructure;
+namespace KindPaws.Accounts.Domain;
 
 public class User : IdentityUser<Guid>
 {

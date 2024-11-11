@@ -1,10 +1,15 @@
 ﻿using Dapper;
 using FluentValidation;
+using KindPaws.Accounts.Infrastructure;
+using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Core.Abstractions;
+using KindPaws.Framework.Authorization;
 using KindPaws.Species.Infrastructure;
 using KindPaws.Species.Presentation;
 using KindPaws.Volunteers.Infrastructure;
 using KindPaws.Volunteers.Presentation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Serilog;
 using Serilog.Events;
 
@@ -34,7 +39,50 @@ public static class DependencyInjection
 
         return services;
     }
+    
+    // Добавление модуля Accounts (Infrastructure and Presentation layers).
+    public static IServiceCollection AddAccountsModule(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddAccountsInfrastructure(configuration);
+        // services.AddAccountsPresentation();
 
+        return services;
+    }
+
+    // Добавление QueryHandlers, CommandHandlers, ExistenceValidators and CommandValidators(FluentValidation).
+    public static IServiceCollection AddApplicationLayers(this IServiceCollection services)
+    {
+        var assemblies = new[]
+        {
+            typeof(Species.Application.DependencyInjection).Assembly,
+            typeof(Volunteers.Application.DependencyInjection).Assembly,
+            typeof(Accounts.Application.DependencyInjection).Assembly,
+        };
+
+        services.Scan(scan => scan.FromAssemblies(assemblies)
+            .AddClasses(classes => classes.AssignableToAny(
+                typeof(ICommandHandler<>), 
+                typeof(ICommandHandler<,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
+
+        services.Scan(scan => scan.FromAssemblies(assemblies)
+            .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
+
+        services.Scan(scan => scan.FromAssemblies(assemblies)
+            .AddClasses(classes => classes.AssignableTo(typeof(IEntitiesExistenceValidator<>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
+
+        services.AddValidatorsFromAssemblies(assemblies);
+
+        return services;
+    }
+    
     // Добавление логгирования и Serilog.
     public static IServiceCollection AddLogging(
         this IServiceCollection services,
@@ -52,33 +100,14 @@ public static class DependencyInjection
 
         return services;
     }
-
-    // Добавление QueryHandlers, CommandHandlers, ExistenceValidators and CommandValidators(FluentValidation).
-    public static IServiceCollection AddApplicationLayers(this IServiceCollection services)
+    
+    public static IServiceCollection AddAuthServices(
+        this IServiceCollection services, 
+        IConfiguration configuration)
     {
-        var assemblies = new[]
-        {
-            typeof(Species.Application.DependencyInjection).Assembly,
-            typeof(Volunteers.Application.DependencyInjection).Assembly,
-        };
-
-        services.Scan(scan => scan.FromAssemblies(assemblies)
-            .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)))
-            .AsSelfWithInterfaces()
-            .WithScopedLifetime());
-
-        services.Scan(scan => scan.FromAssemblies(assemblies)
-            .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
-            .AsSelfWithInterfaces()
-            .WithScopedLifetime());
-
-        services.Scan(scan => scan.FromAssemblies(assemblies)
-            .AddClasses(classes => classes.AssignableTo(typeof(IEntitiesExistenceValidator<>)))
-            .AsSelfWithInterfaces()
-            .WithScopedLifetime());
-
-        services.AddValidatorsFromAssemblies(assemblies);
-
+        services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        
         return services;
     }
 }

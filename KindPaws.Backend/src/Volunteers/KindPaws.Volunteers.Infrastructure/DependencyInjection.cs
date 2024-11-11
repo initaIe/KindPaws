@@ -48,7 +48,6 @@ public static class DependencyInjection
     {
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Volunteers);
         // services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
-        // Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }
@@ -71,8 +70,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.Configure<MinioOptions>(configuration.GetSection(MinioOptions.Minio));
-
+        services.Configure<MinioOptions>(configuration.GetRequiredSection(MinioOptions.Minio));
+        
         services.AddMinio(options =>
         {
             var minioOptions = configuration.GetSection(MinioOptions.Minio).Get<MinioOptions>()
