@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
-using KindPaws.Core.Abstractions;
+using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Handlers;
+using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;

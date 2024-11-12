@@ -1,8 +1,8 @@
-﻿using KindPaws.Core.Abstractions;
-using KindPaws.Core.Dtos;
+﻿using KindPaws.Core.Dtos;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;

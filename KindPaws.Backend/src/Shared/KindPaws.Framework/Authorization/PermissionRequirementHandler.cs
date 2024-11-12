@@ -1,5 +1,4 @@
-﻿using KindPaws.Core.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace KindPaws.Framework.Authorization;
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using KindPaws.Core.Dtos;
-using KindPaws.Volunteers.Application;
+using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

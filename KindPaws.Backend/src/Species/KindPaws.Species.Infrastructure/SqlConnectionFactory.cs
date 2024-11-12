@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using KindPaws.Core;
-using KindPaws.Core.Abstractions;
+using KindPaws.Core.Abstractions.DataBase;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 

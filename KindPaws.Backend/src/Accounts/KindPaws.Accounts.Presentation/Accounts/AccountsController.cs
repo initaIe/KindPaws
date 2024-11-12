@@ -16,13 +16,13 @@ public class AccountsController : ApplicationController
     {
         var command = request.ToCommand();
         var result = await handler.HandleAsync(command);
-        
-        if (result.IsFailure) 
+
+        if (result.IsFailure)
             return result.Error.ToResponse();
-        
+
         return Ok();
     }
-    
+
     [HttpPost("logination")]
     public async Task<IActionResult> Login(
         [FromServices] LoginHandler handler,
@@ -30,17 +30,17 @@ public class AccountsController : ApplicationController
     {
         var command = request.ToCommand();
         var result = await handler.HandleAsync(command);
-        
-        if (result.IsFailure) 
+
+        if (result.IsFailure)
             return result.Error.ToResponse();
-        
+
         return Ok(result.Value);
     }
-    
+
     [Permission("accounts.test")]
     [HttpPost("test")]
     public IActionResult Test()
     {
-       return Ok();
+        return Ok();
     }
 }

@@ -1,8 +1,5 @@
-using System.Text;
-using KindPaws.WEB;
+using KindPaws.WEB.DI;
 using KindPaws.WEB.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 

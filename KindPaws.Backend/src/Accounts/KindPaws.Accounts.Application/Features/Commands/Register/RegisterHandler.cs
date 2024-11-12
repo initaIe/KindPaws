@@ -1,5 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
-using KindPaws.Core.Abstractions;
+using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +22,7 @@ public class RegisterHandler : ICommandHandler<RegisterCommand>
 
 
     public async Task<Result<ErrorList>> HandleAsync(
-        RegisterCommand command, 
+        RegisterCommand command,
         CancellationToken cancellationToken = default)
     {
         var user = new User
@@ -40,7 +40,7 @@ public class RegisterHandler : ICommandHandler<RegisterCommand>
 
             return new ErrorList(errors);
         }
-        
+
         _logger.LogInformation("Registered user with user name {UserName}", user.UserName);
 
         return true;

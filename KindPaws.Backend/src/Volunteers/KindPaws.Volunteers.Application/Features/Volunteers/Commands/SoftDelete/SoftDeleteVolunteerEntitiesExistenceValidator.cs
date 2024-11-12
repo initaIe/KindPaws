@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions;
+﻿using KindPaws.Core.Abstractions.Validators;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;

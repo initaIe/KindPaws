@@ -17,10 +17,6 @@
       <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
       <ProjectReference Include="..\KindPaws.Volunteers.Application\KindPaws.Volunteers.Application.csproj" />
       <ProjectReference Include="..\KindPaws.Volunteers.Domain\KindPaws.Volunteers.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Extensions\" />
     </ItemGroup>    
 
 </Project>

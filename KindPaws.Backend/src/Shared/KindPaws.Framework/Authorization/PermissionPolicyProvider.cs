@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace KindPaws.Framework.Authorization;
 

@@ -1,5 +1,4 @@
-﻿using KindPaws.Core.Abstractions;
-using KindPaws.Core.Dtos;
+﻿using KindPaws.Core.Dtos;
 using KindPaws.Core.Messaging;
 using KindPaws.Volunteers.Application.Interfaces;
 using Microsoft.Extensions.Logging;
