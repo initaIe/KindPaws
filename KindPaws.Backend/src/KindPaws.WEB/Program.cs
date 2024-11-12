@@ -45,10 +45,13 @@ builder.Services.AddSwaggerGen(options =>
 
 // Add logging and all modules dependencies
 builder.Services.AddLogging(builder.Configuration);
+
 builder.Services.AddSpeciesModule();
 builder.Services.AddAccountsModule(builder.Configuration);
 builder.Services.AddVolunteersModule(builder.Configuration);
 builder.Services.AddApplicationLayers();
+
+builder.Services.AddAuthServices(builder.Configuration);
 
 var app = builder.Build();
 

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsWriteDbContext))]
-    [Migration("20241110151652_Initial")]
+    [Migration("20241111152543_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,6 +25,28 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("KindPaws.Accounts.Domain.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permissions");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permissions_code");
+
+                    b.ToTable("permissions", "accounts");
+                });
 
             modelBuilder.Entity("KindPaws.Accounts.Domain.Role", b =>
                 {
@@ -56,6 +78,25 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("roles", "accounts");
+                });
+
+            modelBuilder.Entity("KindPaws.Accounts.Domain.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("permission_id");
+
+                    b.HasKey("RoleId", "PermissionId")
+                        .HasName("pk_role_permissions");
+
+                    b.HasIndex("PermissionId")
+                        .HasDatabaseName("ix_role_permissions_permission_id");
+
+                    b.ToTable("role_permissions", "accounts");
                 });
 
             modelBuilder.Entity("KindPaws.Accounts.Domain.User", b =>
@@ -116,6 +157,11 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text")
                         .HasColumnName("security_stamp");
+
+                    b.Property<string>("SocialNetworks")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("social_networks");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean")
@@ -269,6 +315,27 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                     b.ToTable("user_tokens", "accounts");
                 });
 
+            modelBuilder.Entity("KindPaws.Accounts.Domain.RolePermission", b =>
+                {
+                    b.HasOne("KindPaws.Accounts.Domain.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_role_permissions_permissions_permission_id");
+
+                    b.HasOne("KindPaws.Accounts.Domain.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_role_permissions_roles_role_id");
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("KindPaws.Accounts.Domain.Role", null)
@@ -324,6 +391,11 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_tokens_users_user_id");
+                });
+
+            modelBuilder.Entity("KindPaws.Accounts.Domain.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 #pragma warning restore 612, 618
         }

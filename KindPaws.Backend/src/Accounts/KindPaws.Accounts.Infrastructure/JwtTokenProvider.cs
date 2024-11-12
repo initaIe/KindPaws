@@ -28,10 +28,10 @@ public class JwtTokenProvider : ITokenProvider
 
         var claims = new[]
         {
-            new Claim(CustomClaims.Sub, user.Id.ToString()),
-            new Claim(CustomClaims.Email, user.Email!),
-            new Claim(CustomClaims.NotBefore, expTimeStamp.ToString()),
-            new Claim(CustomClaims.ExpirationTime, nbfTimeStamp.ToString())
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+            new Claim(JwtRegisteredClaimNames.Exp, expTimeStamp.ToString()),
+            new Claim(JwtRegisteredClaimNames.Nbf, nbfTimeStamp.ToString())
         };
 
 

@@ -6,22 +6,22 @@ public static class LengthConstraints
     {
         public const int Zero = 0;
         public const int One = 1;
-        public const int ExtraShort = 5;
-        public const int Short = 10;
-        public const int Medium = 25;
-        public const int Long = 50;
-        public const int ExtraLong = 100;
+        public const int ExtraShort = 8;
+        public const int Short = 16;
+        public const int Medium = 32;
+        public const int Long = 64;
+        public const int ExtraLong = 128;
     }
 
     public static class Max
     {
-        public const int ExtraShort = 20;
-        public const int Short = 50;
-        public const int Medium = 100;
-        public const int Long = 250;
-        public const int ExtraLong = 500;
-        public const int VeryLong = 1000;
-        public const int Extreme = 2000;
-        public const int Huge = 5000;
+        public const int ExtraShort = 32;
+        public const int Short = 64;
+        public const int Medium = 128;
+        public const int Long = 256;
+        public const int ExtraLong = 512;
+        public const int VeryLong = 1024;
+        public const int Extreme = 2048;
+        public const int Huge = 4096;
     }
 }

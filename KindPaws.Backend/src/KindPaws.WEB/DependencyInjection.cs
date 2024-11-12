@@ -88,6 +88,7 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        // TODO: add SerilogOptions
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Seq(configuration.GetConnectionString("Seq")
                          ?? throw new NullReferenceException("Seq connection string not found"))

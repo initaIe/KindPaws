@@ -9,13 +9,6 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         AuthorizationHandlerContext context,
         PermissionAttribute permission)
     {
-        var userId = context.User.Claims.FirstOrDefault(c => c.Type == CustomClaims.Sub)!.Value;
-
-        if (userPermission is null)
-            return;
-        
-        if (userPermission.Value == "Permissions")
-            context.Succeed(permission);
-        
+        context.Succeed(permission);
     }
 }

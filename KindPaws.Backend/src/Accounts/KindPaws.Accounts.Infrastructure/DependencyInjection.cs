@@ -52,6 +52,7 @@ public static class DependencyInjection
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey= true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
         services.AddAuthorization();

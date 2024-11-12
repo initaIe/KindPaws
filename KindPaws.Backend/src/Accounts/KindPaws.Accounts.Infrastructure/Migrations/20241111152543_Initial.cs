@@ -16,6 +16,19 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 name: "accounts");
 
             migrationBuilder.CreateTable(
+                name: "permissions",
+                schema: "accounts",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permissions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "roles",
                 schema: "accounts",
                 columns: table => new
@@ -36,6 +49,7 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -72,6 +86,33 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                     table.PrimaryKey("pk_role_claims", x => x.id);
                     table.ForeignKey(
                         name: "fk_role_claims_roles_role_id",
+                        column: x => x.role_id,
+                        principalSchema: "accounts",
+                        principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "role_permissions",
+                schema: "accounts",
+                columns: table => new
+                {
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_role_permissions", x => new { x.role_id, x.permission_id });
+                    table.ForeignKey(
+                        name: "fk_role_permissions_permissions_permission_id",
+                        column: x => x.permission_id,
+                        principalSchema: "accounts",
+                        principalTable: "permissions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_role_permissions_roles_role_id",
                         column: x => x.role_id,
                         principalSchema: "accounts",
                         principalTable: "roles",
@@ -174,10 +215,23 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_permissions_code",
+                schema: "accounts",
+                table: "permissions",
+                column: "code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "ix_role_claims_role_id",
                 schema: "accounts",
                 table: "role_claims",
                 column: "role_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_permissions_permission_id",
+                schema: "accounts",
+                table: "role_permissions",
+                column: "permission_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -226,6 +280,10 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 schema: "accounts");
 
             migrationBuilder.DropTable(
+                name: "role_permissions",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
                 name: "user_claims",
                 schema: "accounts");
 
@@ -239,6 +297,10 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_tokens",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
+                name: "permissions",
                 schema: "accounts");
 
             migrationBuilder.DropTable(
