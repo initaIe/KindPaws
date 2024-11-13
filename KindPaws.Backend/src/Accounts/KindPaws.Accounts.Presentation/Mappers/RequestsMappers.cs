@@ -11,7 +11,7 @@ public static class RequestsMappers
             request.Email,
             request.UserName,
             request.Password);
-    
+
     public static LoginCommand ToCommand(this LoginRequest request)
         => new(
             request.Email,

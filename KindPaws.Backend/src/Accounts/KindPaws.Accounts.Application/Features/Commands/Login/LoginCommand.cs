@@ -7,5 +7,4 @@ public record LoginCommand(
     string Password)
     : ICommand
 {
-    
 }

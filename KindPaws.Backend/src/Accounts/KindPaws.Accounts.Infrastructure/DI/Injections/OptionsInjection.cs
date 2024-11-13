@@ -10,6 +10,8 @@ public static class OptionsInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.Configure<JwtOptions>(configuration.GetRequiredSection(JwtOptions.Jwt));
+        return services
+            .Configure<JwtOptions>(configuration.GetRequiredSection(JwtOptions.Jwt))
+            .Configure<AccountsSeederOptions>(configuration.GetRequiredSection(AccountsSeederOptions.AccountsSeeder));
     }
 }

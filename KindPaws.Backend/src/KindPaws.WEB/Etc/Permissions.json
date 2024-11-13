@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "code": "create.breed"
+  },
+  {
+    "id": 2,
+    "code": "read.breed"
+  },
+  {
+    "id": 3,
+    "code": "update.breed"
+  },
+  {
+    "id": 4,
+    "code": "hard.delete.breed"
+  },
+  {
+    "id": 5,
+    "code": "soft.delete.breed"
+  },
+  {
+    "id": 6,
+    "code": "create.specie"
+  },
+  {
+    "id": 7,
+    "code": "read.specie"
+  },
+  {
+    "id": 8,
+    "code": "update.specie"
+  },
+  {
+    "id": 9,
+    "code": "hard.delete.specie"
+  },
+  {
+    "id": 10,
+    "code": "soft.delete.specie"
+  }
+]
+
+
+
+
+
+
+
+
+
+
+

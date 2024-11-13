@@ -29,6 +29,7 @@ public class FilesCleanerService : IFilesCleanerService
         _logger.LogInformation("FilesCleanerService starts deleting unnecessary files in minio.");
         foreach (var deleteFileData in deleteFilesData)
             await _fileProvider.DeleteObjectAsync(deleteFileData, cancellationToken);
+
         _logger.LogInformation("FilesCleanerService finished deleting unnecessary files in minio.");
     }
 }

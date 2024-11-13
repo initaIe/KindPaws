@@ -3,7 +3,6 @@ using KindPaws.Accounts.Application.Features.Commands.Register;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Accounts.Presentation.Mappers;
 using KindPaws.Framework;
-using KindPaws.Framework.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.Accounts.Presentation.Controllers;

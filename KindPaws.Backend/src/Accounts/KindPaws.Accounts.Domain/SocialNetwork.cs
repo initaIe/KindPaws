@@ -1,7 +1,31 @@
-﻿namespace KindPaws.Accounts.Domain;
+﻿using System.Text.Json.Serialization;
+using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
 
-public class SocialNetwork
+namespace KindPaws.Accounts.Domain;
+
+public record SocialNetwork
 {
-    public string Name { get; set; } = string.Empty;
-    public string Url { get; set; } = string.Empty;
+    [JsonConstructor]
+    public SocialNetwork()
+    {
+    }
+
+    private SocialNetwork(
+        string name,
+        string link)
+    {
+        Name = name;
+        Link = link;
+    }
+
+    public string Name { get; }
+    public string Link { get; }
+
+    public static Result<SocialNetwork, Error> Create(
+        string name,
+        string link)
+    {
+        return new SocialNetwork(name, link);
+    }
 }

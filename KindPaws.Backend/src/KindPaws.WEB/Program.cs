@@ -1,3 +1,4 @@
+using KindPaws.Accounts.Infrastructure.Seeding;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.Middlewares;
 using Microsoft.OpenApi.Models;
@@ -51,6 +52,10 @@ builder.Services.AddApplicationLayers();
 builder.Services.AddAuthServices(builder.Configuration);
 
 var app = builder.Build();
+
+// TODO refactor
+var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+await accountsSeeder.SeedAsync();
 
 // Add exception middleware
 app.UseMiddlewareException();

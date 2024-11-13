@@ -17,6 +17,6 @@ public static class DependencyInjection
             .AddMessageQueues()
             .AddMinioClient(configuration)
             .AddProviders()
-            .AddOptions();
+            .AddOptions(configuration);
     }
 }

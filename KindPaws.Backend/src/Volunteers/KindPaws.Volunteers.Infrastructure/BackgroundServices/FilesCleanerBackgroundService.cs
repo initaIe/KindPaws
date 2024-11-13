@@ -26,7 +26,8 @@ public class FilesCleanerBackgroundService : BackgroundService
 
         var filesCleanerService = scope.ServiceProvider.GetRequiredService<IFilesCleanerService>();
 
-        while (!stoppingToken.IsCancellationRequested) await filesCleanerService.ProcessAsync(stoppingToken);
+        while (!stoppingToken.IsCancellationRequested)
+            await filesCleanerService.ProcessAsync(stoppingToken);
 
         await Task.CompletedTask;
     }

@@ -1,6 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
 using KindPaws.Core;
-using KindPaws.Core.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +10,8 @@ namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
 public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
 {
-    public DbSet<User> Users => Set<User>();
-    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+    public DbSet<Permission> Permissions => Set<Permission>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -28,39 +27,11 @@ public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbCo
 
         modelBuilder.HasDefaultSchema("accounts");
 
-        modelBuilder.Entity<User>()
-            .ToTable("users");
-
-        modelBuilder.Entity<User>()
-            .Property(u => u.SocialNetworks)
-            .HasJsonConversion()
-            .HasColumnType("jsonb");
-
         modelBuilder.Entity<Role>()
             .ToTable("roles");
 
-        modelBuilder.Entity<Permission>()
-            .ToTable("permissions");
-
-        modelBuilder.Entity<Permission>()
-            .HasIndex(p => p.Code)
-            .IsUnique();
-
-        modelBuilder.Entity<RolePermission>()
-            .ToTable("role_permissions");
-
-        modelBuilder.Entity<RolePermission>()
-            .HasOne(r => r.Role)
-            .WithMany(r => r.RolePermissions)
-            .HasForeignKey(r => r.RoleId);
-
-        modelBuilder.Entity<RolePermission>()
-            .HasOne(r => r.Permission)
-            .WithMany()
-            .HasForeignKey(r => r.PermissionId);
-
-        modelBuilder.Entity<RolePermission>()
-            .HasKey(r => new { r.RoleId, r.PermissionId });
+        modelBuilder.Entity<User>()
+            .ToTable("users");
 
         modelBuilder.Entity<IdentityUserClaim<Guid>>()
             .ToTable("user_claims");

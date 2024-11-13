@@ -7,8 +7,8 @@ public class JwtOptions
     /// </summary>
     public const string Jwt = nameof(Jwt);
 
-    public string Issuer { get; init; }
-    public string Audience { get; init; }
-    public string Key { get; init; }
-    public string ExpiredMinutesTime { get; init; }
+    public string Issuer { get; init; } = null!;
+    public string Audience { get; init; } = null!;
+    public string Key { get; init; } = null!;
+    public string ExpiredMinutesTime { get; init; } = null!;
 }

@@ -49,7 +49,6 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    social_networks = table.Column<string>(type: "jsonb", nullable: false),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -98,12 +97,13 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 schema: "accounts",
                 columns: table => new
                 {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     permission_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_role_permissions", x => new { x.role_id, x.permission_id });
+                    table.PrimaryKey("pk_role_permissions", x => x.id);
                     table.ForeignKey(
                         name: "fk_role_permissions_permissions_permission_id",
                         column: x => x.permission_id,
@@ -215,13 +215,6 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_permissions_code",
-                schema: "accounts",
-                table: "permissions",
-                column: "code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "ix_role_claims_role_id",
                 schema: "accounts",
                 table: "role_claims",
@@ -232,6 +225,12 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 schema: "accounts",
                 table: "role_permissions",
                 column: "permission_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_permissions_role_id",
+                schema: "accounts",
+                table: "role_permissions",
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

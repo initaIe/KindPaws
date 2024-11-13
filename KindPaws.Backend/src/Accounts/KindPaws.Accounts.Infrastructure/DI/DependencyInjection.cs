@@ -16,7 +16,9 @@ public static class DependencyInjection
             .AddCustomIdentity()
             .AddProviders()
             .AddDataBase()
-            .AddOptions();
+            .AddOptions(configuration)
+            .AddSeeders()
+            .AddManagers();
 
         return services;
     }

@@ -6,7 +6,7 @@ namespace KindPaws.Volunteers.Infrastructure.DI.Injections;
 
 public static class OptionsInjection
 {
-    private static IServiceCollection AddOptions(
+    public static IServiceCollection AddOptions(
         this IServiceCollection services,
         IConfiguration configuration)
     {
