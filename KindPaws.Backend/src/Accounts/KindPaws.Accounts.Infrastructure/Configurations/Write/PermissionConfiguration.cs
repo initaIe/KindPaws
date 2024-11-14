@@ -10,7 +10,15 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
     {
         builder.ToTable("permissions");
 
-        builder.HasIndex(p => p.Code)
-            .IsUnique();
+        // ID
+        builder.HasKey(p => p.Id);
+
+        // CODE
+        builder.Property(p => p.Code)
+            .HasColumnName("code")
+            .HasColumnType("citext")
+            .IsRequired();
+
+        builder.HasIndex(p => p.Code).IsUnique();
     }
 }

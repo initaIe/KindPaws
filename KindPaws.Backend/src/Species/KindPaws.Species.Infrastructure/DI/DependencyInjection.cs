@@ -7,8 +7,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddSpeciesInfrastructure(this IServiceCollection services)
     {
-        services
-            .AddDataBase();
+        services.AddDataBase();
 
         return services;
     }

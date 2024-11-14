@@ -80,8 +80,13 @@ public class AccountsSeeder
     {
         _logger.LogInformation("Starting seed permissions.");
 
-        var permissionCodes = permissionsSeedData.Select(p => p.Code);
-        await permissionManager.AddRangeIfNotExistsAsync(permissionCodes, cancellationToken);
+        var permissions = permissionsSeedData.Select(permissionSeedData => new Permission
+        {
+            Id = Guid.NewGuid(),
+            Code = permissionSeedData.Code
+        });
+
+        await permissionManager.AddRangeIfByCodeNotExistsAsync(permissions, cancellationToken);
 
         _logger.LogInformation("Permissions seeding ended.");
     }
@@ -112,7 +117,10 @@ public class AccountsSeeder
             var isRoleExist = await roleManager.RoleExistsAsync(roleSeedData.Name);
 
             if (!isRoleExist)
-                await roleManager.CreateAsync(new Role { Name = roleSeedData.Name });
+                await roleManager.CreateAsync(new Role
+                {
+                    Name = roleSeedData.Name
+                });
         }
 
         _logger.LogInformation("Roles seeding ended.");
@@ -144,6 +152,9 @@ public class AccountsSeeder
     {
         _logger.LogInformation("Starting seed role permissions.");
 
+        rolesSeedData = rolesSeedData.ToList();
+        permissionsSeedData = permissionsSeedData.ToList();
+
         List<RolePermissionDto> rolePermissionsDtos = [];
         foreach (var rolePermission in rolePermissionSeedData)
         {
@@ -151,9 +162,13 @@ public class AccountsSeeder
                 r => r.Id == rolePermission.RoleId)!.Name;
 
             var permissionCode = permissionsSeedData.FirstOrDefault(
-                r => r.Id == rolePermission.PermissionId)!.Code;
+                p => p.Id == rolePermission.PermissionId)!.Code;
 
-            var rolePermissionDto = new RolePermissionDto { RoleName = roleName, PermissionCode = permissionCode };
+            var rolePermissionDto = new RolePermissionDto
+            {
+                RoleName = roleName,
+                PermissionCode = permissionCode
+            };
 
             rolePermissionsDtos.Add(rolePermissionDto);
         }

@@ -1,13 +1,15 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Core;
+using KindPaws.Framework.Options;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace KindPaws.Volunteers.Infrastructure.DbContexts;
 
-public class VolunteersWriteDbContext(IConfiguration configuration)
+public class VolunteersWriteDbContext(IOptions<PostgresOptions> postgresOptions)
     : DbContext
 {
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
@@ -20,7 +22,7 @@ public class VolunteersWriteDbContext(IConfiguration configuration)
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseNpgsql(configuration.GetConnectionString(Constants.Database.Postgres))
+            .UseNpgsql(postgresOptions.Value.ConnectionString)
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateLoggerFactory())
             .EnableSensitiveDataLogging()

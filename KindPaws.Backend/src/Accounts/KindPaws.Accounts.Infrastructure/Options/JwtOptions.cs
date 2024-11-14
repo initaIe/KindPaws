@@ -3,7 +3,7 @@ namespace KindPaws.Accounts.Infrastructure.Options;
 public class JwtOptions
 {
     /// <summary>
-    ///     Section name.
+    ///     Key name in cfg.
     /// </summary>
     public const string Jwt = nameof(Jwt);
 

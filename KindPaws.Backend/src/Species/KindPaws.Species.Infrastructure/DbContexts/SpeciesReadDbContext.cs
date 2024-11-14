@@ -1,15 +1,14 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
-using KindPaws.Core;
 using KindPaws.Core.Dtos;
+using KindPaws.Framework.Options;
 using KindPaws.Species.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace KindPaws.Species.Infrastructure.DbContexts;
 
-public class SpeciesReadDbContext(IConfiguration configuration)
-    : DbContext, ISpeciesReadDbContext
+public class SpeciesReadDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext, ISpeciesReadDbContext
 {
     public IQueryable<SpecieDto> Species => Set<SpecieDto>();
     public IQueryable<BreedDto> Breeds => Set<BreedDto>();
@@ -22,7 +21,7 @@ public class SpeciesReadDbContext(IConfiguration configuration)
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseNpgsql(configuration.GetConnectionString(Constants.Database.Postgres))
+            .UseNpgsql(postgresOptions.Value.ConnectionString)
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(CreateLoggerFactory())
             .EnableSensitiveDataLogging()

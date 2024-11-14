@@ -1,0 +1,16 @@
+﻿using KindPaws.Framework.Options;
+
+namespace KindPaws.WEB.DI.Injections.Others;
+
+public static class OptionsInjection
+{
+    public static IServiceCollection AddOptions(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.Configure<PostgresOptions>(configuration.GetRequiredSection(PostgresOptions.Postgres));
+        services.Configure<SeqOptions>(configuration.GetRequiredSection(SeqOptions.Seq));
+
+        return services;
+    }
+}

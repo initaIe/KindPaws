@@ -38,5 +38,53 @@
   {
     "roleId": 1,
     "permissionId": 10
+  },
+  {
+    "roleId": 2,
+    "permissionId": 1
+  },
+  {
+    "roleId": 2,
+    "permissionId": 2
+  },
+  {
+    "roleId": 2,
+    "permissionId": 3
+  },
+  {
+    "roleId": 2,
+    "permissionId": 5
+  },
+  {
+    "roleId": 2,
+    "permissionId": 6
+  },
+  {
+    "roleId": 2,
+    "permissionId": 7
+  },
+  {
+    "roleId": 2,
+    "permissionId": 8
+  },
+  {
+    "roleId": 2,
+    "permissionId": 10
+  },
+  {
+    "roleId": 3,
+    "permissionId": 2
+  },
+  {
+    "roleId": 3,
+    "permissionId": 7
+  },
+  {
+    "roleId": 4,
+    "permissionId": 2
+  },
+  {
+    "roleId": 4,
+    "permissionId": 7
   }
 ]

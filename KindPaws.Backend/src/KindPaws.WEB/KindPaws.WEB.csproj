@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -43,6 +44,10 @@
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Domain\KindPaws.Volunteers.Domain.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Infrastructure\KindPaws.Volunteers.Infrastructure.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Presentation\KindPaws.Volunteers.Presentation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DI\Injections\Authentication\" />
     </ItemGroup>    
 
 </Project>

@@ -1,21 +1,23 @@
 ﻿using KindPaws.Accounts.Domain;
 using KindPaws.Core;
-using Microsoft.AspNetCore.Identity;
+using KindPaws.Framework.Options;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
-public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
+public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+    : IdentityDbContext<User, Role, Guid>
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<Permission> Permissions => Set<Permission>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.Database.Postgres));
+        optionsBuilder.UseNpgsql(postgresOptions.Value.ConnectionString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
@@ -24,33 +26,11 @@ public class AccountsWriteDbContext(IConfiguration configuration) : IdentityDbCo
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         modelBuilder.HasDefaultSchema("accounts");
 
-        modelBuilder.Entity<Role>()
-            .ToTable("roles");
-
-        modelBuilder.Entity<User>()
-            .ToTable("users");
-
-        modelBuilder.Entity<IdentityUserClaim<Guid>>()
-            .ToTable("user_claims");
-
-        modelBuilder.Entity<IdentityUserToken<Guid>>()
-            .ToTable("user_tokens");
-
-        modelBuilder.Entity<IdentityUserLogin<Guid>>()
-            .ToTable("user_logins");
-
-        modelBuilder.Entity<IdentityRoleClaim<Guid>>()
-            .ToTable("role_claims");
-
-        modelBuilder.Entity<IdentityUserRole<Guid>>()
-            .ToTable("user_roles");
-
-        // modelBuilder.ApplyConfigurationsFromAssembly(
-        //     typeof(AccountsWriteDbContext).Assembly,
-        //     type => type.FullName?.Contains("Configurations.Write") ?? false);
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(AccountsWriteDbContext).Assembly,
+            type => type.FullName?.Contains("Configurations.Write") ?? false);
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

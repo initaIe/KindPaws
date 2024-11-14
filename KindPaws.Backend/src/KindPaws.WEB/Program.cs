@@ -1,8 +1,11 @@
+using DotNetEnv;
 using KindPaws.Accounts.Infrastructure.Seeding;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.Middlewares;
 using Microsoft.OpenApi.Models;
 using Serilog;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,15 +44,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Add logging and all modules dependencies
-builder.Services.AddLogging(builder.Configuration);
-
-builder.Services.AddSpeciesModule();
-builder.Services.AddAccountsModule(builder.Configuration);
-builder.Services.AddVolunteersModule(builder.Configuration);
-builder.Services.AddApplicationLayers();
-
-builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddAll(builder.Configuration);
 
 var app = builder.Build();
 

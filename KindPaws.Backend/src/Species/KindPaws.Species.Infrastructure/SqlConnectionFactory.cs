@@ -1,20 +1,20 @@
 ﻿using System.Data;
-using KindPaws.Core;
 using KindPaws.Core.Abstractions.DataBase;
-using Microsoft.Extensions.Configuration;
+using KindPaws.Framework.Options;
+using Microsoft.Extensions.Options;
 using Npgsql;
 
 namespace KindPaws.Species.Infrastructure;
 
 public class SqlConnectionFactory : ISqlConnectionFactory
 {
-    private readonly IConfiguration _configuration;
+    private readonly PostgresOptions _postgresOptions;
 
-    public SqlConnectionFactory(IConfiguration configuration)
+    public SqlConnectionFactory(IOptions<PostgresOptions> postgresOptions)
     {
-        _configuration = configuration;
+        _postgresOptions = postgresOptions.Value;
     }
 
-    public IDbConnection Create() =>
-        new NpgsqlConnection(_configuration.GetConnectionString(Constants.Database.Postgres));
+    public IDbConnection Create()
+        => new NpgsqlConnection(_postgresOptions.ConnectionString);
 }

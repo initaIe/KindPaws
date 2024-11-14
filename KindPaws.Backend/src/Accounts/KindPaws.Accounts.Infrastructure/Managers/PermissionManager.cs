@@ -13,18 +13,18 @@ public class PermissionManager
         _dbContext = dbContext;
     }
 
-    public async Task AddRangeIfNotExistsAsync(
-        IEnumerable<string> permissionCodes,
+    public async Task AddRangeIfByCodeNotExistsAsync(
+        IEnumerable<Permission> permissions,
         CancellationToken cancellationToken = default)
     {
         List<Permission> permissionsToAdd = [];
-        foreach (var permissionCode in permissionCodes)
+        foreach (var permission in permissions)
         {
-            var isPermissionExist = await _dbContext.Permissions
-                .AnyAsync(p => p.Code == permissionCode, cancellationToken);
+            var isPermissionByCodeExist = await _dbContext.Permissions
+                .AnyAsync(p => p.Code == permission.Code, cancellationToken);
 
-            if (!isPermissionExist)
-                permissionsToAdd.Add(new Permission { Code = permissionCode });
+            if (!isPermissionByCodeExist)
+                permissionsToAdd.Add(permission);
         }
 
         await _dbContext.Permissions.AddRangeAsync(permissionsToAdd, cancellationToken);
