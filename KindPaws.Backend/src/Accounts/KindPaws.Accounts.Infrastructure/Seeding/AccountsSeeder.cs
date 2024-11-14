@@ -10,135 +10,105 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Accounts.Infrastructure.Seeding;
 
-public class AccountsSeeder
+// TODO: мб переделать на хостед сервис чтобы умирал после завершения работы
+public class AccountsSeederService
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ILogger<AccountsSeeder> _logger;
     private readonly AccountsSeederOptions _accountsSeederOptions;
+    private readonly PermissionManager _permissionManager;
+    private readonly RoleManager<Role> _roleManager;
+    private readonly RolePermissionManager _rolePermissionManager;
 
-    public AccountsSeeder(
-        IServiceScopeFactory serviceScopeFactory,
-        ILogger<AccountsSeeder> logger,
-        IOptions<AccountsSeederOptions> options)
+    public AccountsSeederService(
+        IOptions<AccountsSeederOptions> accountsSeederOptions,
+        ILogger<AccountsSeederService> logger,
+        PermissionManager permissionManager, 
+        RoleManager<Role> roleManager, 
+        RolePermissionManager rolePermissionManager)
     {
-        _serviceScopeFactory = serviceScopeFactory;
-        _logger = logger;
-        _accountsSeederOptions = options.Value;
+        _accountsSeederOptions = accountsSeederOptions.Value;
+        _permissionManager = permissionManager;
+        _roleManager = roleManager;
+        _rolePermissionManager = rolePermissionManager;
     }
 
-    public async Task SeedAsync(CancellationToken cancellationToken = default)
+    public async Task ProcessAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting seed accounts...");
-
-        await using var scope = _serviceScopeFactory.CreateAsyncScope();
-
-        var permissionManager = scope.ServiceProvider.GetRequiredService<PermissionManager>();
         var permissionsSeedData = await GetPermissionsSeedDataAsync(cancellationToken);
         await SeedPermissionsAsync(
             permissionsSeedData,
-            permissionManager,
             cancellationToken);
 
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
         var rolesSeedData = await GetRolesSeedDataAsync(cancellationToken);
         await SeedRolesAsync(
-            rolesSeedData,
-            roleManager);
+            rolesSeedData);
 
-        var rolePermissionManager = scope.ServiceProvider.GetRequiredService<RolePermissionManager>();
         var rolePermissionSeedData = await GetRolePermissionsSeedDataAsync(cancellationToken);
         await SeedRolePermissionsAsync(
             permissionsSeedData,
             rolesSeedData,
             rolePermissionSeedData,
-            rolePermissionManager,
             cancellationToken);
-
-        _logger.LogInformation("Accounts seeding ended.");
     }
-
+    
     private async Task<List<PermissionConfig>> GetPermissionsSeedDataAsync(
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting reading permissions...");
-
         var permissionsJson = await File.ReadAllTextAsync(_accountsSeederOptions.PermissionsPath, cancellationToken);
 
         var permissionsSeedData = JsonSerializer.Deserialize<List<PermissionConfig>>
                                       (permissionsJson, JsonSerializerOptions.Default)
                                   ?? throw new ApplicationException("Permissions json is empty.");
 
-        _logger.LogInformation("Permissions reading ended.");
-
         return permissionsSeedData;
     }
 
     private async Task SeedPermissionsAsync(
         IEnumerable<PermissionConfig> permissionsSeedData,
-        PermissionManager permissionManager,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting seed permissions.");
-
         var permissions = permissionsSeedData.Select(permissionSeedData => new Permission
         {
             Id = Guid.NewGuid(),
             Code = permissionSeedData.Code
         });
 
-        await permissionManager.AddRangeIfByCodeNotExistsAsync(permissions, cancellationToken);
-
-        _logger.LogInformation("Permissions seeding ended.");
+        await _permissionManager.AddRangeIfByCodeNotExistsAsync(permissions, cancellationToken);
     }
 
     private async Task<List<RoleConfig>> GetRolesSeedDataAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting reading roles...");
-
         var rolesJson = await File.ReadAllTextAsync(_accountsSeederOptions.RolesPath, cancellationToken);
 
         var rolesSeedData = JsonSerializer.Deserialize<List<RoleConfig>>
                                 (rolesJson, JsonSerializerOptions.Default)
                             ?? throw new ApplicationException("Roles json is empty.");
 
-        _logger.LogInformation("Roles reading ended.");
-
         return rolesSeedData;
     }
 
-    private async Task SeedRolesAsync(
-        IEnumerable<RoleConfig> rolesSeedData,
-        RoleManager<Role> roleManager)
+    private async Task SeedRolesAsync(IEnumerable<RoleConfig> rolesSeedData)
     {
-        _logger.LogInformation("Starting seed roles.");
-
         foreach (var roleSeedData in rolesSeedData)
         {
-            var isRoleExist = await roleManager.RoleExistsAsync(roleSeedData.Name);
+            var isRoleExist = await _roleManager.RoleExistsAsync(roleSeedData.Name);
 
             if (!isRoleExist)
-                await roleManager.CreateAsync(new Role
+                await _roleManager.CreateAsync(new Role
                 {
                     Name = roleSeedData.Name
                 });
         }
-
-        _logger.LogInformation("Roles seeding ended.");
     }
 
     private async Task<List<RolePermissionConfig>> GetRolePermissionsSeedDataAsync(
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting reading role permissions...");
-
         var rolePermissionJson =
             await File.ReadAllTextAsync(_accountsSeederOptions.RolePermissionsPath, cancellationToken);
 
         var rolePermissionsSeedData = JsonSerializer.Deserialize<List<RolePermissionConfig>>
                                           (rolePermissionJson, JsonSerializerOptions.Default)
                                       ?? throw new ApplicationException("Role permissions json is empty.");
-
-        _logger.LogInformation("Role permissions reading ended.");
 
         return rolePermissionsSeedData;
     }
@@ -147,11 +117,8 @@ public class AccountsSeeder
         IEnumerable<PermissionConfig> permissionsSeedData,
         IEnumerable<RoleConfig> rolesSeedData,
         IEnumerable<RolePermissionConfig> rolePermissionSeedData,
-        RolePermissionManager rolePermissionManager,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting seed role permissions.");
-
         rolesSeedData = rolesSeedData.ToList();
         permissionsSeedData = permissionsSeedData.ToList();
 
@@ -173,8 +140,32 @@ public class AccountsSeeder
             rolePermissionsDtos.Add(rolePermissionDto);
         }
 
-        await rolePermissionManager.AddRangeIfNotExistsAsync(rolePermissionsDtos, cancellationToken);
+        await _rolePermissionManager.AddRangeIfNotExistsAsync(rolePermissionsDtos, cancellationToken);
+    }
+}
 
-        _logger.LogInformation("Roles seeding ended.");
+
+public class AccountsSeeder
+{
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly ILogger<AccountsSeeder> _logger;
+
+    public AccountsSeeder(
+        IServiceScopeFactory serviceScopeFactory,
+        ILogger<AccountsSeeder> logger)
+    {
+        _serviceScopeFactory = serviceScopeFactory;
+        _logger = logger;
+    }
+
+    public async Task SeedAsync(CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Starting seed accounts...");
+
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var seederService = scope.ServiceProvider.GetRequiredService<AccountsSeederService>();
+        await seederService.ProcessAsync(cancellationToken);
+
+        _logger.LogInformation("Accounts seeding ended.");
     }
 }

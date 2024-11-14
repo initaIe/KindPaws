@@ -18,7 +18,8 @@ public static class DependencyInjection
             .AddDataBase()
             .AddOptions(configuration)
             .AddSeeders()
-            .AddManagers();
+            .AddManagers()
+            .AddServices();
 
         return services;
     }
