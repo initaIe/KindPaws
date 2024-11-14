@@ -30,4 +30,16 @@ public class PermissionManager
         await _dbContext.Permissions.AddRangeAsync(permissionsToAdd, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
+    
+    public List<Permission> GetUserPermissions(Guid userId)
+    {
+        return _dbContext.Users
+            .Include(u => u.Roles)
+            .Where(u => u.Id == userId)
+            .SelectMany(u => u.Roles)
+            .SelectMany(r => r.RolePermissions)
+            .Select(rp => rp.Permission)
+            .ToHashSet()
+            .ToList();
+    }
 }

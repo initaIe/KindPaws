@@ -4,6 +4,6 @@ namespace KindPaws.Accounts.Infrastructure.Seeding.Configs;
 
 public class PermissionConfig
 {
-    [JsonPropertyName("id")] public int Id { get; set; }
-    [JsonPropertyName("code")] public string Code { get; set; } = null!;
+    public int Id { get; set; }
+    public string Code { get; set; } = null!;
 }

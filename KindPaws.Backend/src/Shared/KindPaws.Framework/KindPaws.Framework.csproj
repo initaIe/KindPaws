@@ -15,4 +15,8 @@
       <ProjectReference Include="..\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
+    </ItemGroup>
+
 </Project>

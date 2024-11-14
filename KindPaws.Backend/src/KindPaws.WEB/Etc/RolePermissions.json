@@ -1,90 +1,90 @@
 ﻿[
   {
-    "roleId": 1,
-    "permissionId": 1
+    "RoleId": 1,
+    "PermissionId": 1
   },
   {
-    "roleId": 1,
-    "permissionId": 2
+    "RoleId": 1,
+    "PermissionId": 2
   },
   {
-    "roleId": 1,
-    "permissionId": 3
+    "RoleId": 1,
+    "PermissionId": 3
   },
   {
-    "roleId": 1,
-    "permissionId": 4
+    "RoleId": 1,
+    "PermissionId": 4
   },
   {
-    "roleId": 1,
-    "permissionId": 5
+    "RoleId": 1,
+    "PermissionId": 5
   },
   {
-    "roleId": 1,
-    "permissionId": 6
+    "RoleId": 1,
+    "PermissionId": 6
   },
   {
-    "roleId": 1,
-    "permissionId": 7
+    "RoleId": 1,
+    "PermissionId": 7
   },
   {
-    "roleId": 1,
-    "permissionId": 8
+    "RoleId": 1,
+    "PermissionId": 8
   },
   {
-    "roleId": 1,
-    "permissionId": 9
+    "RoleId": 1,
+    "PermissionId": 9
   },
   {
-    "roleId": 1,
-    "permissionId": 10
+    "RoleId": 1,
+    "PermissionId": 10
   },
   {
-    "roleId": 2,
-    "permissionId": 1
+    "RoleId": 2,
+    "PermissionId": 1
   },
   {
-    "roleId": 2,
-    "permissionId": 2
+    "RoleId": 2,
+    "PermissionId": 2
   },
   {
-    "roleId": 2,
-    "permissionId": 3
+    "RoleId": 2,
+    "PermissionId": 3
   },
   {
-    "roleId": 2,
-    "permissionId": 5
+    "RoleId": 2,
+    "PermissionId": 5
   },
   {
-    "roleId": 2,
-    "permissionId": 6
+    "RoleId": 2,
+    "PermissionId": 6
   },
   {
-    "roleId": 2,
-    "permissionId": 7
+    "RoleId": 2,
+    "PermissionId": 7
   },
   {
-    "roleId": 2,
-    "permissionId": 8
+    "RoleId": 2,
+    "PermissionId": 8
   },
   {
-    "roleId": 2,
-    "permissionId": 10
+    "RoleId": 2,
+    "PermissionId": 10
   },
   {
-    "roleId": 3,
-    "permissionId": 2
+    "RoleId": 3,
+    "PermissionId": 2
   },
   {
-    "roleId": 3,
-    "permissionId": 7
+    "RoleId": 3,
+    "PermissionId": 7
   },
   {
-    "roleId": 4,
-    "permissionId": 2
+    "RoleId": 4,
+    "PermissionId": 2
   },
   {
-    "roleId": 4,
-    "permissionId": 7
+    "RoleId": 4,
+    "PermissionId": 7
   }
 ]

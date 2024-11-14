@@ -14,6 +14,7 @@ public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

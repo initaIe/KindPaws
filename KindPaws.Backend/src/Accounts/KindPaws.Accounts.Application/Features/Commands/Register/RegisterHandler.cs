@@ -25,23 +25,23 @@ public class RegisterHandler : ICommandHandler<RegisterCommand>
         RegisterCommand command,
         CancellationToken cancellationToken = default)
     {
-        var user = new User
-        {
-            Email = command.Email,
-            UserName = command.UserName
-        };
-
-        var creationResult = await _userManager.CreateAsync(user, command.Password);
-
-        if (!creationResult.Succeeded)
-        {
-            var errors = creationResult.Errors
-                .Select(e => Error.Validation(e.Code, e.Description));
-
-            return new ErrorList(errors);
-        }
-
-        _logger.LogInformation("Registered user with user name {UserName}", user.UserName);
+        // var user = new User
+        // {
+        //     Email = command.Email,
+        //     UserName = command.UserName
+        // };
+        //
+        // var creationResult = await _userManager.CreateAsync(user, command.Password);
+        //
+        // if (!creationResult.Succeeded)
+        // {
+        //     var errors = creationResult.Errors
+        //         .Select(e => Error.Validation(e.Code, e.Description));
+        //
+        //     return new ErrorList(errors);
+        // }
+        //
+        // _logger.LogInformation("Registered user with user name {UserName}", user.UserName);
 
         return true;
     }
