@@ -3,9 +3,9 @@
 public class SeqOptions
 {
     /// <summary>
-    ///     Key name in cfg.
+    ///     Section name in IConfiguration.
     /// </summary>
-    public const string Seq = nameof(Seq);
+    public const string SectionName = nameof(SeqOptions);
 
     public string ConnectionString { get; set; } = null!;
     public string AspNetCoreMinimumLevel { get; set; } = null!;

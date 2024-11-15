@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Accounts.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Accounts_20241115_200732 : Migration
+    public partial class Accounts_20241116_000057 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -153,6 +153,7 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    jti = table.Column<Guid>(type: "uuid", nullable: false),
                     refresh_token = table.Column<Guid>(type: "uuid", nullable: false),
                     expires_in = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

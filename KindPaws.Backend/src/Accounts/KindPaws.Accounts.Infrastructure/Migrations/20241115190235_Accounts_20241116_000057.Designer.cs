@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsWriteDbContext))]
-    [Migration("20241115150900_Accounts_20241115_200732")]
-    partial class Accounts_20241115_200732
+    [Migration("20241115190235_Accounts_20241116_000057")]
+    partial class Accounts_20241116_000057
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,10 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                     b.Property<DateTime>("ExpiresIn")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_in");
+
+                    b.Property<Guid>("Jti")
+                        .HasColumnType("uuid")
+                        .HasColumnName("jti");
 
                     b.Property<Guid>("RefreshToken")
                         .HasColumnType("uuid")

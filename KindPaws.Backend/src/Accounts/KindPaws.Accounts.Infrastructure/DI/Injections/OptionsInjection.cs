@@ -11,7 +11,9 @@ public static class OptionsInjection
         IConfiguration configuration)
     {
         return services
-            .Configure<JwtAccessTokenOptions>(configuration.GetRequiredSection(JwtAccessTokenOptions.JwtAccessToken))
-            .Configure<AccountsSeederOptions>(configuration.GetRequiredSection(AccountsSeederOptions.AccountsSeeder));
+            .Configure<JwtBearerOptions>(configuration.GetRequiredSection(JwtBearerOptions.SectionName))
+            .Configure<AccountsSeedingOptions>(configuration.GetRequiredSection(AccountsSeedingOptions.SectionName))
+            .Configure<RefreshTokenOptions>(configuration.GetRequiredSection(RefreshTokenOptions.SectionName));
+
     }
 }

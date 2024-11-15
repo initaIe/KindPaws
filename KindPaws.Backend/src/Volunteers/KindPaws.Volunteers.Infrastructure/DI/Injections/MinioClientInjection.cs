@@ -13,7 +13,7 @@ public static class MinioClientInjection
     {
         services.AddMinio(options =>
         {
-            var minioOptions = configuration.GetRequiredSection(MinioOptions.Minio).Get<MinioOptions>()!;
+            var minioOptions = configuration.GetRequiredSection(MinioOptions.SectionName).Get<MinioOptions>()!;
 
             options.WithEndpoint(minioOptions.Endpoint);
             options.WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey);

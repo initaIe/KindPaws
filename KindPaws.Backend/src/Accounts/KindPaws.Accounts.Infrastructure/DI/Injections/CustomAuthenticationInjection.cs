@@ -1,10 +1,7 @@
-﻿using System.Text;
-using KindPaws.Accounts.Infrastructure.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using JwtBearerOptions = KindPaws.Accounts.Infrastructure.Options.JwtBearerOptions;
 
 namespace KindPaws.Accounts.Infrastructure.DI.Injections;
 
@@ -24,10 +21,10 @@ public static class CustomAuthenticationInjection
             })
             .AddJwtBearer(options =>
             {
-                var jwtAccessTokenOptions = configuration.GetRequiredSection(JwtAccessTokenOptions.JwtAccessToken).Get<JwtAccessTokenOptions>()
-                                 ?? throw new NullReferenceException("Missing jwt configurations.");
+                var jwtAccessTokenOptions = configuration.GetRequiredSection(JwtBearerOptions.SectionName)
+                    .Get<JwtBearerOptions>();
 
-                options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions);
+                options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions!);
             });
         
         return services;

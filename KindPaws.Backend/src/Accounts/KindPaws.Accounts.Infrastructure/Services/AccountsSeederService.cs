@@ -11,7 +11,7 @@ namespace KindPaws.Accounts.Infrastructure.Services;
 
 public class AccountsSeederService
 {
-    private readonly AccountsSeederOptions _accountsSeederOptions;
+    private readonly AccountsSeedingOptions _accountsSeedingOptions;
     private readonly PermissionManager _permissionManager;
     private readonly RoleManager<Role> _roleManager;
     private readonly RolePermissionManager _rolePermissionManager;
@@ -19,14 +19,14 @@ public class AccountsSeederService
     private readonly AccountsManager _accountsManager;
 
     public AccountsSeederService(
-        IOptions<AccountsSeederOptions> accountsSeederOptions,
+        IOptions<AccountsSeedingOptions> accountsSeederOptions,
         PermissionManager permissionManager, 
         RoleManager<Role> roleManager, 
         RolePermissionManager rolePermissionManager,
         UserManager<User> userManager, 
         AccountsManager accountsManager)
     {
-        _accountsSeederOptions = accountsSeederOptions.Value;
+        _accountsSeedingOptions = accountsSeederOptions.Value;
         _permissionManager = permissionManager;
         _roleManager = roleManager;
         _rolePermissionManager = rolePermissionManager;
@@ -58,7 +58,7 @@ public class AccountsSeederService
     private async Task<List<PermissionConfig>> GetPermissionsSeedDataAsync(
         CancellationToken cancellationToken = default)
     {
-        var permissionsJson = await File.ReadAllTextAsync(_accountsSeederOptions.PermissionsPath, cancellationToken);
+        var permissionsJson = await File.ReadAllTextAsync(_accountsSeedingOptions.PermissionsPath, cancellationToken);
 
         var permissionsSeedData = JsonSerializer.Deserialize<List<PermissionConfig>>
                                       (permissionsJson, JsonSerializerOptions.Default)
@@ -82,7 +82,7 @@ public class AccountsSeederService
 
     private async Task<List<RoleConfig>> GetRolesSeedDataAsync(CancellationToken cancellationToken = default)
     {
-        var rolesJson = await File.ReadAllTextAsync(_accountsSeederOptions.RolesPath, cancellationToken);
+        var rolesJson = await File.ReadAllTextAsync(_accountsSeedingOptions.RolesPath, cancellationToken);
 
         var rolesSeedData = JsonSerializer.Deserialize<List<RoleConfig>>
                                 (rolesJson, JsonSerializerOptions.Default)
@@ -109,7 +109,7 @@ public class AccountsSeederService
         CancellationToken cancellationToken = default)
     {
         var rolePermissionJson =
-            await File.ReadAllTextAsync(_accountsSeederOptions.RolePermissionsPath, cancellationToken);
+            await File.ReadAllTextAsync(_accountsSeedingOptions.RolePermissionsPath, cancellationToken);
 
         var rolePermissionsSeedData = JsonSerializer.Deserialize<List<RolePermissionConfig>>
                                           (rolePermissionJson, JsonSerializerOptions.Default)
@@ -153,21 +153,21 @@ public class AccountsSeederService
         var adminRole = await _roleManager.FindByNameAsync(AdminAccount.Admin)
                         ?? throw new ApplicationException("Admin role was not found.");
 
-        var seedAdmin = await _userManager.FindByEmailAsync(_accountsSeederOptions.AdminSeedOptions.Email);
+        var seedAdmin = await _userManager.FindByEmailAsync(_accountsSeedingOptions.AdminCredentials.Email);
         var isSeedAdminAlreadyExist = seedAdmin != null;
         if (isSeedAdminAlreadyExist)
             return;
 
         var adminUser = User.CreateAdmin(
-            _accountsSeederOptions.AdminSeedOptions.UserName, 
-            _accountsSeederOptions.AdminSeedOptions.Email,
+            _accountsSeedingOptions.AdminCredentials.UserName, 
+            _accountsSeedingOptions.AdminCredentials.Email,
             adminRole);
-        await _userManager.CreateAsync(adminUser, _accountsSeederOptions.AdminSeedOptions.Password);
+        await _userManager.CreateAsync(adminUser, _accountsSeedingOptions.AdminCredentials.Password);
 
         var fullName = FullName.Create(
-            _accountsSeederOptions.AdminSeedOptions.UserName,
-            _accountsSeederOptions.AdminSeedOptions.UserName,
-            _accountsSeederOptions.AdminSeedOptions.UserName).Value;
+            _accountsSeedingOptions.AdminCredentials.UserName,
+            _accountsSeedingOptions.AdminCredentials.UserName,
+            _accountsSeedingOptions.AdminCredentials.UserName).Value;
 
         var adminAccount = new AdminAccount(adminUser, fullName);
         await _accountsManager.CreateAdminAccount(adminAccount);

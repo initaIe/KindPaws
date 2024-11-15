@@ -13,7 +13,7 @@ public static class LoggersInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var seqOptions = configuration.GetRequiredSection(SeqOptions.Seq).Get<SeqOptions>()!;
+        var seqOptions = configuration.GetRequiredSection(SeqOptions.SectionName).Get<SeqOptions>()!;
 
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Seq(seqOptions.ConnectionString)

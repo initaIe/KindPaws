@@ -1,4 +1,5 @@
 using DotNetEnv;
+using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.Middlewares;
@@ -8,6 +9,7 @@ using Serilog;
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+var zxc = builder.Configuration;
 
 // lower case routing
 builder.Services.AddRouting(options => options.LowercaseUrls = true);

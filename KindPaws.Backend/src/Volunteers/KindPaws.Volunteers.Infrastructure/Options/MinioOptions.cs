@@ -3,9 +3,9 @@
 public class MinioOptions
 {
     /// <summary>
-    ///     Key name in cfg.
+    ///     Section name in IConfiguration.
     /// </summary>
-    public const string Minio = nameof(Minio);
+    public const string SectionName = nameof(MinioOptions);
 
     public string Endpoint { get; init; } = string.Empty;
     public string AccessKey { get; init; } = string.Empty;

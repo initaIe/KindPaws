@@ -3,9 +3,9 @@
 public class PostgresOptions
 {
     /// <summary>
-    ///     Key name in cfg.
+    ///     Section name in IConfiguration.
     /// </summary>
-    public const string Postgres = nameof(Postgres);
+    public const string SectionName = nameof(PostgresOptions);
 
     public string ConnectionString { get; set; } = null!;
 }

@@ -3,9 +3,9 @@
 public class RefreshTokenOptions
 {
     /// <summary>
-    ///     Key name in cfg.
+    ///     Section name in IConfiguration.
     /// </summary>
-    public const string RefreshToken = nameof(RefreshToken);
+    public const string SectionName = nameof(RefreshTokenOptions);
 
     public int ExpiresInDays { get; init; } 
 }

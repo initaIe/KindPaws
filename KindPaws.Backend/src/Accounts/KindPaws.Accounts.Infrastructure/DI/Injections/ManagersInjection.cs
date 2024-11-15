@@ -1,4 +1,5 @@
-﻿using KindPaws.Accounts.Infrastructure.Managers;
+﻿using KindPaws.Accounts.Application.Abstractions;
+using KindPaws.Accounts.Infrastructure.Managers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Accounts.Infrastructure.DI.Injections;
@@ -10,6 +11,7 @@ public static class ManagersInjection
         return services
             .AddScoped<PermissionManager>()
             .AddScoped<AccountsManager>()
+            .AddScoped<IRefreshSessionManager, RefreshSessionManager>()
             .AddScoped<RolePermissionManager>();
     }
 }

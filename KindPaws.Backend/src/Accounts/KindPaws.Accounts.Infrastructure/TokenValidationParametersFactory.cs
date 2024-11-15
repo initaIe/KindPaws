@@ -6,34 +6,34 @@ namespace KindPaws.Accounts.Infrastructure;
 
 public static class TokenValidationParametersFactory
 {
-    public static TokenValidationParameters Create(JwtAccessTokenOptions jwtAccessTokenOptions)
+    public static TokenValidationParameters Create(JwtBearerOptions jwtBearerOptions)
     {
         return new TokenValidationParameters()
         {
-            ValidIssuer = jwtAccessTokenOptions.Issuer,
-            ValidAudience = jwtAccessTokenOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAccessTokenOptions.Key)),
-            ValidateIssuer = jwtAccessTokenOptions.ShouldValidateIssuer,
-            ValidateAudience = jwtAccessTokenOptions.ShouldValidateAudience,
-            ValidateLifetime = jwtAccessTokenOptions.ShouldValidateLifetime,
-            ValidateIssuerSigningKey = jwtAccessTokenOptions.ShouldValidateIssuerSigningKey,
-            ClockSkew = TimeSpan.FromMinutes(jwtAccessTokenOptions.ClockSkewInMinutes)
+            ValidIssuer = jwtBearerOptions.Issuer,
+            ValidAudience = jwtBearerOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerOptions.Key)),
+            ValidateIssuer = jwtBearerOptions.ShouldValidateIssuer,
+            ValidateAudience = jwtBearerOptions.ShouldValidateAudience,
+            ValidateLifetime = jwtBearerOptions.ShouldValidateLifetime,
+            ValidateIssuerSigningKey = jwtBearerOptions.ShouldValidateIssuerSigningKey,
+            ClockSkew = TimeSpan.FromMinutes(jwtBearerOptions.ClockSkewInMinutes)
         };
     }
     
     public static TokenValidationParameters CreateWithoutValidationLifeTime(
-        JwtAccessTokenOptions jwtAccessTokenOptions)
+        JwtBearerOptions jwtBearerOptions)
     {
         return new TokenValidationParameters()
         {
-            ValidIssuer = jwtAccessTokenOptions.Issuer,
-            ValidAudience = jwtAccessTokenOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAccessTokenOptions.Key)),
-            ValidateIssuer = jwtAccessTokenOptions.ShouldValidateIssuer,
-            ValidateAudience = jwtAccessTokenOptions.ShouldValidateAudience,
+            ValidIssuer = jwtBearerOptions.Issuer,
+            ValidAudience = jwtBearerOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerOptions.Key)),
+            ValidateIssuer = jwtBearerOptions.ShouldValidateIssuer,
+            ValidateAudience = jwtBearerOptions.ShouldValidateAudience,
             ValidateLifetime = false,
-            ValidateIssuerSigningKey = jwtAccessTokenOptions.ShouldValidateIssuerSigningKey,
-            ClockSkew = TimeSpan.FromMinutes(jwtAccessTokenOptions.ClockSkewInMinutes)
+            ValidateIssuerSigningKey = jwtBearerOptions.ShouldValidateIssuerSigningKey,
+            ClockSkew = TimeSpan.FromMinutes(jwtBearerOptions.ClockSkewInMinutes)
         };
     }
 }

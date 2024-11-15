@@ -17,17 +17,17 @@ namespace KindPaws.Accounts.Infrastructure.Providers;
 public class TokenProvider : ITokenProvider
 {
     private readonly AccountsWriteDbContext _dbContext;
-    private readonly JwtAccessTokenOptions _jwtAccessTokenOptions;
+    private readonly JwtBearerOptions _jwtBearerOptions;
     private readonly RefreshTokenOptions _refreshTokenOptions;
 
     public TokenProvider(
-        IOptions<JwtAccessTokenOptions> options, 
+        IOptions<JwtBearerOptions> options, 
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         AccountsWriteDbContext dbContext)
     {
         _dbContext = dbContext;
         _refreshTokenOptions = refreshTokenOptions.Value;
-        _jwtAccessTokenOptions = options.Value;
+        _jwtBearerOptions = options.Value;
     }
 
     public JwtAccessTokenCreationResult GenerateAccessToken(User user)
@@ -41,14 +41,14 @@ public class TokenProvider : ITokenProvider
             new Claim(CustomClaims.Jti, jti.ToString()),
         };
 
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtAccessTokenOptions.Key));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerOptions.Key));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var nbfDateTime = DateTime.UtcNow; 
-        var expDateTime = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtAccessTokenOptions.ExpiresInMinutes));
+        var expDateTime = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtBearerOptions.ExpiresInMinutes));
 
         var jwtToken = new JwtSecurityToken(
-            issuer: _jwtAccessTokenOptions.Issuer,
-            audience: _jwtAccessTokenOptions.Audience,
+            issuer: _jwtBearerOptions.Issuer,
+            audience: _jwtBearerOptions.Audience,
             claims: claims,
             notBefore: nbfDateTime,
             expires: expDateTime,
@@ -84,7 +84,7 @@ public class TokenProvider : ITokenProvider
         var jwtHandler = new JwtSecurityTokenHandler();
 
         var tokenValidationParameters = TokenValidationParametersFactory
-            .CreateWithoutValidationLifeTime(_jwtAccessTokenOptions);
+            .CreateWithoutValidationLifeTime(_jwtBearerOptions);
 
         var validationResult =  await jwtHandler.ValidateTokenAsync(
             jwtAccessToken,

@@ -10,6 +10,6 @@ public static class OptionsInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.Configure<MinioOptions>(configuration.GetRequiredSection(MinioOptions.Minio));
+        return services.Configure<MinioOptions>(configuration.GetRequiredSection(MinioOptions.SectionName));
     }
 }

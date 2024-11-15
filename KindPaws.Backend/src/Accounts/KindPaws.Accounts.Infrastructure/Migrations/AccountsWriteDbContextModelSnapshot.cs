@@ -102,6 +102,10 @@ namespace KindPaws.Accounts.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_in");
 
+                    b.Property<Guid>("Jti")
+                        .HasColumnType("uuid")
+                        .HasColumnName("jti");
+
                     b.Property<Guid>("RefreshToken")
                         .HasColumnType("uuid")
                         .HasColumnName("refresh_token");

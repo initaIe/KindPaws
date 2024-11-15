@@ -1,11 +1,11 @@
 namespace KindPaws.Accounts.Infrastructure.Options;
 
-public class JwtAccessTokenOptions
+public class JwtBearerOptions
 {
     /// <summary>
-    ///     Key name in cfg.
+    ///     Section name in IConfiguration.
     /// </summary>
-    public const string JwtAccessToken = nameof(JwtAccessToken);
+    public const string SectionName = nameof(JwtBearerOptions);
 
     public string Issuer { get; init; } = null!;
     public string Audience { get; init; } = null!;
