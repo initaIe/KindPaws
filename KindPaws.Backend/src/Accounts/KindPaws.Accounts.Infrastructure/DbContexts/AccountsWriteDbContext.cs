@@ -1,9 +1,7 @@
 ﻿using KindPaws.Accounts.Domain;
-using KindPaws.Core;
 using KindPaws.Framework.Options;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

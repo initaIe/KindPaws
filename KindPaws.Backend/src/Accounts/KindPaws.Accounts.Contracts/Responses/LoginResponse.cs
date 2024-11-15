@@ -3,4 +3,3 @@
 public record LoginResponse(
     string AccessToken,
     Guid RefreshToken);
-    

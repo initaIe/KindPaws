@@ -17,7 +17,7 @@ public static class RequestsMappers
         => new(
             request.Email,
             request.Password);
-    
+
     public static RefreshTokensCommand ToCommand(this RefreshTokensRequest request)
         => new(
             request.AccessToken,

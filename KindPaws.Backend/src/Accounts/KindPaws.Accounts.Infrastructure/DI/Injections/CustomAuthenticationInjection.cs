@@ -26,7 +26,7 @@ public static class CustomAuthenticationInjection
 
                 options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions!);
             });
-        
+
         return services;
     }
 }

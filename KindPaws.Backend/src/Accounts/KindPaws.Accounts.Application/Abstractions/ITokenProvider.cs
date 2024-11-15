@@ -9,8 +9,9 @@ namespace KindPaws.Accounts.Application.Abstractions;
 public interface ITokenProvider
 {
     JwtAccessTokenCreationResult GenerateAccessToken(User user);
+
     Task<Guid> GenerateRefreshTokenAsync(
-        User user, 
+        User user,
         Guid jti,
         CancellationToken cancellationToken = default);
 

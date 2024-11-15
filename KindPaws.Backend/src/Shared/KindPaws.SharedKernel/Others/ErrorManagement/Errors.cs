@@ -73,7 +73,7 @@ public static class Errors
                 "account.credentials.are.invalid",
                 $"Account credentials are invalid");
         }
-        
+
         public static Error ExpiredToken(string? tokenName = null)
         {
             tokenName ??= "Token";
@@ -82,7 +82,7 @@ public static class Errors
                 "token.is.expired",
                 $"{tokenName} is expired");
         }
-        
+
         public static Error TokenIsInvalid(string? tokenName = null)
         {
             tokenName ??= "Token";

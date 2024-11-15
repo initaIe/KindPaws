@@ -39,10 +39,10 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
 
         var accessToken = _tokenProvider.GenerateAccessToken(userByEmailExist);
         var refreshToken = await _tokenProvider.GenerateRefreshTokenAsync(
-            userByEmailExist, 
+            userByEmailExist,
             accessToken.Jti,
             cancellationToken);
-        
+
         var loginResponse = new LoginResponse(accessToken.AccessToken, refreshToken);
 
         _logger.LogInformation("User with user name {UserName} logged in.", userByEmailExist.UserName);

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using KindPaws.Accounts.Application.Abstractions;
@@ -21,7 +20,7 @@ public class TokenProvider : ITokenProvider
     private readonly RefreshTokenOptions _refreshTokenOptions;
 
     public TokenProvider(
-        IOptions<JwtBearerOptions> options, 
+        IOptions<JwtBearerOptions> options,
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         AccountsWriteDbContext dbContext)
     {
@@ -33,7 +32,7 @@ public class TokenProvider : ITokenProvider
     public JwtAccessTokenCreationResult GenerateAccessToken(User user)
     {
         var jti = Guid.NewGuid();
-        
+
         var claims = new[]
         {
             new Claim(CustomClaims.Sub, user.Id.ToString()),
@@ -43,8 +42,8 @@ public class TokenProvider : ITokenProvider
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerOptions.Key));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        var nbfDateTime = DateTime.UtcNow; 
-        var expDateTime = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtBearerOptions.ExpiresInMinutes));
+        var nbfDateTime = DateTime.UtcNow;
+        var expDateTime = DateTime.UtcNow.AddMinutes(_jwtBearerOptions.ExpiresInMinutes);
 
         var jwtToken = new JwtSecurityToken(
             issuer: _jwtBearerOptions.Issuer,
@@ -55,12 +54,13 @@ public class TokenProvider : ITokenProvider
             signingCredentials: signingCredentials);
 
         var jwtAccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-        
+
         return new JwtAccessTokenCreationResult(jwtAccessToken, jti);
     }
 
     // TODO: токен провайдер должен только возвращать + создавать токен. крч чет придумать и рефаторить
-    public async Task<Guid> GenerateRefreshTokenAsync(User user, Guid jti, CancellationToken cancellationToken = default)
+    public async Task<Guid> GenerateRefreshTokenAsync(User user, Guid jti,
+        CancellationToken cancellationToken = default)
     {
         var refreshSession = new RefreshSession
         {
@@ -70,15 +70,15 @@ public class TokenProvider : ITokenProvider
             ExpiresIn = DateTime.UtcNow.AddDays(_refreshTokenOptions.ExpiresInDays),
             RefreshToken = Guid.NewGuid()
         };
-        
+
         await _dbContext.RefreshSessions.AddAsync(refreshSession, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return refreshSession.RefreshToken;
     }
-    
+
     public async Task<Result<IReadOnlyList<Claim>, Error>> GetUserClaimsAsync(
-        string jwtAccessToken, 
+        string jwtAccessToken,
         CancellationToken cancellationToken = default)
     {
         var jwtHandler = new JwtSecurityTokenHandler();
@@ -86,7 +86,7 @@ public class TokenProvider : ITokenProvider
         var tokenValidationParameters = TokenValidationParametersFactory
             .CreateWithoutValidationLifeTime(_jwtBearerOptions);
 
-        var validationResult =  await jwtHandler.ValidateTokenAsync(
+        var validationResult = await jwtHandler.ValidateTokenAsync(
             jwtAccessToken,
             tokenValidationParameters);
 

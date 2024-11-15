@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using KindPaws.Accounts.Application.Models;
+﻿using KindPaws.Accounts.Application.Models;
 using KindPaws.Accounts.Infrastructure.Managers;
 using KindPaws.Framework.Authorization;
 using Microsoft.AspNetCore.Authorization;
@@ -31,9 +29,9 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
             context.Fail();
             return;
         }
-        
+
         var isUserHavePermission = await permissionManager.IsUserHavePermission(userId, permission.Code);
-        
+
         if (isUserHavePermission)
         {
             context.Succeed(permission);

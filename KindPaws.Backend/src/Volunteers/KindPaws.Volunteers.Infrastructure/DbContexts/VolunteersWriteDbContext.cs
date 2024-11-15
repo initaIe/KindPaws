@@ -1,9 +1,7 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
-using KindPaws.Core;
 using KindPaws.Framework.Options;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

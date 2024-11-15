@@ -7,5 +7,5 @@ public class RefreshTokenOptions
     /// </summary>
     public const string SectionName = nameof(RefreshTokenOptions);
 
-    public int ExpiresInDays { get; init; } 
+    public int ExpiresInDays { get; init; }
 }

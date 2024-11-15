@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace KindPaws.Accounts.Infrastructure.Seeding.Configs;
+﻿namespace KindPaws.Accounts.Infrastructure.Seeding.Configs;
 
 public class RoleConfig
 {

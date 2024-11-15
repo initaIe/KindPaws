@@ -37,7 +37,7 @@ public class AccountsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPost("refresh")]
     public async Task<IActionResult> RefreshTokens(
         [FromServices] RefreshTokensHandler handler,

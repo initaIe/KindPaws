@@ -20,7 +20,7 @@ public static class TokenValidationParametersFactory
             ClockSkew = TimeSpan.FromMinutes(jwtBearerOptions.ClockSkewInMinutes)
         };
     }
-    
+
     public static TokenValidationParameters CreateWithoutValidationLifeTime(
         JwtBearerOptions jwtBearerOptions)
     {

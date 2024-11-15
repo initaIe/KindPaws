@@ -15,7 +15,7 @@ public class AdminAccountsConfigurations : IEntityTypeConfiguration<AdminAccount
         builder.HasOne(aa => aa.User)
             .WithOne()
             .HasForeignKey<AdminAccount>(aa => aa.UserId);
-        
+
         // FULLNAME
         builder.ComplexProperty(v => v.FullName, fb =>
         {

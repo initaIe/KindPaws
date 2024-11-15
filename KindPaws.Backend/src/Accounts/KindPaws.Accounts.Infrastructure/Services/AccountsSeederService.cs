@@ -20,10 +20,10 @@ public class AccountsSeederService
 
     public AccountsSeederService(
         IOptions<AccountsSeedingOptions> accountsSeederOptions,
-        PermissionManager permissionManager, 
-        RoleManager<Role> roleManager, 
+        PermissionManager permissionManager,
+        RoleManager<Role> roleManager,
         RolePermissionManager rolePermissionManager,
-        UserManager<User> userManager, 
+        UserManager<User> userManager,
         AccountsManager accountsManager)
     {
         _accountsSeedingOptions = accountsSeederOptions.Value;
@@ -54,7 +54,7 @@ public class AccountsSeederService
 
         await SeedAdminAsync(cancellationToken);
     }
-    
+
     private async Task<List<PermissionConfig>> GetPermissionsSeedDataAsync(
         CancellationToken cancellationToken = default)
     {
@@ -159,7 +159,7 @@ public class AccountsSeederService
             return;
 
         var adminUser = User.CreateAdmin(
-            _accountsSeedingOptions.AdminCredentials.UserName, 
+            _accountsSeedingOptions.AdminCredentials.UserName,
             _accountsSeedingOptions.AdminCredentials.Email,
             adminRole);
         await _userManager.CreateAsync(adminUser, _accountsSeedingOptions.AdminCredentials.Password);

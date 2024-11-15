@@ -12,10 +12,10 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
 
         builder.HasKey(rs => rs.Id);
         builder.Property(rs => rs.Id);
-        
+
         builder.HasOne(rs => rs.User)
             .WithMany()
-            .HasForeignKey(rs=>rs.UserId);
+            .HasForeignKey(rs => rs.UserId);
 
         builder.Property(rs => rs.Jti);
         builder.Property(rs => rs.RefreshToken);

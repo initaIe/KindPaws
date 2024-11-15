@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using KindPaws.Accounts.Application.Abstractions;
+﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Models;
 using KindPaws.Accounts.Contracts.Responses;
 using KindPaws.Accounts.Domain;
@@ -11,16 +10,16 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Accounts.Application.Features.Commands.RefreshTokens;
 
-public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse,RefreshTokensCommand>
+public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, RefreshTokensCommand>
 {
     private readonly IRefreshSessionManager _refreshSessionManager;
     private readonly ITokenProvider _tokenProvider;
     private readonly UserManager<User> _userManager;
     private readonly ILogger<RefreshTokensHandler> _logger;
-    
+
     public RefreshTokensHandler(
-        IRefreshSessionManager refreshSessionManager, 
-        ITokenProvider tokenProvider, 
+        IRefreshSessionManager refreshSessionManager,
+        ITokenProvider tokenProvider,
         ILogger<RefreshTokensHandler> logger,
         UserManager<User> userManager)
     {
@@ -31,7 +30,7 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse,Refres
     }
 
     public async Task<Result<RefreshTokensResponse, ErrorList>> HandleAsync(
-        RefreshTokensCommand command, 
+        RefreshTokensCommand command,
         CancellationToken cancellationToken = default)
     {
         var refreshSessionResult = await _refreshSessionManager.GetByRefreshTokenAsync(
@@ -40,30 +39,30 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse,Refres
 
         if (refreshSessionResult.IsFailure)
             return refreshSessionResult.Error.ToErrorList();
-        
-        if (refreshSessionResult.Value.ExpiresIn > DateTime.UtcNow)
+
+        if (DateTime.UtcNow > refreshSessionResult.Value.ExpiresIn)
             return Errors.Accounts.ExpiredToken("RefreshToken").ToErrorList();
 
         var userClaimsResult = await _tokenProvider.GetUserClaimsAsync(
-            command.AccessToken, 
+            command.AccessToken,
             cancellationToken);
-        
+
         if (userClaimsResult.IsFailure)
             return userClaimsResult.Error.ToErrorList();
-        
-        var userIdString = userClaimsResult.Value.FirstOrDefault(c=>c.Type == CustomClaims.Sub)?.Value;
-        
+
+        var userIdString = userClaimsResult.Value.FirstOrDefault(c => c.Type == CustomClaims.Sub)?.Value;
+
         if (!Guid.TryParse(userIdString, out var userId))
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
-        
+
         if (refreshSessionResult.Value.UserId != userId)
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
-        
-        var userJtiString = userClaimsResult.Value.FirstOrDefault(c=>c.Type == CustomClaims.Jti)?.Value;
-        
+
+        var userJtiString = userClaimsResult.Value.FirstOrDefault(c => c.Type == CustomClaims.Jti)?.Value;
+
         if (!Guid.TryParse(userJtiString, out var jti))
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
-        
+
         if (jti != refreshSessionResult.Value.Jti)
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
 
@@ -73,14 +72,14 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse,Refres
 
         if (user == null)
             return Errors.General.RecordNotFound(nameof(User)).ToErrorList();
-        
+
         var accessTokenResult = _tokenProvider.GenerateAccessToken(user);
-        
+
         var refreshToken = await _tokenProvider.GenerateRefreshTokenAsync(
-            user, 
+            user,
             accessTokenResult.Jti,
             cancellationToken);
-        
+
         return new RefreshTokensResponse(accessTokenResult.AccessToken, refreshToken);
     }
 }

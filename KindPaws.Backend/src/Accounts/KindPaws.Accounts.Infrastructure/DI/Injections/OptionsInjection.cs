@@ -14,6 +14,5 @@ public static class OptionsInjection
             .Configure<JwtBearerOptions>(configuration.GetRequiredSection(JwtBearerOptions.SectionName))
             .Configure<AccountsSeedingOptions>(configuration.GetRequiredSection(AccountsSeedingOptions.SectionName))
             .Configure<RefreshTokenOptions>(configuration.GetRequiredSection(RefreshTokenOptions.SectionName));
-
     }
 }

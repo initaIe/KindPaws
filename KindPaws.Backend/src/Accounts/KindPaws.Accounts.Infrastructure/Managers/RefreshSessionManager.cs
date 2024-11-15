@@ -17,10 +17,10 @@ public class RefreshSessionManager : IRefreshSessionManager
     }
 
     public async Task<Result<RefreshSession, Error>> GetByRefreshTokenAsync(
-        Guid refreshToken, 
+        Guid refreshToken,
         CancellationToken cancellationToken = default)
     {
-        var refreshSession =  await _dbContext.RefreshSessions.FirstOrDefaultAsync(
+        var refreshSession = await _dbContext.RefreshSessions.FirstOrDefaultAsync(
             rs => rs.RefreshToken == refreshToken,
             cancellationToken);
 
@@ -29,10 +29,10 @@ public class RefreshSessionManager : IRefreshSessionManager
 
         return refreshSession;
     }
-    
+
     // TODO:  refactor use UNITOFWORK
     public async Task DeleteAndSaveChangesAsync(
-        RefreshSession refreshSession, 
+        RefreshSession refreshSession,
         CancellationToken cancellationToken = default)
     {
         _dbContext.RefreshSessions.Remove(refreshSession);

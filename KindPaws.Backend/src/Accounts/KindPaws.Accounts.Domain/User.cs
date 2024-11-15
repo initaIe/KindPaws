@@ -5,10 +5,11 @@ namespace KindPaws.Accounts.Domain;
 public class User : IdentityUser<Guid>
 {
     private List<Role> _roles;
+
     private User()
     {
-        
     }
+
     public IReadOnlyList<Role> Roles => _roles;
 
     public static User CreateAdmin(string userName, string email, Role role)
@@ -20,7 +21,7 @@ public class User : IdentityUser<Guid>
             _roles = [role]
         };
     }
-    
+
     // private List<SocialNetwork> _socialNetworks = [];
     // private List<Requisite> _requisites = [];
     //

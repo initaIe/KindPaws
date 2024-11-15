@@ -7,10 +7,9 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Species.Infrastructure.DbContexts;
 
-public class SpeciesWriteDbContext(IOptions<PostgresOptions> postgresOptions) 
+public class SpeciesWriteDbContext(IOptions<PostgresOptions> postgresOptions)
     : DbContext
 {
-
     public DbSet<Specie> Species => Set<Specie>();
 
     private ILoggerFactory CreateLoggerFactory()

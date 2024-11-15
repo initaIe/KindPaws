@@ -1,5 +1,4 @@
 using DotNetEnv;
-using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.Middlewares;
