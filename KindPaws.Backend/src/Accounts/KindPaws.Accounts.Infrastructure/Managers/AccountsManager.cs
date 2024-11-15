@@ -3,18 +3,18 @@ using KindPaws.Accounts.Infrastructure.DbContexts;
 
 namespace KindPaws.Accounts.Infrastructure.Managers;
 
-public class AdminAccountManager
+public class AccountsManager
 {
     private readonly AccountsWriteDbContext _dbContext;
 
-    public AdminAccountManager(AccountsWriteDbContext dbContext)
+    public AccountsManager(AccountsWriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
     public async Task CreateAdminAccount(AdminAccount adminAccount)
     {
-        await _dbContext.AddAsync(adminAccount);
+        await _dbContext.AdminAccounts.AddAsync(adminAccount);
         await _dbContext.SaveChangesAsync();
     }
 }

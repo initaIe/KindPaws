@@ -2,6 +2,7 @@
 
 namespace KindPaws.WEB.DI.Injections.Others;
 
+// TODO: move to FRAMEWORK?
 public static class OptionsInjection
 {
     public static IServiceCollection AddOptions(

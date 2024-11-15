@@ -12,11 +12,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.10" />
     </ItemGroup>
 
 </Project>

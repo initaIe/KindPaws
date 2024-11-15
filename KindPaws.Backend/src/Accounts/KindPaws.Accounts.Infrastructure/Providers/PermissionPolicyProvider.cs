@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using KindPaws.Framework.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
-namespace KindPaws.Framework.Authorization;
+namespace KindPaws.Accounts.Infrastructure.Providers;
 
 public class PermissionPolicyProvider : IAuthorizationPolicyProvider
 {

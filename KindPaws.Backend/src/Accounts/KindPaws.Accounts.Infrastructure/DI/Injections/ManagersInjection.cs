@@ -9,7 +9,7 @@ public static class ManagersInjection
     {
         return services
             .AddScoped<PermissionManager>()
-            .AddScoped<AdminAccountManager>()
+            .AddScoped<AccountsManager>()
             .AddScoped<RolePermissionManager>();
     }
 }

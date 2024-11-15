@@ -3,6 +3,7 @@ using KindPaws.Accounts.Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KindPaws.Accounts.Infrastructure.DI.Injections;
@@ -23,22 +24,12 @@ public static class CustomAuthenticationInjection
             })
             .AddJwtBearer(options =>
             {
-                var jwtOptions = configuration.GetRequiredSection(JwtOptions.Jwt).Get<JwtOptions>()
+                var jwtAccessTokenOptions = configuration.GetRequiredSection(JwtAccessTokenOptions.JwtAccessToken).Get<JwtAccessTokenOptions>()
                                  ?? throw new NullReferenceException("Missing jwt configurations.");
 
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ClockSkew = TimeSpan.Zero
-                };
+                options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions);
             });
-
+        
         return services;
     }
 }

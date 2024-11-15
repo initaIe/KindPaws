@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Volunteers.Infrastructure.Migrations
 {
     [DbContext(typeof(VolunteersWriteDbContext))]
-    [Migration("20241114150413_Volunteers_20241114_200315")]
-    partial class Volunteers_20241114_200315
+    [Migration("20241115150910_Volunteers_20241115_200732")]
+    partial class Volunteers_20241115_200732
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

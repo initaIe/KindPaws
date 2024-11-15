@@ -5,10 +5,9 @@ using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding.Configs;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace KindPaws.Accounts.Infrastructure.Seeding;
+namespace KindPaws.Accounts.Infrastructure.Services;
 
 public class AccountsSeederService
 {
@@ -17,7 +16,7 @@ public class AccountsSeederService
     private readonly RoleManager<Role> _roleManager;
     private readonly RolePermissionManager _rolePermissionManager;
     private readonly UserManager<User> _userManager;
-    private readonly AdminAccountManager _adminAccountManager;
+    private readonly AccountsManager _accountsManager;
 
     public AccountsSeederService(
         IOptions<AccountsSeederOptions> accountsSeederOptions,
@@ -25,14 +24,14 @@ public class AccountsSeederService
         RoleManager<Role> roleManager, 
         RolePermissionManager rolePermissionManager,
         UserManager<User> userManager, 
-        AdminAccountManager adminAccountManager)
+        AccountsManager accountsManager)
     {
         _accountsSeederOptions = accountsSeederOptions.Value;
         _permissionManager = permissionManager;
         _roleManager = roleManager;
         _rolePermissionManager = rolePermissionManager;
         _userManager = userManager;
-        _adminAccountManager = adminAccountManager;
+        _accountsManager = accountsManager;
     }
 
     public async Task ProcessAsync(CancellationToken cancellationToken = default)
@@ -53,22 +52,7 @@ public class AccountsSeederService
             rolePermissionSeedData,
             cancellationToken);
 
-        var adminRole = await _roleManager.FindByNameAsync(AdminAccount.Admin)
-            ?? throw new ApplicationException("Admin role was not found.");
-
-        var adminUser = User.CreateAdmin(
-            _accountsSeederOptions.AdminUserName, 
-            _accountsSeederOptions.AdminEmail,
-            adminRole);
-        await _userManager.CreateAsync(adminUser, _accountsSeederOptions.AdminPassword);
-
-        var fullName = FullName.Create(
-            _accountsSeederOptions.AdminUserName,
-            _accountsSeederOptions.AdminUserName,
-            _accountsSeederOptions.AdminUserName).Value;
-
-        var adminAccount = new AdminAccount(adminUser, fullName);
-        await _adminAccountManager.CreateAdminAccount(adminAccount);
+        await SeedAdminAsync(cancellationToken);
     }
     
     private async Task<List<PermissionConfig>> GetPermissionsSeedDataAsync(
@@ -162,5 +146,30 @@ public class AccountsSeederService
         }
 
         await _rolePermissionManager.AddRangeIfNotExistsAsync(rolePermissionsDtos, cancellationToken);
+    }
+
+    private async Task SeedAdminAsync(CancellationToken cancellationToken = default)
+    {
+        var adminRole = await _roleManager.FindByNameAsync(AdminAccount.Admin)
+                        ?? throw new ApplicationException("Admin role was not found.");
+
+        var seedAdmin = await _userManager.FindByEmailAsync(_accountsSeederOptions.AdminSeedOptions.Email);
+        var isSeedAdminAlreadyExist = seedAdmin != null;
+        if (isSeedAdminAlreadyExist)
+            return;
+
+        var adminUser = User.CreateAdmin(
+            _accountsSeederOptions.AdminSeedOptions.UserName, 
+            _accountsSeederOptions.AdminSeedOptions.Email,
+            adminRole);
+        await _userManager.CreateAsync(adminUser, _accountsSeederOptions.AdminSeedOptions.Password);
+
+        var fullName = FullName.Create(
+            _accountsSeederOptions.AdminSeedOptions.UserName,
+            _accountsSeederOptions.AdminSeedOptions.UserName,
+            _accountsSeederOptions.AdminSeedOptions.UserName).Value;
+
+        var adminAccount = new AdminAccount(adminUser, fullName);
+        await _accountsManager.CreateAdminAccount(adminAccount);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using KindPaws.Framework;
+using KindPaws.Framework.Authorization;
 using KindPaws.Species.Application.Features.Breeds.Commands.Add;
 using KindPaws.Species.Application.Features.Breeds.Commands.HardDelete;
 using KindPaws.Species.Application.Features.Breeds.Commands.SoftDelete;
@@ -14,6 +15,7 @@ namespace KindPaws.Species.Presentation.Controllers;
 
 public class SpeciesController : ApplicationController
 {
+    [Permission("create.specie")]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateSpecieRequest request,

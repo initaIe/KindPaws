@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
+using KindPaws.Accounts.Contracts.Responses;
 using KindPaws.Accounts.Domain;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Accounts.Application.Features.Commands.Login;
 
-public class LoginHandler : ICommandHandler<string, LoginCommand>
+public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenProvider _tokenProvider;
@@ -24,7 +25,7 @@ public class LoginHandler : ICommandHandler<string, LoginCommand>
         _logger = logger;
     }
 
-    public async Task<Result<string, ErrorList>> HandleAsync(
+    public async Task<Result<LoginResponse, ErrorList>> HandleAsync(
         LoginCommand command,
         CancellationToken cancellationToken = default)
     {
@@ -36,10 +37,16 @@ public class LoginHandler : ICommandHandler<string, LoginCommand>
         if (!isPasswordValid)
             return Errors.Accounts.CredentialsAreInvalid().ToErrorList();
 
-        var token = _tokenProvider.GenerateAccessToken(userByEmailExist);
+        var accessToken = _tokenProvider.GenerateAccessToken(userByEmailExist);
+        var refreshToken = await _tokenProvider.GenerateRefreshTokenAsync(
+            userByEmailExist, 
+            accessToken.Jti,
+            cancellationToken);
+        
+        var loginResponse = new LoginResponse(accessToken.AccessToken, refreshToken);
 
         _logger.LogInformation("User with user name {UserName} logged in.", userByEmailExist.UserName);
 
-        return token;
+        return loginResponse;
     }
 }

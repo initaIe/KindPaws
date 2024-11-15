@@ -44,7 +44,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddAll(builder.Configuration);
+builder.Services.AddAllDependencies(builder.Configuration);
 
 var app = builder.Build();
 

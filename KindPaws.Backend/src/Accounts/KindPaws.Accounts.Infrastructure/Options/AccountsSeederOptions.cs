@@ -10,7 +10,5 @@ public class AccountsSeederOptions
     public string PermissionsPath { get; init; } = null!;
     public string RolesPath { get; init; } = null!;
     public string RolePermissionsPath { get; init; } = null!;
-    public string AdminEmail { get; init; } = null!;
-    public string AdminUserName { get; init; } = null!;
-    public string AdminPassword { get; init; } = null!;
+    public AdminSeedOptions AdminSeedOptions { get; init; } = null!;
 }

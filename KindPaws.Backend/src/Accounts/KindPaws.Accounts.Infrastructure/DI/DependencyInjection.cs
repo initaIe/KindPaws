@@ -11,15 +11,17 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services
-            .AddCustomAuthentication(configuration)
-            .AddCustomAuthorization()
+            // АЙДЕНТИТИ ДОБАВЛЯТЬ ПЕРЕД ПЕРЕОПРЕДЕЛЕННОЙ AUTH ИБО БУДУТ СТОЯТ ДЕФ СХЕМЫ!!!
             .AddCustomIdentity()
             .AddProviders()
             .AddDataBase()
             .AddOptions(configuration)
             .AddSeeders()
             .AddManagers()
-            .AddServices();
+            .AddServices()
+            .AddCustomAuthentication(configuration)
+            .AddCustomAuthorization()
+            .AddHandlers();
 
         return services;
     }

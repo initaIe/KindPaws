@@ -1,8 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using KindPaws.Accounts.Application.Models;
+using KindPaws.Accounts.Infrastructure.Managers;
+using KindPaws.Framework.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Framework.Authorization;
+namespace KindPaws.Accounts.Infrastructure.Services;
 
 public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttribute>
 {
@@ -18,16 +22,24 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         PermissionAttribute permission)
     {
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
-        var permissionManager = scope.ServiceProvider.GetRequiredService<PermissionManager>()
-        
-        var userId = context.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+        var permissionManager = scope.ServiceProvider.GetRequiredService<PermissionManager>();
 
-        if (userId == null)
+        var userIdString = context.User.Claims.FirstOrDefault(c => c.Type == CustomClaims.Sub)?.Value;
+
+        if (!Guid.TryParse(userIdString, out var userId))
         {
             context.Fail();
             return;
         }
         
-        context.Succeed(permission);
+        var isUserHavePermission = await permissionManager.IsUserHavePermission(userId, permission.Code);
+        
+        if (isUserHavePermission)
+        {
+            context.Succeed(permission);
+            return;
+        }
+
+        context.Fail();
     }
 }

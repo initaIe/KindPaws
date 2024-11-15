@@ -13,10 +13,6 @@
   },
   {
     "Id": 4,
-    "Name": "user"
-  },
-  {
-    "Id": 5,
-    "Name": "guest"
+    "Name": "regularUser"
   }
 ]
