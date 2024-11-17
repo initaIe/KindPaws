@@ -97,9 +97,77 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         _pets.Add(pet);
         return true;
     }
+    
+    public Result<Error> AddPetPhotos(
+        PetId petId, 
+        IEnumerable<PetPhoto> photos)
+    {
+        var petResult = GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error;
+        
+        petResult.Value.AddPhotos(photos);
+        return true;
+    }
+    public Result<Error> DeletePetPhotos(
+        PetId petId,
+        IEnumerable<PetPhoto> photos)
+    {
+        var petResult = GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error;
+        
+        petResult.Value.DeletePhotos(photos);
+        return true;
+    }
 
-
-    #region Deletion methods
+    public Result<Error> SetPetMainPhoto(
+        PetId petId, 
+        FilePath photoFilePath)
+    {
+        var petResult = GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error;
+        
+        petResult.Value.SetMainPhoto(photoFilePath);
+        return true;
+    }
+    
+    public Result<Error> UpdatePetMainInfo(
+        PetId petId,
+        PetType petType,
+        ShortName name)
+    {
+        var petResult = GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error;
+        
+        petResult.Value.UpdateMainInfo(petType, name);
+        return true;
+    }
+    
+    public Result<Error> UpdatePetAdditionalInfo(
+        PetId petId,
+        SupportStatus? supportStatus,
+        MediumDescription? description,
+        PetColor? petColor,
+        Age? age,
+        HealthDetails? healthDetails,
+        BiometricDetails? biometricDetails)
+    {
+        var petResult = GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error;
+        
+        petResult.Value.UpdateAdditionalInfo(
+            supportStatus, 
+            description,
+            petColor, 
+            age, 
+            healthDetails,
+            biometricDetails);
+        return true;
+    }
 
     public void SoftDelete()
     {
@@ -117,29 +185,25 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
     public void HardDeletePet(PetId petId)
     {
-        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+        var petResult = GetPetById(petId);
 
-        if (pet == null)
+        if (petResult.IsFailure)
             return;
 
-        _pets.Remove(pet);
-        AlignPetPositionsAfterDelete(pet.Position);
+        _pets.Remove(petResult.Value);
+        AlignPetPositionsAfterDelete(petResult.Value.Position);
     }
 
     public void SoftDeletePet(PetId petId)
     {
-        var pet = _pets.FirstOrDefault(p => p.Id == petId);
+        var petResult = GetPetById(petId);
 
-        if (pet == null)
+        if (petResult.IsFailure)
             return;
 
-        pet.SoftDelete();
-        AlignPetPositionsAfterDelete(pet.Position);
+        petResult.Value.SoftDelete();
+        AlignPetPositionsAfterDelete(petResult.Value.Position);
     }
-
-    #endregion
-
-    #region Position methods
 
     private Result<Error> AlignPetPositionsAfterDelete(Position deletedPetPosition)
     {
@@ -164,9 +228,12 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
     public Result<Error> MovePet(PetId petId, Position newPosition)
     {
-        var movablePet = _pets.FirstOrDefault(p => p.Id == petId);
-        if (movablePet == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+        var petResult = GetPetById(petId);
+
+        if (petResult.IsFailure)
+            return petResult.Error;
+
+        var movablePet = petResult.Value;
 
         if (movablePet.Position.Value == newPosition.Value || _pets.Count == 1)
             return true;
@@ -220,6 +287,4 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
         return true;
     }
-
-    #endregion
 }

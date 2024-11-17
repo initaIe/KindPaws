@@ -41,7 +41,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
 
-    public void UpdateMainInfo(
+    internal void UpdateMainInfo(
         PetType petType,
         ShortName name)
     {
@@ -49,7 +49,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
         Name = name;
     }
 
-    public void UpdateAdditionalInfo(
+    internal void UpdateAdditionalInfo(
         SupportStatus? supportStatus,
         MediumDescription? description,
         PetColor? petColor,
@@ -65,12 +65,12 @@ public class Pet : Entity<PetId>, ISoftDeletable
         BiometricDetails = biometricDetails ?? BiometricDetails.Empty;
     }
 
-    public void AddPhotos(IEnumerable<PetPhoto> photos)
+    internal void AddPhotos(IEnumerable<PetPhoto> photos)
     {
         _photos.AddRange(photos.ToList());
     }
 
-    public Result<Error> SetMainPhoto(FilePath photoFilePath)
+    internal Result<Error> SetMainPhoto(FilePath photoFilePath)
     {
         var petPhoto = _photos.FirstOrDefault(p => p.Photo.FilePath == photoFilePath);
         if (petPhoto == null)
@@ -91,18 +91,18 @@ public class Pet : Entity<PetId>, ISoftDeletable
         return true;
     }
 
-    public void DeletePhotos(IEnumerable<PetPhoto> photos)
+    internal void DeletePhotos(IEnumerable<PetPhoto> photos)
     {
         foreach (var photo in photos)
             _photos.Remove(photo);
     }
 
-    public void UpdatePosition(Position position)
+    internal void UpdatePosition(Position position)
     {
         Position = position;
     }
 
-    public Result<Error> IncreasePosition()
+    internal Result<Error> IncreasePosition()
     {
         var increasedPositionResult = Position.GetIncreased();
         if (increasedPositionResult.IsFailure)
@@ -112,7 +112,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
         return true;
     }
 
-    public Result<Error> DecreasePosition()
+    internal Result<Error> DecreasePosition()
     {
         var decreasedPositionResult = Position.GetDecreased();
         if (decreasedPositionResult.IsFailure)
@@ -122,13 +122,13 @@ public class Pet : Entity<PetId>, ISoftDeletable
         return true;
     }
 
-    public void SoftDelete()
+    internal void SoftDelete()
     {
         IsSoftDeleted = true;
         SoftDeletedDateTime = DateTime.UtcNow;
     }
 
-    public void Restore()
+    internal void Restore()
     {
         IsSoftDeleted = false;
         SoftDeletedDateTime = null;

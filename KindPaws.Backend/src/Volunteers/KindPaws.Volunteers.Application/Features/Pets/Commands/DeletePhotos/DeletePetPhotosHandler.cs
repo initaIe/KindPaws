@@ -81,7 +81,7 @@ public class DeletePetPhotosHandler
         var photos = filePathsList.Select(f => new Photo(f));
         var petPhotos = photos.Select(p => new PetPhoto(p, false));
 
-        pet.DeletePhotos(petPhotos);
+        volunteerResult.Value.DeletePetPhotos(petId, petPhotos);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(petId, filePathsList, volunteerId);

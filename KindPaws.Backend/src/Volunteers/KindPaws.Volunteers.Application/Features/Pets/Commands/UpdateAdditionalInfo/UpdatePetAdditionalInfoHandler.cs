@@ -130,9 +130,8 @@ public class UpdatePetAdditionalInfoHandler
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
         var petId = PetId.Create(command.PetId).Value;
-        var petResult = volunteerResult.Value.GetPetById(petId);
-
-        petResult.Value.UpdateAdditionalInfo(
+        volunteerResult.Value.UpdatePetAdditionalInfo(
+            petId,
             supportStatus,
             description,
             color,

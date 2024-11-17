@@ -26,13 +26,13 @@ public class Breed : Entity<BreedId>, ISoftDeletable
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
 
-    public void SoftDelete()
+    internal void SoftDelete()
     {
         IsSoftDeleted = true;
         SoftDeletedDateTime = DateTime.UtcNow;
     }
 
-    public void Restore()
+    internal void Restore()
     {
         IsSoftDeleted = false;
         SoftDeletedDateTime = null;

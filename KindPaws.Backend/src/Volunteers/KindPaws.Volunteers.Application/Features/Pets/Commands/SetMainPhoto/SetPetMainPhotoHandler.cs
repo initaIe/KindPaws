@@ -59,12 +59,13 @@ public class SetPetMainPhotoHandler
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
         var petId = PetId.Create(command.PetId).Value;
-        var petResult = volunteerResult.Value.GetPetById(petId);
+        var pet = volunteerResult.Value.GetPetById(petId).Value;
 
         var filePath = FilePath.Create(command.Path).Value;
-        var setMainPhotoResult = petResult.Value.SetMainPhoto(filePath);
-        if (setMainPhotoResult.IsFailure)
-            return setMainPhotoResult.Error.ToErrorList();
+
+        var setPetMainPhotoResult = volunteerResult.Value.SetPetMainPhoto(petId, filePath);
+        if (setPetMainPhotoResult.IsFailure)
+            return setPetMainPhotoResult.Error.ToErrorList();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

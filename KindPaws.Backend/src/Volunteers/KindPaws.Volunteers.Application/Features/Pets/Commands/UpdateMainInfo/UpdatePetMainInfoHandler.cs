@@ -55,15 +55,16 @@ public class UpdatePetMainInfoHandler
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
+        var volunteer = volunteerResult.Value;
 
         var petId = PetId.Create(command.PetId).Value;
-        var petResult = volunteerResult.Value.GetPetById(petId);
 
         var petName = ShortName.Create(command.Name).Value;
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var petType = new PetType(specieId, command.BreedId);
 
-        petResult.Value.UpdateMainInfo(
+        volunteer.UpdatePetMainInfo(
+            petId,
             petType,
             petName);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
