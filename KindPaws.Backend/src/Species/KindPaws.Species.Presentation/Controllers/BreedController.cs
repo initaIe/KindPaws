@@ -1,4 +1,5 @@
 ﻿using KindPaws.Framework;
+using KindPaws.Framework.Authorization;
 using KindPaws.Species.Application.Features.Breeds.Queries.GetBreeds;
 using KindPaws.Species.Contracts.Requests;
 using KindPaws.Species.Presentation.Mappers;
@@ -8,6 +9,7 @@ namespace KindPaws.Species.Presentation.Controllers;
 
 public class BreedController : ApplicationController
 {
+    [Permission(Permissions.Breeds.GetBreed)]
     [HttpGet]
     public async Task<IActionResult> GetBreeds(
         [FromQuery] GetBreedsRequest request,
@@ -21,6 +23,7 @@ public class BreedController : ApplicationController
         return Ok(result);
     }
 
+    [Permission(Permissions.Breeds.GetBreed)]
     [HttpGet("dapper")]
     public async Task<IActionResult> GetBreedsDapper(
         [FromQuery] GetBreedsRequest request,

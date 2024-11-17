@@ -17,7 +17,7 @@ public class PermissionManager
         IEnumerable<Permission> permissions,
         CancellationToken cancellationToken = default)
     {
-        List<Permission> permissionsToAdd = [];
+        HashSet<Permission> permissionsToAdd = [];
         foreach (var permission in permissions)
         {
             var isPermissionByCodeExist = await _dbContext.Permissions
@@ -45,7 +45,7 @@ public class PermissionManager
             .ToListAsync();
     }
 
-    public async Task<bool> IsUserHavePermission(Guid userId, string permissionCode)
+    public async Task<bool> HasUserPermission(Guid userId, string permissionCode)
     {
         return await _dbContext.Users
             .Include(u => u.Roles)

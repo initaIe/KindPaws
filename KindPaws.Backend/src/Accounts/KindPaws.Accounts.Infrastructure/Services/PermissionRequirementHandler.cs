@@ -30,7 +30,7 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
             return;
         }
 
-        var isUserHavePermission = await permissionManager.IsUserHavePermission(userId, permission.Code);
+        var isUserHavePermission = await permissionManager.HasUserPermission(userId, permission.Code);
 
         if (isUserHavePermission)
         {

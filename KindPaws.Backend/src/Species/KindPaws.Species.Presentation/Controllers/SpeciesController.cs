@@ -15,7 +15,7 @@ namespace KindPaws.Species.Presentation.Controllers;
 
 public class SpeciesController : ApplicationController
 {
-    [Permission("create.specie")]
+    [Permission(Permissions.Species.CreateSpecie)]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateSpecieRequest request,
@@ -31,6 +31,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [Permission(Permissions.Species.SoftDeleteSpecie)]
     [HttpDelete("{specieId:guid}/soft")]
     public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid specieId,
@@ -45,7 +46,8 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-
+    
+    [Permission(Permissions.Species.HardDeleteSpecie)]
     [HttpDelete("{specieId:guid}/hard")]
     public async Task<IActionResult> HardDelete(
         [FromRoute] Guid specieId,
@@ -61,6 +63,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [Permission(Permissions.Species.AddBread)]
     [HttpPost("{specieId:guid}/breeds")]
     public async Task<IActionResult> AddBreed(
         [FromRoute] Guid specieId,
@@ -77,6 +80,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [Permission(Permissions.Species.SoftDeleteBreed)]
     [HttpDelete("{specieId:guid}/breeds/{breedId:guid}/soft")]
     public async Task<IActionResult> SoftDeleteBreed(
         [FromRoute] Guid specieId,
@@ -92,7 +96,8 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-
+    
+    [Permission(Permissions.Species.HardDeleteBreed)]
     [HttpDelete("{specieId:guid}/breeds/{breedId:guid}/hard")]
     public async Task<IActionResult> HardDeleteBreed(
         [FromRoute] Guid specieId,
@@ -109,6 +114,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [Permission(Permissions.Species.GetSpecie)]
     [HttpGet]
     public async Task<IActionResult> GetSpecies(
         [FromQuery] GetSpeciesRequest request,
@@ -121,7 +127,8 @@ public class SpeciesController : ApplicationController
 
         return Ok(result);
     }
-
+    
+    [Permission(Permissions.Species.GetSpecie)]
     [HttpGet("dapper")]
     public async Task<IActionResult> GetSpeciesDapper(
         [FromQuery] GetSpeciesRequest request,

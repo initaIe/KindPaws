@@ -55,6 +55,11 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, Refre
         if (!Guid.TryParse(userIdString, out var userId))
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
 
+        var user = await _userManager.FindByIdAsync(userIdString);
+
+        if (user == null)
+            return Errors.General.RecordNotFound(nameof(User)).ToErrorList();
+        
         if (refreshSessionResult.Value.UserId != userId)
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
 
@@ -67,11 +72,6 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, Refre
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
 
         await _refreshSessionManager.DeleteAndSaveChangesAsync(refreshSessionResult.Value, cancellationToken);
-
-        var user = await _userManager.FindByIdAsync(userIdString);
-
-        if (user == null)
-            return Errors.General.RecordNotFound(nameof(User)).ToErrorList();
 
         var accessTokenResult = _tokenProvider.GenerateAccessToken(user);
 

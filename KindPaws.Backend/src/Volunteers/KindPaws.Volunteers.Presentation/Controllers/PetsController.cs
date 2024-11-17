@@ -1,4 +1,5 @@
 ﻿using KindPaws.Framework;
+using KindPaws.Framework.Authorization;
 using KindPaws.Volunteers.Application.Features.Pets.Queries.GetPetById;
 using KindPaws.Volunteers.Application.Features.Pets.Queries.GetPets;
 using KindPaws.Volunteers.Contracts.Requests;
@@ -9,6 +10,7 @@ namespace KindPaws.Volunteers.Presentation.Controllers;
 
 public class PetsController : ApplicationController
 {
+    [Permission(Permissions.Pets.GetPet)]
     [HttpGet]
     public async Task<IActionResult> GetPets(
         [FromQuery] GetPetsRequest request,
@@ -21,7 +23,8 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
-
+    
+    [Permission(Permissions.Pets.GetPet)]
     [HttpGet("dapper")]
     public async Task<IActionResult> GetPetsDapper(
         [FromQuery] GetPetsRequest request,
@@ -34,7 +37,8 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
-
+    
+    [Permission(Permissions.Pets.GetPet)]
     [HttpGet("{petId:guid}")]
     public async Task<IActionResult> GetPetById(
         [FromRoute] Guid petId,
@@ -50,7 +54,8 @@ public class PetsController : ApplicationController
 
         return Ok(result.Value);
     }
-
+    
+    [Permission(Permissions.Pets.GetPet)]
     [HttpGet("{petId:guid}/dapper")]
     public async Task<IActionResult> GetPetByIdDapper(
         [FromRoute] Guid petId,

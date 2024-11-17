@@ -1,11 +1,11 @@
 [
   {
     "Id": 1,
-    "Code": "create.breed"
+    "Code": "add.breed"
   },
   {
     "Id": 2,
-    "Code": "read.breed"
+    "Code": "get.breed"
   },
   {
     "Id": 3,
@@ -25,7 +25,7 @@
   },
   {
     "Id": 7,
-    "Code": "read.specie"
+    "Code": "get.specie"
   },
   {
     "Id": 8,
@@ -38,5 +38,61 @@
   {
     "Id": 10,
     "Code": "soft.delete.specie"
+  },
+  {
+    "Id": 11,
+    "Code": "add.pet"
+  },
+  {
+    "Id": 12,
+    "Code": "get.pet"
+  },
+  {
+    "Id": 13,
+    "Code": "update.pet"
+  },
+  {
+    "Id": 14,
+    "Code": "hard.delete.pet"
+  },
+  {
+    "Id": 15,
+    "Code": "soft.delete.pet"
+  },
+  {
+    "Id": 16,
+    "Code": "create.volunteer"
+  },
+  {
+    "Id": 17,
+    "Code": "get.volunteer"
+  },
+  {
+    "Id": 18,
+    "Code": "update.volunteer"
+  },
+  {
+    "Id": 19,
+    "Code": "hard.delete.volunteer"
+  },
+  {
+    "Id": 20,
+    "Code": "soft.delete.volunteer"
+  },
+  {
+    "Id": 21,
+    "Code": "add.pet.photo"
+  },
+  {
+    "Id": 22,
+    "Code": "delete.pet.photo"
+  },
+  {
+    "Id": 23,
+    "Code": "set.pet.main.photo"
+  },
+  {
+    "Id": 24,
+    "Code": "update.pet.position"
   }
 ]
