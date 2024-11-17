@@ -6,7 +6,9 @@ using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
 using KindPaws.Volunteers.Application.Interfaces;
@@ -14,26 +16,26 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateMainInfo;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
 
-public class UpdateVolunteerMainInfoHandler
-    : ICommandHandler<Guid, UpdateVolunteerMainInfoCommand>
+public class UpdateVolunteerInfoHandler
+    : ICommandHandler<Guid, UpdateVolunteerInfoCommand>
 {
-    private readonly IEntitiesExistenceValidator<UpdateVolunteerMainInfoExistenceValidationData>
+    private readonly IEntitiesExistenceValidator<UpdateVolunteerInfoExistenceValidationData>
         _entitiesExistenceValidator;
 
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<UpdateVolunteerMainInfoCommand> _validator;
+    private readonly IValidator<UpdateVolunteerInfoCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
 
-    public UpdateVolunteerMainInfoHandler(
+    public UpdateVolunteerInfoHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
-        IValidator<UpdateVolunteerMainInfoCommand> validator,
+        IValidator<UpdateVolunteerInfoCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceValidator<UpdateVolunteerMainInfoExistenceValidationData> entitiesExistenceValidator)
+        IEntitiesExistenceValidator<UpdateVolunteerInfoExistenceValidationData> entitiesExistenceValidator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
@@ -43,7 +45,7 @@ public class UpdateVolunteerMainInfoHandler
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
-        UpdateVolunteerMainInfoCommand command,
+        UpdateVolunteerInfoCommand command,
         CancellationToken cancellationToken = default)
     {
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -61,33 +63,33 @@ public class UpdateVolunteerMainInfoHandler
             volunteerId,
             cancellationToken);
 
-        var fullName = FullName.Create(
-            command.FullName.FirstName,
-            command.FullName.LastName,
-            command.FullName.Patronymic).Value;
-        var emailAddress = EmailAddress.Create(command.EmailAddress).Value;
-        var phoneNumber = PhoneNumber.Create(command.PhoneNumber).Value;
+        var description = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Description,
+            MediumDescription.Create);
 
-        volunteerResult.Value.UpdateMainInfo(fullName, emailAddress, phoneNumber);
+        var address = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Address,
+            a => Address.Create(a.City, a.Street));
+
+        var yearsOfExperience = ValueObjectsHelpers.CreateNullableValueObject(
+            command.YearsOfExperience,
+            y => YearsOfExperience.Create(y!.Value));
+
+        var requisites = ValueObjectsHelpers.CreateNullableValueObjects(
+            command.Requisites,
+            r => Requisite.Create(r.Name, r.Description));
+
+        volunteerResult.Value.UpdateInfo(description, address, yearsOfExperience, requisites);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        Log(volunteerId, fullName, emailAddress, phoneNumber);
+        Log(volunteerId);
 
         return volunteerId.Value;
     }
 
-    private void Log(
-        VolunteerId volunteerId,
-        FullName fullName,
-        EmailAddress emailAddress,
-        PhoneNumber phoneNumber)
+    private void Log(VolunteerId volunteerId)
     {
-        _logger.LogInformation
-        ("VOLUNTEER updated main info with ID: {Id}; " +
-         "Updated properties: {FullName}, {EmailAddress}, {PhoneNumber}",
-            volunteerId,
-            fullName,
-            emailAddress,
-            phoneNumber);
+        _logger.LogInformation("VOLUNTEER updated info with ID: {Id};",
+            volunteerId);
     }
 }

@@ -12,8 +12,8 @@ public static class VolunteerMappers
     public static AddressDto ToDto(this Address address)
         => new(address.City, address.Street);
 
-    public static SocialNetworkDto ToDto(this SocialNetwork socialNetwork)
-        => new(socialNetwork.Name, socialNetwork.Link);
+    // public static SocialNetworkDto ToDto(this SocialNetwork socialNetwork)
+    //     => new(socialNetwork.Name, socialNetwork.Link);
 
     public static RequisiteDto ToDto(this Requisite requisite)
         => new(requisite.Name, requisite.Description);
@@ -47,7 +47,7 @@ public static class VolunteerMappers
             SupportStatus = petDapperDto.SupportStatus,
             Description = petDapperDto.Description,
             Color = petDapperDto.Color,
-            Age = petDapperDto.DateBirth != null ? DateOnly.FromDateTime(petDapperDto.DateBirth!.Value) : null,
+            Birthday = petDapperDto.DateBirth,
             HealthDetails = JsonSerializer.Deserialize<HealthDetails>(petDapperDto.HealthDetails)!.ToDto(),
             BiometricDetails = JsonSerializer.Deserialize<BiometricDetails>(petDapperDto.BiometricDetails)!.ToDto(),
             CreationDateTime = petDapperDto.CreationDateTime,

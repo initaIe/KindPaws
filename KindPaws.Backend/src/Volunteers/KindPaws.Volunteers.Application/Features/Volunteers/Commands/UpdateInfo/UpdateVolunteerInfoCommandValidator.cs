@@ -4,11 +4,11 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
 
-public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>
+public class UpdateVolunteerInfoCommandValidator : AbstractValidator<UpdateVolunteerInfoCommand>
 {
-    public CreateVolunteerCommandValidator()
+    public UpdateVolunteerInfoCommandValidator()
     {
         RuleFor(c => c.Description)
             .MustBeValueObject(MediumDescription.Create!)

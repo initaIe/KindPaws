@@ -30,7 +30,7 @@ public class UpdatePetAdditionalInfoCommandValidator : AbstractValidator<UpdateP
             .When(u => u.Color != null);
 
         RuleFor(u => u.BirthDate)
-            .MustBeValueObject(d => Age.Create(d!.Value))
+            .MustBeValueObject(d => Birthday.Create(d!.Value))
             .When(u => u.BirthDate != null);
 
         RuleFor(u => u.HealthDetails!.Description)

@@ -10,7 +10,7 @@ public record GetPetsRequest(
     string? Name,
     string? SupportStatus,
     string? Color,
-    DateOnly? Age,
+    DateTime? Age,
     int? PositionFrom,
     int? PositionTo,
     Guid? VolunteerId);

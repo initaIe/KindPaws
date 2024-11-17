@@ -11,33 +11,31 @@ namespace KindPaws.Volunteers.Domain.AggregateRoot;
 public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 {
     private readonly List<Pet> _pets = [];
-    private List<Requisite> _requisites = [];
-    private List<SocialNetwork> _socialNetworks = [];
+    private List<Requisite> _requisites;
 
     // ef core
-    private Volunteer(VolunteerId id) : base(id)
+    private Volunteer(VolunteerId id) 
+        : base(id)
     {
     }
 
     public Volunteer(
         VolunteerId id,
-        FullName fullName,
-        EmailAddress emailAddress,
-        PhoneNumber phoneNumber)
+        MediumDescription? description,
+        Address? address,
+        YearsOfExperience? yearsOfExperience,
+        IEnumerable<Requisite> requisites) 
         : base(id)
     {
-        FullName = fullName;
-        EmailAddress = emailAddress;
-        PhoneNumber = phoneNumber;
+        Description = description;
+        Address = address;
+        YearsOfExperience = yearsOfExperience;
+        _requisites = requisites.ToList();
     }
 
-    public FullName FullName { get; private set; }
-    public EmailAddress EmailAddress { get; private set; }
-    public PhoneNumber PhoneNumber { get; private set; }
     public MediumDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
-    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
     public bool IsSoftDeleted { get; private set; }
@@ -53,28 +51,16 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         => _pets.Count(x => x.SupportStatus == SupportStatus.NeedSupport);
 
 
-    public void UpdateMainInfo(
-        FullName fullName,
-        EmailAddress emailAddress,
-        PhoneNumber phoneNumber)
-    {
-        FullName = fullName;
-        EmailAddress = emailAddress;
-        PhoneNumber = phoneNumber;
-    }
-
-    public void UpdateAdditionalInfo(
+    public void UpdateInfo(
         MediumDescription? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
-        IEnumerable<SocialNetwork>? socialNetworks,
-        IEnumerable<Requisite>? requisites)
+        IEnumerable<Requisite> requisites)
     {
         Description = description;
         Address = address;
         YearsOfExperience = yearsOfExperience;
-        _socialNetworks = socialNetworks?.ToList() ?? [];
-        _requisites = requisites?.ToList() ?? [];
+        _requisites = requisites.ToList();
     }
 
     public Result<Pet, Error> GetPetById(PetId petId)
@@ -151,7 +137,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         SupportStatus? supportStatus,
         MediumDescription? description,
         PetColor? petColor,
-        Age? age,
+        Birthday? age,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {

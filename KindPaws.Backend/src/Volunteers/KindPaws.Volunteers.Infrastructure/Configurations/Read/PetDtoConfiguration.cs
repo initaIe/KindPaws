@@ -44,9 +44,9 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Property(p => p.Color)
             .HasColumnName("color");
 
-        // AGE
-        builder.Property(p => p.Age)
-            .HasColumnName("date_birth");
+        // Birthday
+        builder.Property(p => p.Birthday)
+            .HasColumnName("birthday");
 
         // HEALTH DETAILS
         builder.Property(p => p.HealthDetails)

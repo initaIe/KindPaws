@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Volunteers.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Volunteers_20241117_181940 : Migration
+    public partial class Volunteers_20241118_010458 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +51,7 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                     support_status = table.Column<string>(type: "citext", maxLength: 128, nullable: true),
                     description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
                     color = table.Column<string>(type: "citext", maxLength: 128, nullable: true),
-                    date_birth = table.Column<DateOnly>(type: "date", nullable: true),
+                    birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     health_details = table.Column<string>(type: "jsonb", nullable: false),
                     biometric_details = table.Column<string>(type: "jsonb", nullable: false),
                     photos = table.Column<string>(type: "jsonb", nullable: false),

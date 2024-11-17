@@ -2,9 +2,8 @@
 
 namespace KindPaws.Volunteers.Contracts.Requests;
 
-public record UpdateVolunteerAdditionalInfoRequest(
+public record UpdateVolunteerInfoRequest(
     string? Description,
     AddressDto? Address,
     int? YearsOfExperience,
-    IEnumerable<SocialNetworkDto>? SocialNetworks,
-    IEnumerable<RequisiteDto>? Requisites);
+    IEnumerable<RequisiteDto> Requisites);

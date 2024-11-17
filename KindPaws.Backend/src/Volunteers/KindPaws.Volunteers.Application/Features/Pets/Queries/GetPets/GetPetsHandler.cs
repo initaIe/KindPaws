@@ -30,7 +30,7 @@ public class GetPetsHandler
             "name" => pet => pet.Name,
             "supportstatus" => pet => pet.SupportStatus!,
             "color" => pet => pet.Color!,
-            "age" => pet => pet.Age!,
+            "age" => pet => pet.Birthday!,
             "position" => pet => pet.Position,
             "volunteerid" => pet => pet.VolunteerId,
             _ => pet => pet.Id
@@ -62,7 +62,7 @@ public class GetPetsHandler
 
         petsQuery = petsQuery.WhereIf(
             query.Age != null,
-            p => p.Age != null && p.Age.Value == query.Age!.Value);
+            p => p.Birthday != null && p.Birthday.Value == query.Age!.Value);
 
         petsQuery = petsQuery.WhereIf(
             query.VolunteerId != null,

@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
+﻿namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
 public class PhoneNumberConstraints
 {

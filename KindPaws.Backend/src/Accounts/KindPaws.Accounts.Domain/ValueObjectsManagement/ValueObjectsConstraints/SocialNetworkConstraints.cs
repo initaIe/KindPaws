@@ -1,6 +1,6 @@
 ﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints.BaseConstraints;
 
-namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
+namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
 public static class SocialNetworkConstraints
 {

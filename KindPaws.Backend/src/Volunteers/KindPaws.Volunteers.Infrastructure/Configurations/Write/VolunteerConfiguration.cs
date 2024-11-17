@@ -24,50 +24,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 value => VolunteerId.Create(value).Value)
             .HasColumnName("id");
 
-        // FULLNAME
-        builder.ComplexProperty(v => v.FullName, fb =>
-        {
-            fb.Property(x => x.FirstName)
-                .HasMaxLength(FullNameConstraints.MaxFirstNameLength)
-                .HasColumnName("first_name")
-                .HasColumnType("citext")
-                .IsRequired();
-
-            fb.Property(x => x.LastName)
-                .HasMaxLength(FullNameConstraints.MaxLastNameLength)
-                .HasColumnName("last_name")
-                .HasColumnType("citext")
-                .IsRequired();
-
-            fb.Property(x => x.Patronymic)
-                .HasMaxLength(FullNameConstraints.MaxPatronymicLength)
-                .HasColumnName("patronymic")
-                .HasColumnType("citext")
-                .IsRequired(false);
-        });
-
-        // EMAIL ADDRESS
-        builder.Property(v => v.EmailAddress)
-            .HasConversion(
-                emailAddress => emailAddress.Value,
-                value => EmailAddress.Create(value).Value)
-            .HasMaxLength(EmailAddressConstraints.MaxLength)
-            .HasColumnName("email_address")
-            .HasColumnType("citext")
-            .IsRequired();
-        builder.HasIndex(s => s.EmailAddress).IsUnique();
-
-        // PHONE NUMBER
-        builder.Property(v => v.PhoneNumber)
-            .HasConversion(
-                phoneNumber => phoneNumber.Value,
-                value => PhoneNumber.Create(value).Value)
-            .HasMaxLength(PhoneNumberConstraints.MaxLength)
-            .HasColumnName("phone_number")
-            .HasColumnType("citext")
-            .IsRequired();
-        builder.HasIndex(s => s.PhoneNumber).IsUnique();
-
         // DESCRIPTION
         builder.Property(v => v.Description)
             .HasConversion(
@@ -91,13 +47,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 y => YearsOfExperience.Create(y).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
-
-        // SOCIAL NETWORKS
-        builder.Property(p => p.SocialNetworks)
-            .HasColumnName("social_networks")
-            .HasColumnType("jsonb")
-            .HasJsonConversion()
-            .IsRequired();
 
         // REQUISITES
         builder.Property(p => p.Requisites)

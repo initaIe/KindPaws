@@ -9,7 +9,7 @@ public class PetDto
     public string? SupportStatus { get; init; }
     public string? Description { get; init; }
     public string? Color { get; init; }
-    public DateOnly? Age { get; init; }
+    public DateTime? Birthday { get; init; }
     public HealthDetailsDto? HealthDetails { get; init; }
     public BiometricDetailsDto? BiometricDetails { get; init; }
     public DateTime CreationDateTime { get; init; }

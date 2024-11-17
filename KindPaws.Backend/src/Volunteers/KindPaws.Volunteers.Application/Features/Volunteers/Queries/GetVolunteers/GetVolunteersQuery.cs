@@ -6,8 +6,5 @@ public record GetVolunteersQuery(
     int PageNumber,
     int PageSize,
     string? SortBy,
-    string? SortDirection,
-    string? FirstName,
-    string? LastName,
-    string? Patronymic)
+    string? SortDirection)
     : IQuery;

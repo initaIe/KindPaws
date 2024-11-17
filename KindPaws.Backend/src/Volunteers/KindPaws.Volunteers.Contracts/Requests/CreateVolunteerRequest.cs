@@ -3,6 +3,7 @@
 namespace KindPaws.Volunteers.Contracts.Requests;
 
 public record CreateVolunteerRequest(
-    FullNameDto FullName,
-    string EmailAddress,
-    string PhoneNumber);
+    string? Description,
+    AddressDto? Address,
+    int? YearsOfExperience,
+    IEnumerable<RequisiteDto> Requisites);

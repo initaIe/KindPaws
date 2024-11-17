@@ -1,6 +1,4 @@
-﻿using Dapper;
-using KindPaws.Core.DI;
-using KindPaws.WEB.DI.Injections.Modules;
+﻿using KindPaws.WEB.DI.Injections.Modules;
 using KindPaws.WEB.DI.Injections.Others;
 
 namespace KindPaws.WEB.DI;
@@ -15,8 +13,6 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         DapperConfiguration.Configure();
-        
-        services.AddCore();
         
         services.AddApplications();
 

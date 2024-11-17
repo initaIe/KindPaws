@@ -1,10 +1,10 @@
 ﻿namespace KindPaws.SharedKernel.Utilities.Helpers;
 
-public static class DateOnlyHelper
+public static class DateTimeHelpers
 {
-    public static int CalculateYearsPassed(DateOnly startDate, DateOnly? endDate = null)
+    public static int CalculateYearsPassed(DateTime startDate, DateTime? endDate = null)
     {
-        endDate ??= GetDateOnlyNow();
+        endDate ??= DateTime.UtcNow;
 
         if (endDate < startDate)
             throw new InvalidOperationException("Start date cannot be early than end date");
@@ -14,10 +14,5 @@ public static class DateOnlyHelper
         if (endDate < startDate.AddYears(years)) years--;
 
         return years;
-    }
-
-    public static DateOnly GetDateOnlyNow()
-    {
-        return DateOnly.FromDateTime(DateTime.Now);
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Serialization;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
-using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
-namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
+namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 
 // TODO: in future add entity SocialNetwork with ID mb
 public record SocialNetwork

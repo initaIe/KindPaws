@@ -1,5 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -24,7 +25,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
     {
         Name = name;
         PetType = petType;
-        CreationDateTime = DateTime.UtcNow; // TODO: fix UTC
+        CreationDateTime = DateTime.UtcNow;
     }
 
     public ShortName Name { get; private set; }
@@ -33,13 +34,14 @@ public class Pet : Entity<PetId>, ISoftDeletable
     public SupportStatus? SupportStatus { get; private set; }
     public MediumDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
-    public Age? Age { get; private set; }
+    public Birthday? Birthday { get; private set; }
     public HealthDetails HealthDetails { get; private set; } = HealthDetails.Empty;
     public BiometricDetails BiometricDetails { get; private set; } = BiometricDetails.Empty;
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletedDateTime { get; private set; }
+    public int? YearsOld => Birthday == null ? null : DateTimeHelpers.CalculateYearsPassed(Birthday.DateBirth);
 
     internal void UpdateMainInfo(
         PetType petType,
@@ -53,14 +55,14 @@ public class Pet : Entity<PetId>, ISoftDeletable
         SupportStatus? supportStatus,
         MediumDescription? description,
         PetColor? petColor,
-        Age? age,
+        Birthday? age,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
         SupportStatus = supportStatus;
         Description = description;
         Color = petColor;
-        Age = age;
+        Birthday = age;
         HealthDetails = healthDetails ?? HealthDetails.Empty;
         BiometricDetails = biometricDetails ?? BiometricDetails.Empty;
     }

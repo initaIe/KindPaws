@@ -84,8 +84,6 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
         var photos = JsonSerializer.Deserialize<IEnumerable<PetPhoto>>(petResponse.photos)!
             .Select(p => p.ToDto());
 
-        var dateBirth = DateOnly.FromDateTime(petResponse.date_birth);
-
         var petDto = new PetDto
         {
             Id = petResponse.id,
@@ -95,7 +93,7 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
             SupportStatus = petResponse.support_status,
             Description = petResponse.description,
             Color = petResponse.color,
-            Age = dateBirth,
+            Birthday = petResponse.date_birth,
             HealthDetails = healthDetails,
             BiometricDetails = biometricDetails,
             CreationDateTime = petResponse.creation_date_time,

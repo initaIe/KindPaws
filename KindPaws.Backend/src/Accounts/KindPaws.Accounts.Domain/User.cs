@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using Microsoft.AspNetCore.Identity;
 
 namespace KindPaws.Accounts.Domain;
 
@@ -10,6 +12,10 @@ public class User : IdentityUser<Guid>
     {
     }
 
+    public FullName FullName { get; private set; }
+    public IReadOnlyList<SocialNetwork> SocialNetworks { get; private set; }
+    public EmailAddress EmailAddress { get; private set; }
+    public PhoneNumber PhoneNumber { get; private set; }
     public IReadOnlyList<Role> Roles => _roles;
 
     public static User CreateAdmin(string userName, string email, Role role)
@@ -21,16 +27,4 @@ public class User : IdentityUser<Guid>
             _roles = [role]
         };
     }
-
-    // private List<SocialNetwork> _socialNetworks = [];
-    // private List<Requisite> _requisites = [];
-    //
-    // // ef core
-    //
-    // public User()
-    // {
-    // }
-    //
-    // public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
-    // public IReadOnlyList<Requisite> Requisites => _requisites;
 }

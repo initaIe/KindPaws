@@ -68,9 +68,9 @@ public class UpdatePetAdditionalInfoHandler
         if (command.Color != null)
             color = PetColor.Create(command.Color).Value;
 
-        Age? age = null;
+        Birthday? age = null;
         if (command.BirthDate != null)
-            age = Age.Create(command.BirthDate.Value).Value;
+            age = Birthday.Create(command.BirthDate.Value).Value;
 
         MediumDescription? healthDescription = null;
         List<Vaccine> vaccines = [];
@@ -150,7 +150,7 @@ public class UpdatePetAdditionalInfoHandler
         SupportStatus? supportStatus,
         MediumDescription? description,
         PetColor? color,
-        Age? age,
+        Birthday? age,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails,
         VolunteerId volunteerId)

@@ -12,8 +12,7 @@ using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePosition;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.HardDelete;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDelete;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateAdditionalInfo;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateMainInfo;
+using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
 using KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteerById;
 using KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteers;
 using KindPaws.Volunteers.Contracts.Requests;
@@ -116,28 +115,11 @@ public class VolunteersController : ApplicationController
     }
 
     [Permission(Permissions.Volunteers.UpdateVolunteer)]
-    [HttpPut("{volunteerId:guid}/main-info")]
-    public async Task<IActionResult> UpdateMainInfo(
+    [HttpPut("{volunteerId:guid}/info")]
+    public async Task<IActionResult> UpdateInfo(
         [FromRoute] Guid volunteerId,
-        [FromBody] UpdateVolunteerMainInfoRequest request,
-        [FromServices] UpdateVolunteerMainInfoHandler handler,
-        CancellationToken token)
-    {
-        var command = request.ToCommand(volunteerId);
-
-        var result = await handler.HandleAsync(command, token);
-        if (result.IsFailure)
-            return result.Error.ToResponse();
-
-        return Ok(result.Value);
-    }
-
-    [Permission(Permissions.Volunteers.UpdateVolunteer)]
-    [HttpPut("{volunteerId:guid}/additional-info")]
-    public async Task<IActionResult> UpdateAdditionalInfo(
-        [FromRoute] Guid volunteerId,
-        [FromBody] UpdateVolunteerAdditionalInfoRequest request,
-        [FromServices] UpdateVolunteerAdditionalInfoHandler handler,
+        [FromBody] UpdateVolunteerInfoRequest request,
+        [FromServices] UpdateVolunteerInfoHandler handler,
         CancellationToken token)
     {
         var command = request.ToCommand(volunteerId);

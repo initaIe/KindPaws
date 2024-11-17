@@ -116,14 +116,14 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateOnly?>("Age")
-                        .HasColumnType("date")
-                        .HasColumnName("date_birth");
-
                     b.Property<string>("BiometricDetails")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("biometric_details");
+
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("birthday");
 
                     b.Property<string>("Color")
                         .HasMaxLength(128)

@@ -84,12 +84,12 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnType("citext")
             .IsRequired(false);
 
-        // AGE
-        builder.Property(p => p.Age)
+        // Birthday
+        builder.Property(p => p.Birthday)
             .HasConversion(
                 a => a!.DateBirth,
-                value => Age.Create(value).Value)
-            .HasColumnName("date_birth")
+                value => Birthday.Create(value).Value)
+            .HasColumnName("birthday")
             .IsRequired(false);
 
         // HEALTH DETAILS

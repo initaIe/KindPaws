@@ -18,31 +18,6 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         builder.Property(v => v.Id)
             .HasColumnName("id");
 
-        // FULLNAME
-        builder.ComplexProperty(v => v.FullName, fb =>
-        {
-            fb.Property(x => x.FirstName)
-                .HasColumnName("first_name")
-                .HasColumnType("citext");
-
-            fb.Property(x => x.LastName)
-                .HasColumnName("last_name")
-                .HasColumnType("citext");
-
-            fb.Property(x => x.Patronymic)
-                .HasColumnName("patronymic")
-                .HasColumnType("citext");
-        });
-
-        // EMAIL ADDRESS
-        builder.Property(v => v.EmailAddress)
-            .HasColumnName("email_address")
-            .HasColumnType("citext");
-
-        // PHONE NUMBER
-        builder.Property(v => v.PhoneNumber)
-            .HasColumnName("phone_number");
-
         // DESCRIPTION
         builder.Property(v => v.Description)
             .HasColumnName("description");
@@ -58,15 +33,6 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
             .HasColumnName("years_of_experience");
-
-        // SOCIAL NETWORKS
-        builder.Property(p => p.SocialNetworks)
-            .HasColumnName("social_networks")
-            .HasColumnType("jsonb")
-            .HasConversion(
-                socialNetworks => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IEnumerable<SocialNetwork>>(json, JsonSerializerOptions.Default)!
-                    .Select(s => s.ToDto()).ToArray());
 
         // REQUISITES
         builder.Property(p => p.Requisites)

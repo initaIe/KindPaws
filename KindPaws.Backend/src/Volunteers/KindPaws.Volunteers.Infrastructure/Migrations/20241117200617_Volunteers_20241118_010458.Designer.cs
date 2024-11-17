@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Volunteers.Infrastructure.Migrations
 {
     [DbContext(typeof(VolunteersWriteDbContext))]
-    [Migration("20241117132053_Volunteers_20241117_181940")]
-    partial class Volunteers_20241117_181940
+    [Migration("20241117200617_Volunteers_20241118_010458")]
+    partial class Volunteers_20241118_010458
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,14 +119,14 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateOnly?>("Age")
-                        .HasColumnType("date")
-                        .HasColumnName("date_birth");
-
                     b.Property<string>("BiometricDetails")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("biometric_details");
+
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("birthday");
 
                     b.Property<string>("Color")
                         .HasMaxLength(128)

@@ -1,4 +1,5 @@
 using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
@@ -45,14 +46,24 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
         _breeds.Remove(breed);
     }
 
+    public Result<Breed, Error> GetBreedById(BreedId breedId)
+    {
+        var breed = _breeds.FirstOrDefault(b=>b.Id == breedId);
+        
+        if (breed == null)
+            return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), breedId);
+
+        return breed;
+    }
+
     public void SoftDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
+        var breedResult = GetBreedById(breedId);
 
-        if (breed == null)
+        if (breedResult.IsFailure)
             return;
 
-        breed.SoftDelete();
+        breedResult.Value.SoftDelete();
     }
 
     public void SoftDelete()

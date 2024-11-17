@@ -6,8 +6,7 @@ using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateMainInfo;
 using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePosition;
 using KindPaws.Volunteers.Application.Features.Pets.Queries.GetPets;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateAdditionalInfo;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateMainInfo;
+using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
 using KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteers;
 using KindPaws.Volunteers.Contracts.Requests;
 
@@ -33,9 +32,20 @@ public static class RequestsMappers
 
     public static CreateVolunteerCommand ToCommand(this CreateVolunteerRequest request)
         => new(
-            request.FullName,
-            request.EmailAddress,
-            request.PhoneNumber);
+            request.Description,
+            request.Address,
+            request.YearsOfExperience,
+            request.Requisites);
+    
+    public static UpdateVolunteerInfoCommand ToCommand(
+        this UpdateVolunteerInfoRequest request,
+        Guid volunteerId)
+        => new(
+            volunteerId,
+            request.Description,
+            request.Address,
+            request.YearsOfExperience,
+            request.Requisites);
 
     public static AddPetCommand ToCommand(
         this AddPetRequest request,
@@ -51,30 +61,7 @@ public static class RequestsMappers
             request.PageNumber,
             request.PageSize,
             request.SortBy,
-            request.SortDirection,
-            request.FirstName,
-            request.LastName,
-            request.Patronymic);
-
-    public static UpdateVolunteerMainInfoCommand ToCommand(
-        this UpdateVolunteerMainInfoRequest request,
-        Guid volunteerId)
-        => new(
-            volunteerId,
-            request.FullName,
-            request.EmailAddress,
-            request.PhoneNumber);
-
-    public static UpdateVolunteerAdditionalInfoCommand ToCommand(
-        this UpdateVolunteerAdditionalInfoRequest request,
-        Guid volunteerId)
-        => new(
-            volunteerId,
-            request.Description,
-            request.Address,
-            request.YearsOfExperience,
-            request.SocialNetworks,
-            request.Requisites);
+            request.SortDirection);
 
     public static UpdatePetMainInfoCommand ToCommand(
         this UpdatePetMainInfoRequest request,
