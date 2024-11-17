@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using KindPaws.Core.DI;
 using KindPaws.WEB.DI.Injections.Modules;
 using KindPaws.WEB.DI.Injections.Others;
 
@@ -13,6 +14,10 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        DapperConfiguration.Configure();
+        
+        services.AddCore();
+        
         services.AddApplications();
 
         services.AddSpeciesModule();
@@ -21,8 +26,6 @@ public static class DependencyInjection
 
         services.AddSerilogLogger(configuration);
         services.AddOptions(configuration);
-
-        DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }
