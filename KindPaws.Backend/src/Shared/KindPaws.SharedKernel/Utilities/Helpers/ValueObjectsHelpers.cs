@@ -6,7 +6,7 @@ namespace KindPaws.SharedKernel.Utilities.Helpers;
 // TODO: подумать куда его правильно мувнуть!
 public static class ValueObjectsHelpers
 {
-    public static TValueObject? CreateNullableValueObject<TValueObject, TInput>(
+    public static TValueObject? CreateNullableValueObject<TValueObject, TInput>( 
         TInput? value,
         Func<TInput, Result<TValueObject, Error>> createValueObject)
     {
@@ -19,7 +19,7 @@ public static class ValueObjectsHelpers
     }
     
     public static List<TValueObject> CreateNullableValueObjects<TValueObject, TInput>(
-        IEnumerable<TInput>? values,
+        IEnumerable<TInput> values,
         Func<TInput, Result<TValueObject, Error>> createValueObject)
     {
         var valuesList = values?.ToList();

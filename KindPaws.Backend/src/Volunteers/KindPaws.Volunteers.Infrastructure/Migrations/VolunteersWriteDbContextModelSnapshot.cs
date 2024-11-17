@@ -40,31 +40,14 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                         .HasColumnType("character varying(2048)")
                         .HasColumnName("description");
 
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("citext")
-                        .HasColumnName("email_address");
-
                     b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_soft_deleted");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("citext")
-                        .HasColumnName("phone_number");
 
                     b.Property<string>("Requisites")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("requisites");
-
-                    b.Property<string>("SocialNetworks")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("social_networks");
 
                     b.Property<DateTime?>("SoftDeletedDateTime")
                         .HasColumnType("timestamp with time zone")
@@ -74,38 +57,8 @@ namespace KindPaws.Volunteers.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("years_of_experience");
 
-                    b.ComplexProperty<Dictionary<string, object>>("FullName", "KindPaws.Volunteers.Domain.AggregateRoot.Volunteer.FullName#FullName", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("citext")
-                                .HasColumnName("first_name");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("citext")
-                                .HasColumnName("last_name");
-
-                            b1.Property<string>("Patronymic")
-                                .HasMaxLength(128)
-                                .HasColumnType("citext")
-                                .HasColumnName("patronymic");
-                        });
-
                     b.HasKey("Id")
                         .HasName("pk_volunteers");
-
-                    b.HasIndex("EmailAddress")
-                        .IsUnique()
-                        .HasDatabaseName("ix_volunteers_email_address");
-
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique()
-                        .HasDatabaseName("ix_volunteers_phone_number");
 
                     b.ToTable("volunteers", "volunteers");
                 });
