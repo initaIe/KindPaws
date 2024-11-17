@@ -2,6 +2,7 @@
 using KindPaws.Core.Dtos;
 using KindPaws.Core.Dtos.DapperDtos;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Application.Helpers;

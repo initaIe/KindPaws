@@ -23,7 +23,7 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [Permission(Permissions.Pets.GetPet)]
     [HttpGet("dapper")]
     public async Task<IActionResult> GetPetsDapper(
@@ -37,7 +37,7 @@ public class PetsController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [Permission(Permissions.Pets.GetPet)]
     [HttpGet("{petId:guid}")]
     public async Task<IActionResult> GetPetById(
@@ -54,7 +54,7 @@ public class PetsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [Permission(Permissions.Pets.GetPet)]
     [HttpGet("{petId:guid}/dapper")]
     public async Task<IActionResult> GetPetByIdDapper(

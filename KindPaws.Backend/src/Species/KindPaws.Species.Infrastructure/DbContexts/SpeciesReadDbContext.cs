@@ -1,7 +1,7 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
-using KindPaws.Core.Dtos;
 using KindPaws.Framework.Options;
 using KindPaws.Species.Application.Interfaces;
+using KindPaws.Species.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

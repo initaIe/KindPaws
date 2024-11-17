@@ -59,7 +59,7 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, Refre
 
         if (user == null)
             return Errors.General.RecordNotFound(nameof(User)).ToErrorList();
-        
+
         if (refreshSessionResult.Value.UserId != userId)
             return Errors.Accounts.TokenIsInvalid().ToErrorList();
 

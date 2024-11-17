@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Dtos;
+﻿using KindPaws.Volunteers.Contracts.Dtos;
 
 namespace KindPaws.Volunteers.Application.Interfaces;
 

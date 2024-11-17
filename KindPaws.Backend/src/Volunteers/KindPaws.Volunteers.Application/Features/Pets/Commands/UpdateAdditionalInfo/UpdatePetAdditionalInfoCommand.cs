@@ -1,5 +1,5 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
-using KindPaws.Core.Dtos;
+using KindPaws.Volunteers.Contracts.Dtos;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditionalInfo;
 

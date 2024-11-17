@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Dtos;
+﻿using KindPaws.Species.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

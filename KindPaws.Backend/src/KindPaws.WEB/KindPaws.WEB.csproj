@@ -44,6 +44,10 @@
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Domain\KindPaws.Volunteers.Domain.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Infrastructure\KindPaws.Volunteers.Infrastructure.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Presentation\KindPaws.Volunteers.Presentation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Factories\" />
     </ItemGroup>    
 
 </Project>

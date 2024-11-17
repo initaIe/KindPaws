@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Core.Dtos;
+﻿namespace KindPaws.Species.Contracts.Dtos;
 
 public class SpecieDto
 {

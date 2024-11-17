@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Dtos;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Contracts.Dtos;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Queries.GetPets;
 

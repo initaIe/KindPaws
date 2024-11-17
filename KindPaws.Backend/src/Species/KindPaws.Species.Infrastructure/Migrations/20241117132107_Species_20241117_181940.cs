@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Species.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Species_20241116_021135 : Migration
+    public partial class Species_20241117_181940 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

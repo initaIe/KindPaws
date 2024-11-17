@@ -1,9 +1,9 @@
 ﻿using Dapper;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Dtos;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
+using KindPaws.Species.Contracts.Dtos;
 
 namespace KindPaws.Species.Application.Features.Species.Queries.GetSpecies;
 

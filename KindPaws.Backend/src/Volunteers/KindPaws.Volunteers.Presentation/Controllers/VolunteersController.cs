@@ -1,6 +1,5 @@
 ﻿using KindPaws.Framework;
 using KindPaws.Framework.Authorization;
-using KindPaws.Framework.Options;
 using KindPaws.Volunteers.Application.Features.Pets.Commands.Add;
 using KindPaws.Volunteers.Application.Features.Pets.Commands.AddPhotos;
 using KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePhotos;
@@ -20,10 +19,8 @@ using KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteers;
 using KindPaws.Volunteers.Contracts.Requests;
 using KindPaws.Volunteers.Presentation.Converters;
 using KindPaws.Volunteers.Presentation.Mappers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace KindPaws.Volunteers.Presentation.Controllers;
 
@@ -44,7 +41,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [Permission(Permissions.Volunteers.AddPet)]
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> AddPet(
@@ -86,7 +83,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [Permission(Permissions.Volunteers.GetVolunteer)]
     [HttpGet]
     public async Task<IActionResult> GetVolunteers(

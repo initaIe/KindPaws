@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Accounts.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Accounts_20241116_021135 : Migration
+    public partial class Accounts_20241117_181940 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -46,7 +46,7 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [Permission(Permissions.Species.HardDeleteSpecie)]
     [HttpDelete("{specieId:guid}/hard")]
     public async Task<IActionResult> HardDelete(
@@ -96,7 +96,7 @@ public class SpeciesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [Permission(Permissions.Species.HardDeleteBreed)]
     [HttpDelete("{specieId:guid}/breeds/{breedId:guid}/hard")]
     public async Task<IActionResult> HardDeleteBreed(
@@ -127,7 +127,7 @@ public class SpeciesController : ApplicationController
 
         return Ok(result);
     }
-    
+
     [Permission(Permissions.Species.GetSpecie)]
     [HttpGet("dapper")]
     public async Task<IActionResult> GetSpeciesDapper(

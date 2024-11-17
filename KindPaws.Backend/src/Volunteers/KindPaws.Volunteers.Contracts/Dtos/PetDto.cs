@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Core.Dtos;
+﻿namespace KindPaws.Volunteers.Contracts.Dtos;
 
 public class PetDto
 {
