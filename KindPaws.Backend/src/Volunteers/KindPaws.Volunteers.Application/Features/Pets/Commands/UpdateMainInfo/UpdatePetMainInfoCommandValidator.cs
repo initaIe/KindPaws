@@ -22,6 +22,6 @@ public class UpdatePetMainInfoCommandValidator : AbstractValidator<UpdatePetMain
             .MustBeValueObject(BreedId.Create);
 
         RuleFor(u => u.Name)
-            .MustBeValueObject(ShortName.Create);
+            .MustBeValueObject(ShortAlphabeticString.Create);
     }
 }

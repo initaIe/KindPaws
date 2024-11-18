@@ -59,7 +59,7 @@ public class UpdatePetMainInfoHandler
 
         var petId = PetId.Create(command.PetId).Value;
 
-        var petName = ShortName.Create(command.Name).Value;
+        var petName = ShortString.Create(command.Name).Value;
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var petType = new PetType(specieId, command.BreedId);
 
@@ -74,7 +74,7 @@ public class UpdatePetMainInfoHandler
         return petId.Value;
     }
 
-    private void Log(PetId petId, PetType petType, ShortName petName, VolunteerId volunteerId)
+    private void Log(PetId petId, PetType petType, ShortString petName, VolunteerId volunteerId)
     {
         _logger.LogInformation("PET updated main info with ID: {Id}; " +
                                "Properties: {PetType}, {PetName}; " +

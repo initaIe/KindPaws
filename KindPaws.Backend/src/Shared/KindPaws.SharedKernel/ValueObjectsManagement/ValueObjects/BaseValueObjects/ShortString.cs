@@ -2,35 +2,36 @@
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints.BaseConstraints;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 
-public record ShortName
+/// <summary>
+/// Not nullable, Trim, ToLower, 1st char to UpperCase, range.
+/// </summary>
+public class ShortString
 {
-    private ShortName(string value)
+    private ShortString(string value)
     {
         Value = value;
     }
 
     public string Value { get; }
 
-    public static Result<ShortName, Error> Create(string input)
+    public static Result<ShortString, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(ShortName));
+            return Errors.General.ValueIsRequired(nameof(ShortString));
 
         input = input.Trim().ToLower();
         input = char.ToUpper(input[0]) + input.Substring(1); // TODO
 
         if (!StringValidator.IsInRange(
                 input,
-                ShortNameConstraints.MinLength,
-                ShortNameConstraints.MaxLength))
+                ShortStringConstraints.MinLength,
+                ShortStringConstraints.MaxLength))
             return Errors.General.ValueOutOfRange();
 
-        if (!StringValidator.IsAlphabetic(input))
-            return Errors.General.ValueCharacterSetIsInvalid(nameof(ShortName));
-
-        return new ShortName(input);
+        return new ShortString(input);
     }
 }

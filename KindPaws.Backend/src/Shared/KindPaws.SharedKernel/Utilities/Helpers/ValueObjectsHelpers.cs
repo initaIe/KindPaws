@@ -19,7 +19,7 @@ public static class ValueObjectsHelpers
     }
     
     public static List<TValueObject> CreateNullableValueObjects<TValueObject, TInput>(
-        IEnumerable<TInput> values,
+        IEnumerable<TInput>? values,
         Func<TInput, Result<TValueObject, Error>> createValueObject)
     {
         var valuesList = values?.ToList();

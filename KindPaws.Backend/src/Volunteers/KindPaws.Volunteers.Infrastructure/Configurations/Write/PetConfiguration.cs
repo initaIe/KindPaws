@@ -3,6 +3,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints.BaseConstraints;
 using KindPaws.Volunteers.Domain.Entities;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
@@ -44,15 +45,18 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.ComplexProperty(pet => pet.Name, name =>
         {
             name.Property(pet => pet.Value)
-                .HasMaxLength(ShortNameConstraints.MaxLength)
+                .HasMaxLength(ShortAlphabeticStringConstraints.MaxLength)
                 .HasColumnName("name")
                 .HasColumnType("citext")
                 .IsRequired();
         });
 
         // CREATION DATE
-        builder.Property(p => p.CreationDateTime)
-            .HasColumnName("creation_date_time")
+        builder.Property(p => p.CreationTimestamp)
+            .HasConversion(
+                utc => utc.Value,
+                dateTime => UtcNowTimestamp.Create(dateTime))
+            .HasColumnName("creation_timestamp")
             .IsRequired();
 
         // SUPPORT STATUS
@@ -69,7 +73,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Description)
             .HasConversion(
                 d => d!.Value,
-                value => MediumDescription.Create(value).Value)
+                value => MediumString.Create(value).Value)
             .HasMaxLength(MediumDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
@@ -87,7 +91,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // Birthday
         builder.Property(p => p.Birthday)
             .HasConversion(
-                a => a!.DateBirth,
+                a => a!.Value,
                 value => Birthday.Create(value).Value)
             .HasColumnName("birthday")
             .IsRequired(false);
@@ -127,7 +131,10 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired();
 
         // SOFT DELETE DATE TIME
-        builder.Property(b => b.SoftDeletedDateTime)
+        builder.Property(p => p.CreationTimestamp)
+            .HasConversion(
+                utc => utc.Value,
+                dateTime => UtcNowTimestamp.Create(dateTime))
             .HasColumnName("soft_delete_datetime")
             .IsRequired(false);
     }

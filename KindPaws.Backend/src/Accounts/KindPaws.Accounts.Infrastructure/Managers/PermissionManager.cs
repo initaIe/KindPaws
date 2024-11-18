@@ -31,20 +31,6 @@ public class PermissionManager
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<string>> GetUserPermissionCodesAsync(Guid userId)
-    {
-        return await _dbContext.Users
-            .Include(u => u.Roles)
-            .ThenInclude(r => r.RolePermissions)
-            .ThenInclude(rp => rp.Permission)
-            .Where(u => u.Id == userId)
-            .SelectMany(u => u.Roles
-                .SelectMany(r => r.RolePermissions
-                    .Select(rp => rp.Permission.Code)))
-            .Distinct()
-            .ToListAsync();
-    }
-
     public async Task<bool> HasUserPermission(Guid userId, string permissionCode)
     {
         return await _dbContext.Users

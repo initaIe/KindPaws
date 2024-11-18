@@ -5,19 +5,22 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 
-public record MediumDescription
+/// <summary>
+/// Not nullable, Trim, range.
+/// </summary>
+public record MediumString
 {
-    private MediumDescription(string value)
+    private MediumString(string value)
     {
         Value = value;
     }
 
     public string Value { get; }
 
-    public static Result<MediumDescription, Error> Create(string input)
+    public static Result<MediumString, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(ShortName));
+            return Errors.General.ValueIsRequired(nameof(ShortAlphabeticString));
 
         input = input.Trim();
 
@@ -25,8 +28,8 @@ public record MediumDescription
                 input,
                 MediumDescriptionConstraints.MinLength,
                 MediumDescriptionConstraints.MaxLength))
-            return Errors.General.ValueOutOfRange(nameof(MediumDescription));
+            return Errors.General.ValueOutOfRange(nameof(MediumString));
 
-        return new MediumDescription(input);
+        return new MediumString(input);
     }
 }

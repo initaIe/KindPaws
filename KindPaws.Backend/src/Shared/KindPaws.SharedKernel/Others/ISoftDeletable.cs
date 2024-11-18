@@ -1,7 +1,9 @@
-﻿namespace KindPaws.SharedKernel.Others;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+
+namespace KindPaws.SharedKernel.Others;
 
 public interface ISoftDeletable
 {
     bool IsSoftDeleted { get; }
-    DateTime? SoftDeletedDateTime { get; }
+    UtcNowTimestamp? SoftDeletionTimestamp { get; }
 }

@@ -18,7 +18,7 @@ public record HealthDetails
     }
 
     public HealthDetails(
-        MediumDescription? description,
+        MediumString? description,
         IEnumerable<Vaccine>? vaccines,
         IEnumerable<Disease>? diseases,
         HealthStatus? healthStatus,
@@ -31,7 +31,7 @@ public record HealthDetails
         IsNeutered = isNeutered;
     }
 
-    public MediumDescription? Description { get; }
+    public MediumString? Description { get; }
     public IReadOnlyList<Vaccine> Vaccines { get; }
     public IReadOnlyList<Disease> Diseases { get; }
     public HealthStatus? HealthStatus { get; }

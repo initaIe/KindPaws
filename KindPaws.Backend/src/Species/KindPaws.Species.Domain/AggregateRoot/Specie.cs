@@ -1,5 +1,6 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
@@ -17,19 +18,19 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
 
     public Specie(
         SpecieId id,
-        ShortName name,
-        MediumDescription description)
+        ShortAlphabeticWhiteSpacesString name,
+        MediumString description)
         : base(id)
     {
         Name = name;
         Description = description;
     }
 
-    public ShortName Name { get; private set; }
-    public MediumDescription Description { get; private set; }
+    public ShortAlphabeticWhiteSpacesString Name { get; private set; }
+    public MediumString Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletedDateTime { get; private set; }
+    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
 
     public void AddBreed(Breed breed)
     {
@@ -69,14 +70,14 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletedDateTime = DateTime.UtcNow;
+        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
         _breeds.ForEach(breed => breed.SoftDelete());
     }
 
     public void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletedDateTime = null;
+        SoftDeletionTimestamp = null;
         _breeds.ForEach(breed => breed.Restore());
     }
 }

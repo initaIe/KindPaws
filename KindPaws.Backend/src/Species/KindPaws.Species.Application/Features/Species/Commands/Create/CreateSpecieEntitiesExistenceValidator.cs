@@ -24,7 +24,7 @@ public class CreateSpecieEntitiesExistenceValidator : IEntitiesExistenceValidato
         var isSpecieByNameExist = await _readDbContext.Species.AnyAsync(
             s => s.Name == validationData.Name, cancellationToken);
         if (isSpecieByNameExist)
-            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortName));
+            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortAlphabeticString));
 
         return true;
     }

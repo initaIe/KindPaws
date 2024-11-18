@@ -1,4 +1,5 @@
 using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
@@ -13,28 +14,28 @@ public class Breed : Entity<BreedId>, ISoftDeletable
 
     public Breed(
         BreedId id,
-        ShortName name,
-        MediumDescription description)
+        ShortAlphabeticWhiteSpacesString name,
+        MediumString description)
         : base(id)
     {
         Name = name;
         Description = description;
     }
 
-    public ShortName Name { get; private set; }
-    public MediumDescription Description { get; private set; }
+    public ShortAlphabeticWhiteSpacesString Name { get; private set; }
+    public MediumString Description { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletedDateTime { get; private set; }
+    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
 
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletedDateTime = DateTime.UtcNow;
+        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
     }
 
     internal void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletedDateTime = null;
+        SoftDeletionTimestamp = null;
     }
 }

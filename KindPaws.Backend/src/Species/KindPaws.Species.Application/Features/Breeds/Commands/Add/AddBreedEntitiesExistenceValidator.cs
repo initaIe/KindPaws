@@ -32,7 +32,7 @@ public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<Ad
             b => b.SpecieId == validationData.SpeciesId && b.Name == validationData.BreedName,
             cancellationToken);
         if (isBreedByNameForSpecieByIdExist)
-            return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortName));
+            return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortAlphabeticString));
 
         return true;
     }

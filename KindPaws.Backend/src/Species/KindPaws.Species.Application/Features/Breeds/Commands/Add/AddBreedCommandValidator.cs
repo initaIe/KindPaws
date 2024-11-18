@@ -13,9 +13,9 @@ public class AddBreedCommandValidator : AbstractValidator<AddBreedCommand>
             .MustBeValueObject(SpecieId.Create);
 
         RuleFor(a => a.Name)
-            .MustBeValueObject(ShortName.Create);
+            .MustBeValueObject(ShortAlphabeticString.Create);
 
         RuleFor(a => a.Description)
-            .MustBeValueObject(MediumDescription.Create);
+            .MustBeValueObject(MediumString.Create);
     }
 }

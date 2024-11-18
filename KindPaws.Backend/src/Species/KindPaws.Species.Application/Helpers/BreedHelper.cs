@@ -9,8 +9,8 @@ public static class BreedHelper
     public static Breed ForceCreateNewBreed(string name, string description)
     {
         var breedId = BreedId.CreateRandom();
-        var breedName = ShortName.Create(name).Value;
-        var breedDescription = MediumDescription.Create(description).Value;
+        var breedName = ShortAlphabeticWhiteSpacesString.Create(name).Value;
+        var breedDescription = MediumString.Create(description).Value;
 
         return new Breed(
             breedId,

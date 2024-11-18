@@ -11,7 +11,7 @@ public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteer
     public CreateVolunteerCommandValidator()
     {
         RuleFor(c => c.Description)
-            .MustBeValueObject(MediumDescription.Create!)
+            .MustBeValueObject(MediumString.Create!)
             .When(c => c.Description != null);
         
         RuleFor(c => c.Address)

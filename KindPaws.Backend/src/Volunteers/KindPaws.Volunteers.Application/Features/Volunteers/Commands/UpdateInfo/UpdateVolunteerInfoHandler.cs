@@ -65,7 +65,7 @@ public class UpdateVolunteerInfoHandler
 
         var description = ValueObjectsHelpers.CreateNullableValueObject(
             command.Description,
-            MediumDescription.Create);
+            MediumString.Create);
 
         var address = ValueObjectsHelpers.CreateNullableValueObject(
             command.Address,

@@ -9,9 +9,9 @@ public class CreateSpecieCommandValidator : AbstractValidator<CreateSpecieComman
     public CreateSpecieCommandValidator()
     {
         RuleFor(c => c.Name)
-            .MustBeValueObject(ShortName.Create);
+            .MustBeValueObject(ShortAlphabeticString.Create);
 
         RuleFor(c => c.Description)
-            .MustBeValueObject(MediumDescription.Create);
+            .MustBeValueObject(MediumString.Create);
     }
 }

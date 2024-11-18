@@ -6,6 +6,7 @@ using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -19,9 +20,7 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditiona
 public class UpdatePetAdditionalInfoHandler
     : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>
 {
-    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData>
-        _entitiesExistenceValidator;
-
+    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
@@ -56,75 +55,61 @@ public class UpdatePetAdditionalInfoHandler
         if (entitiesExistenceValidationResult.IsFailure)
             return entitiesExistenceValidationResult.Error.ToErrorList();
 
-        SupportStatus? supportStatus = null;
-        if (command.SupportStatus != null)
-            supportStatus = SupportStatus.Create(command.SupportStatus).Value;
+        var supportStatus = ValueObjectsHelpers.CreateNullableValueObject(
+            command.SupportStatus,
+            SupportStatus.Create);
 
-        MediumDescription? description = null;
-        if (command.Description != null)
-            description = MediumDescription.Create(command.Description).Value;
+        var description = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Description,
+            MediumString.Create);
 
-        PetColor? color = null;
-        if (command.Color != null)
-            color = PetColor.Create(command.Color).Value;
+        var color = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Color,
+            PetColor.Create);
 
-        Birthday? age = null;
-        if (command.BirthDate != null)
-            age = Birthday.Create(command.BirthDate.Value).Value;
+        var birthday = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Birthday,
+            b=>Birthday.Create(b!.Value));
+        
+        var healthDescription = ValueObjectsHelpers.CreateNullableValueObject(
+            command.HealthDetails?.Description,
+            MediumString.Create);
+        
+        var vaccines = ValueObjectsHelpers.CreateNullableValueObjects(
+            command.HealthDetails?.Vaccines,
+            Vaccine.Create);
+        
+        var diseases = ValueObjectsHelpers.CreateNullableValueObjects(
+            command.HealthDetails?.Diseases,
+            Disease.Create);
+        
+        var healthStatus = ValueObjectsHelpers.CreateNullableValueObject(
+            command.HealthDetails?.HealthStatus,
+            HealthStatus.Create);
 
-        MediumDescription? healthDescription = null;
-        List<Vaccine> vaccines = [];
-        List<Disease> diseases = [];
-        HealthStatus? healthStatus = null;
-        bool? isNeutered = null;
+        var healthDetails = new HealthDetails(
+            healthDescription,
+            vaccines,
+            diseases, 
+            healthStatus,
+            command.HealthDetails?.IsNeutered);
 
-        HealthDetails? healthDetails = null;
-        if (command.HealthDetails != null)
-        {
-            if (command.HealthDetails.Description != null)
-                healthDescription = MediumDescription.Create(command.HealthDetails.Description).Value;
-
-            if (command.HealthDetails.Vaccines != null)
-                vaccines = command.HealthDetails.Vaccines.Select(v => Vaccine.Create(v).Value).ToList();
-
-            if (command.HealthDetails.Diseases != null)
-                diseases = command.HealthDetails.Diseases.Select(v => Disease.Create(v).Value).ToList();
-
-            if (command.HealthDetails.HealthStatus != null)
-                healthStatus = HealthStatus.Create(command.HealthDetails.HealthStatus).Value;
-
-            if (command.HealthDetails.IsNeutered != null)
-                isNeutered = command.HealthDetails.IsNeutered.Value;
-
-            healthDetails = new HealthDetails(
-                healthDescription,
-                vaccines,
-                diseases,
-                healthStatus,
-                isNeutered);
-        }
-
-        Height? height = null;
-        Weight? weight = null;
-        Gender? gender = null;
-
-        BiometricDetails? biometricDetails = null;
-        if (command.BiometricDetails != null)
-        {
-            if (command.BiometricDetails.Height != null)
-                height = Height.Create(command.BiometricDetails.Height.Value).Value;
-
-            if (command.BiometricDetails.Weight != null)
-                weight = Weight.Create(command.BiometricDetails.Weight.Value).Value;
-
-            if (command.BiometricDetails.Gender != null)
-                gender = Gender.Create(command.BiometricDetails.Gender).Value;
-
-            biometricDetails = new BiometricDetails(
-                height,
-                weight,
-                gender);
-        }
+        var height = ValueObjectsHelpers.CreateNullableValueObject(
+            command.BiometricDetails?.Height,
+            h=> Height.Create(h!.Value));
+        
+        var weight = ValueObjectsHelpers.CreateNullableValueObject(
+            command.BiometricDetails?.Weight,
+            w=> Weight.Create(w!.Value));
+        
+        var gender = ValueObjectsHelpers.CreateNullableValueObject(
+            command.BiometricDetails?.Gender,
+            Gender.Create);
+        
+        var biometricDetails = new BiometricDetails(
+            height,
+            weight,
+            gender);
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
@@ -135,12 +120,12 @@ public class UpdatePetAdditionalInfoHandler
             supportStatus,
             description,
             color,
-            age,
+            birthday,
             healthDetails,
             biometricDetails);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        Log(petId, supportStatus, description, color, age, healthDetails, biometricDetails, volunteerId);
+        Log(petId, supportStatus, description, color, birthday, healthDetails, biometricDetails, volunteerId);
 
         return petId.Value;
     }
@@ -148,7 +133,7 @@ public class UpdatePetAdditionalInfoHandler
     private void Log(
         PetId petId,
         SupportStatus? supportStatus,
-        MediumDescription? description,
+        MediumString? description,
         PetColor? color,
         Birthday? age,
         HealthDetails? healthDetails,

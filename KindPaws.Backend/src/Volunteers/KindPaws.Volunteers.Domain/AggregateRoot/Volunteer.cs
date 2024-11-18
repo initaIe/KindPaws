@@ -21,7 +21,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
     public Volunteer(
         VolunteerId id,
-        MediumDescription? description,
+        MediumString? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
         IEnumerable<Requisite> requisites) 
@@ -33,13 +33,13 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         _requisites = requisites.ToList();
     }
 
-    public MediumDescription? Description { get; private set; }
+    public MediumString? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletedDateTime { get; private set; }
+    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
 
     public int GetCountPetsAlreadyFoundHome()
         => _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
@@ -52,7 +52,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 
 
     public void UpdateInfo(
-        MediumDescription? description,
+        MediumString? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
         IEnumerable<Requisite> requisites)
@@ -122,7 +122,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     public Result<Error> UpdatePetMainInfo(
         PetId petId,
         PetType petType,
-        ShortName name)
+        ShortString name)
     {
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
@@ -135,7 +135,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     public Result<Error> UpdatePetAdditionalInfo(
         PetId petId,
         SupportStatus? supportStatus,
-        MediumDescription? description,
+        MediumString? description,
         PetColor? petColor,
         Birthday? age,
         HealthDetails? healthDetails,
@@ -158,14 +158,14 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletedDateTime = DateTime.UtcNow;
+        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
         _pets.ForEach(p => p.SoftDelete());
     }
 
     public void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletedDateTime = null;
+        SoftDeletionTimestamp = null;
         _pets.ForEach(p => p.Restore());
     }
 

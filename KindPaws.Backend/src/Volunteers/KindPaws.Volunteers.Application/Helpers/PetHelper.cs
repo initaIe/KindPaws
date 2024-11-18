@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.Entities;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -12,11 +13,13 @@ public static class PetHelper
         var petId = PetId.CreateRandom();
         var petSpecieId = SpecieId.Create(specieId).Value;
         var petType = new PetType(petSpecieId, breedId);
-        var petName = ShortName.Create(name).Value;
+        var petName = ShortString.Create(name).Value;
+        var creationTimestamp = UtcNowTimestamp.CreateNew();
 
         return new Pet(
             petId,
             petName,
-            petType);
+            petType,
+            creationTimestamp);
     }
 }

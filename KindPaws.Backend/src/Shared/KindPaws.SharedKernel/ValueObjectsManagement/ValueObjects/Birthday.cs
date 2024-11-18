@@ -7,12 +7,12 @@ namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record Birthday
 {
-    private Birthday(DateTime dateBirth)
+    private Birthday(DateTime value)
     {
-        DateBirth = dateBirth;
+        Value = value;
     }
 
-    public DateTime DateBirth { get; }
+    public DateTime Value { get; }
 
     public static Result<Birthday, Error> Create(DateTime input)
     {

@@ -9,8 +9,8 @@ public static class SpecieHelper
     public static Specie ForceCreateNewSpecie(string name, string description)
     {
         var specieId = SpecieId.CreateRandom();
-        var specieName = ShortName.Create(name).Value;
-        var specieDescription = MediumDescription.Create(description).Value;
+        var specieName = ShortAlphabeticWhiteSpacesString.Create(name).Value;
+        var specieDescription = MediumString.Create(description).Value;
 
         return new Specie(
             specieId,

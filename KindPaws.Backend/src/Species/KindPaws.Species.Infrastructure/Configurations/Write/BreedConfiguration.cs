@@ -1,6 +1,8 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints.BaseConstraints;
 using KindPaws.Species.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -25,8 +27,8 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         builder.Property(breed => breed.Name)
             .HasConversion(
                 name => name.Value,
-                value => ShortName.Create(value).Value)
-            .HasMaxLength(ShortNameConstraints.MaxLength)
+                value => ShortAlphabeticWhiteSpacesString.Create(value).Value)
+            .HasMaxLength(ShortAlphabeticStringConstraints.MaxLength)
             .HasColumnName("name")
             .HasColumnType("citext")
             .IsRequired();
@@ -47,7 +49,10 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .IsRequired();
 
         // SOFT DELETE DATE TIME
-        builder.Property(b => b.SoftDeletedDateTime)
+        builder.Property(breed => breed.SoftDeletionTimestamp)
+            .HasConversion(
+                utc => utc!.Value,
+                date => UtcNowTimestamp.Create(date))
             .HasColumnName("soft_delete_datetime")
             .IsRequired(false);
     }

@@ -19,20 +19,21 @@ public class Pet : Entity<PetId>, ISoftDeletable
 
     public Pet(
         PetId id,
-        ShortName name,
-        PetType petType)
+        ShortString name,
+        PetType petType,
+        UtcNowTimestamp creationTimestamp)
         : base(id)
     {
         Name = name;
         PetType = petType;
-        CreationDateTime = DateTime.UtcNow;
+        CreationTimestamp = creationTimestamp;
     }
 
-    public ShortName Name { get; private set; }
+    public ShortString Name { get; private set; }
     public PetType PetType { get; private set; }
-    public DateTime CreationDateTime { get; private set; }
+    public UtcNowTimestamp CreationTimestamp { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
-    public MediumDescription? Description { get; private set; }
+    public MediumString? Description { get; private set; }
     public PetColor? Color { get; private set; }
     public Birthday? Birthday { get; private set; }
     public HealthDetails HealthDetails { get; private set; } = HealthDetails.Empty;
@@ -40,12 +41,12 @@ public class Pet : Entity<PetId>, ISoftDeletable
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletedDateTime { get; private set; }
-    public int? YearsOld => Birthday == null ? null : DateTimeHelpers.CalculateYearsPassed(Birthday.DateBirth);
+    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
+    public int? YearsOld => Birthday == null ? null : DateTimeHelpers.CalculateYearsPassed(Birthday.Value);
 
     internal void UpdateMainInfo(
         PetType petType,
-        ShortName name)
+        ShortString name)
     {
         PetType = petType;
         Name = name;
@@ -53,7 +54,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
 
     internal void UpdateAdditionalInfo(
         SupportStatus? supportStatus,
-        MediumDescription? description,
+        MediumString? description,
         PetColor? petColor,
         Birthday? age,
         HealthDetails? healthDetails,
@@ -127,13 +128,13 @@ public class Pet : Entity<PetId>, ISoftDeletable
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletedDateTime = DateTime.UtcNow;
+        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
     }
 
     internal void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletedDateTime = null;
+        SoftDeletionTimestamp = null;
         // TODO: give position after restore
     }
 }

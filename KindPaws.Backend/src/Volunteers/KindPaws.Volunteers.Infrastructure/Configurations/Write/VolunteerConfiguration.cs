@@ -1,4 +1,5 @@
 ﻿using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
@@ -28,7 +29,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(v => v.Description)
             .HasConversion(
                 d => d!.Value,
-                d => MediumDescription.Create(d).Value)
+                d => MediumString.Create(d).Value)
             .HasMaxLength(MediumDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
@@ -71,7 +72,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .IsRequired();
 
         // SOFT DELETE DATE TIME
-        builder.Property(b => b.SoftDeletedDateTime)
+        builder.Property(v => v.SoftDeletionTimestamp)
+            .HasConversion(
+                utc => utc!.Value,
+                date => UtcNowTimestamp.Create(date))
             .HasColumnName("soft_delete_datetime")
             .IsRequired(false);
     }

@@ -9,7 +9,7 @@ public record UpdatePetAdditionalInfoCommand(
     string? SupportStatus,
     string? Description,
     string? Color,
-    DateTime? BirthDate,
+    DateTime? Birthday,
     HealthDetailsDto? HealthDetails,
     BiometricDetailsDto? BiometricDetails)
     : ICommand

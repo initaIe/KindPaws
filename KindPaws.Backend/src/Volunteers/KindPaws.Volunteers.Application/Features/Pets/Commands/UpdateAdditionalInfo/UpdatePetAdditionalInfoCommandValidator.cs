@@ -22,19 +22,19 @@ public class UpdatePetAdditionalInfoCommandValidator : AbstractValidator<UpdateP
             .When(u => u.SupportStatus != null);
 
         RuleFor(u => u.Description)
-            .MustBeValueObject(MediumDescription.Create!)
+            .MustBeValueObject(MediumString.Create!)
             .When(u => u.Description != null);
 
         RuleFor(u => u.Color)
             .MustBeValueObject(PetColor.Create!)
             .When(u => u.Color != null);
 
-        RuleFor(u => u.BirthDate)
+        RuleFor(u => u.Birthday)
             .MustBeValueObject(d => Birthday.Create(d!.Value))
-            .When(u => u.BirthDate != null);
+            .When(u => u.Birthday != null);
 
         RuleFor(u => u.HealthDetails!.Description)
-            .MustBeValueObject(MediumDescription.Create!)
+            .MustBeValueObject(MediumString.Create!)
             .When(u => u.HealthDetails is { Description: not null });
 
         RuleForEach(u => u.HealthDetails!.Vaccines)

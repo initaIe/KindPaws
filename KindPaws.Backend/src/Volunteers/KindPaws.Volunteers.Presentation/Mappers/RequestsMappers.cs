@@ -84,7 +84,7 @@ public static class RequestsMappers
             request.SupportStatus,
             request.Description,
             request.Color,
-            request.BirthDate,
+            request.Birthday,
             request.HealthDetails,
             request.BiometricDetails);
 

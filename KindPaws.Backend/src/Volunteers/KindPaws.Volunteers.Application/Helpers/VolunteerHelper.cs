@@ -16,7 +16,7 @@ public static class VolunteerHelper
         IEnumerable<RequisiteDto> requisites)
     {
         var volunteerId = VolunteerId.CreateRandom();
-        var volunteerDescription = MediumDescription.Create(description!).Value;
+        var volunteerDescription = MediumString.Create(description!).Value;
         var volunteerAddress = Address.Create(address!.City, address!.Street).Value;
         var volunteerYearsOfExperience = YearsOfExperience.Create(yearsOfExperience!.Value).Value;
         var volunteerRequisites = requisites

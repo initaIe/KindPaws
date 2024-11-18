@@ -68,7 +68,7 @@ public class CreateSpecieHandler
         }
         catch (UniqueConstraintException e) when (e.ConstraintName is "ix_species_name")
         {
-            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortName)).ToErrorList();
+            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortAlphabeticString)).ToErrorList();
         }
     }
 
