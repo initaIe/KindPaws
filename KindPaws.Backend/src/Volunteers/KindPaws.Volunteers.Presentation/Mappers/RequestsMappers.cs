@@ -36,7 +36,7 @@ public static class RequestsMappers
             request.Address,
             request.YearsOfExperience,
             request.Requisites);
-    
+
     public static UpdateVolunteerInfoCommand ToCommand(
         this UpdateVolunteerInfoRequest request,
         Guid volunteerId)

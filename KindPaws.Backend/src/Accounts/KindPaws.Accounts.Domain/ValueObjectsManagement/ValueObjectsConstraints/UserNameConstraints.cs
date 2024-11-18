@@ -2,8 +2,8 @@
 
 namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
-public class PhoneNumberConstraints
+public static class UserNameConstraints
 {
-    public const int MinLength = LengthConstraints.Min.Six;
-    public const int MaxLength = LengthConstraints.Max.Fifteen;
+    public const int MinLength = LengthConstraints.Min.Three;
+    public const int MaxLength = LengthConstraints.Max.ExtraShort;
 }

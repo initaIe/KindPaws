@@ -6,6 +6,9 @@ public static class LengthConstraints
     {
         public const int Zero = 0;
         public const int One = 1;
+        public const int Three = 3;
+        public const int Five = 5;
+        public const int Six = 6;
         public const int ExtraShort = 8;
         public const int Short = 16;
         public const int Medium = 32;
@@ -15,6 +18,7 @@ public static class LengthConstraints
 
     public static class Max
     {
+        public const int Fifteen = 15;
         public const int ExtraShort = 32;
         public const int Short = 64;
         public const int Medium = 128;

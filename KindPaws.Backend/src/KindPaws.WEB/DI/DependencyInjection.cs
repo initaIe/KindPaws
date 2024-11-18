@@ -13,7 +13,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         DapperConfiguration.Configure();
-        
+
         services.AddApplications();
 
         services.AddSpeciesModule();

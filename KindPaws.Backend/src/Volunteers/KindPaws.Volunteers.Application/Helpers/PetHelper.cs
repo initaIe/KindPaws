@@ -14,12 +14,10 @@ public static class PetHelper
         var petSpecieId = SpecieId.Create(specieId).Value;
         var petType = new PetType(petSpecieId, breedId);
         var petName = ShortString.Create(name).Value;
-        var creationTimestamp = UtcNowTimestamp.CreateNew();
 
         return new Pet(
             petId,
             petName,
-            petType,
-            creationTimestamp);
+            petType);
     }
 }

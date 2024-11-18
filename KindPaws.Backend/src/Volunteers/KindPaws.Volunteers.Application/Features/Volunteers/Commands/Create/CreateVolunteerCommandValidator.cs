@@ -13,13 +13,13 @@ public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteer
         RuleFor(c => c.Description)
             .MustBeValueObject(MediumString.Create!)
             .When(c => c.Description != null);
-        
+
         RuleFor(c => c.Address)
-            .MustBeValueObject(a=>Address.Create(a!.City, a!.Street))
+            .MustBeValueObject(a => Address.Create(a!.City, a!.Street))
             .When(c => c.Address != null);
-        
+
         RuleFor(c => c.YearsOfExperience)
-            .MustBeValueObject(y=>YearsOfExperience.Create(y!.Value))
+            .MustBeValueObject(y => YearsOfExperience.Create(y!.Value))
             .When(c => c.YearsOfExperience != null);
 
         RuleForEach(c => c.Requisites)

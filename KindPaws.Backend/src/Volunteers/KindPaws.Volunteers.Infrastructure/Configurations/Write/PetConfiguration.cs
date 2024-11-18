@@ -53,9 +53,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
         // CREATION DATE
         builder.Property(p => p.CreationTimestamp)
-            .HasConversion(
-                utc => utc.Value,
-                dateTime => UtcNowTimestamp.Create(dateTime))
             .HasColumnName("creation_timestamp")
             .IsRequired();
 
@@ -131,11 +128,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired();
 
         // SOFT DELETE DATE TIME
-        builder.Property(p => p.CreationTimestamp)
-            .HasConversion(
-                utc => utc.Value,
-                dateTime => UtcNowTimestamp.Create(dateTime))
-            .HasColumnName("soft_delete_datetime")
+        builder.Property(p => p.SoftDeletionTimestamp)
+            .HasColumnName("soft_deletion_timestamp")
             .IsRequired(false);
     }
 }

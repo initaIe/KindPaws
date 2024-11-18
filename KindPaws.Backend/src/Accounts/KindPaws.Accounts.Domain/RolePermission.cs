@@ -1,12 +1,43 @@
-﻿namespace KindPaws.Accounts.Domain;
+﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Validators;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-public class RolePermission
+namespace KindPaws.Accounts.Domain;
+
+public class RolePermission : Entity<RolePermissionId>
 {
-    public Guid Id { get; set; }
+    // ef core
+    private RolePermission(RolePermissionId id)
+        : base(id)
+    {
+    }
 
-    public Guid RoleId { get; set; }
-    public Role Role { get; set; }
+    private RolePermission(
+        RolePermissionId id, 
+        Guid roleId,
+        PermissionId permissionId)
+        : base(id)
+    {
+        RoleId = roleId;
+        PermissionId = permissionId;
+    }
+    public Guid RoleId { get; private set; }
+    public Role Role { get; private set; }
+    public PermissionId PermissionId { get;private set; }
+    public Permission Permission { get; private set; }
 
-    public Guid PermissionId { get; set; }
-    public Permission Permission { get; set; }
+    public static Result<RolePermission, Error> Create(
+        RolePermissionId id, 
+        Guid roleId,
+        PermissionId permissionId)
+    {
+        if (GuidValidator.IsEmpty(id))
+            return Errors.General.ValueIsInvalid("RoleId");
+        
+        return new RolePermission(
+            id,
+            roleId,
+            permissionId);
+    }
 }

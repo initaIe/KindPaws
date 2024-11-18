@@ -1,5 +1,6 @@
 ﻿using KindPaws.Accounts.Domain;
 using KindPaws.Framework.Options;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,6 @@ public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<Permission> Permissions => Set<Permission>();
-    public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
     public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

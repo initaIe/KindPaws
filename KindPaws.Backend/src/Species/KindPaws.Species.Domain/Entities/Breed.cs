@@ -25,12 +25,12 @@ public class Breed : Entity<BreedId>, ISoftDeletable
     public ShortAlphabeticWhiteSpacesString Name { get; private set; }
     public MediumString Description { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
+    public DateTime? SoftDeletionTimestamp { get; private set; }
 
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
+        SoftDeletionTimestamp = DateTime.UtcNow;
     }
 
     internal void Restore()

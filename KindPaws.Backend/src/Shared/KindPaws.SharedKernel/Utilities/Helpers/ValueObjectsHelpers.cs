@@ -6,7 +6,7 @@ namespace KindPaws.SharedKernel.Utilities.Helpers;
 // TODO: подумать куда его правильно мувнуть!
 public static class ValueObjectsHelpers
 {
-    public static TValueObject? CreateNullableValueObject<TValueObject, TInput>( 
+    public static TValueObject? CreateNullableValueObject<TValueObject, TInput>(
         TInput? value,
         Func<TInput, Result<TValueObject, Error>> createValueObject)
     {
@@ -17,13 +17,13 @@ public static class ValueObjectsHelpers
 
         return result.Value;
     }
-    
+
     public static List<TValueObject> CreateNullableValueObjects<TValueObject, TInput>(
         IEnumerable<TInput>? values,
         Func<TInput, Result<TValueObject, Error>> createValueObject)
     {
         var valuesList = values?.ToList();
-        
+
         if (valuesList == null || valuesList.Count == 0)
             return [];
 
@@ -31,7 +31,7 @@ public static class ValueObjectsHelpers
         foreach (var value in valuesList)
         {
             var result = createValueObject(value);
-            
+
             items.Add(result.Value);
         }
 

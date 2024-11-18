@@ -4,8 +4,8 @@ using KindPaws.Core.Dtos;
 namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
 
 public record CreateVolunteerCommand(
-        string? Description,
-        AddressDto? Address,
-        int? YearsOfExperience,
-        IEnumerable<RequisiteDto> Requisites)
+    string? Description,
+    AddressDto? Address,
+    int? YearsOfExperience,
+    IEnumerable<RequisiteDto> Requisites)
     : ICommand;

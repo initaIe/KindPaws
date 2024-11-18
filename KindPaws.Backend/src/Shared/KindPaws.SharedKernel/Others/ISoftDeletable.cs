@@ -5,5 +5,5 @@ namespace KindPaws.SharedKernel.Others;
 public interface ISoftDeletable
 {
     bool IsSoftDeleted { get; }
-    UtcNowTimestamp? SoftDeletionTimestamp { get; }
+    DateTime? SoftDeletionTimestamp { get; }
 }

@@ -1,7 +1,24 @@
-﻿namespace KindPaws.Accounts.Domain;
+﻿using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-public class Permission
+namespace KindPaws.Accounts.Domain;
+
+public class Permission : Entity<PermissionId>
 {
-    public Guid Id { get; set; }
-    public string Code { get; set; } = string.Empty;
+    // ef core
+    private Permission(PermissionId id)
+        : base(id)
+    {
+    }
+
+    public Permission(
+        PermissionId id,
+        PermissionCode code)
+        : base(id)
+    {
+        Code = code;
+    }
+
+    public PermissionCode Code { get; private set; }
 }

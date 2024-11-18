@@ -60,10 +60,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
 
         // SOFT DELETE DATE TIME
         builder.Property(breed => breed.SoftDeletionTimestamp)
-            .HasConversion(
-                utc => utc!.Value,
-                date => UtcNowTimestamp.Create(date))
-            .HasColumnName("soft_delete_datetime")
+            .HasColumnName("soft_deletion_timestamp")
             .IsRequired(false);
     }
 }

@@ -97,7 +97,7 @@ public class AddPetPhotosHandler
 
         var petId = PetId.Create(command.PetId).Value;
         volunteerResult.Value.AddPetPhotos(petId, petPhotos);
-        
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         Log(petId, uploadFilePathsResult.Value, volunteerId);

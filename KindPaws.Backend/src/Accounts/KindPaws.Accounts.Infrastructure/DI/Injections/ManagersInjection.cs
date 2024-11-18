@@ -10,7 +10,6 @@ public static class ManagersInjection
     {
         return services
             .AddScoped<PermissionManager>()
-            .AddScoped<AccountsManager>()
             .AddScoped<IRefreshSessionManager, RefreshSessionManager>()
             .AddScoped<RolePermissionManager>();
     }

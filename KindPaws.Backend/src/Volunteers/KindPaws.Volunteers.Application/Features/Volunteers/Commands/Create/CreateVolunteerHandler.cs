@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -9,7 +8,6 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Application.Interfaces;
-using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

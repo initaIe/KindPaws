@@ -20,7 +20,9 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditiona
 public class UpdatePetAdditionalInfoHandler
     : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>
 {
-    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData> _entitiesExistenceValidator;
+    private readonly IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData>
+        _entitiesExistenceValidator;
+
     private readonly ILogger<UpdatePetAdditionalInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetAdditionalInfoCommand> _validator;
@@ -69,20 +71,20 @@ public class UpdatePetAdditionalInfoHandler
 
         var birthday = ValueObjectsHelpers.CreateNullableValueObject(
             command.Birthday,
-            b=>Birthday.Create(b!.Value));
-        
+            b => Birthday.Create(b!.Value));
+
         var healthDescription = ValueObjectsHelpers.CreateNullableValueObject(
             command.HealthDetails?.Description,
             MediumString.Create);
-        
+
         var vaccines = ValueObjectsHelpers.CreateNullableValueObjects(
             command.HealthDetails?.Vaccines,
             Vaccine.Create);
-        
+
         var diseases = ValueObjectsHelpers.CreateNullableValueObjects(
             command.HealthDetails?.Diseases,
             Disease.Create);
-        
+
         var healthStatus = ValueObjectsHelpers.CreateNullableValueObject(
             command.HealthDetails?.HealthStatus,
             HealthStatus.Create);
@@ -90,22 +92,22 @@ public class UpdatePetAdditionalInfoHandler
         var healthDetails = new HealthDetails(
             healthDescription,
             vaccines,
-            diseases, 
+            diseases,
             healthStatus,
             command.HealthDetails?.IsNeutered);
 
         var height = ValueObjectsHelpers.CreateNullableValueObject(
             command.BiometricDetails?.Height,
-            h=> Height.Create(h!.Value));
-        
+            h => Height.Create(h!.Value));
+
         var weight = ValueObjectsHelpers.CreateNullableValueObject(
             command.BiometricDetails?.Weight,
-            w=> Weight.Create(w!.Value));
-        
+            w => Weight.Create(w!.Value));
+
         var gender = ValueObjectsHelpers.CreateNullableValueObject(
             command.BiometricDetails?.Gender,
             Gender.Create);
-        
+
         var biometricDetails = new BiometricDetails(
             height,
             weight,

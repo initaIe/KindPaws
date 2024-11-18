@@ -1,0 +1,39 @@
+﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Validators;
+
+namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+
+public class RefreshSessionId
+{
+    private RefreshSessionId(Guid value)
+    {
+        Value = value;
+    }
+
+    public Guid Value { get; }
+
+    public static RefreshSessionId CreateRandom()
+    {
+        return new RefreshSessionId(Guid.NewGuid());
+    }
+
+    public static RefreshSessionId CreateEmpty()
+    {
+        return new RefreshSessionId(Guid.Empty);
+    }
+
+    public static Result<RefreshSessionId, Error> Create(Guid value)
+    {
+        if (GuidValidator.IsEmpty(value))
+            return Errors.General.ValueIsInvalid();
+
+        return new RefreshSessionId(value);
+    }
+
+    public static implicit operator Guid(RefreshSessionId refreshSessionId)
+    {
+        return refreshSessionId?.Value
+               ?? throw new ArgumentNullException($"{nameof(RefreshSessionId)} cannot be null.");
+    }
+}

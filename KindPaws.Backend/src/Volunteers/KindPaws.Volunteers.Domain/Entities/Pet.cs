@@ -20,18 +20,17 @@ public class Pet : Entity<PetId>, ISoftDeletable
     public Pet(
         PetId id,
         ShortString name,
-        PetType petType,
-        UtcNowTimestamp creationTimestamp)
+        PetType petType)
         : base(id)
     {
         Name = name;
         PetType = petType;
-        CreationTimestamp = creationTimestamp;
+        CreationTimestamp = DateTime.UtcNow;
     }
 
     public ShortString Name { get; private set; }
     public PetType PetType { get; private set; }
-    public UtcNowTimestamp CreationTimestamp { get; private set; }
+    public DateTime CreationTimestamp { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
     public MediumString? Description { get; private set; }
     public PetColor? Color { get; private set; }
@@ -41,7 +40,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
+    public DateTime? SoftDeletionTimestamp { get; private set; }
     public int? YearsOld => Birthday == null ? null : DateTimeHelpers.CalculateYearsPassed(Birthday.Value);
 
     internal void UpdateMainInfo(
@@ -128,7 +127,7 @@ public class Pet : Entity<PetId>, ISoftDeletable
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
+        SoftDeletionTimestamp = DateTime.UtcNow;
     }
 
     internal void Restore()

@@ -1,9 +1,11 @@
 ﻿using System.Text.Json;
 using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.Managers;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding.Configs;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -16,22 +18,19 @@ public class AccountsSeederService
     private readonly RoleManager<Role> _roleManager;
     private readonly RolePermissionManager _rolePermissionManager;
     private readonly UserManager<User> _userManager;
-    private readonly AccountsManager _accountsManager;
 
     public AccountsSeederService(
         IOptions<AccountsSeedingOptions> accountsSeederOptions,
         PermissionManager permissionManager,
         RoleManager<Role> roleManager,
         RolePermissionManager rolePermissionManager,
-        UserManager<User> userManager,
-        AccountsManager accountsManager)
+        UserManager<User> userManager)
     {
         _accountsSeedingOptions = accountsSeederOptions.Value;
         _permissionManager = permissionManager;
         _roleManager = roleManager;
         _rolePermissionManager = rolePermissionManager;
         _userManager = userManager;
-        _accountsManager = accountsManager;
     }
 
     public async Task ProcessAsync(CancellationToken cancellationToken = default)
@@ -150,26 +149,21 @@ public class AccountsSeederService
 
     private async Task SeedAdminAsync(CancellationToken cancellationToken = default)
     {
-        var adminRole = await _roleManager.FindByNameAsync(AdminAccount.Admin)
+        var adminRole = await _roleManager.FindByNameAsync(_accountsSeedingOptions.AdminCredentials.Role)
                         ?? throw new ApplicationException("Admin role was not found.");
 
-        var seedAdmin = await _userManager.FindByEmailAsync(_accountsSeedingOptions.AdminCredentials.Email);
-        var isSeedAdminAlreadyExist = seedAdmin != null;
-        if (isSeedAdminAlreadyExist)
+        var adminByEmailExist = await _userManager.FindByEmailAsync(_accountsSeedingOptions.AdminCredentials.Email);
+        if (adminByEmailExist != null)
             return;
 
-        var adminUser = User.CreateAdmin(
-            _accountsSeedingOptions.AdminCredentials.UserName,
-            _accountsSeedingOptions.AdminCredentials.Email,
-            adminRole);
+        var userName = UserName.Create(_accountsSeedingOptions.AdminCredentials.UserName).Value;
+        var email = EmailAddress.Create(_accountsSeedingOptions.AdminCredentials.Email).Value;
+
+        var adminUser = User.Create(
+            userName,
+            email);
+        
         await _userManager.CreateAsync(adminUser, _accountsSeedingOptions.AdminCredentials.Password);
-
-        var fullName = FullName.Create(
-            _accountsSeedingOptions.AdminCredentials.UserName,
-            _accountsSeedingOptions.AdminCredentials.UserName,
-            _accountsSeedingOptions.AdminCredentials.UserName).Value;
-
-        var adminAccount = new AdminAccount(adminUser, fullName);
-        await _accountsManager.CreateAdminAccount(adminAccount);
+        await _userManager.AddToRoleAsync(adminUser, adminRole.Name!);
     }
 }

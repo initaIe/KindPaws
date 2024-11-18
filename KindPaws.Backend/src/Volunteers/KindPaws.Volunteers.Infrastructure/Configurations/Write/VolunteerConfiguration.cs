@@ -5,7 +5,6 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
-using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -73,10 +72,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         // SOFT DELETE DATE TIME
         builder.Property(v => v.SoftDeletionTimestamp)
-            .HasConversion(
-                utc => utc!.Value,
-                date => UtcNowTimestamp.Create(date))
-            .HasColumnName("soft_delete_datetime")
+            .HasColumnName("soft_deletion_timestamp")
             .IsRequired(false);
     }
 }

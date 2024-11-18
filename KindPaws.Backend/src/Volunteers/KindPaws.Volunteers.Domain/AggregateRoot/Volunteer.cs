@@ -14,7 +14,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     private List<Requisite> _requisites;
 
     // ef core
-    private Volunteer(VolunteerId id) 
+    private Volunteer(VolunteerId id)
         : base(id)
     {
     }
@@ -24,7 +24,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         MediumString? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
-        IEnumerable<Requisite> requisites) 
+        IEnumerable<Requisite> requisites)
         : base(id)
     {
         Description = description;
@@ -39,7 +39,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
     public bool IsSoftDeleted { get; private set; }
-    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
+    public DateTime? SoftDeletionTimestamp { get; private set; }
 
     public int GetCountPetsAlreadyFoundHome()
         => _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
@@ -83,18 +83,19 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         _pets.Add(pet);
         return true;
     }
-    
+
     public Result<Error> AddPetPhotos(
-        PetId petId, 
+        PetId petId,
         IEnumerable<PetPhoto> photos)
     {
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
             return petResult.Error;
-        
+
         petResult.Value.AddPhotos(photos);
         return true;
     }
+
     public Result<Error> DeletePetPhotos(
         PetId petId,
         IEnumerable<PetPhoto> photos)
@@ -102,23 +103,23 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
             return petResult.Error;
-        
+
         petResult.Value.DeletePhotos(photos);
         return true;
     }
 
     public Result<Error> SetPetMainPhoto(
-        PetId petId, 
+        PetId petId,
         FilePath photoFilePath)
     {
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
             return petResult.Error;
-        
+
         petResult.Value.SetMainPhoto(photoFilePath);
         return true;
     }
-    
+
     public Result<Error> UpdatePetMainInfo(
         PetId petId,
         PetType petType,
@@ -127,11 +128,11 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
             return petResult.Error;
-        
+
         petResult.Value.UpdateMainInfo(petType, name);
         return true;
     }
-    
+
     public Result<Error> UpdatePetAdditionalInfo(
         PetId petId,
         SupportStatus? supportStatus,
@@ -144,12 +145,12 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
             return petResult.Error;
-        
+
         petResult.Value.UpdateAdditionalInfo(
-            supportStatus, 
+            supportStatus,
             description,
-            petColor, 
-            age, 
+            petColor,
+            age,
             healthDetails,
             biometricDetails);
         return true;
@@ -158,7 +159,7 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
+        SoftDeletionTimestamp = DateTime.UtcNow;
         _pets.ForEach(p => p.SoftDelete());
     }
 

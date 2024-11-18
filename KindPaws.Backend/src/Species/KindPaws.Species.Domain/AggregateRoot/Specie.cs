@@ -30,7 +30,7 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
     public MediumString Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
     public bool IsSoftDeleted { get; private set; }
-    public UtcNowTimestamp? SoftDeletionTimestamp { get; private set; }
+    public DateTime? SoftDeletionTimestamp { get; private set; }
 
     public void AddBreed(Breed breed)
     {
@@ -49,8 +49,8 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
 
     public Result<Breed, Error> GetBreedById(BreedId breedId)
     {
-        var breed = _breeds.FirstOrDefault(b=>b.Id == breedId);
-        
+        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
+
         if (breed == null)
             return Errors.General.RecordNotFound(nameof(Breed), nameof(BreedId), breedId);
 
@@ -70,7 +70,7 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = UtcNowTimestamp.CreateNew();
+        SoftDeletionTimestamp = DateTime.UtcNow;
         _breeds.ForEach(breed => breed.SoftDelete());
     }
 
