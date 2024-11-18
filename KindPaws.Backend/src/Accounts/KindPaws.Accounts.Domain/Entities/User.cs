@@ -3,10 +3,9 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.AspNetCore.Identity;
 
-namespace KindPaws.Accounts.Domain;
+namespace KindPaws.Accounts.Domain.Entities;
 
 public sealed class User : IdentityUser<Guid>
 {
@@ -25,7 +24,7 @@ public sealed class User : IdentityUser<Guid>
     {
         Id = id;
         UserName = userName.Value;
-        Email= email.Value;
+        Email = email.Value;
     }
 
     public override Guid Id { get; set; }
@@ -43,7 +42,7 @@ public sealed class User : IdentityUser<Guid>
     {
         if (GuidValidator.IsEmpty(id))
             return Errors.General.ValueIsInvalid("UserId");
-        
+
         return new User(
             id,
             userName,
@@ -54,7 +53,7 @@ public sealed class User : IdentityUser<Guid>
     {
         Email = emailAddress.Value;
     }
-    
+
     public void UpdatePhoneNumber(PhoneNumber phoneNumber)
     {
         PhoneNumber = phoneNumber.Value;

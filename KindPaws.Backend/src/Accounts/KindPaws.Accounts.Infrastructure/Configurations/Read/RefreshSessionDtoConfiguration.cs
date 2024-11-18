@@ -1,20 +1,17 @@
-﻿using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+﻿using KindPaws.Accounts.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace KindPaws.Accounts.Infrastructure.Configurations.Write;
+namespace KindPaws.Accounts.Infrastructure.Configurations.Read;
 
-public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSession>
+public class RefreshSessionDtoConfiguration : IEntityTypeConfiguration<RefreshSessionDto>
 {
-    public void Configure(EntityTypeBuilder<RefreshSession> builder)
+    public void Configure(EntityTypeBuilder<RefreshSessionDto> builder)
     {
         // TABLE NAMING
         builder.ToTable("refresh_sessions");
         
         // ID
-        builder.HasKey(rs => rs.Id);
         builder.Property(rs => rs.Id)
             .HasColumnName("id");
         
@@ -24,19 +21,11 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
         
         // JTI
         builder.Property(rs => rs.Jti)
-            .HasConversion(
-                jti => jti.Value,
-                value => Jti.Create(value).Value)
             .HasColumnName("jti");
-        builder.HasIndex(rs=>rs.Jti).IsUnique();
         
         // REFRESH TOKEN
         builder.Property(rs => rs.RefreshToken)
-            .HasConversion(
-                refreshToken => refreshToken.Value,
-                value => RefreshToken.Create(value).Value)
             .HasColumnName("refresh_token");
-        builder.HasIndex(rs=>rs.RefreshToken).IsUnique();
         
         // EXPIRE TIMESTAMP
         builder.Property(rs => rs.ExpireTimestamp)

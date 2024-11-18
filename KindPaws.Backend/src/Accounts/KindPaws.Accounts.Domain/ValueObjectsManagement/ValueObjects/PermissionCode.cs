@@ -26,7 +26,7 @@ public record PermissionCode
                 ShortStringConstraints.MinLength,
                 ShortStringConstraints.MaxLength))
             return Errors.General.ValueOutOfRange();
-        
+
         if (!StringValidator.IsAlphabeticWithDots(input))
             return Errors.General.ValueCharacterSetIsInvalid(nameof(PermissionCode));
 

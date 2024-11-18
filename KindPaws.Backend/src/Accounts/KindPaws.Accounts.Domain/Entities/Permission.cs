@@ -2,7 +2,7 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Accounts.Domain;
+namespace KindPaws.Accounts.Domain.Entities;
 
 public class Permission : Entity<PermissionId>
 {

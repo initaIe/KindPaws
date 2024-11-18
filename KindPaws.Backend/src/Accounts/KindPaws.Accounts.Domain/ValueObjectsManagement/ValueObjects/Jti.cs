@@ -1,7 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -18,7 +17,7 @@ public class Jti
     {
         return new Jti(Guid.Empty);
     }
-    
+
     public static Result<Jti, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

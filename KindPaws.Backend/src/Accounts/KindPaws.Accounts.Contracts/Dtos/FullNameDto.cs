@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Core.Dtos;
+﻿namespace KindPaws.Accounts.Contracts.Dtos;
 
 public record FullNameDto(
     string FirstName,

@@ -2,7 +2,7 @@
 
 public record HealthDetailsDto(
     string? Description,
-    IEnumerable<string>? Vaccines,
-    IEnumerable<string>? Diseases,
+    IEnumerable<string> Vaccines,
+    IEnumerable<string> Diseases,
     string? HealthStatus,
     bool? IsNeutered);

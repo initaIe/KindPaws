@@ -17,7 +17,7 @@ public class RefreshToken
     {
         return new RefreshToken(Guid.Empty);
     }
-    
+
     public static Result<RefreshToken, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

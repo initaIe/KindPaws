@@ -7,13 +7,10 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Application.Helpers;
 
-public static class VolunteerMappers
+public static class VolunteersMappers
 {
     public static AddressDto ToDto(this Address address)
         => new(address.City, address.Street);
-
-    // public static SocialNetworkDto ToDto(this SocialNetwork socialNetwork)
-    //     => new(socialNetwork.Name, socialNetwork.Link);
 
     public static RequisiteDto ToDto(this Requisite requisite)
         => new(requisite.Name, requisite.Description);

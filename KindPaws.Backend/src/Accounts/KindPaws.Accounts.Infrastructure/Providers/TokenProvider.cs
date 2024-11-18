@@ -4,6 +4,7 @@ using System.Text;
 using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Models;
 using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.SharedKernel.Others;
@@ -66,8 +67,8 @@ public class TokenProvider : ITokenProvider
         {
             User = user,
             Jti = jti,
-            CreatedAt = DateTime.UtcNow,
-            ExpiresIn = DateTime.UtcNow.AddDays(_refreshTokenOptions.ExpiresInDays),
+            CreationTimestamp = DateTime.UtcNow,
+            ExpireTimestamp = DateTime.UtcNow.AddDays(_refreshTokenOptions.ExpiresInDays),
             RefreshToken = Guid.NewGuid()
         };
 

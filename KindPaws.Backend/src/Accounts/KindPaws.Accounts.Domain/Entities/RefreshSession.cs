@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Accounts.Domain;
+namespace KindPaws.Accounts.Domain.Entities;
 
 public class RefreshSession : Entity<RefreshSessionId>
 {
@@ -19,24 +19,24 @@ public class RefreshSession : Entity<RefreshSessionId>
         Guid userId,
         Jti jti,
         RefreshToken refreshToken,
-        DateTime expiresIn,
-        DateTime createdAt)
+        DateTime expireTimestamp,
+        DateTime creationTimestamp)
         : base(id)
     {
         UserId = userId;
         Jti = jti;
         RefreshToken = refreshToken;
-        ExpiresIn = expiresIn;
-        CreatedAt = createdAt;
+        ExpireTimestamp = expireTimestamp;
+        CreationTimestamp = creationTimestamp;
     }
 
     public Guid UserId { get; private set; }
     public User User { get; private set; }
     public Jti Jti { get; private set; }
-    public RefreshToken RefreshToken { get; private set;  }
-    public DateTime ExpiresIn { get; private set;  }
-    public DateTime CreatedAt { get; private set; }
-    public bool IsExpired => DateTime.UtcNow > ExpiresIn;
+    public RefreshToken RefreshToken { get; private set; }
+    public DateTime ExpireTimestamp { get; private set; }
+    public DateTime CreationTimestamp { get; private set; }
+    public bool IsExpired => DateTime.UtcNow > ExpireTimestamp;
 
     public static Result<RefreshSession, Error> CreateNew(
         Guid userId,
@@ -50,9 +50,9 @@ public class RefreshSession : Entity<RefreshSessionId>
         var refreshToken = RefreshToken.CreateRandom();
         var expiresIn = DateTime.UtcNow.AddDays(expiresInDays);
         var createdAt = DateTime.UtcNow;
-        
+
         if (expiresIn <= createdAt)
-            return Errors.General.ValueIsInvalid(nameof(ExpiresIn));
+            return Errors.General.ValueIsInvalid(nameof(ExpireTimestamp));
 
         return new RefreshSession(
             id,
@@ -62,7 +62,7 @@ public class RefreshSession : Entity<RefreshSessionId>
             expiresIn,
             createdAt);
     }
-    
+
     public static Result<RefreshSession, Error> Create(
         RefreshSessionId id,
         Guid userId,
@@ -73,9 +73,9 @@ public class RefreshSession : Entity<RefreshSessionId>
     {
         if (GuidValidator.IsEmpty(userId))
             return Errors.General.ValueIsInvalid("UserId");
-        
+
         if (expiresIn <= createdAt)
-            return Errors.General.ValueIsInvalid(nameof(ExpiresIn));
+            return Errors.General.ValueIsInvalid(nameof(ExpireTimestamp));
 
         return new RefreshSession(
             id,

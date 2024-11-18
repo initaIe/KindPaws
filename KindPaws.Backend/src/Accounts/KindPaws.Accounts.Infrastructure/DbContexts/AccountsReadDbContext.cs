@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
-public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+public class AccountsReadDbContext(IOptions<PostgresOptions> postgresOptions)
     : IdentityDbContext<User, Role, Guid>
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
@@ -23,7 +23,8 @@ public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
             .UseSnakeCaseNamingConvention()
             .EnableSensitiveDataLogging()
             .UseLoggerFactory(CreateLoggerFactory())
-            .UseExceptionProcessor();
+            .UseExceptionProcessor()
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,7 +34,7 @@ public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(AccountsWriteDbContext).Assembly,
-            type => type.FullName?.Contains("Configurations.Write") ?? false);
+            type => type.FullName?.Contains("Configurations.Read") ?? false);
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

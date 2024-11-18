@@ -1,5 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;

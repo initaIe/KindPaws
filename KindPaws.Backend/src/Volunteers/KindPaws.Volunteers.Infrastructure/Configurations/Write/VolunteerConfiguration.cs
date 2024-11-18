@@ -1,5 +1,4 @@
 ﻿using KindPaws.Core.Extensions;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;

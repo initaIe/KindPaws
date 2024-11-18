@@ -46,14 +46,14 @@ public static class StringValidator
     {
         return input.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
     }
-    
+
     public static bool IsAlphabeticWithDigits(string input)
     {
         return input.All(char.IsLetterOrDigit);
     }
+
     public static bool IsAlphabeticWithDots(string input)
     {
-        return input.All(c=> char.IsLetter(c) || c == '.');
+        return input.All(c => char.IsLetter(c) || c == '.');
     }
-    
 }

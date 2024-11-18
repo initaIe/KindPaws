@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Accounts.Infrastructure.Seeding.Configs;
 using Microsoft.EntityFrameworkCore;

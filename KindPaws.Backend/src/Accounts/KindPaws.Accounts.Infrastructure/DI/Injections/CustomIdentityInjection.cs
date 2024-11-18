@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;

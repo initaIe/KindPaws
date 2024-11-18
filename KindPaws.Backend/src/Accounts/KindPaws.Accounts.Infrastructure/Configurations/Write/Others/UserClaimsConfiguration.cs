@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace KindPaws.Accounts.Infrastructure.Configurations.Write;
+namespace KindPaws.Accounts.Infrastructure.Configurations.Write.Others;
 
 public class UserClaimsConfiguration : IEntityTypeConfiguration<IdentityUserClaim<Guid>>
 {

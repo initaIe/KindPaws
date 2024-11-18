@@ -1,6 +1,7 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Contracts.Responses;
 using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;

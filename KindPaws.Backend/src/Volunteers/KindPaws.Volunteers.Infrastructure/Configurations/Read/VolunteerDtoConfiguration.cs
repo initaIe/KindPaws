@@ -25,7 +25,6 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         // ADDRESS
         builder.Property(p => p.Address)
             .HasColumnName("address")
-            .HasColumnType("jsonb")
             .HasConversion(
                 address => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<Address>(json, JsonSerializerOptions.Default)!.ToDto());
@@ -37,7 +36,6 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         // REQUISITES
         builder.Property(p => p.Requisites)
             .HasColumnName("requisites")
-            .HasColumnType("jsonb")
             .HasConversion(
                 requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!

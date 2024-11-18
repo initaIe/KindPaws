@@ -2,10 +2,9 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.AspNetCore.Identity;
 
-namespace KindPaws.Accounts.Domain;
+namespace KindPaws.Accounts.Domain.Entities;
 
 public sealed class Role : IdentityRole<Guid>
 {
@@ -29,7 +28,7 @@ public sealed class Role : IdentityRole<Guid>
     {
         if (GuidValidator.IsEmpty(id))
             return Errors.General.ValueIsInvalid("RoleId");
-        
+
         return new Role(id, name);
     }
 }

@@ -14,7 +14,7 @@ public class PetDto
     public BiometricDetailsDto? BiometricDetails { get; init; }
     public DateTime CreationDateTime { get; init; }
     public int Position { get; init; }
-    public PetPhotoDto[] Photos { get; init; } = [];
+    public PetPhotoDto[] Photos { get; init; }
     public Guid VolunteerId { get; init; }
     public bool IsSoftDeleted { get; init; }
 }

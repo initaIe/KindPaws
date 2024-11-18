@@ -10,7 +10,7 @@ namespace KindPaws.Accounts.Presentation.Controllers;
 
 public class AccountsController : ApplicationController
 {
-    [HttpPost("registration")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(
         [FromServices] RegisterHandler handler,
         [FromBody] RegisterRequest request)
@@ -24,7 +24,7 @@ public class AccountsController : ApplicationController
         return Ok();
     }
 
-    [HttpPost("logination")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(
         [FromServices] LoginHandler handler,
         [FromBody] LoginRequest request)
@@ -38,7 +38,7 @@ public class AccountsController : ApplicationController
         return Ok(result.Value);
     }
 
-    [HttpPost("tokens-refreshion")]
+    [HttpPost("refresh")]
     public async Task<IActionResult> RefreshTokens(
         [FromServices] RefreshTokensHandler handler,
         [FromBody] RefreshTokensRequest request)

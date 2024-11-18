@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,9 +39,9 @@ public class PermissionManager
             .ThenInclude(r => r.RolePermissions)
             .ThenInclude(rp => rp.Permission)
             .Where(u => u.Id == userId)
-            .SelectMany(u => u.Roles
-                .SelectMany(r => r.RolePermissions
-                    .Select(rp => rp.Permission.Code)))
+            .SelectMany(u => u.Roles)
+            .SelectMany(r => r.RolePermissions)
+            .Select(rp => rp.Permission.Code)
             .AnyAsync(rp => rp == permissionCode);
     }
 }

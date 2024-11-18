@@ -1,11 +1,10 @@
 ﻿using System.Text.Json;
 using KindPaws.Accounts.Domain;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.Managers;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding.Configs;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -162,7 +161,7 @@ public class AccountsSeederService
         var adminUser = User.Create(
             userName,
             email);
-        
+
         await _userManager.CreateAsync(adminUser, _accountsSeedingOptions.AdminCredentials.Password);
         await _userManager.AddToRoleAsync(adminUser, adminRole.Name!);
     }

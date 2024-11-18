@@ -1,6 +1,4 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-
-namespace KindPaws.SharedKernel.Others;
+﻿namespace KindPaws.SharedKernel.Others;
 
 public interface ISoftDeletable
 {
