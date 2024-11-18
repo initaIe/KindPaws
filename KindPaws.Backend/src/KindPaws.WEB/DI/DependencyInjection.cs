@@ -15,6 +15,7 @@ public static class DependencyInjection
         DapperConfiguration.Configure();
 
         services.AddApplications();
+        services.AddRepositories();
 
         services.AddSpeciesModule();
         services.AddVolunteersModule(configuration);

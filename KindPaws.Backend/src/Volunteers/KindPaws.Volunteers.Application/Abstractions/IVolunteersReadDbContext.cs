@@ -1,6 +1,6 @@
 ﻿using KindPaws.Volunteers.Contracts.Dtos;
 
-namespace KindPaws.Volunteers.Application.Interfaces;
+namespace KindPaws.Volunteers.Application.Abstractions;
 
 public interface IVolunteersReadDbContext
 {

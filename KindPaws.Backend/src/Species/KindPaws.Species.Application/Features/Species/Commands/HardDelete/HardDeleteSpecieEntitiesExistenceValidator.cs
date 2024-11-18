@@ -2,7 +2,7 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Species.Application.Interfaces;
+using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Volunteers.Contracts;
 using Microsoft.EntityFrameworkCore;

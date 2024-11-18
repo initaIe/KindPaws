@@ -1,4 +1,5 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
+using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Domain;
 using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Framework.Options;
@@ -10,11 +11,13 @@ using Microsoft.Extensions.Options;
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
 public class AccountsReadDbContext(IOptions<PostgresOptions> postgresOptions)
-    : IdentityDbContext<User, Role, Guid>
+    : IdentityDbContext<User, Role, Guid>, IAccountsReadDbContext
 {
-    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
-    public DbSet<Permission> Permissions => Set<Permission>();
-    public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
+    public IQueryable<RolePermission> RolePermissions => Set<RolePermission>();
+    public IQueryable<Permission> Permissions => Set<Permission>();
+    public IQueryable<RefreshSession> RefreshSessions => Set<RefreshSession>();
+    public new IQueryable<User> Users => Set<User>();
+    public new IQueryable<Role> Roles => Set<Role>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

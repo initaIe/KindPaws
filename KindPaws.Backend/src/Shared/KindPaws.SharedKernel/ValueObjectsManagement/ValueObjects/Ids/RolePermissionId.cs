@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.Utilities.Validators;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-public class RolePermissionId
+public record RolePermissionId
 {
     private RolePermissionId(Guid value)
     {

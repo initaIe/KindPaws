@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.Utilities.Validators;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-public class RefreshSessionId
+public record RefreshSessionId
 {
     private RefreshSessionId(Guid value)
     {

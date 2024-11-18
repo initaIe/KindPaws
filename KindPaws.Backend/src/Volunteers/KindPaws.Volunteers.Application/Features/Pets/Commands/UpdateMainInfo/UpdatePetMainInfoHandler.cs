@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
@@ -8,7 +9,8 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Application.Abstractions;
+using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,11 +24,11 @@ public class UpdatePetMainInfoHandler
     private readonly ILogger<UpdatePetMainInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetMainInfoCommand> _validator;
-    private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
 
     public UpdatePetMainInfoHandler(
         ILogger<UpdatePetMainInfoHandler> logger,
-        IVolunteersRepository volunteersRepository,
+        IRepository<Volunteer, VolunteerId> volunteersRepository,
         IValidator<UpdatePetMainInfoCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
         IUnitOfWork unitOfWork,

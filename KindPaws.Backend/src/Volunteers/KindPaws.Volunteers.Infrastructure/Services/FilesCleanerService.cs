@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Dtos;
 using KindPaws.Core.Messaging;
-using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Application.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Volunteers.Infrastructure.Services;

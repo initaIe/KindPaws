@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
@@ -7,7 +8,8 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Application.Abstractions;
+using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +22,7 @@ public class HardDeletePetHandler
     private readonly ILogger<HardDeletePetHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<HardDeletePetCommand> _validator;
-    private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
 
     public HardDeletePetHandler(
         IEntitiesExistenceValidator<HardDeletePetExistenceValidationData> entitiesExistenceValidator,
@@ -28,7 +30,7 @@ public class HardDeletePetHandler
         [FromKeyedServices(Modules.Volunteers)]
         IUnitOfWork unitOfWork,
         IValidator<HardDeletePetCommand> validator,
-        IVolunteersRepository volunteersRepository)
+        IRepository<Volunteer, VolunteerId> volunteersRepository)
     {
         _entitiesExistenceValidator = entitiesExistenceValidator;
         _logger = logger;

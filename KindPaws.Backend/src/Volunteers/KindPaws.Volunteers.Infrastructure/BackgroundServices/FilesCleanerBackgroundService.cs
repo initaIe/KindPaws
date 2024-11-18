@@ -1,4 +1,4 @@
-﻿using KindPaws.Volunteers.Application.Interfaces;
+﻿using KindPaws.Volunteers.Application.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

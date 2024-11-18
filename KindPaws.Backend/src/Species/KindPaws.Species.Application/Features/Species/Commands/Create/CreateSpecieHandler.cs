@@ -1,5 +1,6 @@
 ﻿using EntityFramework.Exceptions.Common;
 using FluentValidation;
+using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
@@ -8,8 +9,9 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Application.Helpers;
-using KindPaws.Species.Application.Interfaces;
 using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,7 +23,7 @@ public class CreateSpecieHandler
 {
     private readonly IEntitiesExistenceValidator<CreateSpecieExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<CreateSpecieHandler> _logger;
-    private readonly ISpeciesRepository _speciesRepository;
+    private readonly IRepository<Specie, SpecieId> _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateSpecieCommand> _validator;
 
@@ -29,7 +31,7 @@ public class CreateSpecieHandler
         ILogger<CreateSpecieHandler> logger,
         [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         IValidator<CreateSpecieCommand> validator,
-        ISpeciesRepository speciesRepository,
+        IRepository<Specie, SpecieId> speciesRepository,
         IEntitiesExistenceValidator<CreateSpecieExistenceValidationData> entitiesExistenceValidator)
     {
         _logger = logger;

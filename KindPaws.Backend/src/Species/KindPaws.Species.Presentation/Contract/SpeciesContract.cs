@@ -1,4 +1,4 @@
-﻿using KindPaws.Species.Application.Interfaces;
+﻿using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Contracts;
 using Microsoft.EntityFrameworkCore;
 

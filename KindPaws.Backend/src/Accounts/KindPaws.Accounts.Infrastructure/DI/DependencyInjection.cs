@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Infrastructure.DI.Injections;
+using KindPaws.Accounts.Infrastructure.DI.Injections.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

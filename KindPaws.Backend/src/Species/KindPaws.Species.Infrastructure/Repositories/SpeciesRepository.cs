@@ -1,14 +1,15 @@
-﻿using KindPaws.SharedKernel.Others;
+﻿using KindPaws.Core.Abstractions;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Species.Application.Interfaces;
+using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Species.Infrastructure.Repositories;
 
-public class SpeciesRepository : ISpeciesRepository
+public class SpeciesRepository : IRepository<Specie, SpecieId>
 {
     private readonly SpeciesWriteDbContext _dbContext;
 

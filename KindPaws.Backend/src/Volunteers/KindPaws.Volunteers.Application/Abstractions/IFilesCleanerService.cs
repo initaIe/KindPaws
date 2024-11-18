@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Volunteers.Application.Interfaces;
+﻿namespace KindPaws.Volunteers.Application.Abstractions;
 
 public interface IFilesCleanerService
 {

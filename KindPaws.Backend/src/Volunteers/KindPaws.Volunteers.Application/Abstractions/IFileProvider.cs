@@ -3,7 +3,7 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
-namespace KindPaws.Volunteers.Application.Interfaces;
+namespace KindPaws.Volunteers.Application.Abstractions;
 
 public interface IFileProvider
 {

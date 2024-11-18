@@ -2,7 +2,7 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.Species.Contracts;
-using KindPaws.Volunteers.Application.Interfaces;
+using KindPaws.Volunteers.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Commands.Add;

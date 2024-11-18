@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Infrastructure.DI.Injections;
+namespace KindPaws.Accounts.Infrastructure.DI.Injections.Auth;
 
 public static class CustomAuthorizationInjection
 {

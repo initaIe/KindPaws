@@ -2,7 +2,7 @@
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
-using KindPaws.Species.Application.Interfaces;
+using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Contracts.Dtos;
 
 namespace KindPaws.Species.Application.Features.Species.Queries.GetSpecies;

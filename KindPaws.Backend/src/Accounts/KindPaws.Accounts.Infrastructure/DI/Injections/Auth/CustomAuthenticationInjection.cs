@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using JwtBearerOptions = KindPaws.Accounts.Infrastructure.Options.JwtBearerOptions;
 
-namespace KindPaws.Accounts.Infrastructure.DI.Injections;
+namespace KindPaws.Accounts.Infrastructure.DI.Injections.Auth;
 
 public static class CustomAuthenticationInjection
 {

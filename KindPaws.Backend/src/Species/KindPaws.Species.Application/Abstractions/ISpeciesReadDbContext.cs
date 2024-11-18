@@ -1,6 +1,6 @@
 ﻿using KindPaws.Species.Contracts.Dtos;
 
-namespace KindPaws.Species.Application.Interfaces;
+namespace KindPaws.Species.Application.Abstractions;
 
 public interface ISpeciesReadDbContext
 {
