@@ -31,17 +31,17 @@ public class SpeciesRepository : IRepository<Specie, SpecieId>
     }
 
     public async Task<Result<Specie, Error>> GetByIdAsync(
-        SpecieId specieId,
+        SpecieId accountId,
         CancellationToken cancellationToken = default)
     {
         var specie = await _dbContext.Species
-            .FirstOrDefaultAsync(x => x.Id == specieId, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == accountId, cancellationToken);
 
         if (specie == null)
             return Errors.General.RecordNotFound(
                 nameof(Specie),
                 nameof(SpecieId),
-                specieId.Value);
+                accountId.Value);
 
         return specie;
     }

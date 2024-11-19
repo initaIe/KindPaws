@@ -1,7 +1,11 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.Account;
+using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.Permission;
+using KindPaws.Accounts.Domain.Role;
 using KindPaws.Framework.Options;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,7 +14,8 @@ using Microsoft.Extensions.Options;
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
 public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
-    : IdentityDbContext<User, Role, Guid>
+    : IdentityDbContext<Account, Role, Guid, IdentityUserClaim<Guid>, AccountRole, 
+        IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<Permission> Permissions => Set<Permission>();

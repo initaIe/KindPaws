@@ -13,7 +13,6 @@ public static class DataBaseInjection
     {
         return services
             .AddDbContexts()
-            .AddRepositories()
             .AddUnitOfWork();
     }
 
@@ -22,13 +21,6 @@ public static class DataBaseInjection
         return services
             .AddScoped<AccountsWriteDbContext>()
             .AddScoped<IAccountsReadDbContext, AccountsReadDbContext>();
-    }
-
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
-        return services
-            .AddScoped<IUsersRepository, UsersRepository>()
-            .AddScoped<IRolesRepository, RolesRepository>();
     }
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)

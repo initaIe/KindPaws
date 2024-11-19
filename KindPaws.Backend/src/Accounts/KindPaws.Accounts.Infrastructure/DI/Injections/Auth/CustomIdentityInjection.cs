@@ -1,4 +1,5 @@
-﻿using KindPaws.Accounts.Domain.Entities;
+﻿using KindPaws.Accounts.Domain.Account;
+using KindPaws.Accounts.Domain.Role;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ public static class CustomIdentityInjection
     public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
     {
         services
-            .AddIdentity<User, Role>(options => { options.User.RequireUniqueEmail = true; })
+            .AddIdentity<Account, Role>(options => { options.User.RequireUniqueEmail = true; })
             .AddEntityFrameworkStores<AccountsWriteDbContext>()
             .AddDefaultTokenProviders();
 

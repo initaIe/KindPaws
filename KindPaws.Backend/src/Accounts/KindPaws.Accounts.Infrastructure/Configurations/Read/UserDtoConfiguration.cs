@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using KindPaws.Accounts.Application.Helpers;
 using KindPaws.Accounts.Contracts.Dtos;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;

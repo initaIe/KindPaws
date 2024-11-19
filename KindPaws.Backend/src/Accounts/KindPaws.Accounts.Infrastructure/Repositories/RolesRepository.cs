@@ -1,13 +1,14 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.Role;
 using KindPaws.Accounts.Infrastructure.DbContexts;
+using KindPaws.Core.Abstractions;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Accounts.Infrastructure.Repositories;
 
-public class RolesRepository : IRolesRepository
+public class RolesRepository : IRepository<Role, Guid>
 {
     private readonly AccountsWriteDbContext _dbContext;
 

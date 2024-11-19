@@ -1,8 +1,11 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.Account;
+using KindPaws.Accounts.Domain.Permission;
+using KindPaws.Accounts.Domain.Role;
 using KindPaws.Framework.Options;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -11,12 +14,12 @@ using Microsoft.Extensions.Options;
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
 public class AccountsReadDbContext(IOptions<PostgresOptions> postgresOptions)
-    : IdentityDbContext<User, Role, Guid>, IAccountsReadDbContext
+    : IdentityDbContext<Account, Role, Guid, IdentityUserClaim<Guid>, AccountRole, 
+        IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
+        , IAccountsReadDbContext
 {
-    public IQueryable<RolePermission> RolePermissions => Set<RolePermission>();
     public IQueryable<Permission> Permissions => Set<Permission>();
-    public IQueryable<RefreshSession> RefreshSessions => Set<RefreshSession>();
-    public new IQueryable<User> Users => Set<User>();
+    public new IQueryable<Account> Users => Set<Account>();
     public new IQueryable<Role> Roles => Set<Role>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

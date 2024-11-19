@@ -1,5 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.Permission;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

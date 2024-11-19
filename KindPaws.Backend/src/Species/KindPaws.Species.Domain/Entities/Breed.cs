@@ -4,10 +4,10 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Species.Domain.Entities;
 
-public class Breed : Entity<BreedId>, ISoftDeletable
+public class Breed : IEntity<BreedId>, ISoftDeletable
 {
     // ef core
-    private Breed(BreedId id) : base(id)
+    private Breed()
     {
     }
 
@@ -15,12 +15,13 @@ public class Breed : Entity<BreedId>, ISoftDeletable
         BreedId id,
         ShortAlphabeticWhiteSpacesString name,
         MediumString description)
-        : base(id)
     {
+        Id = id;
         Name = name;
         Description = description;
     }
 
+    public BreedId Id { get; }
     public ShortAlphabeticWhiteSpacesString Name { get; private set; }
     public MediumString Description { get; private set; }
     public bool IsSoftDeleted { get; private set; }

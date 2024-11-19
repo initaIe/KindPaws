@@ -8,12 +8,12 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.Entities;
 
-public class Pet : Entity<PetId>, ISoftDeletable
+public class Pet : IEntity<PetId>, ISoftDeletable
 {
     private List<PetPhoto> _photos = [];
 
     // ef core
-    private Pet(PetId id) : base(id)
+    private Pet()
     {
     }
 
@@ -21,13 +21,13 @@ public class Pet : Entity<PetId>, ISoftDeletable
         PetId id,
         ShortString name,
         PetType petType)
-        : base(id)
     {
+        Id = id;
         Name = name;
         PetType = petType;
         CreationTimestamp = DateTime.UtcNow;
     }
-
+    public PetId Id { get; }
     public ShortString Name { get; private set; }
     public PetType PetType { get; private set; }
     public DateTime CreationTimestamp { get; private set; }

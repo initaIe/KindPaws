@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />

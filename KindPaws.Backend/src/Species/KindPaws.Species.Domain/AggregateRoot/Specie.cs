@@ -6,12 +6,12 @@ using KindPaws.Species.Domain.Entities;
 
 namespace KindPaws.Species.Domain.AggregateRoot;
 
-public class Specie : Entity<SpecieId>, ISoftDeletable
+public class Specie : IEntity<SpecieId>, ISoftDeletable
 {
     private readonly List<Breed> _breeds = [];
 
     // ef core
-    private Specie(SpecieId id) : base(id)
+    private Specie()
     {
     }
 
@@ -19,12 +19,12 @@ public class Specie : Entity<SpecieId>, ISoftDeletable
         SpecieId id,
         ShortAlphabeticWhiteSpacesString name,
         MediumString description)
-        : base(id)
     {
+        Id = id;
         Name = name;
         Description = description;
     }
-
+    public SpecieId Id { get; }
     public ShortAlphabeticWhiteSpacesString Name { get; private set; }
     public MediumString Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;

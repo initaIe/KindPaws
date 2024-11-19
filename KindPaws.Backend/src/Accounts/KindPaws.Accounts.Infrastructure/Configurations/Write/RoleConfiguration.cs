@@ -1,5 +1,5 @@
 ﻿using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.Role;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,8 +25,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasIndex(r => r.Name);
         
         // RELATIONS
-        builder.HasMany(r => r.RolePermissions)
-            .WithOne(rp => rp.Role)
-            .HasForeignKey(r => r.RoleId);
+        builder.HasMany(r => r.Permissions)
+            .WithMany()
+            .UsingEntity<RolePermission>();
     }
 }

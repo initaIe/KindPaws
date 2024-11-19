@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Models;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Accounts.Infrastructure.Factories;
 using KindPaws.Accounts.Infrastructure.Options;
@@ -24,14 +24,13 @@ public class TokenProvider : ITokenProvider
         _jwtBearerOptions = options.Value;
     }
 
-    public AccessTokenAndJti GetAccessTokenAndJti(
-        Guid userId,
-        string userEmail)
+    public string GetAccessToken(
+        string userId,
+        string userEmail,
+        string jti)
     {
         var subClaim = userId.ToString();
-        
-        var jti = Jti.CreateRandom();
-        var jtiClaim = jti.Value.ToString();
+        var jtiClaim = jti.ToString();
 
         var claims = new[]
         {
@@ -55,7 +54,7 @@ public class TokenProvider : ITokenProvider
 
         var jwtAccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
-        return new AccessTokenAndJti(jwtAccessToken, jti);
+        return jwtAccessToken;
     }
 
     public async Task<Result<IReadOnlyList<Claim>, Error>> GetUserClaimsAsync(

@@ -1,5 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.Account;
+using KindPaws.Accounts.Domain.Permission;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Core.Abstractions;
 using KindPaws.SharedKernel.Others;
@@ -19,18 +20,18 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
     }
 
     public async Task<Result<Permission, Error>> GetByIdAsync(
-        PermissionId permissionId,
+        PermissionId accountId,
         CancellationToken cancellationToken = default)
     {
         var permission = await _dbContext.Permissions.FirstOrDefaultAsync(
-            u => u.Id == permissionId, 
+            u => u.Id == accountId, 
             cancellationToken);
 
         if (permission == null)
             return Errors.General.RecordNotFound(
-                nameof(User),
+                nameof(Account),
                 nameof(PermissionId),
-                permissionId.Value);
+                accountId.Value);
 
         return permission;
     }

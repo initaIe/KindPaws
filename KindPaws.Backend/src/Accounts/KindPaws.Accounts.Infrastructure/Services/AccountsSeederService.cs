@@ -1,7 +1,9 @@
 ﻿using System.Text.Json;
 using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.Account;
+using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.Permission;
+using KindPaws.Accounts.Domain.Role;
 using KindPaws.Accounts.Infrastructure.Managers;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding.Configs;
@@ -16,14 +18,14 @@ public class AccountsSeederService
     private readonly PermissionManager _permissionManager;
     private readonly RoleManager<Role> _roleManager;
     private readonly RolePermissionManager _rolePermissionManager;
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<Account> _userManager;
 
     public AccountsSeederService(
         IOptions<AccountsSeedingOptions> accountsSeederOptions,
         PermissionManager permissionManager,
         RoleManager<Role> roleManager,
         RolePermissionManager rolePermissionManager,
-        UserManager<User> userManager)
+        UserManager<Account> userManager)
     {
         _accountsSeedingOptions = accountsSeederOptions.Value;
         _permissionManager = permissionManager;
@@ -158,7 +160,7 @@ public class AccountsSeederService
         var userName = UserName.Create(_accountsSeedingOptions.AdminCredentials.UserName).Value;
         var email = EmailAddress.Create(_accountsSeedingOptions.AdminCredentials.Email).Value;
 
-        var adminUser = User.Create(
+        var adminUser = Account.Create(
             userName,
             email);
 

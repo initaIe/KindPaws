@@ -8,14 +8,13 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.AggregateRoot;
 
-public class Volunteer : Entity<VolunteerId>, ISoftDeletable
+public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
 {
     private readonly List<Pet> _pets = [];
     private List<Requisite> _requisites;
 
     // ef core
-    private Volunteer(VolunteerId id)
-        : base(id)
+    private Volunteer()
     {
     }
 
@@ -25,14 +24,15 @@ public class Volunteer : Entity<VolunteerId>, ISoftDeletable
         Address? address,
         YearsOfExperience? yearsOfExperience,
         IEnumerable<Requisite> requisites)
-        : base(id)
     {
+        Id = id;
         Description = description;
         Address = address;
         YearsOfExperience = yearsOfExperience;
         _requisites = requisites.ToList();
     }
-
+    
+    public VolunteerId Id { get; }
     public MediumString? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
