@@ -1,6 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Application.Abstractions.Repositories;
 using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -30,6 +30,23 @@ public class UsersRepository : IUsersRepository
                 nameof(User),
                 "UserId",
                 userId);
+
+        return user;
+    }
+
+    public async Task<Result<User, Error>> GetByEmailAddressAsync(
+        string emailAddress, 
+        CancellationToken cancellationToken = default)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(
+            u => u.Email == emailAddress,
+            cancellationToken);
+
+        if (user == null)
+            return Errors.General.RecordNotFound(
+                nameof(User),
+                nameof(EmailAddress),
+                emailAddress);
 
         return user;
     }

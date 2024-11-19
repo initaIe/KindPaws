@@ -2,7 +2,7 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 
-namespace KindPaws.Accounts.Application.Abstractions.Repositories;
+namespace KindPaws.Accounts.Application.Abstractions;
 
 public interface IRolesRepository
 {

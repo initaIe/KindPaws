@@ -3,9 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Models;
-using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.DbContexts;
+using KindPaws.Accounts.Infrastructure.Factories;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -16,29 +16,28 @@ namespace KindPaws.Accounts.Infrastructure.Providers;
 
 public class TokenProvider : ITokenProvider
 {
-    private readonly AccountsWriteDbContext _dbContext;
     private readonly JwtBearerOptions _jwtBearerOptions;
-    private readonly RefreshTokenOptions _refreshTokenOptions;
 
     public TokenProvider(
-        IOptions<JwtBearerOptions> options,
-        IOptions<RefreshTokenOptions> refreshTokenOptions,
-        AccountsWriteDbContext dbContext)
+        IOptions<JwtBearerOptions> options)
     {
-        _dbContext = dbContext;
-        _refreshTokenOptions = refreshTokenOptions.Value;
         _jwtBearerOptions = options.Value;
     }
 
-    public JwtAccessTokenCreationResult GenerateAccessToken(User user)
+    public AccessTokenAndJti GetAccessTokenAndJti(
+        Guid userId,
+        string userEmail)
     {
-        var jti = Guid.NewGuid();
+        var subClaim = userId.ToString();
+        
+        var jti = Jti.CreateRandom();
+        var jtiClaim = jti.Value.ToString();
 
         var claims = new[]
         {
-            new Claim(CustomClaims.Sub, user.Id.ToString()),
-            new Claim(CustomClaims.Email, user.Email!),
-            new Claim(CustomClaims.Jti, jti.ToString()),
+            new Claim(CustomClaims.Sub, subClaim),
+            new Claim(CustomClaims.Email, userEmail),
+            new Claim(CustomClaims.Jti, jtiClaim),
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerOptions.Key));
@@ -56,26 +55,7 @@ public class TokenProvider : ITokenProvider
 
         var jwtAccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
-        return new JwtAccessTokenCreationResult(jwtAccessToken, jti);
-    }
-
-    // TODO: токен провайдер должен только возвращать + создавать токен. крч чет придумать и рефаторить
-    public async Task<Guid> GenerateRefreshTokenAsync(User user, Guid jti,
-        CancellationToken cancellationToken = default)
-    {
-        var refreshSession = new RefreshSession
-        {
-            User = user,
-            Jti = jti,
-            CreationTimestamp = DateTime.UtcNow,
-            ExpireTimestamp = DateTime.UtcNow.AddDays(_refreshTokenOptions.ExpiresInDays),
-            RefreshToken = Guid.NewGuid()
-        };
-
-        await _dbContext.RefreshSessions.AddAsync(refreshSession, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
-        return refreshSession.RefreshToken;
+        return new AccessTokenAndJti(jwtAccessToken, jti);
     }
 
     public async Task<Result<IReadOnlyList<Claim>, Error>> GetUserClaimsAsync(

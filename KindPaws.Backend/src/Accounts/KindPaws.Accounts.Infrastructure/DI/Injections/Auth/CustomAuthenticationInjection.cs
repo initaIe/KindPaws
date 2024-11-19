@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using KindPaws.Accounts.Infrastructure.Factories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using JwtBearerOptions = KindPaws.Accounts.Infrastructure.Options.JwtBearerOptions;

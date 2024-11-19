@@ -10,6 +10,7 @@ namespace KindPaws.Accounts.Domain.Entities;
 public sealed class User : IdentityUser<Guid>
 {
     private readonly List<Role> _roles = [];
+    private readonly List<Permission> _permissions = [];
     private List<SocialNetwork> _socialNetworks = [];
 
     // ef Core
@@ -34,6 +35,7 @@ public sealed class User : IdentityUser<Guid>
     public FullName? FullName { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<Role> Roles => _roles;
+    public IReadOnlyList<Permission> Permissions => _permissions;
 
     public static Result<User, Error> Create(
         Guid id,

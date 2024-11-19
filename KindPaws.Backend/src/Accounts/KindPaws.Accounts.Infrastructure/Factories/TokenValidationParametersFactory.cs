@@ -2,7 +2,7 @@
 using KindPaws.Accounts.Infrastructure.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace KindPaws.Accounts.Infrastructure;
+namespace KindPaws.Accounts.Infrastructure.Factories;
 
 public static class TokenValidationParametersFactory
 {

@@ -2,16 +2,21 @@
 using KindPaws.Accounts.Contracts.Responses;
 using KindPaws.Accounts.Domain;
 using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Accounts.Application.Features.Commands.Login;
 
 public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
 {
+    private readonly IRefreshTokenSettingsProvider _refreshTokenSettingsProvider;
+    private readonly IUsersRepository _userRepository;
+    private readonly IAccountsReadDbContext _dbContext;
     private readonly UserManager<User> _userManager;
     private readonly ITokenProvider _tokenProvider;
     private readonly ILogger<LoginHandler> _logger;
@@ -19,32 +24,43 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
     public LoginHandler(
         UserManager<User> userManager,
         ITokenProvider tokenProvider,
-        ILogger<LoginHandler> logger)
+        ILogger<LoginHandler> logger,
+        IAccountsReadDbContext dbContext,
+        IUsersRepository userRepository,
+        IRefreshTokenSettingsProvider refreshTokenSettingsProvider)
     {
         _userManager = userManager;
         _tokenProvider = tokenProvider;
         _logger = logger;
+        _dbContext = dbContext;
+        _userRepository = userRepository;
+        _refreshTokenSettingsProvider = refreshTokenSettingsProvider;
     }
 
     public async Task<Result<LoginResponse, ErrorList>> HandleAsync(
         LoginCommand command,
         CancellationToken cancellationToken = default)
     {
-        var userByEmailExist = await _userManager.FindByEmailAsync(command.Email);
-        if (userByEmailExist == null)
+        var isUserByEmailExist = await _dbContext.Users.AnyAsync(u=>u.Email == command.Email, cancellationToken);
+        if (!isUserByEmailExist)
             return Errors.Accounts.CredentialsAreInvalid().ToErrorList();
 
-        var isPasswordValid = await _userManager.CheckPasswordAsync(userByEmailExist, command.Password);
+        var user = await _userRepository.GetByEmailAddressAsync(command.Email, cancellationToken);
+
+        var isPasswordValid = await _userManager.CheckPasswordAsync(user.Value, command.Password);
         if (!isPasswordValid)
             return Errors.Accounts.CredentialsAreInvalid().ToErrorList();
 
-        var accessToken = _tokenProvider.GenerateAccessToken(userByEmailExist);
-        var refreshToken = await _tokenProvider.GenerateRefreshTokenAsync(
-            userByEmailExist,
-            accessToken.Jti,
-            cancellationToken);
+        var accessTokenAndJti = _tokenProvider.GetAccessTokenAndJti(user.Value.Id, user.Value.Email!);
 
-        var loginResponse = new LoginResponse(accessToken.AccessToken, refreshToken);
+        var refreshTokenExpiresInDays = _refreshTokenSettingsProvider.Get().ExpiresInDays;
+
+        var refreshSession = RefreshSession.CreateNew(
+            user.Value.Id,
+            accessTokenAndJti.Jti,
+            refreshTokenExpiresInDays);
+
+        var loginResponse = new LoginResponse(accessTokenAndJti.AccessToken, refreshSession.Value.RefreshToken.Value);
 
         _logger.LogInformation("User with user name {UserName} logged in.", userByEmailExist.UserName);
 

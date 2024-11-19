@@ -18,7 +18,6 @@ public static class DependencyInjection
             .AddDataBase()
             .AddOptions(configuration)
             .AddSeeders()
-            .AddManagers()
             .AddServices()
             .AddCustomAuthentication(configuration)
             .AddCustomAuthorization()

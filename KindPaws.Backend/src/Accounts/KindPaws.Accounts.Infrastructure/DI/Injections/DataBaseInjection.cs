@@ -1,5 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Infrastructure.DbContexts;
+using KindPaws.Accounts.Infrastructure.Repositories;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.SharedKernel.Enums;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,8 +26,9 @@ public static class DataBaseInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        // return services.AddScoped<IVolunteersRepository, VolunteersRepository>();
-        return services;
+        return services
+            .AddScoped<IUsersRepository, UsersRepository>()
+            .AddScoped<IRolesRepository, RolesRepository>();
     }
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)

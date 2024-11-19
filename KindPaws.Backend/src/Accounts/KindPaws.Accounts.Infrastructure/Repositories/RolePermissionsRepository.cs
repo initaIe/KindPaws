@@ -1,5 +1,4 @@
-﻿using KindPaws.Accounts.Application.Abstractions.Repositories;
-using KindPaws.Accounts.Domain.Entities;
+﻿using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Core.Abstractions;
 using KindPaws.SharedKernel.Others;
