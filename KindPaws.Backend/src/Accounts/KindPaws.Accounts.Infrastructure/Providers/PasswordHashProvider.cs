@@ -1,5 +1,4 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using Microsoft.AspNetCore.Identity;
 
 namespace KindPaws.Accounts.Infrastructure.Providers;
 

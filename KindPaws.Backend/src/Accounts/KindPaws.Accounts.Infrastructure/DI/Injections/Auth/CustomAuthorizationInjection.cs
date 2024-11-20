@@ -6,7 +6,7 @@ public static class CustomAuthorizationInjection
 {
     public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
     {
-        // services.AddAuthorization();
+        services.AddAuthorization();
 
         return services;
     }

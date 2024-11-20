@@ -2,6 +2,7 @@ using DotNetEnv;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.DI.Injections.Others;
 using KindPaws.WEB.Middlewares;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 Env.Load();
@@ -10,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // lower case routing
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCustomSwaggerGen();
@@ -19,10 +19,6 @@ builder.Services.AddCustomSwaggerGen();
 builder.Services.AddAllDependencies(builder.Configuration);
 
 var app = builder.Build();
-
-// TODO refactor
-// var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
-// await accountsSeeder.SeedAsync();
 
 // Add exception middleware
 app.UseMiddlewareException();
@@ -36,7 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
