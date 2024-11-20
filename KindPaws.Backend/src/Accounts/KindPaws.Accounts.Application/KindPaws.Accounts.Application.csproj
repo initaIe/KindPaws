@@ -12,4 +12,9 @@
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Permissions\Commands\" />
+      <Folder Include="Features\Roles\" />
+    </ItemGroup>
+
 </Project>

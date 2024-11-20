@@ -8,7 +8,7 @@ public interface IRepository<TEntity, in TId>
     where TId : IEquatable<TId>
 {
     Task<Result<TEntity, Error>> GetByIdAsync(
-        TId id,
+        TId permissionId,
         CancellationToken cancellationToken = default);
 
     Task AddAsync(

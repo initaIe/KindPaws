@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Models;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Accounts.Infrastructure.Factories;
 using KindPaws.Accounts.Infrastructure.Options;

@@ -1,10 +1,8 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Features.Auth.Commands.Login;
 using KindPaws.Accounts.Contracts.Responses;
-using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Account;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
-using KindPaws.Core.Abstractions;
+using KindPaws.Accounts.Domain.AggregateRoot;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -12,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Accounts.Application.Features.Commands.Login;
+namespace KindPaws.Accounts.Application.Commands.Login;
 
 public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
 {

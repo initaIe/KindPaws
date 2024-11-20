@@ -18,11 +18,6 @@ public record VolunteerId
         return new VolunteerId(Guid.NewGuid());
     }
 
-    public static VolunteerId CreateEmpty()
-    {
-        return new VolunteerId(Guid.Empty);
-    }
-
     public static Result<VolunteerId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

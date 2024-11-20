@@ -1,4 +1,4 @@
-﻿using KindPaws.Accounts.Domain.Account;
+﻿using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.Role;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Identity;

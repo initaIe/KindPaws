@@ -1,12 +1,11 @@
-﻿using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Account;
+﻿using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Accounts.Application.Features.Commands.Register;
+namespace KindPaws.Accounts.Application.Commands.Register;
 
 public class RegisterHandler : ICommandHandler<RegisterCommand>
 {

@@ -1,6 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Domain.Account;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.AggregateRoot;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Core.Abstractions;
 using KindPaws.SharedKernel.Others;
@@ -19,18 +19,18 @@ public class AccountsRepository : IRepository<Account, Guid>
     }
 
     public async Task<Result<Account, Error>> GetByIdAsync(
-        Guid accountId,
+        Guid permissionId,
         CancellationToken cancellationToken = default)
     {
         var account = await _dbContext.Users.FirstOrDefaultAsync(
-            u => u.Id == accountId,
+            u => u.Id == permissionId,
             cancellationToken);
 
         if (account == null)
             return Errors.General.RecordNotFound(
                 nameof(Account),
                 "AccountId",
-                accountId);
+                permissionId);
 
         return account;
     }

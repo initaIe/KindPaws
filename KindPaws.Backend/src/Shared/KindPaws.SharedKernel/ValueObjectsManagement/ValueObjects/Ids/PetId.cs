@@ -18,11 +18,6 @@ public record PetId
         return new PetId(Guid.NewGuid());
     }
 
-    public static PetId CreateEmpty()
-    {
-        return new PetId(Guid.Empty);
-    }
-
     public static Result<PetId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

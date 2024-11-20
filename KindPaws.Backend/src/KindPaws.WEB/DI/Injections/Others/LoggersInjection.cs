@@ -1,4 +1,4 @@
-﻿using KindPaws.Framework.Options;
+﻿using KindPaws.Core.Options;
 using Serilog;
 using Serilog.Events;
 

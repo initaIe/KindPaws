@@ -1,5 +1,6 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
-using KindPaws.Framework.Options;
+using KindPaws.Core.Factories;
+using KindPaws.Core.Options;
 using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,17 +13,12 @@ public class SpeciesWriteDbContext(IOptions<PostgresOptions> postgresOptions)
 {
     public DbSet<Specie> Species => Set<Specie>();
 
-    private ILoggerFactory CreateLoggerFactory()
-    {
-        return LoggerFactory.Create(builder => { builder.AddConsole(); });
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
             .UseNpgsql(postgresOptions.Value.ConnectionString)
             .UseSnakeCaseNamingConvention()
-            .UseLoggerFactory(CreateLoggerFactory())
+            .UseLoggerFactory(LoggerFactories.CreateConsole())
             .EnableSensitiveDataLogging()
             .UseExceptionProcessor();
     }

@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Accounts.Application.Features.Commands.Register;
+namespace KindPaws.Accounts.Application.Commands.Register;
 
 public record RegisterCommand(
     string Email,

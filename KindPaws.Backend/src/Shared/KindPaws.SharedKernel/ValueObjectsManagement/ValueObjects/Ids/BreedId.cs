@@ -18,11 +18,6 @@ public record BreedId
         return new BreedId(Guid.NewGuid());
     }
 
-    public static BreedId CreateEmpty()
-    {
-        return new BreedId(Guid.Empty);
-    }
-
     public static Result<BreedId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

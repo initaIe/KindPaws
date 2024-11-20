@@ -1,4 +1,4 @@
-﻿using KindPaws.Framework.Options;
+﻿using KindPaws.Core.Options;
 
 namespace KindPaws.WEB.DI.Injections.Others;
 

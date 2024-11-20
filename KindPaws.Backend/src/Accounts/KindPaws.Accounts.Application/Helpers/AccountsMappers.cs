@@ -1,5 +1,5 @@
 ﻿using KindPaws.Accounts.Contracts.Dtos;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Accounts.Application.Helpers;

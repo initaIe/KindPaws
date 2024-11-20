@@ -1,7 +1,7 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Contracts.Responses;
-using KindPaws.Accounts.Domain.Account;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.AggregateRoot;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;

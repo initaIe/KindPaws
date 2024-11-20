@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Account;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.Permission;
 using KindPaws.Accounts.Domain.Role;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.Managers;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Accounts.Infrastructure.Seeding.Configs;

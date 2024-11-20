@@ -18,11 +18,6 @@ public record SpecieId
         return new SpecieId(Guid.NewGuid());
     }
 
-    public static SpecieId CreateEmpty()
-    {
-        return new SpecieId(Guid.Empty);
-    }
-
     public static Result<SpecieId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

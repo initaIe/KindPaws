@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Configurations\Read\" />
+      <Folder Include="Configurations\Write\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Accounts\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\KindPaws.Permissions.Application\KindPaws.Permissions.Application.csproj" />
+      <ProjectReference Include="..\KindPaws.Permissions.Domain\KindPaws.Permissions.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

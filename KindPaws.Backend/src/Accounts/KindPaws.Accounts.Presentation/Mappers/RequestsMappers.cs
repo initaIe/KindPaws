@@ -1,7 +1,6 @@
-﻿using KindPaws.Accounts.Application.Features.Auth.Commands.Login;
-using KindPaws.Accounts.Application.Features.Commands.Login;
-using KindPaws.Accounts.Application.Features.Commands.RefreshTokens;
-using KindPaws.Accounts.Application.Features.Commands.Register;
+﻿using KindPaws.Accounts.Application.Commands.RefreshTokens;
+using KindPaws.Accounts.Application.Commands.Register;
+using KindPaws.Accounts.Application.Features.Auth.Commands.Login;
 using KindPaws.Accounts.Contracts.Requests;
 
 namespace KindPaws.Accounts.Presentation.Mappers;

@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using KindPaws.Accounts.Application.Models;
 using KindPaws.Accounts.Domain;
-using KindPaws.Accounts.Domain.Account.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 

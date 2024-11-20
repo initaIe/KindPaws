@@ -1,5 +1,6 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
-using KindPaws.Framework.Options;
+using KindPaws.Core.Factories;
+using KindPaws.Core.Options;
 using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,12 @@ public class SpeciesReadDbContext(IOptions<PostgresOptions> postgresOptions) : D
     public IQueryable<SpecieDto> Species => Set<SpecieDto>();
     public IQueryable<BreedDto> Breeds => Set<BreedDto>();
 
-    private ILoggerFactory CreateLoggerFactory()
-    {
-        return LoggerFactory.Create(builder => { builder.AddConsole(); });
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
             .UseNpgsql(postgresOptions.Value.ConnectionString)
             .UseSnakeCaseNamingConvention()
-            .UseLoggerFactory(CreateLoggerFactory())
+            .UseLoggerFactory(LoggerFactories.CreateConsole())
             .EnableSensitiveDataLogging()
             .UseExceptionProcessor()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);

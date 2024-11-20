@@ -31,17 +31,17 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
     }
 
     public async Task<Result<Volunteer, Error>> GetByIdAsync(
-        VolunteerId accountId,
+        VolunteerId permissionId,
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.Id == accountId, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
 
         if (volunteer == null)
             return Errors.General.RecordNotFound(
                 nameof(Volunteer),
                 nameof(VolunteerId),
-                accountId.Value);
+                permissionId.Value);
 
         return volunteer;
     }

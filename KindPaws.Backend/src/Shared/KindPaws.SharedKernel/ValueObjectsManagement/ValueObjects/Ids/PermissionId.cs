@@ -18,11 +18,6 @@ public record PermissionId
         return new PermissionId(Guid.NewGuid());
     }
 
-    public static PermissionId CreateEmpty()
-    {
-        return new PermissionId(Guid.Empty);
-    }
-
     public static Result<PermissionId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))

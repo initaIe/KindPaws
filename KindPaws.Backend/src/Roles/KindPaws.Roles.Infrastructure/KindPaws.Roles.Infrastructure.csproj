@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+      <ProjectReference Include="..\KindPaws.Roles.Application\KindPaws.Roles.Application.csproj" />
+      <ProjectReference Include="..\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+    </ItemGroup>
+
+</Project>

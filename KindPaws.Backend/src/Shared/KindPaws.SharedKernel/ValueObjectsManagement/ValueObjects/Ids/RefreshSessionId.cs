@@ -18,11 +18,6 @@ public record RefreshSessionId
         return new RefreshSessionId(Guid.NewGuid());
     }
 
-    public static RefreshSessionId CreateEmpty()
-    {
-        return new RefreshSessionId(Guid.Empty);
-    }
-
     public static Result<RefreshSessionId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))
@@ -34,6 +29,6 @@ public record RefreshSessionId
     public static implicit operator Guid(RefreshSessionId refreshSessionId)
     {
         return refreshSessionId?.Value
-               ?? throw new ArgumentNullException($"{nameof(RefreshSessionId)} cannot be null.");
+               ?? throw new ArgumentNullException($"{nameof(refreshSessionId)} cannot be null.");
     }
 }

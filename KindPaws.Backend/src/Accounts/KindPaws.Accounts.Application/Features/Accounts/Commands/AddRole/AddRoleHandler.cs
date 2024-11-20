@@ -1,5 +1,5 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Domain.Account;
+using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.Role;
 using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
