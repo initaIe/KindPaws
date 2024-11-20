@@ -10,7 +10,7 @@ public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDto>
     {
         // TABLE NAMING
         builder.ToTable("roles");
-        
+
         // ID
         builder.Property(x => x.Id)
             .HasColumnName("id");
@@ -18,7 +18,7 @@ public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDto>
         // ROLE_NAME
         builder.Property(r => r.Name)
             .HasColumnName("name");
-        
+
         // CREATION_TIMESTAMP
         builder.Property(r => r.CreationTimestamp)
             .HasColumnName("creation_timestamp");

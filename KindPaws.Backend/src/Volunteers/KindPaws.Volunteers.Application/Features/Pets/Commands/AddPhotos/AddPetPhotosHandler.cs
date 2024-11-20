@@ -30,6 +30,7 @@ public class AddPetPhotosHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetPhotosCommand> _validator;
     private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
+
     public AddPetPhotosHandler(
         ILogger<AddPetPhotosHandler> logger,
         IRepository<Volunteer, VolunteerId> volunteersRepository,

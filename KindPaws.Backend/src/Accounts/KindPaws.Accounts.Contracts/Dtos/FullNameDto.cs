@@ -1,6 +1,8 @@
 ﻿namespace KindPaws.Accounts.Contracts.Dtos;
 
-public record FullNameDto(
-    string FirstName,
-    string LastName,
-    string? Patronymic);
+public record FullNameDto
+{
+    public string FirstName { get; init; } = null!;
+    public string LastName { get; init; } = null!;
+    public string? Patronymic  { get; init; }
+}

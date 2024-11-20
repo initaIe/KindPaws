@@ -13,13 +13,14 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
+        // TABLE NAMING
         builder.ToTable("volunteers");
 
         // ID
         builder.HasKey(v => v.Id);
         builder.Property(v => v.Id)
             .HasConversion(
-                petId => petId.Value,
+                id => id.Value,
                 value => VolunteerId.Create(value).Value)
             .HasColumnName("id");
 
@@ -37,7 +38,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("address")
             .HasColumnType("jsonb")
             .HasJsonConversion()
-            .IsRequired(false); // nullable json
+            .IsRequired(false);
 
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience)

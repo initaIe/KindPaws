@@ -4,7 +4,6 @@ using KindPaws.Core.Options;
 using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Volunteers.Infrastructure.DbContexts;
@@ -15,7 +14,7 @@ public class VolunteersReadDbContext(IOptions<PostgresOptions> postgresOptions)
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
     public IQueryable<PetDto> Pets => Set<PetDto>();
 
-   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
             .UseNpgsql(postgresOptions.Value.ConnectionString)

@@ -12,21 +12,21 @@ public static class CustomAuthenticationInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services
-            .AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                var jwtAccessTokenOptions = configuration.GetRequiredSection(JwtBearerOptions.SectionName)
-                    .Get<JwtBearerOptions>();
-
-                options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions!);
-            });
+        // services
+        //     .AddAuthentication(options =>
+        //     {
+        //         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        //         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        //         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        //         options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+        //     })
+        //     .AddJwtBearer(options =>
+        //     {
+        //         var jwtAccessTokenOptions = configuration.GetRequiredSection(JwtBearerOptions.SectionName)
+        //             .Get<JwtBearerOptions>();
+        //
+        //         options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions!);
+        //     });
 
         return services;
     }

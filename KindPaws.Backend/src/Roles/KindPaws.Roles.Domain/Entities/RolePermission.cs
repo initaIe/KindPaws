@@ -32,15 +32,15 @@ public class RolePermission
         var creationTimestamp = DateTime.UtcNow;
         return new RolePermission(roleId, permissionId, creationTimestamp);
     }
-    
+
     public static Result<RolePermission, Error> Create(
         RoleId roleId,
-        PermissionId permissionId, 
+        PermissionId permissionId,
         DateTime creationTimestamp)
     {
         if (creationTimestamp > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
-        
+
         return new RolePermission(roleId, permissionId, creationTimestamp);
     }
 }

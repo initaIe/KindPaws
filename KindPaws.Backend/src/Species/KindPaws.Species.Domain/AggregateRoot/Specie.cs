@@ -24,6 +24,7 @@ public class Specie : IEntity<SpecieId>, ISoftDeletable
         Name = name;
         Description = description;
     }
+
     public SpecieId Id { get; }
     public ShortAlphabeticWhiteSpacesString Name { get; private set; }
     public MediumString Description { get; private set; }

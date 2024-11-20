@@ -1,6 +1,8 @@
 ﻿namespace KindPaws.Volunteers.Contracts.Dtos;
 
-public record BiometricDetailsDto(
-    float? Height,
-    float? Weight,
-    string? Gender);
+public record BiometricDetailsDto
+{
+    public float? Height { get; init; }
+    public float? Weight { get; init; }
+    public string? Gender { get; init; }
+}

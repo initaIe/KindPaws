@@ -1,11 +1,10 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using KindPaws.SharedKernel.Others;
+﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Accounts.Domain;
+namespace KindPaws.Accounts.Domain.Entities;
 
-public sealed class AccountRole
+public class AccountRole
 {
     // ef core
     private AccountRole()
@@ -14,7 +13,7 @@ public sealed class AccountRole
 
     private AccountRole(
         AccountId accountId,
-        RoleId roleId, 
+        RoleId roleId,
         DateTime creationTimestamp)
     {
         AccountId = accountId;
@@ -31,12 +30,12 @@ public sealed class AccountRole
         var creationTimestamp = DateTime.UtcNow;
         return new AccountRole(accountId, roleId, creationTimestamp);
     }
-    
+
     public static Result<AccountRole, Error> Create(AccountId accountId, RoleId roleId, DateTime creationTimestamp)
     {
         if (creationTimestamp > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
-        
+
         return new AccountRole(accountId, roleId, creationTimestamp);
     }
 }

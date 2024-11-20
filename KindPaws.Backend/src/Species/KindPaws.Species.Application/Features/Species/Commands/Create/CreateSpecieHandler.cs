@@ -10,7 +10,6 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Application.Helpers;
 using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;

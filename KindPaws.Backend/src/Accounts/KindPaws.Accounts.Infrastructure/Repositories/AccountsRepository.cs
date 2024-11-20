@@ -1,15 +1,16 @@
-﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Domain.AggregateRoot;
+﻿using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Core.Abstractions;
+using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Accounts.Infrastructure.Repositories;
 
-public class AccountsRepository : IRepository<Account, Guid>
+public class AccountsRepository : IRepository<Account, AccountId>
 {
     private readonly AccountsWriteDbContext _dbContext;
 
@@ -19,35 +20,18 @@ public class AccountsRepository : IRepository<Account, Guid>
     }
 
     public async Task<Result<Account, Error>> GetByIdAsync(
-        Guid permissionId,
+        AccountId accountId,
         CancellationToken cancellationToken = default)
     {
-        var account = await _dbContext.Users.FirstOrDefaultAsync(
-            u => u.Id == permissionId,
+        var account = await _dbContext.Accounts.FirstOrDefaultAsync(
+            u => u.Id == accountId,
             cancellationToken);
 
         if (account == null)
             return Errors.General.RecordNotFound(
                 nameof(Account),
-                "AccountId",
-                permissionId);
-
-        return account;
-    }
-
-    public async Task<Result<Account, Error>> GetByEmailAddressAsync(
-        string emailAddress, 
-        CancellationToken cancellationToken = default)
-    {
-        var account = await _dbContext.Users.FirstOrDefaultAsync(
-            u => u.Email == emailAddress,
-            cancellationToken);
-
-        if (account == null)
-            return Errors.General.RecordNotFound(
-                nameof(Account),
-                nameof(EmailAddress),
-                emailAddress);
+                nameof(AccountId),
+                accountId);
 
         return account;
     }
@@ -56,11 +40,11 @@ public class AccountsRepository : IRepository<Account, Guid>
         Account account,
         CancellationToken cancellationToken = default)
     {
-        await _dbContext.Users.AddAsync(account, cancellationToken);
+        await _dbContext.Accounts.AddAsync(account, cancellationToken);
     }
 
     public void Delete(Account account)
     {
-        _dbContext.Users.Remove(account);
+        _dbContext.Accounts.Remove(account);
     }
 }

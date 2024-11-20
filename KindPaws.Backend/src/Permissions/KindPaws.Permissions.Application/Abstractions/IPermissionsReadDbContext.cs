@@ -1,4 +1,4 @@
-﻿using KindPaws.Accounts.Contracts.Dtos;
+﻿using KindPaws.Permissions.Contracts.Dtos;
 
 namespace KindPaws.Permissions.Application.Abstractions;
 

@@ -1,5 +1,4 @@
 ﻿using KindPaws.Accounts.Infrastructure.DI.Injections;
-using KindPaws.Accounts.Infrastructure.DI.Injections.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,16 +11,11 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services
-            // АЙДЕНТИТИ ДОБАВЛЯТЬ ПЕРЕД ПЕРЕОПРЕДЕЛЕННОЙ AUTH ИБО БУДУТ СТОЯТ ДЕФ СХЕМЫ!!!
-            .AddCustomIdentity()
-            .AddProviders()
             .AddDataBase()
-            .AddOptions(configuration)
-            .AddSeeders()
-            .AddServices()
-            .AddCustomAuthentication(configuration)
-            .AddCustomAuthorization()
-            .AddHandlers();
+            .AddProviders()
+            .AddOptions(configuration);
+            // .AddCustomAuthentication(configuration)
+            // .AddCustomAuthorization();
 
         return services;
     }

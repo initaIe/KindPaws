@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
 

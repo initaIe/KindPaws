@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using KindPaws.Core.Abstractions;
+﻿using KindPaws.Core.Abstractions;
 using KindPaws.Permissions.Domain.AggregateRoot;
 using KindPaws.Permissions.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
@@ -23,7 +22,7 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
         CancellationToken cancellationToken = default)
     {
         var permission = await _dbContext.Permissions.FirstOrDefaultAsync(
-            u => u.Id == permissionId, 
+            u => u.Id == permissionId,
             cancellationToken);
 
         if (permission == null)

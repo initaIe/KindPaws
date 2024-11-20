@@ -10,7 +10,7 @@ namespace KindPaws.Permissions.Infrastructure.DbContexts;
 public class PermissionsWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
 {
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
-    
+
     public DbSet<Permission> Permissions => Set<Permission>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,6 +26,7 @@ public class PermissionsWriteDbContext(IOptions<PostgresOptions> postgresOptions
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("permissions");
+
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(PermissionsWriteDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Write") ?? false);

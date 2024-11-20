@@ -4,7 +4,6 @@ using KindPaws.Core.Options;
 using KindPaws.Roles.Domain.AggregateRoot;
 using KindPaws.Roles.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Roles.Infrastructure.DbContexts;
@@ -12,7 +11,7 @@ namespace KindPaws.Roles.Infrastructure.DbContexts;
 public class RolesWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
 {
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
-    
+
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 

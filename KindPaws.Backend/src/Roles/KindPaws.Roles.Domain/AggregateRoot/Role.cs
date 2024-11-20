@@ -32,7 +32,7 @@ public sealed class Role : IEntity<RoleId>
         var creationTimestamp = DateTime.UtcNow;
         return new Role(id, name, creationTimestamp);
     }
-    
+
     public static Result<Role, Error> Create(
         RoleId id,
         RoleName name,
@@ -40,7 +40,7 @@ public sealed class Role : IEntity<RoleId>
     {
         if (creationTimestamp > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
-        
+
         return new Role(id, name, creationTimestamp);
     }
 }

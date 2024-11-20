@@ -29,6 +29,6 @@ public record AccountId
     public static implicit operator Guid(AccountId accountId)
     {
         return accountId?.Value
-               ?? throw new ArgumentNullException($"{nameof(accountId)} cannot be null.");
+               ?? throw new ArgumentNullException($"{nameof(accountId)} value cannot be null.");
     }
 }

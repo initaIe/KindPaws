@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Application.Helpers;
+using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +40,7 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
             .HasConversion(
                 requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!
-                    .Select(r => r.ToDto()).ToArray());
+                    .ToDtoCollection().ToArray());
 
         // PETS
         builder.HasMany(v => v.Pets)

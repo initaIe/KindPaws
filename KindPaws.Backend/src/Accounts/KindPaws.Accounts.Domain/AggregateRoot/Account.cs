@@ -1,7 +1,7 @@
-﻿using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+﻿using KindPaws.Accounts.Domain.Entities;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
@@ -18,22 +18,22 @@ public sealed class Account : IEntity<AccountId>
     }
 
     private Account(
-        AccountId id, 
+        AccountId id,
         UserName userName,
-        EmailAddress email,
+        EmailAddress emailAddress,
         PasswordHash passwordHash,
         DateTime creationTimestamp)
     {
         Id = id;
         UserName = userName;
-        Email = email;
+        EmailAddress = emailAddress;
         PasswordHash = passwordHash;
         CreationTimestamp = creationTimestamp;
     }
 
     public AccountId Id { get; private set; }
     public UserName UserName { get; private set; }
-    public EmailAddress Email { get; private set; }
+    public EmailAddress EmailAddress { get; private set; }
     public PasswordHash PasswordHash { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
     public FullName? FullName { get; private set; }
@@ -48,12 +48,12 @@ public sealed class Account : IEntity<AccountId>
     {
         var id = AccountId.CreateRandom();
         var creationTimestamp = DateTime.UtcNow;
-        
+
         return new Account(id, userName, email, passwordHash, creationTimestamp);
     }
-    
+
     public static Result<Account, Error> Create(
-        AccountId id, 
+        AccountId id,
         UserName userName,
         EmailAddress email,
         PasswordHash passwordHash,
@@ -61,7 +61,7 @@ public sealed class Account : IEntity<AccountId>
     {
         if (creationTimestamp > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
-        
+
         return new Account(id, userName, email, passwordHash, creationTimestamp);
     }
 }

@@ -10,7 +10,7 @@ namespace KindPaws.Roles.Infrastructure.DbContexts;
 public class RolesReadDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
 {
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
-    
+
     public IQueryable<RoleDto> Roles => Set<RoleDto>();
     public IQueryable<RolePermissionDto> RolePermissions => Set<RolePermissionDto>();
 

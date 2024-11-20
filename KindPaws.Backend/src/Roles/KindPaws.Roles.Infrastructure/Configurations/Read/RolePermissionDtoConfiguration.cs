@@ -1,6 +1,4 @@
 ﻿using KindPaws.Roles.Contracts.Dtos;
-using KindPaws.Roles.Domain.Entities;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,7 +18,7 @@ public class RolePermissionDtoConfiguration : IEntityTypeConfiguration<RolePermi
         // PERMISSION_ID
         builder.Property(rp => rp.PermissionId)
             .HasColumnName("permission_id");
-        
+
         // CREATION_TIMESTAMP
         builder.Property(rp => rp.CreationTimestamp)
             .HasColumnName("creation_timestamp");

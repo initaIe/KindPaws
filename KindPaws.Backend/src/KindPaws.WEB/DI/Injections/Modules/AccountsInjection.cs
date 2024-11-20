@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Infrastructure.DI;
+using KindPaws.Accounts.Presentation.DI;
 
 namespace KindPaws.WEB.DI.Injections.Modules;
 
@@ -12,7 +13,7 @@ public static class AccountsInjection
         IConfiguration configuration)
     {
         services.AddAccountsInfrastructure(configuration);
-        // services.AddAccountsPresentation();
+        services.AddAccountsPresentation();
 
         return services;
     }

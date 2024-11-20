@@ -3,8 +3,10 @@ using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
+using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Species.Contracts.Dtos;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Species.Application.Features.Breeds.Queries.GetBreeds;
 
@@ -12,7 +14,7 @@ public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDto>, GetBree
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetBreedsDapperHandler(ISqlConnectionFactory sqlConnectionFactory)
+    public GetBreedsDapperHandler([FromKeyedServices(Modules.Volunteers)]ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
     }

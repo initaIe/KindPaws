@@ -31,7 +31,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
         YearsOfExperience = yearsOfExperience;
         _requisites = requisites.ToList();
     }
-    
+
     public VolunteerId Id { get; }
     public MediumString? Description { get; private set; }
     public Address? Address { get; private set; }

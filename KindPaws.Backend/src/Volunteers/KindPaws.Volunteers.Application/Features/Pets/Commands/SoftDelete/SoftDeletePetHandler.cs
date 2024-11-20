@@ -8,7 +8,6 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

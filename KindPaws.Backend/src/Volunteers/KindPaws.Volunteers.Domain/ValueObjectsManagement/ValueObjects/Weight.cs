@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
-public class Weight
+public record Weight
 {
     [JsonConstructor]
     private Weight(float value)

@@ -4,25 +4,25 @@ using KindPaws.SharedKernel.Utilities.Validators;
 
 namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 
-public class Jti
+public record Jti
 {
     private Jti(Guid value)
     {
         Value = value;
     }
 
-    public Guid Value { get; }
+    public Guid Value { get;}
 
     public static Jti CreateRandom()
     {
         return new Jti(Guid.Empty);
     }
 
-    public static Result<Jti, Error> Create(Guid value)
+    public static Result<Jti, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid(nameof(Jti));
 
-        return new Jti(value);
+        return new Jti(input);
     }
 }

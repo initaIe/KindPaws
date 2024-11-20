@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
-      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
     </ItemGroup>
 
@@ -18,12 +17,6 @@
       <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Application\KindPaws.Accounts.Application.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Configurations\Read\" />
-      <Folder Include="Configurations\Write\" />
-      <Folder Include="Entities\" />
     </ItemGroup>
 
 </Project>

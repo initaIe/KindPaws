@@ -1,5 +1,4 @@
 using DotNetEnv;
-using KindPaws.Accounts.Infrastructure.Seeding;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.DI.Injections.Others;
 using KindPaws.WEB.Middlewares;
@@ -22,8 +21,8 @@ builder.Services.AddAllDependencies(builder.Configuration);
 var app = builder.Build();
 
 // TODO refactor
-var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
-await accountsSeeder.SeedAsync();
+// var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+// await accountsSeeder.SeedAsync();
 
 // Add exception middleware
 app.UseMiddlewareException();
@@ -37,7 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 app.MapControllers();
 app.Run();

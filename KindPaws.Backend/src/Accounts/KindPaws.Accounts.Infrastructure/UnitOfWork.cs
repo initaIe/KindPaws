@@ -14,8 +14,9 @@ public class UnitOfWork : IUnitOfWork
     {
         _dbContext = dbContext;
     }
-    
-    public async Task<IDbTransaction> BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
+
+    public async Task<IDbTransaction> BeginTransactionAsync(
+        IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
         CancellationToken cancellationToken = default)
     {
         var transaction = await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);

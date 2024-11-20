@@ -1,5 +1,4 @@
-﻿using KindPaws.Core.Dtos;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Contracts.Dtos;

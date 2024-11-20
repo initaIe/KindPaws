@@ -3,7 +3,6 @@ using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Species.Infrastructure.DbContexts;

@@ -4,9 +4,12 @@ using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Dtos.DapperDtos;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
+using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Volunteers.Application.Helpers;
+using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Queries.GetPets;
 
@@ -14,7 +17,7 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetPetsDapperHandler(ISqlConnectionFactory sqlConnectionFactory)
+    public GetPetsDapperHandler([FromKeyedServices(Modules.Volunteers)]ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
     }

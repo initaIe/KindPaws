@@ -4,7 +4,6 @@ using KindPaws.Core.Options;
 using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Species.Infrastructure.DbContexts;

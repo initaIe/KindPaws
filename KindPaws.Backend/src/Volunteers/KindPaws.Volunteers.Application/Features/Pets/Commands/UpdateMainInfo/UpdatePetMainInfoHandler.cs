@@ -9,7 +9,6 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;

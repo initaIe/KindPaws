@@ -1,7 +1,7 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
-using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
+using KindPaws.Permissions.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -10,7 +10,7 @@ namespace KindPaws.Permissions.Infrastructure.DbContexts;
 public class PermissionsReadDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
 {
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
-    
+
     public IQueryable<PermissionDto> Permissions => Set<PermissionDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

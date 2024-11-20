@@ -27,6 +27,7 @@ public class Pet : IEntity<PetId>, ISoftDeletable
         PetType = petType;
         CreationTimestamp = DateTime.UtcNow;
     }
+
     public PetId Id { get; }
     public ShortString Name { get; private set; }
     public PetType PetType { get; private set; }

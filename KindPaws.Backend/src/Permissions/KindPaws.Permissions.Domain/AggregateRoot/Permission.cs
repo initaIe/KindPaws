@@ -12,7 +12,7 @@ public class Permission : IEntity<PermissionId>
     }
 
     private Permission(
-        PermissionId id, 
+        PermissionId id,
         PermissionCode code,
         DateTime creationTimestamp)
     {

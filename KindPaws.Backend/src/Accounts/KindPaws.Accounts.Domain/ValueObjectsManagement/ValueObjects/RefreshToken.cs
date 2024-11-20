@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.Utilities.Validators;
 
 namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 
-public class RefreshToken
+public record RefreshToken
 {
     private RefreshToken(Guid value)
     {

@@ -8,7 +8,6 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
@@ -28,7 +27,7 @@ public class AddPetHandler
 
     public AddPetHandler(
         ILogger<AddPetHandler> logger,
-        IRepository<Volunteer, VolunteerId>  volunteersRepository,
+        IRepository<Volunteer, VolunteerId> volunteersRepository,
         IValidator<AddPetCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
         IUnitOfWork unitOfWork,

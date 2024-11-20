@@ -3,7 +3,9 @@ using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
+using KindPaws.SharedKernel.Enums;
 using KindPaws.Species.Contracts.Dtos;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Species.Application.Features.Species.Queries.GetSpecies;
 
@@ -11,7 +13,7 @@ public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSp
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetSpeciesDapperHandler(ISqlConnectionFactory sqlConnectionFactory)
+    public GetSpeciesDapperHandler([FromKeyedServices(Modules.Species)]ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
     }

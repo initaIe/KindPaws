@@ -1,6 +1,5 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Infrastructure.DbContexts;
-using KindPaws.Accounts.Infrastructure.Repositories;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.SharedKernel.Enums;
 using Microsoft.Extensions.DependencyInjection;

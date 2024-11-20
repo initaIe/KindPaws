@@ -12,7 +12,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
         // TABLE NAMING
         builder.ToTable("roles");
-        
+
         // ID
         builder.HasKey(r => r.Id);
         builder.Property(r => r.Id)
@@ -30,7 +30,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasColumnName("name")
             .IsRequired();
         builder.HasIndex(r => r.Name);
-        
+
         // CREATION_TIMESTAMP
         builder.Property(r => r.CreationTimestamp)
             .HasColumnName("creation_timestamp")
