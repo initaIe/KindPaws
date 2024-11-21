@@ -13,7 +13,7 @@ public static class ToDtoMappers
             LastName = fullName.LastName,
             Patronymic = fullName.Patronymic
         };
-            
+
 
     public static SocialNetworkDto ToDto(this SocialNetwork socialNetwork)
         => new SocialNetworkDto

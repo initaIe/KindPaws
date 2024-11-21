@@ -1,11 +1,11 @@
 ﻿namespace KindPaws.Accounts.Infrastructure.Options;
 
-public class RefreshTokenOptions
+public class RefreshSessionOptions
 {
     /// <summary>
     ///     Section name in IConfiguration.
     /// </summary>
-    public const string SectionName = nameof(RefreshTokenOptions);
+    public const string SectionName = nameof(RefreshSessionOptions);
 
     public int ExpiresInDays { get; init; }
 }

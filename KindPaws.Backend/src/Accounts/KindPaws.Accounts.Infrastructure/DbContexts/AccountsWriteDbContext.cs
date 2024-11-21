@@ -11,7 +11,7 @@ namespace KindPaws.Accounts.Infrastructure.DbContexts;
 public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
 {
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
-    
+
     public DbSet<Account> Accounts => Set<Account>();
     public DbSet<AccountRole> AccountRoles => Set<AccountRole>();
 

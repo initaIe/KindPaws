@@ -54,7 +54,7 @@ public static class ToDtoMappers
 
     public static IEnumerable<PetPhotoDto> ToDtoCollection(this IEnumerable<PetPhoto> petPhotos)
         => petPhotos.Select(ToDto);
-            
+
 
     public static PetDto ToDto(this PetDapperDto petDapperDto)
         => new PetDto

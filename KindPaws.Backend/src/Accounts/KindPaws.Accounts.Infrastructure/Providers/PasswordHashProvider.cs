@@ -11,10 +11,10 @@ public class PasswordHashProvider : IPasswordHashProvider
     {
         return _passwordHasher.HashPassword(null!, password);
     }
-    
+
     public bool ValidateHash(string passwordHash, string password)
     {
-        var result =  _passwordHasher.VerifyHashedPassword(null!, passwordHash, password);
+        var result = _passwordHasher.VerifyHashedPassword(null!, passwordHash, password);
 
         return result switch
         {

@@ -23,7 +23,7 @@ public record HealthDetailsDescription
 
         if (!StringValidator.IsInRange(
                 input,
-                HealthDetailsDescriptionConstraints.MinLength, 
+                HealthDetailsDescriptionConstraints.MinLength,
                 HealthDetailsDescriptionConstraints.MaxLength))
             return Errors.General.ValueOutOfRange(nameof(HealthDetailsDescription));
 

@@ -29,4 +29,24 @@ public class RefreshSession
     public DateTime CreationTimestamp { get; private set; }
     public DateTime ExpireTimestamp { get; private set; }
     public bool IsExpired => DateTime.UtcNow > ExpireTimestamp;
+
+    public static RefreshSession Create(
+        RefreshSessionId id,
+        Jti jti,
+        RefreshToken refreshToken,
+        DateTime creationTimestamp,
+        DateTime expireTimestamp)
+    {
+        // TODO add datetime validation
+        return new RefreshSession(id, jti, refreshToken, creationTimestamp, expireTimestamp);
+    }
+
+    public static RefreshSession CreateNew(Jti jti, DateTime expireTimestamp)
+    {
+        var id = RefreshSessionId.CreateRandom();
+        var refreshToken = RefreshToken.CreateRandom();
+        var creationTimestamp = DateTime.UtcNow;
+
+        return new RefreshSession(id, jti, refreshToken, creationTimestamp, expireTimestamp);
+    }
 }

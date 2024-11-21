@@ -23,7 +23,7 @@ public record VolunteerDescription
 
         if (!StringValidator.IsInRange(
                 input,
-                VolunteerDescriptionConstraints.MinLength, 
+                VolunteerDescriptionConstraints.MinLength,
                 VolunteerDescriptionConstraints.MaxLength))
             return Errors.General.ValueOutOfRange(nameof(input));
 

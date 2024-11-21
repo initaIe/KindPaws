@@ -3,7 +3,6 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 
 namespace KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -19,7 +18,7 @@ public record RoleName
     public static Result<RoleName, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(ShortAlphabeticString));
+            return Errors.General.ValueIsRequired(nameof(RoleName));
 
         input = input.Trim().ToProperCase();
 
@@ -30,7 +29,7 @@ public record RoleName
             return Errors.General.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabetic(input))
-            return Errors.General.ValueCharacterSetIsInvalid(nameof(ShortAlphabeticString));
+            return Errors.General.ValueCharacterSetIsInvalid(nameof(RoleName));
 
         return new RoleName(input);
     }

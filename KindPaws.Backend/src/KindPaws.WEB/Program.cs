@@ -2,7 +2,6 @@ using DotNetEnv;
 using KindPaws.WEB.DI;
 using KindPaws.WEB.DI.Injections.Others;
 using KindPaws.WEB.Middlewares;
-using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 Env.Load();

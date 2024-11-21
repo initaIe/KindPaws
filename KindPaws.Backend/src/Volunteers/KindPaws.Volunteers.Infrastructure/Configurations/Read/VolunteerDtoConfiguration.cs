@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;

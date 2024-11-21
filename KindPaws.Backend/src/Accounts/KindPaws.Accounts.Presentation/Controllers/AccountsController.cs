@@ -1,4 +1,7 @@
-﻿using KindPaws.Accounts.Application.Features.Commands.Create;
+﻿using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
+using KindPaws.Accounts.Application.Features.Accounts.Commands.Delete;
+using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
+using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Delete;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Accounts.Presentation.Mappers;
 using KindPaws.Framework;
@@ -15,6 +18,53 @@ public class AccountsController : ApplicationController
         CancellationToken token)
     {
         var command = request.ToCommand();
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+
+    [HttpPost("{accountId:guid}/refresh-sessions")]
+    public async Task<IActionResult> AddRefreshSession(
+        [FromRoute] Guid accountId,
+        [FromBody] AddRefreshSessionRequest request,
+        [FromServices] AddRefreshSessionHandler handler,
+        CancellationToken token)
+    {
+        var command = request.ToCommand(accountId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpDelete("{accountId:guid}/refresh-sessions/{refreshSessionId:guid}")]
+    public async Task<IActionResult> DeleteRefreshSession(
+        [FromRoute] Guid accountId,
+        [FromRoute] Guid refreshSessionId,
+        [FromServices] DeleteRefreshSessionHandler handler,
+        CancellationToken token)
+    {
+        var command = new DeleteRefreshSessionCommand(accountId, refreshSessionId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpDelete("{accountId:guid}")]
+    public async Task<IActionResult> DeleteRefreshSession(
+        [FromRoute] Guid accountId,
+        [FromServices] DeleteAccountHandler handler,
+        CancellationToken token)
+    {
+        var command = new DeleteAccountCommand(accountId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)

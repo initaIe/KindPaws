@@ -22,7 +22,7 @@ public static class DataBaseInjection
             .AddScoped<SpeciesWriteDbContext>()
             .AddScoped<ISpeciesReadDbContext, SpeciesReadDbContext>();
     }
-    
+
     private static IServiceCollection AddSqlConnectionFactory(this IServiceCollection services)
     {
         return services.AddKeyedScoped<ISqlConnectionFactory, SqlConnectionFactory>(Modules.Species);

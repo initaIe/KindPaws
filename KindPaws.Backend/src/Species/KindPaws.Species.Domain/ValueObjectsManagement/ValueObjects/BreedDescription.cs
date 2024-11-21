@@ -20,9 +20,9 @@ public record BreedDescription
             return Errors.General.ValueIsRequired(nameof(BreedDescription));
 
         input = input.Trim();
-        
+
         if (!StringValidator.IsInRange(
-                input, 
+                input,
                 BreedDescriptionConstraints.MinLength,
                 BreedDescriptionConstraints.MaxLength))
             return Errors.General.ValueOutOfRange(nameof(BreedDescription));

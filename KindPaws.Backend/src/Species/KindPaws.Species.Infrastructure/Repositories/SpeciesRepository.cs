@@ -1,5 +1,4 @@
-﻿using KindPaws.Core.Abstractions;
-using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;

@@ -20,9 +20,9 @@ public record SpecieDescription
             return Errors.General.ValueIsRequired(nameof(SpecieDescription));
 
         input = input.Trim();
-        
+
         if (!StringValidator.IsInRange(
-                input, 
+                input,
                 SpecieDescriptionConstraints.MinLength,
                 SpecieDescriptionConstraints.MaxLength))
             return Errors.General.ValueOutOfRange(nameof(SpecieDescription));

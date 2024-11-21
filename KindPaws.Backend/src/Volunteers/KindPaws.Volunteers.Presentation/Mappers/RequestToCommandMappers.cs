@@ -18,7 +18,7 @@ public static class RequestToCommandMappers
             request.Address,
             request.YearsOfExperience,
             request.Requisites);
-    
+
     public static UpdateVolunteerInfoCommand ToCommand(
         this UpdateVolunteerInfoRequest request,
         Guid volunteerId)
@@ -37,7 +37,7 @@ public static class RequestToCommandMappers
             request.SpecieId,
             request.BreedId,
             request.Name);
-    
+
     public static UpdatePetMainInfoCommand ToCommand(
         this UpdatePetMainInfoRequest request,
         Guid volunteerId,

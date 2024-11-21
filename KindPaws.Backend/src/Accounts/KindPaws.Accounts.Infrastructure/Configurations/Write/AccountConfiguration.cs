@@ -81,5 +81,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasForeignKey("account_id")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+        
+        // AUTO INCLUDE
+        builder.Navigation(a => a.RefreshSessions).AutoInclude();
     }
 }

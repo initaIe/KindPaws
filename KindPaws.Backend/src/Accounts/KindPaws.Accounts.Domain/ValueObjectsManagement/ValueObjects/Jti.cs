@@ -11,7 +11,7 @@ public record Jti
         Value = value;
     }
 
-    public Guid Value { get;}
+    public Guid Value { get; }
 
     public static Jti CreateRandom()
     {

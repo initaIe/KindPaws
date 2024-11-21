@@ -8,6 +8,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddAccountsPresentation(this IServiceCollection services)
     {
-        return services.AddScoped<IAccountsContract,AccountsContract>();
+        return services.AddScoped<IAccountsContract, AccountsContract>();
     }
 }

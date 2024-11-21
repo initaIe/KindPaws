@@ -13,8 +13,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Queries\" />
-      <Folder Include="Helpers\" />
+      <Folder Include="Features\AccountRoles\Commands\" />
+      <Folder Include="Features\AccountRoles\Queries\" />
+      <Folder Include="Features\Accounts\Queries\" />
+      <Folder Include="Features\RefreshSessions\Queries\" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
@@ -19,8 +20,8 @@ public record BreedName
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(BreedName));
 
-        input = input.Trim();
-        
+        input = input.Trim().ToProperCase();
+
         if (!StringValidator.IsAlphabeticWithWhiteSpaces(input))
             return Errors.General.ValueOutOfRange(nameof(BreedName));
 

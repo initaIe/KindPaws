@@ -15,7 +15,7 @@ public record RefreshToken
 
     public static RefreshToken CreateRandom()
     {
-        return new RefreshToken(Guid.Empty);
+        return new RefreshToken(Guid.NewGuid());
     }
 
     public static Result<RefreshToken, Error> Create(Guid value)

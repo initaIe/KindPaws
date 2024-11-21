@@ -13,6 +13,6 @@ public static class OptionsInjection
         return services
             .Configure<JwtBearerOptions>(configuration.GetRequiredSection(JwtBearerOptions.SectionName))
             .Configure<AccountsSeedingOptions>(configuration.GetRequiredSection(AccountsSeedingOptions.SectionName))
-            .Configure<RefreshTokenOptions>(configuration.GetRequiredSection(RefreshTokenOptions.SectionName));
+            .Configure<RefreshSessionOptions>(configuration.GetRequiredSection(RefreshSessionOptions.SectionName));
     }
 }

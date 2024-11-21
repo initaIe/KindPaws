@@ -6,7 +6,6 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.Entities;
@@ -19,7 +18,7 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetPetByIdDapperHandler([FromKeyedServices(Modules.Volunteers)]ISqlConnectionFactory sqlConnectionFactory)
+    public GetPetByIdDapperHandler([FromKeyedServices(Modules.Volunteers)] ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
     }

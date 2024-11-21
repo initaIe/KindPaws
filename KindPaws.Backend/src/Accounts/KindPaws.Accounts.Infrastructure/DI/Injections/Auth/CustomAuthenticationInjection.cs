@@ -24,7 +24,7 @@ public static class CustomAuthenticationInjection
             {
                 var jwtAccessTokenOptions = configuration.GetRequiredSection(JwtBearerOptions.SectionName)
                     .Get<JwtBearerOptions>();
-        
+
                 options.TokenValidationParameters = TokenValidationParametersFactory.Create(jwtAccessTokenOptions!);
             });
 

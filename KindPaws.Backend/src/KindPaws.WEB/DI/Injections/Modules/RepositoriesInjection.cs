@@ -1,5 +1,4 @@
-﻿using KindPaws.Core.Abstractions;
-using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.DataBase;
 
 namespace KindPaws.WEB.DI.Injections.Modules;
 

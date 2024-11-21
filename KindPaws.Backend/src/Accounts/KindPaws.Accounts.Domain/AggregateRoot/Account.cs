@@ -1,4 +1,5 @@
-﻿using KindPaws.Accounts.Domain.Entities;
+﻿using System.Runtime.InteropServices.JavaScript;
+using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -63,5 +64,34 @@ public sealed class Account : IEntity<AccountId>
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
 
         return new Account(id, userName, email, passwordHash, creationTimestamp);
+    }
+
+    public Result<RefreshSession, Error> GetRefreshSessionById(RefreshSessionId refreshSessionId)
+    {
+        var refreshSession = _refreshSessions.FirstOrDefault(rs => rs.Id == refreshSessionId);
+
+        if (refreshSession == null)
+            return Errors.General.RecordNotFound(
+                nameof(RefreshSession),
+                nameof(RefreshSessionId),
+                refreshSessionId.Value);
+
+        return refreshSession;
+    }
+
+    public void AddRefreshSession(RefreshSession refreshSession)
+    {
+        _refreshSessions.Add(refreshSession);
+    }
+
+    public Result<Error> DeleteRefreshSession(RefreshSessionId refreshSessionId)
+    {
+        var refreshSession = GetRefreshSessionById(refreshSessionId);
+
+        if (refreshSession.IsFailure)
+            return refreshSession.Error;
+
+        _refreshSessions.Remove(refreshSession.Value);
+        return true;
     }
 }

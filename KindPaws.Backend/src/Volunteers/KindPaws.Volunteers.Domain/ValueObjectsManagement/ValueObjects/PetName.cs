@@ -1,5 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
@@ -19,8 +20,8 @@ public record PetName
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(Disease));
 
-        input = input.Trim();
-        
+        input = input.Trim().ToProperCase();
+
         if (!StringValidator.IsAlphabeticWithWhiteSpaces(input))
             return Errors.General.ValueCharacterSetIsInvalid(nameof(PetName));
 

@@ -1,6 +1,4 @@
 ﻿using KindPaws.Accounts.Contracts.Dtos;
-using KindPaws.Accounts.Domain.AggregateRoot;
-using KindPaws.Accounts.Domain.Entities;
 
 namespace KindPaws.Accounts.Application.Abstractions;
 

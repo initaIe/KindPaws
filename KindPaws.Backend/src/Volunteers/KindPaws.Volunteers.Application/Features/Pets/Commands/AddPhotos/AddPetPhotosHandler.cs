@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using KindPaws.Core;
-using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;

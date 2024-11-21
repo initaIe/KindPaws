@@ -13,7 +13,7 @@ public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSp
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetSpeciesDapperHandler([FromKeyedServices(Modules.Species)]ISqlConnectionFactory sqlConnectionFactory)
+    public GetSpeciesDapperHandler([FromKeyedServices(Modules.Species)] ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
     }

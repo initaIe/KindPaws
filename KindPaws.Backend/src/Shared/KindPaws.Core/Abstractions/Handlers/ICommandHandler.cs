@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 
 namespace KindPaws.Core.Abstractions.Handlers;
 
-public interface ICommandHandler<TResponse, in TCommand> 
+public interface ICommandHandler<TResponse, in TCommand>
     where TCommand : ICommand
 {
     Task<Result<TResponse, ErrorList>> HandleAsync(

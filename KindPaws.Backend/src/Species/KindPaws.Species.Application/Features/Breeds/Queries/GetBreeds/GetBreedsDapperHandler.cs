@@ -14,7 +14,7 @@ public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDto>, GetBree
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetBreedsDapperHandler([FromKeyedServices(Modules.Volunteers)]ISqlConnectionFactory sqlConnectionFactory)
+    public GetBreedsDapperHandler([FromKeyedServices(Modules.Volunteers)] ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
     }
