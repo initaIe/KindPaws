@@ -18,12 +18,12 @@ public record SpecieId
         return new SpecieId(Guid.NewGuid());
     }
 
-    public static Result<SpecieId, Error> Create(Guid value)
+    public static Result<SpecieId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new SpecieId(value);
+        return new SpecieId(input);
     }
 
     public static implicit operator Guid(SpecieId specieId)

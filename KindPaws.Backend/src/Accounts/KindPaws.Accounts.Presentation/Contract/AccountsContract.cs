@@ -19,8 +19,8 @@ public class AccountsContract : IAccountsContract
     private readonly ICommandHandler<Guid, DeleteAccountCommand> _deleteAccountHandler;
 
     public AccountsContract(
-        ICommandHandler<Guid, CreateAccountCommand> createAccountHandler, 
-        ICommandHandler<Guid, AddRefreshSessionCommand> addRefreshSessionHandler, 
+        ICommandHandler<Guid, CreateAccountCommand> createAccountHandler,
+        ICommandHandler<Guid, AddRefreshSessionCommand> addRefreshSessionHandler,
         ICommandHandler<Guid, DeleteRefreshSessionCommand> deleteRefreshSessionHandler,
         ICommandHandler<Guid, DeleteAccountCommand> deleteAccountHandler)
     {
@@ -36,23 +36,23 @@ public class AccountsContract : IAccountsContract
         return await _createAccountHandler.HandleAsync(command);
     }
 
-    public async Task<Result<Guid, ErrorList>> AddRefreshSession(
-        Guid accountId, 
+    public async Task<Result<Guid, ErrorList>> AddRefreshSessionAsync(
+        Guid accountId,
         AddRefreshSessionRequest request)
     {
         var command = request.ToCommand(accountId);
         return await _addRefreshSessionHandler.HandleAsync(command);
     }
 
-    public async Task<Result<Guid, ErrorList>> DeleteRefreshSession(
-        Guid accountId, 
+    public async Task<Result<Guid, ErrorList>> DeleteRefreshSessionAsync(
+        Guid accountId,
         Guid refreshSessionId)
     {
         var command = new DeleteRefreshSessionCommand(accountId, refreshSessionId);
         return await _deleteRefreshSessionHandler.HandleAsync(command);
     }
 
-    public async Task<Result<Guid, ErrorList>> DeleteAccount(Guid accountId)
+    public async Task<Result<Guid, ErrorList>> DeleteAccountAsync(Guid accountId)
     {
         var command = new DeleteAccountCommand(accountId);
         return await _deleteAccountHandler.HandleAsync(command);

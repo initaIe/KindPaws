@@ -18,12 +18,12 @@ public record BreedId
         return new BreedId(Guid.NewGuid());
     }
 
-    public static Result<BreedId, Error> Create(Guid value)
+    public static Result<BreedId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new BreedId(value);
+        return new BreedId(input);
     }
 
     public static implicit operator Guid(BreedId breedId)

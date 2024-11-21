@@ -12,13 +12,12 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
         // TABLE NAMING
         builder.ToTable("role_permissions");
 
-        // ROLE_ID
-        builder.Property(rp => rp.RoleId)
+        // ID
+        builder.Property(rp => rp.Id)
             .HasConversion(
-                roleId => roleId.Value,
-                value => RoleId.Create(value).Value)
-            .HasColumnName("role_id")
-            .IsRequired();
+                id => id.Value,
+                value => RolePermissionId.Create(value).Value)
+            .HasColumnName("id");
 
         // PERMISSION_ID
         builder.Property(rp => rp.PermissionId)
@@ -28,10 +27,9 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
             .HasColumnName("permission_id")
             .IsRequired();
 
-        // KEY
-        builder.HasKey(rp => new
-        {
-            rp.RoleId, rp.PermissionId
-        });
+        // CREATION_TIMESTAMP
+        builder.Property(rp => rp.CreationTimestamp)
+            .HasColumnName("creation_timestamp")
+            .IsRequired();
     }
 }

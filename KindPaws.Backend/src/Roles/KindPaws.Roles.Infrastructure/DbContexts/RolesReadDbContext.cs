@@ -1,13 +1,15 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
+using KindPaws.Roles.Application.Abstractions;
 using KindPaws.Roles.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Roles.Infrastructure.DbContexts;
 
-public class RolesReadDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
+public class RolesReadDbContext(IOptions<PostgresOptions> postgresOptions)
+    : DbContext, IRolesReadDbContext
 {
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
 
@@ -29,7 +31,7 @@ public class RolesReadDbContext(IOptions<PostgresOptions> postgresOptions) : DbC
     {
         modelBuilder.HasDefaultSchema("roles");
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(RolesWriteDbContext).Assembly,
+            typeof(RolesReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
     }
 }

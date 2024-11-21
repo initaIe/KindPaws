@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Roles\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\AccountRoles\Commands\" />
       <Folder Include="Features\AccountRoles\Queries\" />
       <Folder Include="Features\Accounts\Queries\" />
       <Folder Include="Features\RefreshSessions\Queries\" />

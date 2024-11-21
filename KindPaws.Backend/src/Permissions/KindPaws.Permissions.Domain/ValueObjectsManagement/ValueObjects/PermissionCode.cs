@@ -1,7 +1,7 @@
-﻿using KindPaws.SharedKernel.Others;
+﻿using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints.BaseConstraints;
 
 namespace KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -23,8 +23,8 @@ public record PermissionCode
 
         if (!StringValidator.IsInRange(
                 input,
-                ShortStringConstraints.MinLength,
-                ShortStringConstraints.MaxLength))
+                PermissionCodeConstraints.MinLength,
+                PermissionCodeConstraints.MaxLength))
             return Errors.General.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabeticWithDots(input))

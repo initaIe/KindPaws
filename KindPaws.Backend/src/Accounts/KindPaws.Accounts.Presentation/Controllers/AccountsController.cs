@@ -1,4 +1,5 @@
-﻿using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
+﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
+using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.Delete;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Delete;
@@ -41,7 +42,23 @@ public class AccountsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
+    [HttpPost("{accountId:guid}/account-roles")]
+    public async Task<IActionResult> AddAccountRole(
+        [FromRoute] Guid accountId,
+        [FromBody] AddAccountRoleRequest request,
+        [FromServices] AddAccountRoleHandler handler,
+        CancellationToken token)
+    {
+        var command = request.ToCommand(accountId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+
     [HttpDelete("{accountId:guid}/refresh-sessions/{refreshSessionId:guid}")]
     public async Task<IActionResult> DeleteRefreshSession(
         [FromRoute] Guid accountId,
@@ -57,7 +74,7 @@ public class AccountsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{accountId:guid}")]
     public async Task<IActionResult> DeleteRefreshSession(
         [FromRoute] Guid accountId,

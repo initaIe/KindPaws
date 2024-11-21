@@ -18,12 +18,12 @@ public record VolunteerId
         return new VolunteerId(Guid.NewGuid());
     }
 
-    public static Result<VolunteerId, Error> Create(Guid value)
+    public static Result<VolunteerId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new VolunteerId(value);
+        return new VolunteerId(input);
     }
 
     public static implicit operator Guid(VolunteerId volunteerId)

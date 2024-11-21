@@ -18,12 +18,12 @@ public record PermissionId
         return new PermissionId(Guid.NewGuid());
     }
 
-    public static Result<PermissionId, Error> Create(Guid value)
+    public static Result<PermissionId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new PermissionId(value);
+        return new PermissionId(input);
     }
 
     public static implicit operator Guid(PermissionId permissionId)

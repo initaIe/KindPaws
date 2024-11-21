@@ -18,12 +18,12 @@ public record PetId
         return new PetId(Guid.NewGuid());
     }
 
-    public static Result<PetId, Error> Create(Guid value)
+    public static Result<PetId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new PetId(value);
+        return new PetId(input);
     }
 
     public static implicit operator Guid(PetId petId)

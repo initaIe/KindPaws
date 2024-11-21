@@ -18,12 +18,12 @@ public record RoleId
         return new RoleId(Guid.NewGuid());
     }
 
-    public static Result<RoleId, Error> Create(Guid value)
+    public static Result<RoleId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new RoleId(value);
+        return new RoleId(input);
     }
 
     public static implicit operator Guid(RoleId roleId)

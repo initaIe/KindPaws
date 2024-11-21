@@ -12,12 +12,12 @@ public class AccountRoleConfiguration : IEntityTypeConfiguration<AccountRole>
         // TABLE NAMING
         builder.ToTable("account_roles");
 
-        // ACCOUNT_ID
-        builder.Property(ar => ar.AccountId)
+        // ID
+        builder.Property(ar => ar.Id)
             .HasConversion(
-                accountId => accountId.Value,
-                value => AccountId.Create(value).Value)
-            .HasColumnName("account_id");
+                id => id.Value,
+                value => AccountRoleId.Create(value).Value)
+            .HasColumnName("id");
 
         // ROLE_ID
         builder.Property(ar => ar.RoleId)
@@ -26,7 +26,8 @@ public class AccountRoleConfiguration : IEntityTypeConfiguration<AccountRole>
                 value => RoleId.Create(value).Value)
             .HasColumnName("role_id");
 
-        // KEY
-        builder.HasKey(ar => new { ar.AccountId, ar.RoleId });
+        // CREATION_TIMESTAMP
+        builder.Property(ar => ar.CreationTimestamp)
+            .HasColumnName("creation_timestamp");
     }
 }

@@ -11,10 +11,6 @@ public class RolePermissionDtoConfiguration : IEntityTypeConfiguration<RolePermi
         // TABLE NAMING
         builder.ToTable("role_permissions");
 
-        // ROLE_ID
-        builder.Property(rp => rp.RoleId)
-            .HasColumnName("role_id");
-
         // PERMISSION_ID
         builder.Property(rp => rp.PermissionId)
             .HasColumnName("permission_id");
@@ -22,5 +18,9 @@ public class RolePermissionDtoConfiguration : IEntityTypeConfiguration<RolePermi
         // CREATION_TIMESTAMP
         builder.Property(rp => rp.CreationTimestamp)
             .HasColumnName("creation_timestamp");
+
+        // ROLE_ID
+        builder.Property(rp => rp.RoleId)
+            .HasColumnName("role_id");
     }
 }

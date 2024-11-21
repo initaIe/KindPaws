@@ -7,35 +7,40 @@ namespace KindPaws.Accounts.Domain.Entities;
 public class AccountRole
 {
     // ef core
-    private AccountRole()
+    private AccountRole(AccountRoleId id)
     {
+        Id = id;
     }
 
     private AccountRole(
-        AccountId accountId,
+        AccountRoleId id,
         RoleId roleId,
         DateTime creationTimestamp)
     {
-        AccountId = accountId;
+        Id = id;
         RoleId = roleId;
         CreationTimestamp = creationTimestamp;
     }
 
-    public AccountId AccountId { get; private set; }
+    public AccountRoleId Id { get; private set; }
     public RoleId RoleId { get; private set; }
     public DateTime CreationTimestamp { get; private set; }
 
-    public static AccountRole CreateNew(AccountId accountId, RoleId roleId)
+    public static AccountRole CreateNew(RoleId roleId)
     {
+        var id = AccountRoleId.CreateRandom();
         var creationTimestamp = DateTime.UtcNow;
-        return new AccountRole(accountId, roleId, creationTimestamp);
+        return new AccountRole(id, roleId, creationTimestamp);
     }
 
-    public static Result<AccountRole, Error> Create(AccountId accountId, RoleId roleId, DateTime creationTimestamp)
+    public static Result<AccountRole, Error> Create(
+        AccountRoleId accountRoleId,
+        RoleId roleId,
+        DateTime creationTimestamp)
     {
         if (creationTimestamp > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
 
-        return new AccountRole(accountId, roleId, creationTimestamp);
+        return new AccountRole(accountRoleId, roleId, creationTimestamp);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using KindPaws.Accounts.Domain.Entities;
+﻿using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -11,7 +10,8 @@ namespace KindPaws.Accounts.Domain.AggregateRoot;
 public sealed class Account : IEntity<AccountId>
 {
     private readonly List<RefreshSession> _refreshSessions = [];
-    private readonly List<SocialNetwork> _socialNetworks = [];
+    private readonly List<AccountRole> _accountRoles = [];
+    private List<SocialNetwork> _socialNetworks = [];
 
     // ef Core
     private Account()
@@ -41,6 +41,7 @@ public sealed class Account : IEntity<AccountId>
     public DateTime CreationTimestamp { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<RefreshSession> RefreshSessions => _refreshSessions;
+    public IReadOnlyList<AccountRole> AccountRoles => _accountRoles;
 
     public static Account CreateNew(
         UserName userName,
@@ -79,6 +80,24 @@ public sealed class Account : IEntity<AccountId>
         return refreshSession;
     }
 
+    public Result<AccountRole, Error> GetAccountRolesById(AccountRoleId accountRoleId)
+    {
+        var accountRole = _accountRoles.FirstOrDefault(ar => ar.Id == accountRoleId);
+
+        if (accountRole == null)
+            return Errors.General.RecordNotFound(
+                nameof(AccountRole),
+                nameof(AccountRoleId),
+                accountRoleId.Value);
+
+        return accountRole;
+    }
+
+    public void AddAccountRole(AccountRole accountRole)
+    {
+        _accountRoles.Add(accountRole);
+    }
+
     public void AddRefreshSession(RefreshSession refreshSession)
     {
         _refreshSessions.Add(refreshSession);
@@ -92,6 +111,17 @@ public sealed class Account : IEntity<AccountId>
             return refreshSession.Error;
 
         _refreshSessions.Remove(refreshSession.Value);
+        return true;
+    }
+
+    public Result<Error> DeleteAccountRole(AccountRoleId accountRoleId)
+    {
+        var account = GetAccountRolesById(accountRoleId);
+
+        if (account.IsFailure)
+            return account.Error;
+
+        _accountRoles.Remove(account.Value);
         return true;
     }
 }

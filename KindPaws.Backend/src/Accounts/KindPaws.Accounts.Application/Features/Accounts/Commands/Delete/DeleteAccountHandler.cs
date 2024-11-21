@@ -37,14 +37,14 @@ public class DeleteAccountHandler : ICommandHandler<Guid, DeleteAccountCommand>
 
         if (!isAccountExist)
             return Errors.General.RecordNotFound(
-                nameof(Account), 
-                nameof(AccountId),
-                command.AccountId)
+                    nameof(Account),
+                    nameof(AccountId),
+                    command.AccountId)
                 .ToErrorList();
-        
+
         var accountId = AccountId.Create(command.AccountId).Value;
         var account = await _accountRepository.GetByIdAsync(accountId, cancellationToken);
-        
+
         _accountRepository.Delete(account.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

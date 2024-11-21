@@ -31,6 +31,8 @@
       <ProjectReference Include="..\Accounts\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
       <ProjectReference Include="..\Accounts\KindPaws.Accounts.Infrastructure\KindPaws.Accounts.Infrastructure.csproj" />
       <ProjectReference Include="..\Accounts\KindPaws.Accounts.Presentation\KindPaws.Accounts.Presentation.csproj" />
+      <ProjectReference Include="..\Roles\KindPaws.Roles.Infrastructure\KindPaws.Roles.Infrastructure.csproj" />
+      <ProjectReference Include="..\Roles\KindPaws.Roles.Presentation\KindPaws.Roles.Presentation.csproj" />
       <ProjectReference Include="..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
       <ProjectReference Include="..\Shared\KindPaws.Framework\KindPaws.Framework.csproj" />
       <ProjectReference Include="..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />

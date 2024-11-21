@@ -11,4 +11,5 @@ public class AccountDto
     public DateTime CreationTimestamp { get; init; }
     public SocialNetworkDto[] SocialNetworks { get; init; } = [];
     public RefreshSessionDto[] RefreshSessions { get; init; } = [];
+    public AccountRoleDto[] AccountRoles { get; init; } = [];
 }

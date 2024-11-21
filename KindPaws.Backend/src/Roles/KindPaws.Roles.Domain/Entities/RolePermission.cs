@@ -12,35 +12,34 @@ public class RolePermission
     }
 
     private RolePermission(
-        RoleId roleId,
+        RolePermissionId id,
         PermissionId permissionId,
         DateTime creationTimestamp)
     {
-        RoleId = roleId;
+        Id = id;
         PermissionId = permissionId;
         CreationTimestamp = creationTimestamp;
     }
 
-    public RoleId RoleId { get; private set; }
+    public RolePermissionId Id { get; private set; }
     public PermissionId PermissionId { get; private set; }
     public DateTime CreationTimestamp { get; private set; }
 
-    public static RolePermission CreateNew(
-        RoleId roleId,
-        PermissionId permissionId)
+    public static RolePermission CreateNew(PermissionId permissionId)
     {
+        var id = RolePermissionId.CreateRandom();
         var creationTimestamp = DateTime.UtcNow;
-        return new RolePermission(roleId, permissionId, creationTimestamp);
+        return new RolePermission(id, permissionId, creationTimestamp);
     }
 
     public static Result<RolePermission, Error> Create(
-        RoleId roleId,
+        RolePermissionId id,
         PermissionId permissionId,
         DateTime creationTimestamp)
     {
         if (creationTimestamp > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
 
-        return new RolePermission(roleId, permissionId, creationTimestamp);
+        return new RolePermission(id, permissionId, creationTimestamp);
     }
 }

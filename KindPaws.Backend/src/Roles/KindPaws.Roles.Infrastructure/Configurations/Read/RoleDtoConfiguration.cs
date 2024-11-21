@@ -12,7 +12,7 @@ public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDto>
         builder.ToTable("roles");
 
         // ID
-        builder.Property(x => x.Id)
+        builder.Property(r => r.Id)
             .HasColumnName("id");
 
         // ROLE_NAME
@@ -22,5 +22,10 @@ public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDto>
         // CREATION_TIMESTAMP
         builder.Property(r => r.CreationTimestamp)
             .HasColumnName("creation_timestamp");
+
+        // ROLE_PERMISSIONS
+        builder.HasMany(r => r.RolePermissions)
+            .WithOne()
+            .HasForeignKey(r => r.RoleId);
     }
 }

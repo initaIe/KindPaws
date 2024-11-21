@@ -1,4 +1,5 @@
-﻿using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
+﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
+using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
 using KindPaws.Accounts.Contracts.Requests;
 
@@ -11,4 +12,7 @@ public static class RequestToCommandMappers
 
     public static AddRefreshSessionCommand ToCommand(this AddRefreshSessionRequest request, Guid accountId)
         => new(accountId, request.Jti);
+
+    public static AddAccountRoleCommand ToCommand(this AddAccountRoleRequest request, Guid accountId)
+        => new(accountId, request.RoleId);
 }

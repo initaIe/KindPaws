@@ -1,6 +1,5 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Accounts.Domain.AggregateRoot;
-using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,6 @@ public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions) :
     private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
 
     public DbSet<Account> Accounts => Set<Account>();
-    public DbSet<AccountRole> AccountRoles => Set<AccountRole>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

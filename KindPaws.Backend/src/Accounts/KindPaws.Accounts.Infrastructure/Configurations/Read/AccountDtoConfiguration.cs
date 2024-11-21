@@ -59,5 +59,10 @@ public class AccountDtoConfiguration : IEntityTypeConfiguration<AccountDto>
         builder.HasMany(a => a.RefreshSessions)
             .WithOne()
             .HasForeignKey(rs => rs.AccountId);
+
+        // ACCOUNT_ROLES
+        builder.HasMany(a => a.AccountRoles)
+            .WithOne()
+            .HasForeignKey(rs => rs.AccountId);
     }
 }

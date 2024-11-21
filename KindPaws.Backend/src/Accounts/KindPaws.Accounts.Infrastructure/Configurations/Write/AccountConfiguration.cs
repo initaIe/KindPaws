@@ -1,5 +1,6 @@
 ﻿using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 phoneNumber => phoneNumber!.Value,
                 value => PhoneNumber.Create(value).Value)
             .HasColumnName("phone_number")
+            .HasMaxLength(PhoneNumberConstraints.MaxLength)
             .IsRequired(false);
 
         // FULL_NAME
@@ -81,8 +83,16 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasForeignKey("account_id")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-        
+
+        // ACCOUNT_ROLES
+        builder.HasMany(a => a.AccountRoles)
+            .WithOne()
+            .HasForeignKey("account_id")
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
         // AUTO INCLUDE
         builder.Navigation(a => a.RefreshSessions).AutoInclude();
+        builder.Navigation(a => a.AccountRoles).AutoInclude();
     }
 }

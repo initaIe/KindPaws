@@ -33,28 +33,28 @@ public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSe
         CancellationToken cancellationToken = default)
     {
         var isAccountExist = await _dbContext.Accounts.AnyAsync(
-            a=>a.Id == command.AccountId,
+            a => a.Id == command.AccountId,
             cancellationToken);
-        
+
         if (!isAccountExist)
             return Errors.General.RecordNotFound(
                 nameof(Account),
                 nameof(AccountId),
                 command.AccountId).ToErrorList();
-        
-        var isRefreshSessionExist= await _dbContext.RefreshSessions.AnyAsync(
-            rs=>rs.Id == command.RefreshSessionId,
+
+        var isRefreshSessionExist = await _dbContext.RefreshSessions.AnyAsync(
+            rs => rs.Id == command.RefreshSessionId,
             cancellationToken);
-        
+
         if (!isRefreshSessionExist)
             return Errors.General.RecordNotFound(
                 nameof(RefreshSession),
                 nameof(RefreshSessionId),
                 command.RefreshSessionId).ToErrorList();
-        
+
         var accountId = AccountId.Create(command.AccountId).Value;
         var account = await _repository.GetByIdAsync(accountId, cancellationToken);
-        
+
         var refreshSessionId = RefreshSessionId.Create(command.RefreshSessionId).Value;
         var deletionRefreshSessionResult = account.Value.DeleteRefreshSession(refreshSessionId);
 

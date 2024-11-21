@@ -14,7 +14,7 @@ public record PasswordHash
 
     public static Result<PasswordHash, Error> Create(string input)
     {
-        // TODO: add validation etc
+        // TODO: add validation etc and configure max length ef core
         return new PasswordHash(input);
     }
 }

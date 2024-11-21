@@ -18,12 +18,12 @@ public record RefreshSessionId
         return new RefreshSessionId(Guid.NewGuid());
     }
 
-    public static Result<RefreshSessionId, Error> Create(Guid value)
+    public static Result<RefreshSessionId, Error> Create(Guid input)
     {
-        if (GuidValidator.IsEmpty(value))
+        if (GuidValidator.IsEmpty(input))
             return Errors.General.ValueIsInvalid();
 
-        return new RefreshSessionId(value);
+        return new RefreshSessionId(input);
     }
 
     public static implicit operator Guid(RefreshSessionId refreshSessionId)

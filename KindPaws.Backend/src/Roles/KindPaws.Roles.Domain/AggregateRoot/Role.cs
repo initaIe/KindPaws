@@ -1,3 +1,4 @@
+using KindPaws.Roles.Domain.Entities;
 using KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -7,6 +8,8 @@ namespace KindPaws.Roles.Domain.AggregateRoot;
 
 public sealed class Role : IEntity<RoleId>
 {
+    private readonly List<RolePermission> _rolePermissions = [];
+
     // ef core
     public Role()
     {
@@ -25,6 +28,7 @@ public sealed class Role : IEntity<RoleId>
     public RoleId Id { get; private set; }
     public RoleName Name { get; private set; }
     public DateTime CreationTimestamp { get; private set; }
+    public IReadOnlyList<RolePermission> RolePermissions => _rolePermissions;
 
     public static Role CreateNew(RoleName name)
     {

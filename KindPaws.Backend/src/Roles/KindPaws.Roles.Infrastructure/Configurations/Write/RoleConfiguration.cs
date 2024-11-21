@@ -35,5 +35,15 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(r => r.CreationTimestamp)
             .HasColumnName("creation_timestamp")
             .IsRequired();
+
+        // ROLE_PERMISSIONS
+        builder.HasMany(r => r.RolePermissions)
+            .WithOne()
+            .HasForeignKey("role_id")
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        // AUTO INCLUDE
+        builder.Navigation(r => r.RolePermissions).AutoInclude();
     }
 }

@@ -7,7 +7,7 @@ namespace KindPaws.Accounts.Contracts;
 public interface IAccountsContract
 {
     Task<Result<Guid, ErrorList>> CreateAccountAsync(CreateAccountRequest request);
-    Task<Result<Guid, ErrorList>> AddRefreshSession(Guid accountId, AddRefreshSessionRequest request);
-    Task<Result<Guid, ErrorList>> DeleteRefreshSession(Guid accountId, Guid refreshSessionId);
-    Task<Result<Guid, ErrorList>> DeleteAccount(Guid accountId);
+    Task<Result<Guid, ErrorList>> AddRefreshSessionAsync(Guid accountId, AddRefreshSessionRequest request);
+    Task<Result<Guid, ErrorList>> DeleteRefreshSessionAsync(Guid accountId, Guid refreshSessionId);
+    Task<Result<Guid, ErrorList>> DeleteAccountAsync(Guid accountId);
 }
