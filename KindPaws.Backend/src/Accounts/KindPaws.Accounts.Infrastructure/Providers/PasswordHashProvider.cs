@@ -1,14 +1,27 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
+using Microsoft.AspNetCore.Identity;
 
 namespace KindPaws.Accounts.Infrastructure.Providers;
 
 public class PasswordHashProvider : IPasswordHashProvider
 {
-    public string Get(string password)
-    {
-        // var passwordHasher = new PasswordHasher<object>();
-        // return passwordHasher.HashPassword(null!, password);
+    private readonly PasswordHasher<object> _passwordHasher = new();
 
-        return "";
+    public string GenerateHash(string password)
+    {
+        return _passwordHasher.HashPassword(null!, password);
+    }
+    
+    public bool ValidateHash(string passwordHash, string password)
+    {
+        var result =  _passwordHasher.VerifyHashedPassword(null!, passwordHash, password);
+
+        return result switch
+        {
+            PasswordVerificationResult.Failed => false,
+            PasswordVerificationResult.Success => true,
+            PasswordVerificationResult.SuccessRehashNeeded => true,
+            _ => false
+        };
     }
 }

@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
@@ -11,7 +10,7 @@ public class UpdateVolunteerInfoCommandValidator : AbstractValidator<UpdateVolun
     public UpdateVolunteerInfoCommandValidator()
     {
         RuleFor(c => c.Description)
-            .MustBeValueObject(MediumString.Create!)
+            .MustBeValueObject(VolunteerDescription.Create!)
             .When(c => c.Description != null);
 
         RuleFor(c => c.Address)

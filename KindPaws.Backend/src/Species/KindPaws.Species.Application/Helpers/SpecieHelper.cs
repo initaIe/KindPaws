@@ -1,6 +1,6 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.AggregateRoot;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Application.Helpers;
 
@@ -9,8 +9,8 @@ public static class SpecieHelper
     public static Specie ForceCreateNewSpecie(string name, string description)
     {
         var specieId = SpecieId.CreateRandom();
-        var specieName = ShortAlphabeticWhiteSpacesString.Create(name).Value;
-        var specieDescription = MediumString.Create(description).Value;
+        var specieName = SpecieName.Create(name).Value;
+        var specieDescription = SpecieDescription.Create(description).Value;
 
         return new Specie(
             specieId,

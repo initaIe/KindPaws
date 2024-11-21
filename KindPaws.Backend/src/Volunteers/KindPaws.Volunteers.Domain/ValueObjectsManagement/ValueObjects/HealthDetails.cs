@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -18,7 +17,7 @@ public record HealthDetails
     }
 
     public HealthDetails(
-        MediumString? description,
+        HealthDetailsDescription? description,
         IEnumerable<Vaccine>? vaccines,
         IEnumerable<Disease>? diseases,
         HealthStatus? healthStatus,
@@ -31,7 +30,7 @@ public record HealthDetails
         IsNeutered = isNeutered;
     }
 
-    public MediumString? Description { get; }
+    public HealthDetailsDescription? Description { get; }
     public IReadOnlyList<Vaccine> Vaccines { get; }
     public IReadOnlyList<Disease> Diseases { get; }
     public HealthStatus? HealthStatus { get; }

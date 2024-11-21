@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <Folder Include="Utilities\" />
+      <Folder Include="ValueObjectsManagement\ValueObjects\BaseValueObjects\" />
     </ItemGroup>
 
 </Project>

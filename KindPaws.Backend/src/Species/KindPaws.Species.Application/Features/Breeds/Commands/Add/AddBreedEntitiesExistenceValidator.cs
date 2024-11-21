@@ -1,11 +1,11 @@
 ﻿using KindPaws.Core.Abstractions.Validators;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.Entities;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Species.Application.Features.Breeds.Commands.Add;
@@ -32,7 +32,7 @@ public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<Ad
             b => b.SpecieId == validationData.SpeciesId && b.Name == validationData.BreedName,
             cancellationToken);
         if (isBreedByNameForSpecieByIdExist)
-            return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(ShortAlphabeticString));
+            return Errors.General.RecordAlreadyExist(nameof(Breed), nameof(BreedName));
 
         return true;
     }

@@ -1,6 +1,6 @@
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Domain.Entities;
 
@@ -13,8 +13,8 @@ public class Breed : IEntity<BreedId>, ISoftDeletable
 
     public Breed(
         BreedId id,
-        ShortAlphabeticWhiteSpacesString name,
-        MediumString description)
+        BreedName name,
+        BreedDescription description)
     {
         Id = id;
         Name = name;
@@ -22,8 +22,8 @@ public class Breed : IEntity<BreedId>, ISoftDeletable
     }
 
     public BreedId Id { get; }
-    public ShortAlphabeticWhiteSpacesString Name { get; private set; }
-    public MediumString Description { get; private set; }
+    public BreedName Name { get; private set; }
+    public BreedDescription Description { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletionTimestamp { get; private set; }
 

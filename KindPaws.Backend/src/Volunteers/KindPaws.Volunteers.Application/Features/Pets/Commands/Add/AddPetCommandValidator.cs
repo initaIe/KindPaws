@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Validation;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Commands.Add;
 
@@ -19,6 +19,6 @@ public class AddPetCommandValidator : AbstractValidator<AddPetCommand>
             .MustBeValueObject(BreedId.Create);
 
         RuleFor(a => a.Name)
-            .MustBeValueObject(ShortAlphabeticString.Create);
+            .MustBeValueObject(PetName.Create);
     }
 }

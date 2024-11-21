@@ -3,5 +3,5 @@
 public static class YearsOfExperienceConstraints
 {
     public const int MinValue = 0;
-    public const int MaxValue = 50;
+    public const int MaxValue = 100;
 }

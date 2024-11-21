@@ -1,8 +1,8 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Domain.AggregateRoot;
 
@@ -17,8 +17,8 @@ public class Specie : IEntity<SpecieId>, ISoftDeletable
 
     public Specie(
         SpecieId id,
-        ShortAlphabeticWhiteSpacesString name,
-        MediumString description)
+        SpecieName name,
+        SpecieDescription description)
     {
         Id = id;
         Name = name;
@@ -26,8 +26,8 @@ public class Specie : IEntity<SpecieId>, ISoftDeletable
     }
 
     public SpecieId Id { get; }
-    public ShortAlphabeticWhiteSpacesString Name { get; private set; }
-    public MediumString Description { get; private set; }
+    public SpecieName Name { get; private set; }
+    public SpecieDescription Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletionTimestamp { get; private set; }

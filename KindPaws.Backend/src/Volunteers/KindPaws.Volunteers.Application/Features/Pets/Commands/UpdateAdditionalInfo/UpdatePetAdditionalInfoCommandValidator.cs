@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -22,7 +21,7 @@ public class UpdatePetAdditionalInfoCommandValidator : AbstractValidator<UpdateP
             .When(u => u.SupportStatus != null);
 
         RuleFor(u => u.Description)
-            .MustBeValueObject(MediumString.Create!)
+            .MustBeValueObject(PetDescription.Create!)
             .When(u => u.Description != null);
 
         RuleFor(u => u.Color)
@@ -34,7 +33,7 @@ public class UpdatePetAdditionalInfoCommandValidator : AbstractValidator<UpdateP
             .When(u => u.Birthday != null);
 
         RuleFor(u => u.HealthDetails!.Description)
-            .MustBeValueObject(MediumString.Create!)
+            .MustBeValueObject(HealthDetailsDescription.Create!)
             .When(u => u.HealthDetails is { Description: not null });
 
         RuleForEach(u => u.HealthDetails!.Vaccines)

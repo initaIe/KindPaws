@@ -1,5 +1,4 @@
 ﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.AggregateRoot;
@@ -16,7 +15,7 @@ public static class VolunteerHelper
         IEnumerable<RequisiteDto> requisites)
     {
         var volunteerId = VolunteerId.CreateRandom();
-        var volunteerDescription = MediumString.Create(description!).Value;
+        var volunteerDescription = VolunteerDescription.Create(description!).Value;
         var volunteerAddress = Address.Create(address!.City, address!.Street).Value;
         var volunteerYearsOfExperience = YearsOfExperience.Create(yearsOfExperience!.Value).Value;
         var volunteerRequisites = requisites

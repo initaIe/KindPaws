@@ -23,7 +23,7 @@ public class CreateAccountHandler : ICommandHandler<Guid, CreateAccountCommand>
         IAccountsReadDbContext dbContext,
         IPasswordHashProvider passwordHashProvider,
         IRepository<Account, AccountId> accountRepository,
-        [FromKeyedServices(Modules.Accounts)]IUnitOfWork unitOfWork)
+        [FromKeyedServices(Modules.Accounts)] IUnitOfWork unitOfWork)
     {
         _dbContext = dbContext;
         _passwordHashProvider = passwordHashProvider;
@@ -45,13 +45,13 @@ public class CreateAccountHandler : ICommandHandler<Guid, CreateAccountCommand>
         var isEmailAddressAlreadyTaken = await _dbContext.Accounts.AnyAsync(
             a => a.EmailAddress == command.EmailAddress,
             cancellationToken);
-        
+
         if (isEmailAddressAlreadyTaken)
             return Errors.General.RecordAlreadyExist(nameof(Account), nameof(EmailAddress)).ToErrorList();
 
         var userName = UserName.Create(command.UserName).Value;
         var email = EmailAddress.Create(command.EmailAddress).Value;
-        var passwordHashString = _passwordHashProvider.Get(command.Password);
+        var passwordHashString = _passwordHashProvider.GenerateHash(command.Password);
         var passwordHash = PasswordHash.Create(passwordHashString).Value;
 
         var account = Account.CreateNew(userName, email, passwordHash);

@@ -1,8 +1,7 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints.BaseConstraints;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,8 +25,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         builder.Property(breed => breed.Name)
             .HasConversion(
                 name => name.Value,
-                value => ShortAlphabeticWhiteSpacesString.Create(value).Value)
-            .HasMaxLength(ShortAlphabeticStringConstraints.MaxLength)
+                value => BreedName.Create(value).Value)
             .HasColumnName("name")
             .HasColumnType("citext")
             .IsRequired();
@@ -37,7 +35,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         builder.ComplexProperty(breed => breed.Description, description =>
         {
             description.Property(x => x.Value)
-                .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+                .HasMaxLength(BreedDescriptionConstraints.MaxLength)
                 .HasColumnName("description")
                 .IsRequired();
         });

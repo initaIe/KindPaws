@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
@@ -7,7 +6,6 @@ using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -60,7 +58,7 @@ public class UpdatePetMainInfoHandler
 
         var petId = PetId.Create(command.PetId).Value;
 
-        var petName = ShortString.Create(command.Name).Value;
+        var petName = PetName.Create(command.Name).Value;
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var petType = new PetType(specieId, command.BreedId);
 
@@ -75,7 +73,7 @@ public class UpdatePetMainInfoHandler
         return petId.Value;
     }
 
-    private void Log(PetId petId, PetType petType, ShortString petName, VolunteerId volunteerId)
+    private void Log(PetId petId, PetType petType, PetName petName, VolunteerId volunteerId)
     {
         _logger.LogInformation("PET updated main info with ID: {Id}; " +
                                "Properties: {PetType}, {PetName}; " +

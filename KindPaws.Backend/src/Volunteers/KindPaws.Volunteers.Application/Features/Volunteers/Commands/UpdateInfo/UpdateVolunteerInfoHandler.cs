@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
@@ -9,7 +8,6 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
 using KindPaws.Volunteers.Domain.AggregateRoot;
@@ -66,7 +64,7 @@ public class UpdateVolunteerInfoHandler
 
         var description = ValueObjectsHelpers.CreateNullableValueObject(
             command.Description,
-            MediumString.Create);
+            VolunteerDescription.Create);
 
         var address = ValueObjectsHelpers.CreateNullableValueObject(
             command.Address,

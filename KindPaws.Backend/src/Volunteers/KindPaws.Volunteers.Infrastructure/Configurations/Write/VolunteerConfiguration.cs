@@ -1,9 +1,8 @@
 ﻿using KindPaws.Core.Extensions;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,8 +27,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(v => v.Description)
             .HasConversion(
                 d => d!.Value,
-                d => MediumString.Create(d).Value)
-            .HasMaxLength(MediumDescriptionConstraints.MaxLength)
+                d => VolunteerDescription.Create(d).Value)
+            .HasMaxLength(VolunteerDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
 

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using KindPaws.Core.Abstractions;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Abstractions.Validators;
@@ -9,7 +8,6 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -64,7 +62,7 @@ public class UpdatePetAdditionalInfoHandler
 
         var description = ValueObjectsHelpers.CreateNullableValueObject(
             command.Description,
-            MediumString.Create);
+            PetDescription.Create);
 
         var color = ValueObjectsHelpers.CreateNullableValueObject(
             command.Color,
@@ -76,7 +74,7 @@ public class UpdatePetAdditionalInfoHandler
 
         var healthDescription = ValueObjectsHelpers.CreateNullableValueObject(
             command.HealthDetails?.Description,
-            MediumString.Create);
+            HealthDetailsDescription.Create);
 
         var vaccines = ValueObjectsHelpers.CreateNullableValueObjects(
             command.HealthDetails?.Vaccines,
@@ -136,7 +134,7 @@ public class UpdatePetAdditionalInfoHandler
     private void Log(
         PetId petId,
         SupportStatus? supportStatus,
-        MediumString? description,
+        PetDescription? description,
         PetColor? color,
         Birthday? age,
         HealthDetails? healthDetails,

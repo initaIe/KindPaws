@@ -1,9 +1,9 @@
 ﻿using KindPaws.Core.Abstractions.Validators;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.Species.Application.Abstractions;
 using KindPaws.Species.Domain.AggregateRoot;
+using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Species.Application.Features.Species.Commands.Create;
@@ -24,7 +24,7 @@ public class CreateSpecieEntitiesExistenceValidator : IEntitiesExistenceValidato
         var isSpecieByNameExist = await _readDbContext.Species.AnyAsync(
             s => s.Name == validationData.Name, cancellationToken);
         if (isSpecieByNameExist)
-            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(ShortAlphabeticString));
+            return Errors.General.RecordAlreadyExist(nameof(Specie), nameof(SpecieName));
 
         return true;
     }

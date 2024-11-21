@@ -2,7 +2,6 @@
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -19,7 +18,7 @@ public class Pet : IEntity<PetId>, ISoftDeletable
 
     public Pet(
         PetId id,
-        ShortString name,
+        PetName name,
         PetType petType)
     {
         Id = id;
@@ -29,11 +28,11 @@ public class Pet : IEntity<PetId>, ISoftDeletable
     }
 
     public PetId Id { get; }
-    public ShortString Name { get; private set; }
+    public PetName Name { get; private set; }
     public PetType PetType { get; private set; }
     public DateTime CreationTimestamp { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
-    public MediumString? Description { get; private set; }
+    public PetDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
     public Birthday? Birthday { get; private set; }
     public HealthDetails HealthDetails { get; private set; } = HealthDetails.Empty;
@@ -46,7 +45,7 @@ public class Pet : IEntity<PetId>, ISoftDeletable
 
     internal void UpdateMainInfo(
         PetType petType,
-        ShortString name)
+        PetName name)
     {
         PetType = petType;
         Name = name;
@@ -54,7 +53,7 @@ public class Pet : IEntity<PetId>, ISoftDeletable
 
     internal void UpdateAdditionalInfo(
         SupportStatus? supportStatus,
-        MediumString? description,
+        PetDescription? description,
         PetColor? petColor,
         Birthday? age,
         HealthDetails? healthDetails,

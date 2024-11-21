@@ -1,7 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.BaseValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.Entities;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -20,7 +19,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
 
     public Volunteer(
         VolunteerId id,
-        MediumString? description,
+        VolunteerDescription? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
         IEnumerable<Requisite> requisites)
@@ -33,7 +32,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
     }
 
     public VolunteerId Id { get; }
-    public MediumString? Description { get; private set; }
+    public VolunteerDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<Requisite> Requisites => _requisites;
@@ -52,7 +51,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
 
 
     public void UpdateInfo(
-        MediumString? description,
+        VolunteerDescription? description,
         Address? address,
         YearsOfExperience? yearsOfExperience,
         IEnumerable<Requisite> requisites)
@@ -123,7 +122,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
     public Result<Error> UpdatePetMainInfo(
         PetId petId,
         PetType petType,
-        ShortString name)
+        PetName name)
     {
         var petResult = GetPetById(petId);
         if (petResult.IsFailure)
@@ -136,7 +135,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
     public Result<Error> UpdatePetAdditionalInfo(
         PetId petId,
         SupportStatus? supportStatus,
-        MediumString? description,
+        PetDescription? description,
         PetColor? petColor,
         Birthday? age,
         HealthDetails? healthDetails,
