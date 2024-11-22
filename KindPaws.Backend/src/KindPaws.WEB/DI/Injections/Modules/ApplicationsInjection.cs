@@ -17,6 +17,7 @@ public static class ApplicationsInjection
             typeof(Volunteers.Application.DI.DependencyInjection).Assembly,
             typeof(Accounts.Application.DI.DependencyInjection).Assembly,
             typeof(Roles.Application.DI.DependencyInjection).Assembly,
+            typeof(Permissions.Application.DI.DependencyInjection).Assembly,
         };
 
         services.Scan(scan => scan.FromAssemblies(assemblies)

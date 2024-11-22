@@ -2,6 +2,11 @@
 
 public interface IVolunteersContract
 {
-    Task<bool> IsPetByBreedIdExistsAsync(Guid breedId, CancellationToken cancellationToken = default);
-    Task<bool> IsPetBySpecieIdExistsAsync(Guid breedId, CancellationToken cancellationToken = default);
+    Task<bool> IsPetByBreedIdExistsAsync(
+        Guid breedId,
+        CancellationToken cancellationToken = default);
+
+    Task<bool> IsPetBySpecieIdExistsAsync(
+        Guid breedId,
+        CancellationToken cancellationToken = default);
 }

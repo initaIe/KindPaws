@@ -24,4 +24,20 @@ public class Permission : IEntity<PermissionId>
     public PermissionId Id { get; private set; }
     public PermissionCode Code { get; private set; }
     public DateTime CreationTimestamp { get; private set; }
+
+    public static Permission Create(
+        PermissionId id,
+        PermissionCode code,
+        DateTime creationTimestamp)
+    {
+        // TODO: add validation
+        return new Permission(id, code, creationTimestamp);
+    }
+
+    public static Permission CreateNew(PermissionCode code)
+    {
+        var id = PermissionId.CreateRandom();
+        var creationTimestamp = DateTime.UtcNow;
+        return new Permission(id, code, creationTimestamp);
+    }
 }

@@ -1,10 +1,8 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Application.Helpers;
 using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Roles.Contracts;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -12,29 +10,26 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
+namespace KindPaws.Accounts.Application.Features.AccountRoles.Commands.Delete;
 
-public class AddAccountRoleHandler : ICommandHandler<Guid, AddAccountRoleCommand>
+public class DeleteAccountRoleHandler : ICommandHandler<Guid, DeleteAccountRoleCommand>
 {
-    private readonly IRolesContract _rolesContract;
     private readonly IAccountsReadDbContext _dbContext;
     private readonly IRepository<Account, AccountId> _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AddAccountRoleHandler(
+    public DeleteAccountRoleHandler(
         IAccountsReadDbContext dbContext,
         IRepository<Account, AccountId> repository,
-        [FromKeyedServices(Modules.Accounts)] IUnitOfWork unitOfWork,
-        IRolesContract rolesContract)
+        [FromKeyedServices(Modules.Accounts)] IUnitOfWork unitOfWork)
     {
         _dbContext = dbContext;
         _repository = repository;
         _unitOfWork = unitOfWork;
-        _rolesContract = rolesContract;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
-        AddAccountRoleCommand command,
+        DeleteAccountRoleCommand command,
         CancellationToken cancellationToken = default)
     {
         var isAccountExist = await _dbContext.Accounts.AnyAsync(
@@ -43,38 +38,30 @@ public class AddAccountRoleHandler : ICommandHandler<Guid, AddAccountRoleCommand
 
         if (!isAccountExist)
             return Errors.General.RecordNotFound(
-                    nameof(Account),
-                    nameof(AccountId),
-                    command.AccountId)
+                nameof(Account),
+                nameof(AccountId), 
+                command.AccountId)
                 .ToErrorList();
-
-        var isRoleExist = await _rolesContract.IsRoleByIdExistAsync(command.RoleId, cancellationToken);
-
-        if (!isRoleExist)
-            return Errors.General.RecordNotFound(
-                    "Role",
-                    nameof(RoleId),
-                    command.RoleId)
-                .ToErrorList();
-
-        var isRoleAlreadyAdded = await _dbContext.AccountRoles.AnyAsync(
-            ar => ar.AccountId == command.AccountId && ar.RoleId == command.RoleId,
+        
+        var isAccountRoleExist = await _dbContext.AccountRoles.AnyAsync(
+            a => a.Id == command.AccountRoleId,
             cancellationToken);
 
-        if (isRoleAlreadyAdded)
-            return Errors.General.RecordAlreadyExist(
+        if (!isAccountRoleExist)
+            return Errors.General.RecordNotFound(
                     nameof(AccountRole),
-                    nameof(RoleId))
+                    nameof(AccountRoleId), 
+                    command.AccountRoleId)
                 .ToErrorList();
 
         var accountId = AccountId.Create(command.AccountId).Value;
         var account = await _repository.GetByIdAsync(accountId, cancellationToken);
 
-        var accountRole = AccountRoleHelper.ForceCreateNewAccountRole(command.RoleId);
-
-        account.Value.AddAccountRole(accountRole);
+        var accountRoleId = AccountRoleId.Create(command.AccountRoleId).Value;
+        
+        account.Value.DeleteAccountRole(accountRoleId);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return accountRole.Id.Value;
+        return accountRoleId.Value;
     }
 }

@@ -6,8 +6,31 @@ namespace KindPaws.Accounts.Contracts;
 
 public interface IAccountsContract
 {
-    Task<Result<Guid, ErrorList>> CreateAccountAsync(CreateAccountRequest request);
-    Task<Result<Guid, ErrorList>> AddRefreshSessionAsync(Guid accountId, AddRefreshSessionRequest request);
-    Task<Result<Guid, ErrorList>> DeleteRefreshSessionAsync(Guid accountId, Guid refreshSessionId);
-    Task<Result<Guid, ErrorList>> DeleteAccountAsync(Guid accountId);
+    Task<Result<Guid, ErrorList>> CreateAccountAsync(
+        CreateAccountRequest request,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<Guid, ErrorList>> AddRefreshSessionAsync(
+        Guid accountId,
+        AddRefreshSessionRequest request,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<Guid, ErrorList>> DeleteRefreshSessionAsync(
+        Guid accountId,
+        Guid refreshSessionId,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<Guid, ErrorList>> DeleteAccountAsync(
+        Guid accountId,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<Guid, ErrorList>> AddAccountRoleAsync(
+        Guid accountId,
+        AddAccountRoleRequest request,
+        CancellationToken cancellationToken = default);
+    
+    Task<Result<Guid, ErrorList>> DeleteAccountRoleAsync(
+        Guid accountId,
+        Guid accountRoleId,
+        CancellationToken cancellationToken = default);
 }

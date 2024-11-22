@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
+using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Delete;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.Delete;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
@@ -76,12 +77,28 @@ public class AccountsController : ApplicationController
     }
 
     [HttpDelete("{accountId:guid}")]
-    public async Task<IActionResult> DeleteRefreshSession(
+    public async Task<IActionResult> Delete(
         [FromRoute] Guid accountId,
         [FromServices] DeleteAccountHandler handler,
         CancellationToken token)
     {
         var command = new DeleteAccountCommand(accountId);
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpDelete("{accountId:guid}/account-roles/{accountRoleId:guid}")]
+    public async Task<IActionResult> DeleteAccountRole(
+        [FromRoute] Guid accountId,
+        [FromRoute] Guid accountRoleId,
+        [FromServices] DeleteAccountRoleHandler handler,
+        CancellationToken token)
+    {
+        var command = new DeleteAccountRoleCommand(accountId, accountRoleId);
 
         var result = await handler.HandleAsync(command, token);
         if (result.IsFailure)

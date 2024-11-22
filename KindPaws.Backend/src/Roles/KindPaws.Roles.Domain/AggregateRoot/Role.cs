@@ -47,4 +47,33 @@ public sealed class Role : IEntity<RoleId>
 
         return new Role(id, name, creationTimestamp);
     }
+
+    public Result<RolePermission, Error> GetRolePermissionById(RolePermissionId rolePermissionId)
+    {
+        var rolePermission = _rolePermissions.FirstOrDefault(p => p.Id == rolePermissionId);
+
+        if (rolePermission == null)
+            return Errors.General.RecordNotFound(
+                nameof(RolePermission),
+                nameof(RolePermissionId),
+                rolePermissionId.Value);
+
+        return rolePermission;
+    }
+
+    public Result<Error> DeleteRolePermission(RolePermissionId rolePermissionId)
+    {
+        var rolePermission = GetRolePermissionById(rolePermissionId);
+        
+        if (rolePermission.IsFailure)
+            return rolePermission.Error;
+        
+        _rolePermissions.Remove(rolePermission.Value);
+        return true;
+    }
+
+    public void AddRolePermission(RolePermission rolePermission)
+    {
+        _rolePermissions.Add(rolePermission);
+    }
 }

@@ -80,7 +80,7 @@ public sealed class Account : IEntity<AccountId>
         return refreshSession;
     }
 
-    public Result<AccountRole, Error> GetAccountRolesById(AccountRoleId accountRoleId)
+    public Result<AccountRole, Error> GetAccountRoleById(AccountRoleId accountRoleId)
     {
         var accountRole = _accountRoles.FirstOrDefault(ar => ar.Id == accountRoleId);
 
@@ -116,7 +116,7 @@ public sealed class Account : IEntity<AccountId>
 
     public Result<Error> DeleteAccountRole(AccountRoleId accountRoleId)
     {
-        var account = GetAccountRolesById(accountRoleId);
+        var account = GetAccountRoleById(accountRoleId);
 
         if (account.IsFailure)
             return account.Error;

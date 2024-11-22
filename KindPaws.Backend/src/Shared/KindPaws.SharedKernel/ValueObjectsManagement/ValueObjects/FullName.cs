@@ -1,5 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 
@@ -29,7 +30,7 @@ public record FullName
         if (string.IsNullOrWhiteSpace(firstName))
             return Errors.General.ValueIsRequired(nameof(firstName));
 
-        firstName = firstName.Trim();
+        firstName = firstName.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(
                 firstName,
@@ -43,7 +44,7 @@ public record FullName
         if (string.IsNullOrWhiteSpace(lastName))
             return Errors.General.ValueIsRequired(nameof(lastName));
 
-        lastName = lastName.Trim();
+        lastName = lastName.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(
                 lastName,
@@ -56,11 +57,11 @@ public record FullName
 
         if (!string.IsNullOrWhiteSpace(patronymic))
         {
-            patronymic = patronymic.Trim();
+            patronymic = patronymic.Trim().ToProperCase();
 
             if (!StringValidator.IsInRange(patronymic,
-                    FullNameConstraints.MinFirstNameLength,
-                    FullNameConstraints.MaxFirstNameLength))
+                    FullNameConstraints.MinPatronymicLength,
+                    FullNameConstraints.MaxPatronymicLength))
                 return Errors.General.ValueOutOfRange(nameof(firstName));
 
             if (!StringValidator.IsAlphabetic(patronymic))

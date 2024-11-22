@@ -1,4 +1,5 @@
-﻿using KindPaws.Permissions.Domain.AggregateRoot;
+﻿using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Permissions.Domain.AggregateRoot;
 using KindPaws.Permissions.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;

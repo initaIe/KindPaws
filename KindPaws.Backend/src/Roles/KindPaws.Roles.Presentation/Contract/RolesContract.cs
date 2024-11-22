@@ -27,20 +27,26 @@ public class RolesContract : IRolesContract
         _dbContext = dbContext;
     }
 
-    public async Task<Result<Guid, ErrorList>> CreateRoleAsync(CreateRoleRequest request)
+    public async Task<Result<Guid, ErrorList>> CreateRoleAsync(
+        CreateRoleRequest request,
+        CancellationToken cancellationToken = default)
     {
         var command = request.ToCommand();
-        return await _createRoleHandler.HandleAsync(command);
+        return await _createRoleHandler.HandleAsync(command, cancellationToken);
     }
 
-    public async Task<Result<Guid, ErrorList>> DeleteRoleAsync(Guid roleId)
+    public async Task<Result<Guid, ErrorList>> DeleteRoleAsync(
+        Guid roleId,
+        CancellationToken cancellationToken = default)
     {
         var command = new DeleteRoleCommand(roleId);
-        return await _deleteRoleHandler.HandleAsync(command);
+        return await _deleteRoleHandler.HandleAsync(command, cancellationToken);
     }
 
-    public async Task<bool> IsRoleByIdExist(Guid roleId)
+    public async Task<bool> IsRoleByIdExistAsync(
+        Guid roleId,
+        CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Roles.AnyAsync(r => r.Id == roleId);
+        return await _dbContext.Roles.AnyAsync(r => r.Id == roleId, cancellationToken);
     }
 }
