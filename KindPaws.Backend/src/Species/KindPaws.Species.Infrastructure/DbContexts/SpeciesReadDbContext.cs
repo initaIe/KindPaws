@@ -16,7 +16,7 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
-    
+
     public IQueryable<SpecieDto> Species => Set<SpecieDto>();
     public IQueryable<BreedDto> Breeds => Set<BreedDto>();
 

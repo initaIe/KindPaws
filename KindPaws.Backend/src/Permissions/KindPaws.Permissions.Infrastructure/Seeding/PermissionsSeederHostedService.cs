@@ -20,7 +20,7 @@ public class PermissionsSeederHostedService : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Started PermissionsSeederHostedService...");
-        
+
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var seeder = scope.ServiceProvider
             .GetRequiredService<PermissionsSeederService>();

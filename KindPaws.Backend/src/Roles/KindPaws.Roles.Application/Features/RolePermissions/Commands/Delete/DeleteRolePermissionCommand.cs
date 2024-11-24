@@ -4,5 +4,5 @@ namespace KindPaws.Roles.Application.Features.RolePermissions.Commands.Delete;
 
 public record DeleteRolePermissionCommand(
     Guid RoleId,
-    Guid RolePermissionId) 
+    Guid RolePermissionId)
     : ICommand;

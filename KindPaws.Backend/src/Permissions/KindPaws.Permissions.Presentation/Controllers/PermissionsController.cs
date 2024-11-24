@@ -23,7 +23,7 @@ public class PermissionsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{permissionId:guid}")]
     public async Task<IActionResult> Create(
         [FromRoute] Guid permissionId,

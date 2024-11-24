@@ -1,15 +1,8 @@
 ﻿using System.Text.Json;
 using KindPaws.Core.Abstractions.DataBase;
-using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Contracts;
-using KindPaws.Permissions.Contracts.Dtos;
-using KindPaws.Roles.Application.Features.RolePermissions.Commands.Add;
-using KindPaws.Roles.Application.Features.Roles.Commands.Create;
-using KindPaws.Roles.Application.Features.Roles.Queries.GetIdByName;
 using KindPaws.Roles.Application.Helpers;
-using KindPaws.Roles.Contracts.Dtos;
 using KindPaws.Roles.Domain.AggregateRoot;
-using KindPaws.Roles.Domain.Entities;
 using KindPaws.Roles.Infrastructure.DbContexts;
 using KindPaws.Roles.Infrastructure.Options;
 using KindPaws.SharedKernel.Enums;
@@ -81,7 +74,7 @@ public class RolesSeederService
 
         var newRoles = roles
             .Where(r => !existingRoleNames.Contains(r.Name))
-            .DistinctBy(r=>r.Name)
+            .DistinctBy(r => r.Name)
             .ToList();
 
         if (newRoles.Count != 0)
@@ -99,7 +92,7 @@ public class RolesSeederService
             cancellationToken);
 
         var rolePermissionsDictionary = JsonSerializer.Deserialize<Dictionary<string, string[]>>(rolesPermissionsJson)
-                                         ?? throw new ApplicationException("RolePermissions json is empty.");
+                                        ?? throw new ApplicationException("RolePermissions json is empty.");
 
         return rolePermissionsDictionary;
     }
@@ -134,14 +127,14 @@ public class RolesSeederService
                 .Select(RolePermissionHelper.ForceCreateNewRolePermission);
 
             var existingRolesPermissionsPermissionIds = role.RolePermissions
-                .Select(rp=>rp.PermissionId)
+                .Select(rp => rp.PermissionId)
                 .ToList();
-            
+
             var newRolesPermissions = rolesPermissions
                 .Where(rp => !existingRolesPermissionsPermissionIds.Contains(rp.PermissionId))
-                .DistinctBy(rp=>rp.PermissionId)
+                .DistinctBy(rp => rp.PermissionId)
                 .ToList();
-            
+
             if (newRolesPermissions.Count != 0)
             {
                 role.AddRolePermissions(newRolesPermissions);

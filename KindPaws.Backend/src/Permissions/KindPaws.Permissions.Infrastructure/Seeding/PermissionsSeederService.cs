@@ -23,7 +23,7 @@ public class PermissionsSeederService
         IOptions<PermissionsSeederOptions> permissionsSeederOptions,
         PermissionsWriteDbContext permissionsWriteDbContext,
         [FromKeyedServices(Modules.Permissions)]
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         ILogger<PermissionsSeederService> logger)
     {
         _permissionsWriteDbContext = permissionsWriteDbContext;
@@ -35,10 +35,10 @@ public class PermissionsSeederService
     public async Task ProcessAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Starting permissions seeding...");
-        
+
         var permissions = await GetPermissionsSeedDataAsync(cancellationToken);
         await SeedPermissionsAsync(permissions, cancellationToken);
-        
+
         _logger.LogInformation("Permissions seeding was ended...");
     }
 
@@ -53,7 +53,7 @@ public class PermissionsSeederService
             JsonSerializer.Deserialize<List<string>>(permissionsJson,
                 JsonSerializerOptions.Default) ?? throw new ApplicationException("Permissions json is empty.");
 
-       return permissionNames.Select(PermissionHelper.ForceCreateNewPermission).ToList();
+        return permissionNames.Select(PermissionHelper.ForceCreateNewPermission).ToList();
     }
 
     private async Task SeedPermissionsAsync(
@@ -66,7 +66,7 @@ public class PermissionsSeederService
 
         var newPermissions = permissions
             .Where(p => !existingPermissionCodes.Contains(p.Code))
-            .DistinctBy(p=>p.Code)
+            .DistinctBy(p => p.Code)
             .ToList();
 
         if (newPermissions.Count != 0)

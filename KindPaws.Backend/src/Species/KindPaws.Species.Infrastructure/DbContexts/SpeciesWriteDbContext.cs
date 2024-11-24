@@ -15,7 +15,7 @@ public class SpeciesWriteDbContext : DbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
-    
+
     public DbSet<Specie> Species => Set<Specie>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,13 +1,9 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
-using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
 using KindPaws.Accounts.Application.Helpers;
 using KindPaws.Accounts.Domain.AggregateRoot;
-using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Accounts.Infrastructure.Options;
 using KindPaws.Core.Abstractions.DataBase;
-using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Roles.Contracts;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;

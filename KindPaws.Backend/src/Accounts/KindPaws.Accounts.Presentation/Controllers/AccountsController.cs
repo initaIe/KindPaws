@@ -90,7 +90,7 @@ public class AccountsController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{accountId:guid}/account-roles/{accountRoleId:guid}")]
     public async Task<IActionResult> DeleteAccountRole(
         [FromRoute] Guid accountId,

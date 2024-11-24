@@ -27,7 +27,7 @@ public class AccountsContract : IAccountsContract
         ICommandHandler<Guid, AddRefreshSessionCommand> addRefreshSessionHandler,
         ICommandHandler<Guid, DeleteRefreshSessionCommand> deleteRefreshSessionHandler,
         ICommandHandler<Guid, DeleteAccountCommand> deleteAccountHandler,
-        ICommandHandler<Guid, AddAccountRoleCommand> addAccountRoleHandler, 
+        ICommandHandler<Guid, AddAccountRoleCommand> addAccountRoleHandler,
         ICommandHandler<Guid, DeleteAccountRoleCommand> deleteAccountRoleHandler)
     {
         _createAccountHandler = createAccountHandler;

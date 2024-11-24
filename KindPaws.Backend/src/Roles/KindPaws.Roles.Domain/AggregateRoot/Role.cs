@@ -64,10 +64,10 @@ public sealed class Role : IEntity<RoleId>
     public Result<Error> DeleteRolePermission(RolePermissionId rolePermissionId)
     {
         var rolePermission = GetRolePermissionById(rolePermissionId);
-        
+
         if (rolePermission.IsFailure)
             return rolePermission.Error;
-        
+
         _rolePermissions.Remove(rolePermission.Value);
         return true;
     }
@@ -76,7 +76,7 @@ public sealed class Role : IEntity<RoleId>
     {
         _rolePermissions.Add(rolePermission);
     }
-    
+
     public void AddRolePermissions(IEnumerable<RolePermission> rolePermissions)
     {
         _rolePermissions.AddRange(rolePermissions);

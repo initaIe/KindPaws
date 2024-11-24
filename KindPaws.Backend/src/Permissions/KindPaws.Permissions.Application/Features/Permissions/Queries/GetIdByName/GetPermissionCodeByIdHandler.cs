@@ -22,13 +22,13 @@ public class GetPermissionCodeByIdHandler : IQueryHandler<Result<Guid, ErrorList
         CancellationToken cancellationToken = default)
     {
         var permissionByCode = await _dbContext.Permissions.FirstOrDefaultAsync(
-            r=>r.Code == query.PermissionCode,
+            r => r.Code == query.PermissionCode,
             cancellationToken);
 
         if (permissionByCode == null)
             return Errors.General.RecordNotFound(
-                    nameof(Permission), 
-                    nameof(PermissionCode), 
+                    nameof(Permission),
+                    nameof(PermissionCode),
                     query.PermissionCode)
                 .ToErrorList();
 

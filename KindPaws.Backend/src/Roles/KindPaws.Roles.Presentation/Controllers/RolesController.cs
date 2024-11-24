@@ -56,7 +56,7 @@ public class RolesController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpDelete("{roleId:guid}/role-permissions/{rolePermissionId:guid}")]
     public async Task<IActionResult> Delete(
         [FromRoute] Guid roleId,

@@ -42,10 +42,10 @@ public class DeletePermissionHandler : ICommandHandler<Guid, DeletePermissionCom
                     nameof(PermissionId),
                     command.PermissionId)
                 .ToErrorList();
-        
+
         var permissionId = PermissionId.Create(command.PermissionId).Value;
         var permission = await _repository.GetByIdAsync(permissionId, cancellationToken);
-        
+
         _repository.Delete(permission.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -28,7 +28,7 @@ public interface IAccountsContract
         Guid accountId,
         AddAccountRoleRequest request,
         CancellationToken cancellationToken = default);
-    
+
     Task<Result<Guid, ErrorList>> DeleteAccountRoleAsync(
         Guid accountId,
         Guid accountRoleId,

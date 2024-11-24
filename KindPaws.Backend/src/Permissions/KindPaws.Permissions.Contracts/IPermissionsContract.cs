@@ -9,7 +9,7 @@ public interface IPermissionsContract
     Task<Result<Guid, ErrorList>> CreatePermissionAsync(
         CreatePermissionRequest request,
         CancellationToken cancellationToken = default);
-    
+
     Task<Result<Guid, ErrorList>> DeletePermissionAsync(
         Guid permissionId,
         CancellationToken cancellationToken = default);
@@ -17,7 +17,7 @@ public interface IPermissionsContract
     Task<bool> IsPermissionByIdExistAsync(
         Guid permissionId,
         CancellationToken cancellationToken = default);
-    
+
     Task<Result<Guid, ErrorList>> GetPermissionIdByCodeAsync(
         string permissionCode,
         CancellationToken cancellationToken = default);

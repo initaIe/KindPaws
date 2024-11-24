@@ -21,7 +21,7 @@ public class PermissionsContract : IPermissionsContract
 
     public PermissionsContract(
         ICommandHandler<Guid, CreatePermissionCommand> createPermissionHandler,
-        IPermissionsReadDbContext dbContext, 
+        IPermissionsReadDbContext dbContext,
         ICommandHandler<Guid, DeletePermissionCommand> deletePermissionHandler,
         IQueryHandler<Result<Guid, ErrorList>, GetPermissionIdByCodeQuery> getPermissionIdByCodeHandler)
     {
@@ -57,7 +57,7 @@ public class PermissionsContract : IPermissionsContract
     }
 
     public async Task<Result<Guid, ErrorList>> GetPermissionIdByCodeAsync(
-        string permissionCode, 
+        string permissionCode,
         CancellationToken cancellationToken = default)
     {
         var query = new GetPermissionIdByCodeQuery(permissionCode);

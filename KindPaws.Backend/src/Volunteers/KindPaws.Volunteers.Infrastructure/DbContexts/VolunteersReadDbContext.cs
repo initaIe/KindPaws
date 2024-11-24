@@ -16,7 +16,7 @@ public class VolunteersReadDbContext : DbContext, IVolunteersReadDbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
-    
+
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
     public IQueryable<PetDto> Pets => Set<PetDto>();
 

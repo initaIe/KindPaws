@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Volunteers.Infrastructure.DbContexts;
 
-public class VolunteersWriteDbContext: DbContext
+public class VolunteersWriteDbContext : DbContext
 {
     private readonly PostgresOptions _postgresOptions;
 

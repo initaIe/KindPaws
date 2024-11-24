@@ -38,11 +38,11 @@ public class DeleteAccountRoleHandler : ICommandHandler<Guid, DeleteAccountRoleC
 
         if (!isAccountExist)
             return Errors.General.RecordNotFound(
-                nameof(Account),
-                nameof(AccountId), 
-                command.AccountId)
+                    nameof(Account),
+                    nameof(AccountId),
+                    command.AccountId)
                 .ToErrorList();
-        
+
         var isAccountRoleExist = await _dbContext.AccountRoles.AnyAsync(
             a => a.Id == command.AccountRoleId,
             cancellationToken);
@@ -50,7 +50,7 @@ public class DeleteAccountRoleHandler : ICommandHandler<Guid, DeleteAccountRoleC
         if (!isAccountRoleExist)
             return Errors.General.RecordNotFound(
                     nameof(AccountRole),
-                    nameof(AccountRoleId), 
+                    nameof(AccountRoleId),
                     command.AccountRoleId)
                 .ToErrorList();
 
@@ -58,7 +58,7 @@ public class DeleteAccountRoleHandler : ICommandHandler<Guid, DeleteAccountRoleC
         var account = await _repository.GetByIdAsync(accountId, cancellationToken);
 
         var accountRoleId = AccountRoleId.Create(command.AccountRoleId).Value;
-        
+
         account.Value.DeleteAccountRole(accountRoleId);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
