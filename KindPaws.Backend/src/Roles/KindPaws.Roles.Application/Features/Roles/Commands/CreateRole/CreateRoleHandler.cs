@@ -11,7 +11,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Roles.Application.Features.Roles.Commands.Create;
+namespace KindPaws.Roles.Application.Features.Roles.Commands.CreateRole;
 
 public class CreateRoleHandler : ICommandHandler<Guid, CreateRoleCommand>
 {

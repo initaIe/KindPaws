@@ -1,6 +1,6 @@
 ﻿using KindPaws.Framework;
-using KindPaws.Permissions.Application.Features.Permissions.Commands.Create;
-using KindPaws.Permissions.Application.Features.Permissions.Commands.Delete;
+using KindPaws.Permissions.Application.Features.Permissions.Commands.CreatePermission;
+using KindPaws.Permissions.Application.Features.Permissions.Commands.DeletePermission;
 using KindPaws.Permissions.Contracts.Requests;
 using KindPaws.Permissions.Presentation.Mappers;
 using Microsoft.AspNetCore.Mvc;

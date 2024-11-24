@@ -1,7 +1,7 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 using KindPaws.Volunteers.Contracts.Dtos;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfoVolunteer;
 
 public record UpdateVolunteerInfoCommand(
     Guid VolunteerId,

@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
+namespace KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
 
 public record CreateAccountCommand(
     string UserName,

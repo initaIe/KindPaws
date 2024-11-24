@@ -96,7 +96,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Presentation"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Application", "src\Auth\KindPaws.Auth.Application\KindPaws.Auth.Application.csproj", "{C7468BFE-C840-4FF7-AB37-8EB60241394D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Contract", "src\Auth\KindPaws.Auth.Contract\KindPaws.Auth.Contract.csproj", "{02323165-30B7-46D3-ACAA-126CECC1267A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Contracts", "src\Auth\KindPaws.Auth.Contracts\KindPaws.Auth.Contracts.csproj", "{02323165-30B7-46D3-ACAA-126CECC1267A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Domain", "src\Auth\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj", "{3930ACA2-EBEF-43FB-9221-8D616553A2B1}"
 EndProject

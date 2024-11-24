@@ -11,7 +11,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
+namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefreshSession;
 
 public class AddRefreshSessionHandler : ICommandHandler<Guid, AddRefreshSessionCommand>
 {

@@ -9,7 +9,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.Accounts.Commands.Delete;
+namespace KindPaws.Accounts.Application.Features.Accounts.Commands.DeleteAccount;
 
 public class DeleteAccountHandler : ICommandHandler<Guid, DeleteAccountCommand>
 {

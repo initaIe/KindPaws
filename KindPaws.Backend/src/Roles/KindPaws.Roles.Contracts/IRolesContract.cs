@@ -1,4 +1,5 @@
-﻿using KindPaws.Roles.Contracts.Requests;
+﻿using KindPaws.Roles.Contracts.Dtos;
+using KindPaws.Roles.Contracts.Requests;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 
@@ -20,5 +21,9 @@ public interface IRolesContract
 
     Task<Result<Guid, ErrorList>> GetRoleIdByNameAsync(
         string roleName,
+        CancellationToken cancellationToken = default);
+    
+    Task<IReadOnlyList<RolePermissionDto>> GetRolePermissionsByIdsAsync(
+        IEnumerable<Guid> roleIds,
         CancellationToken cancellationToken = default);
 }

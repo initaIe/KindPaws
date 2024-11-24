@@ -13,7 +13,7 @@ using KindPaws.Species.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Species.Application.Features.Breeds.Commands.Add;
+namespace KindPaws.Species.Application.Features.Breeds.Commands.AddBreed;
 
 public class AddBreedHandler
     : ICommandHandler<Guid, AddBreedCommand>

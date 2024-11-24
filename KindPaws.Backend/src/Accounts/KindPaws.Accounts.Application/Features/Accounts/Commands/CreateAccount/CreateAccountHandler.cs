@@ -11,7 +11,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
+namespace KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
 
 public class CreateAccountHandler : ICommandHandler<Guid, CreateAccountCommand>
 {

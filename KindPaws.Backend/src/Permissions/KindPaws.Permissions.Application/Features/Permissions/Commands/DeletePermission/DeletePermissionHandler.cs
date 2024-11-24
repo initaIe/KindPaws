@@ -9,7 +9,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Permissions.Application.Features.Permissions.Commands.Delete;
+namespace KindPaws.Permissions.Application.Features.Permissions.Commands.DeletePermission;
 
 public class DeletePermissionHandler : ICommandHandler<Guid, DeletePermissionCommand>
 {

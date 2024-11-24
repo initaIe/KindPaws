@@ -12,7 +12,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
+namespace KindPaws.Accounts.Application.Features.AccountRoles.Commands.AddAccountRole;
 
 public class AddAccountRoleHandler : ICommandHandler<Guid, AddAccountRoleCommand>
 {

@@ -53,7 +53,7 @@ public class AccountsSeederService
         _logger.LogInformation("Accounts seeding was ended...");
     }
 
-    private List<Account> GetAccountsSeedData()
+    private IReadOnlyList<Account> GetAccountsSeedData()
     {
         string[] properties =
         [

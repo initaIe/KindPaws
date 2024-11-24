@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
+namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefreshSession;
 
 public record AddRefreshSessionCommand(
     Guid AccountId,

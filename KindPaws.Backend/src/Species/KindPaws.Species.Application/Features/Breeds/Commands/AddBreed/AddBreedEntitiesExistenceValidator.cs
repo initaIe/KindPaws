@@ -8,7 +8,7 @@ using KindPaws.Species.Domain.Entities;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Species.Application.Features.Breeds.Commands.Add;
+namespace KindPaws.Species.Application.Features.Breeds.Commands.AddBreed;
 
 public class AddBreedEntitiesExistenceValidator : IEntitiesExistenceValidator<AddBreedExistenceValidationData>
 {

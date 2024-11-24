@@ -6,7 +6,7 @@ using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Species.Application.Features.Species.Commands.Create;
+namespace KindPaws.Species.Application.Features.Species.Commands.CreateSpecie;
 
 public class CreateSpecieEntitiesExistenceValidator : IEntitiesExistenceValidator<CreateSpecieExistenceValidationData>
 {

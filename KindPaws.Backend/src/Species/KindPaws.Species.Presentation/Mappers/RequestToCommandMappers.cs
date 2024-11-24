@@ -1,5 +1,5 @@
-﻿using KindPaws.Species.Application.Features.Breeds.Commands.Add;
-using KindPaws.Species.Application.Features.Species.Commands.Create;
+﻿using KindPaws.Species.Application.Features.Breeds.Commands.AddBreed;
+using KindPaws.Species.Application.Features.Species.Commands.CreateSpecie;
 using KindPaws.Species.Contracts.Requests;
 
 namespace KindPaws.Species.Presentation.Mappers;

@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Delete;
+namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.DeleteRefreshSession;
 
 public record DeleteRefreshSessionCommand(
     Guid AccountId,

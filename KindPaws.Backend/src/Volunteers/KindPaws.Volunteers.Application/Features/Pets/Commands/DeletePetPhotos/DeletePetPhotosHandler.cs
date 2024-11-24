@@ -16,7 +16,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePhotos;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePetPhotos;
 
 public class DeletePetPhotosHandler
     : ICommandHandler<Guid, DeletePetPhotosCommand>

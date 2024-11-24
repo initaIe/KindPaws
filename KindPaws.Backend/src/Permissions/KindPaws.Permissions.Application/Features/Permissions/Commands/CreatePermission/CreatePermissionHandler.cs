@@ -11,7 +11,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Permissions.Application.Features.Permissions.Commands.Create;
+namespace KindPaws.Permissions.Application.Features.Permissions.Commands.CreatePermission;
 
 public class CreatePermissionHandler : ICommandHandler<Guid, CreatePermissionCommand>
 {

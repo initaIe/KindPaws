@@ -11,7 +11,7 @@ using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDelete;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDeleteVolunteer;
 
 // TODO: add delete pets photo minio
 public class SoftDeleteVolunteerHandler

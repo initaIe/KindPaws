@@ -1,9 +1,9 @@
-﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
-using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Delete;
-using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
-using KindPaws.Accounts.Application.Features.Accounts.Commands.Delete;
-using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
-using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Delete;
+﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.AddAccountRole;
+using KindPaws.Accounts.Application.Features.AccountRoles.Commands.DeleteAccountRole;
+using KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
+using KindPaws.Accounts.Application.Features.Accounts.Commands.DeleteAccount;
+using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefreshSession;
+using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.DeleteRefreshSession;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Accounts.Presentation.Mappers;
 using KindPaws.Framework;

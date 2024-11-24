@@ -12,7 +12,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Roles.Application.Features.RolePermissions.Commands.Add;
+namespace KindPaws.Roles.Application.Features.RolePermissions.Commands.AddRolePermission;
 
 public class AddRolePermissionHandler : ICommandHandler<Guid, AddRolePermissionCommand>
 {
@@ -48,7 +48,7 @@ public class AddRolePermissionHandler : ICommandHandler<Guid, AddRolePermissionC
                     command.RoleId)
                 .ToErrorList();
 
-        var isPermissionExist = await _permissionsContract.IsPermissionByIdExistAsync(
+        var isPermissionExist = await _permissionsContract.IsPermissionByIdExistsAsync(
             command.PermissionId,
             cancellationToken);
 

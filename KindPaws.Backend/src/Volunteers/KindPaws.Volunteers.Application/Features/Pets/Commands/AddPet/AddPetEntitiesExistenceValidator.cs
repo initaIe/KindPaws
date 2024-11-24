@@ -5,7 +5,7 @@ using KindPaws.Species.Contracts;
 using KindPaws.Volunteers.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.Add;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPet;
 
 public class AddPetEntitiesExistenceValidator : IEntitiesExistenceValidator<AddPetExistenceValidationData>
 {

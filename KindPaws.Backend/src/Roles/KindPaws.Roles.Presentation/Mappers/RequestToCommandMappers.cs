@@ -1,5 +1,5 @@
-﻿using KindPaws.Roles.Application.Features.RolePermissions.Commands.Add;
-using KindPaws.Roles.Application.Features.Roles.Commands.Create;
+﻿using KindPaws.Roles.Application.Features.RolePermissions.Commands.AddRolePermission;
+using KindPaws.Roles.Application.Features.Roles.Commands.CreateRole;
 using KindPaws.Roles.Contracts.Requests;
 
 namespace KindPaws.Roles.Presentation.Mappers;

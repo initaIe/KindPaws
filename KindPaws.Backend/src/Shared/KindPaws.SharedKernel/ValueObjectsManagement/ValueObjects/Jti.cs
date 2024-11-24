@@ -2,7 +2,7 @@
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 
-namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record Jti
 {

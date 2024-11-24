@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePhotos;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePetPhotos;
 
 public class
     DeletePetPhotosEntitiesExistenceValidator : IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData>

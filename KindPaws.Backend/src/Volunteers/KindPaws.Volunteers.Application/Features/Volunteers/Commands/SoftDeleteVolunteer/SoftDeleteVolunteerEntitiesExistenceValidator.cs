@@ -6,7 +6,7 @@ using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDelete;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDeleteVolunteer;
 
 public class SoftDeleteVolunteerEntitiesExistenceValidator
     : IEntitiesExistenceValidator<SoftDeleteVolunteerExistenceValidationData>

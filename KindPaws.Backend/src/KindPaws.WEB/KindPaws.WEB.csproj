@@ -31,6 +31,11 @@
       <ProjectReference Include="..\Accounts\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
       <ProjectReference Include="..\Accounts\KindPaws.Accounts.Infrastructure\KindPaws.Accounts.Infrastructure.csproj" />
       <ProjectReference Include="..\Accounts\KindPaws.Accounts.Presentation\KindPaws.Accounts.Presentation.csproj" />
+      <ProjectReference Include="..\Auth\KindPaws.Auth.Application\KindPaws.Auth.Application.csproj" />
+      <ProjectReference Include="..\Auth\KindPaws.Auth.Contracts\KindPaws.Auth.Contracts.csproj" />
+      <ProjectReference Include="..\Auth\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
+      <ProjectReference Include="..\Auth\KindPaws.Auth.Infrastructure\KindPaws.Auth.Infrastructure.csproj" />
+      <ProjectReference Include="..\Auth\KindPaws.Auth.Presentation\KindPaws.Auth.Presentation.csproj" />
       <ProjectReference Include="..\Permissions\KindPaws.Permissions.Application\KindPaws.Permissions.Application.csproj" />
       <ProjectReference Include="..\Permissions\KindPaws.Permissions.Contracts\KindPaws.Permissions.Contracts.csproj" />
       <ProjectReference Include="..\Permissions\KindPaws.Permissions.Domain\KindPaws.Permissions.Domain.csproj" />

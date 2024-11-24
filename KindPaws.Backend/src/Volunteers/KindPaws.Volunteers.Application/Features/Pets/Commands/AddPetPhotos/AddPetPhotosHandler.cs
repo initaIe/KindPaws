@@ -17,7 +17,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPhotos;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPetPhotos;
 
 public class AddPetPhotosHandler
     : ICommandHandler<Guid, AddPetPhotosCommand>

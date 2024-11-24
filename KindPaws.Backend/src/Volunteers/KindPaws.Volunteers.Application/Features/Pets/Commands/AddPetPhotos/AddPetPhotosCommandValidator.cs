@@ -2,7 +2,7 @@
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPhotos;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPetPhotos;
 
 public class AddPetPhotosCommandValidator : AbstractValidator<AddPetPhotosCommand>
 {

@@ -7,7 +7,7 @@ using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Volunteers.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Species.Application.Features.Species.Commands.SoftDelete;
+namespace KindPaws.Species.Application.Features.Species.Commands.SoftDeleteSpecie;
 
 public class SoftDeleteSpecieEntitiesExistenceValidator
     : IEntitiesExistenceValidator<SoftDeleteSpecieExistenceValidationData>

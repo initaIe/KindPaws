@@ -22,8 +22,8 @@ public static class ToDtoMappers
             Description = requisite.Description
         };
 
-    public static IEnumerable<RequisiteDto> ToDtoCollection(this IEnumerable<Requisite> requisites)
-        => requisites.Select(ToDto);
+    public static IReadOnlyList<RequisiteDto> ToDtoCollection(this IEnumerable<Requisite> requisites)
+        => requisites.Select(ToDto).ToList();
 
     public static HealthDetailsDto ToDto(this HealthDetails healthDetails)
         => new HealthDetailsDto
@@ -52,8 +52,8 @@ public static class ToDtoMappers
             IsMain = petPhoto.IsMain
         };
 
-    public static IEnumerable<PetPhotoDto> ToDtoCollection(this IEnumerable<PetPhoto> petPhotos)
-        => petPhotos.Select(ToDto);
+    public static IReadOnlyList<PetPhotoDto> ToDtoCollection(this IEnumerable<PetPhoto> petPhotos)
+        => petPhotos.Select(ToDto).ToList();
 
 
     public static PetDto ToDto(this PetDapperDto petDapperDto)

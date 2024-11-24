@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditionalInfo;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetAdditionalInfo;
 
 public record UpdatePetAdditionalInfoExistenceValidationData(
     Guid VolunteerId,

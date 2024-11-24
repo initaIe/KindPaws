@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
-      <ProjectReference Include="..\..\Shared\KindPaws.Framework\KindPaws.Framework.csproj" />
       <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Application\KindPaws.Accounts.Application.csproj" />
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />

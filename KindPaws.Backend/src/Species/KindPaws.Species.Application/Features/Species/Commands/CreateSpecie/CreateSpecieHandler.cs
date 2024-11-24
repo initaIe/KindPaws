@@ -12,7 +12,7 @@ using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Species.Application.Features.Species.Commands.Create;
+namespace KindPaws.Species.Application.Features.Species.Commands.CreateSpecie;
 
 public class CreateSpecieHandler
     : ICommandHandler<Guid, CreateSpecieCommand>

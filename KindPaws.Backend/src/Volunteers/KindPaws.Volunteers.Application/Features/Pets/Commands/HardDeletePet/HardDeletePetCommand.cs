@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.HardDelete;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.HardDeletePet;
 
 public record HardDeletePetCommand(
     Guid VolunteerId,

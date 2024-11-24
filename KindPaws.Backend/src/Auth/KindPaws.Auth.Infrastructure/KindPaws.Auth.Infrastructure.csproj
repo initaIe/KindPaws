@@ -15,6 +15,8 @@
       <ProjectReference Include="..\..\Permissions\KindPaws.Permissions.Contracts\KindPaws.Permissions.Contracts.csproj" />
       <ProjectReference Include="..\..\Roles\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\KindPaws.Framework\KindPaws.Framework.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Application\KindPaws.Auth.Application.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
     </ItemGroup>
 
 </Project>

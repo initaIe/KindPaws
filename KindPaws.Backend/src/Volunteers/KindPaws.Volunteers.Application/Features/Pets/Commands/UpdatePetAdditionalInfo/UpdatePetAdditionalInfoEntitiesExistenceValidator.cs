@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditionalInfo;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetAdditionalInfo;
 
 public class UpdatePetAdditionalInfoEntitiesExistenceValidator
     : IEntitiesExistenceValidator<UpdatePetAdditionalInfoExistenceValidationData>

@@ -3,7 +3,7 @@ using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePhotos;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePetPhotos;
 
 public class DeletePetPhotosCommandValidator : AbstractValidator<DeletePetPhotosCommand>
 {

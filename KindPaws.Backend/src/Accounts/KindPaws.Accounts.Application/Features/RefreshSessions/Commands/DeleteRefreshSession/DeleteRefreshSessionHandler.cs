@@ -10,7 +10,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Delete;
+namespace KindPaws.Accounts.Application.Features.RefreshSessions.Commands.DeleteRefreshSession;
 
 public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSessionCommand>
 {

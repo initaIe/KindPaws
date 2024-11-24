@@ -9,7 +9,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Roles.Application.Features.Roles.Commands.Delete;
+namespace KindPaws.Roles.Application.Features.Roles.Commands.DeleteRole;
 
 public class DeleteRoleHandler : ICommandHandler<Guid, DeleteRoleCommand>
 {

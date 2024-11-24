@@ -11,7 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Accounts\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
       <ProjectReference Include="..\KindPaws.Permissions.Application\KindPaws.Permissions.Application.csproj" />
       <ProjectReference Include="..\KindPaws.Permissions.Contracts\KindPaws.Permissions.Contracts.csproj" />

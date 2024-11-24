@@ -1,11 +1,11 @@
 ﻿using KindPaws.Framework;
 using KindPaws.Framework.Authorization;
-using KindPaws.Species.Application.Features.Breeds.Commands.Add;
-using KindPaws.Species.Application.Features.Breeds.Commands.HardDelete;
-using KindPaws.Species.Application.Features.Breeds.Commands.SoftDelete;
-using KindPaws.Species.Application.Features.Species.Commands.Create;
-using KindPaws.Species.Application.Features.Species.Commands.HardDelete;
-using KindPaws.Species.Application.Features.Species.Commands.SoftDelete;
+using KindPaws.Species.Application.Features.Breeds.Commands.AddBreed;
+using KindPaws.Species.Application.Features.Breeds.Commands.HardDeleteBreed;
+using KindPaws.Species.Application.Features.Breeds.Commands.SoftDeleteBreed;
+using KindPaws.Species.Application.Features.Species.Commands.CreateSpecie;
+using KindPaws.Species.Application.Features.Species.Commands.HardDeleteSpecie;
+using KindPaws.Species.Application.Features.Species.Commands.SoftDeleteSpecie;
 using KindPaws.Species.Application.Features.Species.Queries.GetSpecies;
 using KindPaws.Species.Contracts.Requests;
 using KindPaws.Species.Presentation.Mappers;

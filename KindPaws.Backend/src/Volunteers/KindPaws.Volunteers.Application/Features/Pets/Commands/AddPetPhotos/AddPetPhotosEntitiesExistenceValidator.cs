@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPhotos;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPetPhotos;
 
 public class AddPetPhotosEntitiesExistenceValidator : IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData>
 {

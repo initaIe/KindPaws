@@ -10,7 +10,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Accounts.Application.Features.AccountRoles.Commands.Delete;
+namespace KindPaws.Accounts.Application.Features.AccountRoles.Commands.DeleteAccountRole;
 
 public class DeleteAccountRoleHandler : ICommandHandler<Guid, DeleteAccountRoleCommand>
 {

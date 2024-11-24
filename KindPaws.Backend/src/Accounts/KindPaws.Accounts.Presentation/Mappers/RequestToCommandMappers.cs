@@ -1,6 +1,6 @@
-﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.Add;
-using KindPaws.Accounts.Application.Features.Accounts.Commands.Create;
-using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.Add;
+﻿using KindPaws.Accounts.Application.Features.AccountRoles.Commands.AddAccountRole;
+using KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
+using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefreshSession;
 using KindPaws.Accounts.Contracts.Requests;
 
 namespace KindPaws.Accounts.Presentation.Mappers;

@@ -2,7 +2,7 @@
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDelete;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDeleteVolunteer;
 
 public class SoftDeleteVolunteerCommandValidator : AbstractValidator<SoftDeleteVolunteerCommand>
 {

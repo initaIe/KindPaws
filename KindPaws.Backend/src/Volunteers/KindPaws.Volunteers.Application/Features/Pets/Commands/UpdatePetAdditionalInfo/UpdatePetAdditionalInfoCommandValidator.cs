@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditionalInfo;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetAdditionalInfo;
 
 public class UpdatePetAdditionalInfoCommandValidator : AbstractValidator<UpdatePetAdditionalInfoCommand>
 {

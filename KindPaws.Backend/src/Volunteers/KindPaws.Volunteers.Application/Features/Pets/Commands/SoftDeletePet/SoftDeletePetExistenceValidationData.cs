@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.SoftDelete;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.SoftDeletePet;
 
 public record SoftDeletePetExistenceValidationData(
     Guid VolunteerId,

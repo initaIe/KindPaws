@@ -1,11 +1,11 @@
-﻿using KindPaws.Volunteers.Application.Features.Pets.Commands.Add;
-using KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePhotos;
-using KindPaws.Volunteers.Application.Features.Pets.Commands.SetMainPhoto;
-using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditionalInfo;
-using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateMainInfo;
-using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePosition;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
+﻿using KindPaws.Volunteers.Application.Features.Pets.Commands.AddPet;
+using KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePetPhotos;
+using KindPaws.Volunteers.Application.Features.Pets.Commands.SetPetMainPhoto;
+using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetAdditionalInfo;
+using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetMainInfo;
+using KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetPosition;
+using KindPaws.Volunteers.Application.Features.Volunteers.Commands.CreateVolunteer;
+using KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfoVolunteer;
 using KindPaws.Volunteers.Contracts.Requests;
 
 namespace KindPaws.Volunteers.Presentation.Mappers;

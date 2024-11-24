@@ -11,7 +11,7 @@ using KindPaws.Species.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Species.Application.Features.Species.Commands.SoftDelete;
+namespace KindPaws.Species.Application.Features.Species.Commands.SoftDeleteSpecie;
 
 public class SoftDeleteSpecieHandler : ICommandHandler<Guid, SoftDeleteSpecieCommand>
 {

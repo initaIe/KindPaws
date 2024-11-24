@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Species.Application.Features.Species.Commands.SoftDelete;
+namespace KindPaws.Species.Application.Features.Species.Commands.SoftDeleteSpecie;
 
 public record SoftDeleteSpecieCommand(Guid SpecieId) : ICommand
 {

@@ -13,7 +13,7 @@ using KindPaws.Volunteers.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.Add;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPet;
 
 public class AddPetHandler
     : ICommandHandler<Guid, AddPetCommand>

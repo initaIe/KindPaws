@@ -6,4 +6,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Login\" />
+      <Folder Include="Features\RefreshTokens\" />
+      <Folder Include="Features\Register\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Accounts\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

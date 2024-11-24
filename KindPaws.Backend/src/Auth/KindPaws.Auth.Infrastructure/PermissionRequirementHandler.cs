@@ -1,7 +1,4 @@
-﻿using KindPaws.Accounts.Contracts;
-using KindPaws.Framework.Authorization;
-using KindPaws.Permissions.Contracts;
-using KindPaws.Roles.Contracts;
+﻿using KindPaws.Framework.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,27 +17,21 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         AuthorizationHandlerContext context,
         PermissionAttribute permission)
     {
-        await using var scope = _serviceScopeFactory.CreateAsyncScope();
-        var accountsContract = scope.ServiceProvider.GetRequiredService<IAccountsContract>();
-        var rolesContract = scope.ServiceProvider.GetRequiredService<IRolesContract>();
-        var permissionsContract = scope.ServiceProvider.GetRequiredService<IPermissionsContract>();
-        
         var userIdString = context.User.Claims.FirstOrDefault(c => c.Type == CustomClaims.Sub)?.Value;
-
         if (!Guid.TryParse(userIdString, out var userId))
         {
             context.Fail();
             return;
         }
 
-        // var isUserHavePermission = await permissionManager.HasUserPermission(userId, permission.Code);
-        //
-        // if (isUserHavePermission)
-        // {
-        //     context.Succeed(permission);
-        //     return;
-        // }
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var service = scope.ServiceProvider.GetRequiredService<PermissionRequirementService>();
 
-        context.Fail();
+        var isAccountHasRequiredPermission = await service.HasRequiredPermission(userId, permission.Code);
+
+        if (!isAccountHasRequiredPermission)
+            context.Fail(new AuthorizationFailureReason(this, "Has no permission."));
+
+        context.Succeed(permission);
     }
 }

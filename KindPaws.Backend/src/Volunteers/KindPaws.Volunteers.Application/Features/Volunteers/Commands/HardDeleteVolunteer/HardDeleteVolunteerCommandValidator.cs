@@ -2,7 +2,7 @@
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.HardDelete;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.HardDeleteVolunteer;
 
 public class HardDeleteVolunteerCommandValidator : AbstractValidator<HardDeleteVolunteerCommand>
 {

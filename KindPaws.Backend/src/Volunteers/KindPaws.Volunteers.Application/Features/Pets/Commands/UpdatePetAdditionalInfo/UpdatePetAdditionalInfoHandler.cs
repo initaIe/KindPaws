@@ -14,7 +14,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateAdditionalInfo;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetAdditionalInfo;
 
 public class UpdatePetAdditionalInfoHandler
     : ICommandHandler<Guid, UpdatePetAdditionalInfoCommand>

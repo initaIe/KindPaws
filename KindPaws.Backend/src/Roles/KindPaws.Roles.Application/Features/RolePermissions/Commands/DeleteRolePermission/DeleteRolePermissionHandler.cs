@@ -10,7 +10,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Roles.Application.Features.RolePermissions.Commands.Delete;
+namespace KindPaws.Roles.Application.Features.RolePermissions.Commands.DeleteRolePermission;
 
 public class DeleteRolePermissionHandler : ICommandHandler<Guid, DeleteRolePermissionCommand>
 {

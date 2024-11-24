@@ -2,7 +2,7 @@
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Species.Application.Features.Species.Commands.HardDelete;
+namespace KindPaws.Species.Application.Features.Species.Commands.HardDeleteSpecie;
 
 public class HardDeleteSpecieCommandValidator : AbstractValidator<HardDeleteSpecieCommand>
 {

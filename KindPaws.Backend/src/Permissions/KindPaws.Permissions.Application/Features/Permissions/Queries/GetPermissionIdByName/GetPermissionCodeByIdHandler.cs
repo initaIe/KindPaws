@@ -6,7 +6,7 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Permissions.Application.Features.Permissions.Queries.GetIdByName;
+namespace KindPaws.Permissions.Application.Features.Permissions.Queries.GetPermissionIdByName;
 
 public class GetPermissionCodeByIdHandler : IQueryHandler<Result<Guid, ErrorList>, GetPermissionIdByCodeQuery>
 {

@@ -1,8 +1,8 @@
 ﻿using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Application.Abstractions;
-using KindPaws.Permissions.Application.Features.Permissions.Commands.Create;
-using KindPaws.Permissions.Application.Features.Permissions.Commands.Delete;
-using KindPaws.Permissions.Application.Features.Permissions.Queries.GetIdByName;
+using KindPaws.Permissions.Application.Features.Permissions.Commands.CreatePermission;
+using KindPaws.Permissions.Application.Features.Permissions.Commands.DeletePermission;
+using KindPaws.Permissions.Application.Features.Permissions.Queries.GetPermissionIdByName;
 using KindPaws.Permissions.Contracts;
 using KindPaws.Permissions.Contracts.Requests;
 using KindPaws.Permissions.Presentation.Mappers;
@@ -47,7 +47,7 @@ public class PermissionsContract : IPermissionsContract
         return await _deletePermissionHandler.HandleAsync(command, cancellationToken);
     }
 
-    public async Task<bool> IsPermissionByIdExistAsync(
+    public async Task<bool> IsPermissionByIdExistsAsync(
         Guid permissionId,
         CancellationToken cancellationToken = default)
     {

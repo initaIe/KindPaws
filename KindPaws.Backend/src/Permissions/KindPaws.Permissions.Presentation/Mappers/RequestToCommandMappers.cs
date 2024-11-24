@@ -1,4 +1,4 @@
-﻿using KindPaws.Permissions.Application.Features.Permissions.Commands.Create;
+﻿using KindPaws.Permissions.Application.Features.Permissions.Commands.CreatePermission;
 using KindPaws.Permissions.Contracts.Requests;
 
 namespace KindPaws.Permissions.Presentation.Mappers;

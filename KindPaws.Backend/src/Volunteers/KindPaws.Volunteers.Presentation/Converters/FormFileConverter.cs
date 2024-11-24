@@ -13,7 +13,7 @@ public class FormFileConverter : IAsyncDisposable
         foreach (var uploadFileDTO in _uploadFileDtos) await uploadFileDTO.Stream.DisposeAsync();
     }
 
-    public List<UploadFileDto> Process(IFormFileCollection files)
+    public IReadOnlyList<UploadFileDto> Process(IFormFileCollection files)
     {
         foreach (var file in files)
         {

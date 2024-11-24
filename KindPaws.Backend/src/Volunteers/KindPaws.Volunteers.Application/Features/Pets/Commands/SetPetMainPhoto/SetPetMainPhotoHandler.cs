@@ -13,7 +13,7 @@ using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.SetMainPhoto;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.SetPetMainPhoto;
 
 public class SetPetMainPhotoHandler
     : ICommandHandler<Guid, SetPetMainPhotoCommand>

@@ -2,7 +2,7 @@
 using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
-namespace KindPaws.Species.Application.Features.Breeds.Commands.HardDelete;
+namespace KindPaws.Species.Application.Features.Breeds.Commands.HardDeleteBreed;
 
 public class HardDeleteBreedCommandValidator : AbstractValidator<HardDeleteBreedCommand>
 {

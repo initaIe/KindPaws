@@ -22,6 +22,6 @@ public static class ToDtoMappers
             Link = socialNetwork.Link
         };
 
-    public static IEnumerable<SocialNetworkDto> ToDtoCollection(this IEnumerable<SocialNetwork> socialNetworks)
-        => socialNetworks.Select(ToDto);
+    public static IReadOnlyList<SocialNetworkDto> ToDtoCollection(this IEnumerable<SocialNetwork> socialNetworks)
+        => socialNetworks.Select(ToDto).ToList();
 }

@@ -3,7 +3,7 @@ using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdateMainInfo;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetMainInfo;
 
 public class UpdatePetMainInfoCommandValidator : AbstractValidator<UpdatePetMainInfoCommand>
 {

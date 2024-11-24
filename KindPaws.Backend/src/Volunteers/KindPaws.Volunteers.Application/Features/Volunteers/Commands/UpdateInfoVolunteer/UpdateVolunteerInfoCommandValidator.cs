@@ -3,7 +3,7 @@ using KindPaws.Core.Validation;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfoVolunteer;
 
 public class UpdateVolunteerInfoCommandValidator : AbstractValidator<UpdateVolunteerInfoCommand>
 {

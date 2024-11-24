@@ -9,13 +9,13 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Volunteers.Application.Features.Volunteers.Commands.Create;
+using KindPaws.Volunteers.Application.Features.Volunteers.Commands.CreateVolunteer;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfoVolunteer;
 
 public class UpdateVolunteerInfoHandler
     : ICommandHandler<Guid, UpdateVolunteerInfoCommand>

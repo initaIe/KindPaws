@@ -6,7 +6,7 @@ using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfo;
+namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.UpdateInfoVolunteer;
 
 public class UpdateVolunteerInfoEntitiesExistenceValidator
     : IEntitiesExistenceValidator<UpdateVolunteerInfoExistenceValidationData>

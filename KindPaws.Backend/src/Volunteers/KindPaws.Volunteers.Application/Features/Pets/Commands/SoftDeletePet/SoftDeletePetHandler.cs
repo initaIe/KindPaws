@@ -11,7 +11,7 @@ using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KindPaws.Volunteers.Application.Features.Pets.Commands.SoftDelete;
+namespace KindPaws.Volunteers.Application.Features.Pets.Commands.SoftDeletePet;
 
 public class SoftDeletePetHandler
     : ICommandHandler<Guid, SoftDeletePetCommand>
