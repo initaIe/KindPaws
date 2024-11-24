@@ -8,10 +8,14 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Roles.Infrastructure.DbContexts;
 
-public class RolesReadDbContext(IOptions<PostgresOptions> postgresOptions)
-    : DbContext, IRolesReadDbContext
+public class RolesReadDbContext : DbContext, IRolesReadDbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public RolesReadDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public IQueryable<RoleDto> Roles => Set<RoleDto>();
     public IQueryable<RolePermissionDto> RolePermissions => Set<RolePermissionDto>();

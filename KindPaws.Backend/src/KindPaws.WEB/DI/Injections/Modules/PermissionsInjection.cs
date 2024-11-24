@@ -8,9 +8,11 @@ public static class PermissionsInjection
     /// <summary>
     /// Добавление модуля Permissions (Infrastructure and Presentation layers).
     /// </summary>
-    public static IServiceCollection AddPermissionsModule(this IServiceCollection services)
+    public static IServiceCollection AddPermissionsModule(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddPermissionsInfrastructure();
+        services.AddPermissionsInfrastructure(configuration);
         services.AddPermissionsPresentation();
 
         return services;

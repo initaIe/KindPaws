@@ -1,0 +1,31 @@
+{
+  "Administrator": [
+    "add.breed",
+    "get.breed",
+    "update.breed",
+    "hard.delete.breed",
+    "soft.delete.breed",
+    "create.specie",
+    "get.specie",
+    "update.specie",
+    "hard.delete.specie",
+    "soft.delete.specie",
+    "add.pet",
+    "get.pet",
+    "update.pet",
+    "hard.delete.pet",
+    "soft.delete.pet",
+    "create.volunteer",
+    "get.volunteer",
+    "update.volunteer",
+    "hard.delete.volunteer",
+    "soft.delete.volunteer",
+    "add.pet.photo",
+    "delete.pet.photo",
+    "set.pet.main.photo",
+    "update.pet.position"
+  ],
+  "Moderator": [],
+  "Volunteer": [],
+  "Member": []
+}

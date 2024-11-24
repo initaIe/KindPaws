@@ -8,10 +8,14 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Permissions.Infrastructure.DbContexts;
 
-public class PermissionsReadDbContext(IOptions<PostgresOptions> postgresOptions)
-    : DbContext, IPermissionsReadDbContext
+public class PermissionsReadDbContext : DbContext, IPermissionsReadDbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public PermissionsReadDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public IQueryable<PermissionDto> Permissions => Set<PermissionDto>();
 

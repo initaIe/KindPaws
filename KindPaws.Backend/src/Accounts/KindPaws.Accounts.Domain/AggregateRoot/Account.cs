@@ -97,6 +97,11 @@ public sealed class Account : IEntity<AccountId>
     {
         _accountRoles.Add(accountRole);
     }
+    
+    public void AddAccountRoles(IEnumerable<AccountRole> accountRoles)
+    {
+        _accountRoles.AddRange(accountRoles);
+    }
 
     public void AddRefreshSession(RefreshSession refreshSession)
     {

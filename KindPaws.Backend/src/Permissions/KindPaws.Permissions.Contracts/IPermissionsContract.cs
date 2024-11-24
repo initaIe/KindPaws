@@ -17,4 +17,8 @@ public interface IPermissionsContract
     Task<bool> IsPermissionByIdExistAsync(
         Guid permissionId,
         CancellationToken cancellationToken = default);
+    
+    Task<Result<Guid, ErrorList>> GetPermissionIdByCodeAsync(
+        string permissionCode,
+        CancellationToken cancellationToken = default);
 }

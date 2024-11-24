@@ -11,8 +11,7 @@ public static class OptionsInjection
         IConfiguration configuration)
     {
         return services
-            .Configure<JwtBearerOptions>(configuration.GetRequiredSection(JwtBearerOptions.SectionName))
-            .Configure<AccountsSeedingOptions>(configuration.GetRequiredSection(AccountsSeedingOptions.SectionName))
-            .Configure<RefreshSessionOptions>(configuration.GetRequiredSection(RefreshSessionOptions.SectionName));
+            .Configure<RefreshSessionOptions>(configuration.GetRequiredSection(RefreshSessionOptions.SectionName))
+            .Configure<AccountsSeederOptions>(configuration.GetRequiredSection(AccountsSeederOptions.SectionName));
     }
 }

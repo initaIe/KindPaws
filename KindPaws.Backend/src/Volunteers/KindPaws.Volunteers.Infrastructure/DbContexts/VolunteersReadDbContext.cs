@@ -8,16 +8,22 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Volunteers.Infrastructure.DbContexts;
 
-public class VolunteersReadDbContext(IOptions<PostgresOptions> postgresOptions)
-    : DbContext, IVolunteersReadDbContext
+public class VolunteersReadDbContext : DbContext, IVolunteersReadDbContext
 {
+    private readonly PostgresOptions _postgresOptions;
+
+    public VolunteersReadDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
+    
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
     public IQueryable<PetDto> Pets => Set<PetDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseNpgsql(postgresOptions.Value.ConnectionString)
+            .UseNpgsql(_postgresOptions.ConnectionString)
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(LoggerFactories.CreateConsole())
             .EnableSensitiveDataLogging()

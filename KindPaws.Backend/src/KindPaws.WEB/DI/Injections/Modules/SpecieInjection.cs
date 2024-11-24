@@ -8,7 +8,9 @@ public static class SpecieInjection
     /// <summary>
     /// Добавление модуля Species (Infrastructure and Presentation layers).
     /// </summary>
-    public static IServiceCollection AddSpeciesModule(this IServiceCollection services)
+    public static IServiceCollection AddSpeciesModule(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddSpeciesInfrastructure();
         services.AddSpeciesPresentation();

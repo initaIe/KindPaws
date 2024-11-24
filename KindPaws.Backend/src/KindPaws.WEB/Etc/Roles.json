@@ -1,18 +1,6 @@
 [
-  {
-    "Id": 1,
-    "Name": "Administrator"
-  },
-  {
-    "Id": 2,
-    "Name": "Moderator"
-  },
-  {
-    "Id": 3,
-    "Name": "Volunteer"
-  },
-  {
-    "Id": 4,
-    "Name": "Member"
-  }
+  "Administrator",
+  "Moderator",
+  "Volunteer",
+  "Member"
 ]

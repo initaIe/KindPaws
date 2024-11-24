@@ -7,9 +7,14 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Roles.Infrastructure.DbContexts;
 
-public class RolesWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
+public class RolesWriteDbContext : DbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public RolesWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public DbSet<Role> Roles => Set<Role>();
 

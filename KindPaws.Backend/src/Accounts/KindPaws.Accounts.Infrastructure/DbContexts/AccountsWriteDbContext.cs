@@ -7,9 +7,14 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
-public class AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
+public class AccountsWriteDbContext : DbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public AccountsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public DbSet<Account> Accounts => Set<Account>();
 

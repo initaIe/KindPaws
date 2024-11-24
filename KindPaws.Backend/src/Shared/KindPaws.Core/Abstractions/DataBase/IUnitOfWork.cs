@@ -1,10 +1,11 @@
 ﻿using System.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace KindPaws.Core.Abstractions.DataBase;
 
 public interface IUnitOfWork
 {
-    Task<IDbTransaction> BeginTransactionAsync(
+    Task<IDbContextTransaction> BeginTransactionAsync(
         IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
         CancellationToken cancellationToken = default);
 

@@ -1,5 +1,5 @@
 ﻿using KindPaws.Accounts.Infrastructure.DI.Injections;
-using KindPaws.Accounts.Infrastructure.DI.Injections.Auth;
+using KindPaws.Accounts.Infrastructure.DI.Injections.Seeding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,9 +14,8 @@ public static class DependencyInjection
         services
             .AddDataBase()
             .AddProviders()
-            .AddOptions(configuration)
-            .AddCustomAuthentication(configuration)
-            .AddCustomAuthorization();
+            .AddSeeding()
+            .AddOptions(configuration);
 
         return services;
     }

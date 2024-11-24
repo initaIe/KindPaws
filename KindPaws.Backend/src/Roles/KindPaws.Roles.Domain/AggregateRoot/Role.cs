@@ -76,4 +76,9 @@ public sealed class Role : IEntity<RoleId>
     {
         _rolePermissions.Add(rolePermission);
     }
+    
+    public void AddRolePermissions(IEnumerable<RolePermission> rolePermissions)
+    {
+        _rolePermissions.AddRange(rolePermissions);
+    }
 }

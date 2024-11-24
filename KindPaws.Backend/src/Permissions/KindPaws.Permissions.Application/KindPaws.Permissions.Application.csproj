@@ -14,4 +14,8 @@
       <ProjectReference Include="..\KindPaws.Permissions.Domain\KindPaws.Permissions.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Permissions\Commands\" />
+    </ItemGroup>
+
 </Project>

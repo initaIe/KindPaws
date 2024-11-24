@@ -7,16 +7,21 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Volunteers.Infrastructure.DbContexts;
 
-public class VolunteersWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
+public class VolunteersWriteDbContext: DbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public VolunteersWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseNpgsql(postgresOptions.Value.ConnectionString)
+            .UseNpgsql(_postgresOptions.ConnectionString)
             .UseSnakeCaseNamingConvention()
             .UseLoggerFactory(LoggerFactories.CreateConsole())
             .EnableSensitiveDataLogging()

@@ -7,9 +7,14 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Permissions.Infrastructure.DbContexts;
 
-public class PermissionsWriteDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext
+public class PermissionsWriteDbContext : DbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public PermissionsWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public DbSet<Permission> Permissions => Set<Permission>();
 

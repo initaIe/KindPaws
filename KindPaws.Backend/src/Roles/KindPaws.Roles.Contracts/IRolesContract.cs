@@ -17,4 +17,8 @@ public interface IRolesContract
     Task<bool> IsRoleByIdExistAsync(
         Guid roleId,
         CancellationToken cancellationToken = default);
+
+    Task<Result<Guid, ErrorList>> GetRoleIdByNameAsync(
+        string roleName,
+        CancellationToken cancellationToken = default);
 }

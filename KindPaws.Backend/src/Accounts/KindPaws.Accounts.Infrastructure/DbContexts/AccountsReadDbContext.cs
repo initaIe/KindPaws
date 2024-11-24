@@ -8,10 +8,14 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Accounts.Infrastructure.DbContexts;
 
-public class AccountsReadDbContext(IOptions<PostgresOptions> postgresOptions)
-    : DbContext, IAccountsReadDbContext
+public class AccountsReadDbContext : DbContext, IAccountsReadDbContext
 {
-    private readonly PostgresOptions _postgresOptions = postgresOptions.Value;
+    private readonly PostgresOptions _postgresOptions;
+
+    public AccountsReadDbContext(IOptions<PostgresOptions> postgresOptions)
+    {
+        _postgresOptions = postgresOptions.Value;
+    }
 
     public IQueryable<AccountDto> Accounts => Set<AccountDto>();
     public IQueryable<RefreshSessionDto> RefreshSessions => Set<RefreshSessionDto>();

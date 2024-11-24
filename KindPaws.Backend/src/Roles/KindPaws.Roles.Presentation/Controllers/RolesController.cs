@@ -1,8 +1,8 @@
 ﻿using KindPaws.Framework;
-using KindPaws.Roles.Application.Features.RolePermissions.Add;
-using KindPaws.Roles.Application.Features.RolePermissions.Delete;
-using KindPaws.Roles.Application.Features.Roles.Create;
-using KindPaws.Roles.Application.Features.Roles.Delete;
+using KindPaws.Roles.Application.Features.RolePermissions.Commands.Add;
+using KindPaws.Roles.Application.Features.RolePermissions.Commands.Delete;
+using KindPaws.Roles.Application.Features.Roles.Commands.Create;
+using KindPaws.Roles.Application.Features.Roles.Commands.Delete;
 using KindPaws.Roles.Contracts.Requests;
 using KindPaws.Roles.Presentation.Mappers;
 using Microsoft.AspNetCore.Mvc;

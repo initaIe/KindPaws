@@ -8,9 +8,11 @@ public static class RolesInjection
     /// <summary>
     /// Добавление модуля Roles (Infrastructure and Presentation layers).
     /// </summary>
-    public static IServiceCollection AddRolesModule(this IServiceCollection services)
+    public static IServiceCollection AddRolesModule(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddRolesInfrastructure();
+        services.AddRolesInfrastructure(configuration);
         services.AddRolesPresentation();
 
         return services;

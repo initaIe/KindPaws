@@ -17,9 +17,9 @@ public static class DependencyInjection
         services.AddRepositories();
         services.AddApplications();
 
-        services.AddSpeciesModule();
-        services.AddRolesModule();
-        services.AddPermissionsModule();
+        services.AddSpeciesModule(configuration);
+        services.AddRolesModule(configuration);
+        services.AddPermissionsModule(configuration);
         services.AddVolunteersModule(configuration);
         services.AddAccountsModule(configuration);
 

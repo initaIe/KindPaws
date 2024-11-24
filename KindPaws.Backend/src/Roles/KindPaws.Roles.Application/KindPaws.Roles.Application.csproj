@@ -15,4 +15,11 @@
       <ProjectReference Include="..\KindPaws.Roles.Domain\KindPaws.Roles.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\RolePermissions\Commands\" />
+      <Folder Include="Features\RolePermissions\Queries\" />
+      <Folder Include="Features\Roles\Commands\" />
+      <Folder Include="Features\Roles\Queries\" />
+    </ItemGroup>
+
 </Project>
