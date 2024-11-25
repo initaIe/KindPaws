@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddPermissionsModule(configuration);
         services.AddVolunteersModule(configuration);
         services.AddAccountsModule(configuration);
+        services.AddAuthModule(configuration);
 
         services.AddSerilogLogger(configuration);
         services.AddOptions(configuration);

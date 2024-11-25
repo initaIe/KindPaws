@@ -15,7 +15,7 @@ public record Jti
 
     public static Jti CreateRandom()
     {
-        return new Jti(Guid.Empty);
+        return new Jti(Guid.NewGuid());
     }
 
     public static Result<Jti, Error> Create(Guid input)

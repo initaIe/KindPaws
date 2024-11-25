@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Login\" />
       <Folder Include="Features\RefreshTokens\" />
       <Folder Include="Features\Register\" />
     </ItemGroup>

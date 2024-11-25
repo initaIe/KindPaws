@@ -16,6 +16,7 @@ public static class RepositoriesInjection
             typeof(Accounts.Infrastructure.DI.DependencyInjection).Assembly,
             typeof(Roles.Infrastructure.DI.DependencyInjection).Assembly,
             typeof(Permissions.Infrastructure.DI.DependencyInjection).Assembly,
+            typeof(Auth.Infrastructure.DI.DependencyInjection).Assembly,
         };
 
         services.Scan(scan => scan.FromAssemblies(assemblies)

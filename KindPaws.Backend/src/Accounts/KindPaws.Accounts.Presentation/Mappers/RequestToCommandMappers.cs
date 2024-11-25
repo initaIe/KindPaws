@@ -10,9 +10,13 @@ public static class RequestToCommandMappers
     public static CreateAccountCommand ToCommand(this CreateAccountRequest request)
         => new(request.UserName, request.EmailAddress, request.Password);
 
-    public static AddRefreshSessionCommand ToCommand(this AddRefreshSessionRequest request, Guid accountId)
+    public static AddRefreshSessionCommand ToCommand(
+        this AddRefreshSessionRequest request,
+        Guid accountId)
         => new(accountId, request.Jti);
 
-    public static AddAccountRoleCommand ToCommand(this AddAccountRoleRequest request, Guid accountId)
+    public static AddAccountRoleCommand ToCommand(
+        this AddAccountRoleRequest request,
+        Guid accountId)
         => new(accountId, request.RoleId);
 }

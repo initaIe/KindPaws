@@ -9,7 +9,7 @@ public static class ProvidersInjection
     public static IServiceCollection AddProviders(this IServiceCollection services)
     {
         return services
-            .AddTransient<IPasswordHashProvider, PasswordHashProvider>()
+            .AddSingleton<IPasswordHashProvider, PasswordHashProvider>()
             .AddTransient<IRefreshSessionOptionsProvider, RefreshSessionOptionsProvider>();
     }
 }

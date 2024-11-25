@@ -32,7 +32,7 @@ public class AccountDtoConfiguration : IEntityTypeConfiguration<AccountDto>
             .HasColumnName("password_hash");
 
         // PHONE_NUMBER
-        builder.Property(a => a.PasswordHash)
+        builder.Property(a => a.PhoneNumber)
             .HasColumnName("phone_number");
 
         // FULL_NAME

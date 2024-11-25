@@ -62,6 +62,6 @@ public class AddRefreshSessionHandler : ICommandHandler<Guid, AddRefreshSessionC
         account.Value.AddRefreshSession(refreshSession);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return account.Value.Id.Value;
+        return refreshSession.RefreshToken.Value;
     }
 }

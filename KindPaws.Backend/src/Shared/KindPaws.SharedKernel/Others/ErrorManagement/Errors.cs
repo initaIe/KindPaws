@@ -65,7 +65,7 @@ public static class Errors
 
     // TODO: отдельные ошибки модулей вынести в модули,
     // убрать класс general т.к. тут в errors и так будут храниться general дефол пресет ошибки
-    public static class Accounts
+    public static class Auth
     {
         public static Error CredentialsAreInvalid()
         {

@@ -38,4 +38,16 @@ public interface IAccountsContract
     Task<IReadOnlyList<AccountRoleDto>> GetAccountRolesByIdAsync(
         Guid accountId,
         CancellationToken cancellationToken = default);
+    
+    Task<bool> IsAccountByEmailAddressExists(
+        string emailAddress,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<ErrorList>> ValidateAccountPasswordAsync(
+        ValidateAccountByEmailAddressRequest request,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<AccountDto, ErrorList>> GetAccountByEmailAddressHandler(
+        string emailAddress,
+        CancellationToken cancellationToken = default);
 }

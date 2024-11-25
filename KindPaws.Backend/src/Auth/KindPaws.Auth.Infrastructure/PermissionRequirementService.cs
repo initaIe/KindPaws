@@ -8,11 +8,8 @@ public class PermissionRequirementService
 {
     private readonly IAccountsContract _accountsContract;
     private readonly IRolesContract _rolesContract;
-
     private readonly IPermissionsContract _permissionsContract;
 
-    // все контракты
-    // метод для получения Task<bool> IsAccountHavePermission
     public PermissionRequirementService(
         IAccountsContract accountsContract,
         IRolesContract rolesContract,
@@ -41,7 +38,7 @@ public class PermissionRequirementService
         if (requiredPermissionId.IsFailure)
             throw new ApplicationException("Required permission is not found.");
         
-        var permissionIds = rolePermissions.Select(rp => rp.Id);
+        var permissionIds = rolePermissions.Select(rp => rp.PermissionId);
 
         return permissionIds.Contains(requiredPermissionId.Value);
     }

@@ -30,7 +30,10 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         var isAccountHasRequiredPermission = await service.HasRequiredPermission(userId, permission.Code);
 
         if (!isAccountHasRequiredPermission)
-            context.Fail(new AuthorizationFailureReason(this, "Has no permission."));
+        {
+            context.Fail(new AuthorizationFailureReason(this, "Have no permission."));
+            return;
+        }
 
         context.Succeed(permission);
     }
