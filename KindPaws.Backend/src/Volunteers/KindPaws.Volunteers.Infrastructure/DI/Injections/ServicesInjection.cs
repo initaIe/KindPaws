@@ -8,6 +8,8 @@ public static class ServicesInjection
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        return services.AddScoped<IFilesCleanerService, FilesCleanerService>();
+        return services
+            .AddScoped<IFilesCleanerService, FilesCleanerService>()
+            .AddScoped<ExpiredEntitiesCleanerService>();
     }
 }
