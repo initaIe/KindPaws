@@ -3,10 +3,10 @@ using KindPaws.Accounts.Application.Features.AccountRoles.Commands.AddAccountRol
 using KindPaws.Accounts.Application.Features.AccountRoles.Commands.DeleteAccountRole;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.DeleteAccount;
-using KindPaws.Accounts.Application.Features.Accounts.Queries.GetAccountByEmailAddress;
-using KindPaws.Accounts.Application.Features.Accounts.Queries.ValidateAccountPassword;
+using KindPaws.Accounts.Application.Features.Accounts.Queries.ValidateAccountByEmail;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefreshSession;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.DeleteRefreshSession;
+using KindPaws.Accounts.Application.Features.RefreshSessions.Queries.GetRefreshSessionByAccountId;
 using KindPaws.Accounts.Contracts;
 using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Accounts.Contracts.Requests;
@@ -27,8 +27,9 @@ public class AccountsContract : IAccountsContract
     private readonly ICommandHandler<Guid, DeleteAccountCommand> _deleteAccountHandler;
     private readonly ICommandHandler<Guid, AddAccountRoleCommand> _addAccountRoleHandler;
     private readonly ICommandHandler<Guid, DeleteAccountRoleCommand> _deleteAccountRoleHandler;
-    private readonly IQueryHandler<Result<ErrorList>, ValidateAccountPasswordQuery> _validateAccountPasswordHandler;
-    private readonly IQueryHandler<Result<AccountDto, ErrorList>, GetAccountByEmailAddressQuery> _getAccountByEmailAddressHandler;
+    private readonly IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> _validateAccountPasswordHandler;
+    private readonly IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery> 
+        _getRefreshSessionByAccountIdHandler;
 
     public AccountsContract(
         ICommandHandler<Guid, CreateAccountCommand> createAccountHandler,
@@ -38,8 +39,8 @@ public class AccountsContract : IAccountsContract
         ICommandHandler<Guid, AddAccountRoleCommand> addAccountRoleHandler,
         ICommandHandler<Guid, DeleteAccountRoleCommand> deleteAccountRoleHandler, 
         IAccountsReadDbContext dbContext,
-        IQueryHandler<Result<ErrorList>, ValidateAccountPasswordQuery> validateAccountPasswordHandler, 
-        IQueryHandler<Result<AccountDto, ErrorList>, GetAccountByEmailAddressQuery> getAccountByEmailAddressHandler)
+        IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> validateAccountPasswordHandler, 
+        IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery> getRefreshSessionByAccountIdHandler)
     {
         _createAccountHandler = createAccountHandler;
         _addRefreshSessionByIdHandler = addRefreshSessionByIdHandler;
@@ -49,7 +50,7 @@ public class AccountsContract : IAccountsContract
         _deleteAccountRoleHandler = deleteAccountRoleHandler;
         _dbContext = dbContext;
         _validateAccountPasswordHandler = validateAccountPasswordHandler;
-        _getAccountByEmailAddressHandler = getAccountByEmailAddressHandler;
+        _getRefreshSessionByAccountIdHandler = getRefreshSessionByAccountIdHandler;
     }
 
     public async Task<Result<Guid, ErrorList>> CreateAccountAsync(
@@ -122,7 +123,7 @@ public class AccountsContract : IAccountsContract
             cancellationToken);
     }
 
-    public async Task<Result<ErrorList>> ValidateAccountPasswordAsync(
+    public async Task<Result<Guid, ErrorList>> ValidateAccountByEmailAsync(
         ValidateAccountByEmailAddressRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -130,11 +131,11 @@ public class AccountsContract : IAccountsContract
         return await _validateAccountPasswordHandler.HandleAsync(query, cancellationToken);
     }
 
-    public async Task<Result<AccountDto, ErrorList>> GetAccountByEmailAddressHandler(
-        string emailAddress, 
+    public async Task<Result<RefreshSessionDto, ErrorList>> GetRefreshSessionByAccountId(
+        Guid accountId, 
         CancellationToken cancellationToken = default)
     {
-        var query = new GetAccountByEmailAddressQuery(emailAddress);
-        return await _getAccountByEmailAddressHandler.HandleAsync(query, cancellationToken);
+        var query = new GetRefreshSessionByAccountIdQuery(accountId);
+        return await _getRefreshSessionByAccountIdHandler.HandleAsync(query, cancellationToken);
     }
 }

@@ -6,15 +6,15 @@ namespace KindPaws.Accounts.Infrastructure.Providers;
 
 public class RefreshSessionOptionsProvider : IRefreshSessionOptionsProvider
 {
-    private readonly RefreshSessionOptions _options;
+    private readonly IOptionsMonitor<RefreshSessionOptions> _options;
 
-    public RefreshSessionOptionsProvider(IOptions<RefreshSessionOptions> options)
+    public RefreshSessionOptionsProvider(IOptionsMonitor<RefreshSessionOptions> options)
     {
-        _options = options.Value;
+        _options = options;
     }
 
     public int GetExpireInDays()
     {
-        return _options.ExpiresInDays;
+        return _options.CurrentValue.ExpiresInDays;
     }
 }

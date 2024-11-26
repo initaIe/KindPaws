@@ -6,7 +6,7 @@ using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Domain.AggregateRoot;
 
-public class Specie : IEntity<SpecieId>, ISoftDeletable
+public class Specie : ISoftDeletableEntity<SpecieId>
 {
     private readonly List<Breed> _breeds = [];
 

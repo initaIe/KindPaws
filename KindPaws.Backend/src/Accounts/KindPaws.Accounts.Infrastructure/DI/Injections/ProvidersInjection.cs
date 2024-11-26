@@ -10,6 +10,6 @@ public static class ProvidersInjection
     {
         return services
             .AddSingleton<IPasswordHashProvider, PasswordHashProvider>()
-            .AddTransient<IRefreshSessionOptionsProvider, RefreshSessionOptionsProvider>();
+            .AddSingleton<IRefreshSessionOptionsProvider, RefreshSessionOptionsProvider>();
     }
 }

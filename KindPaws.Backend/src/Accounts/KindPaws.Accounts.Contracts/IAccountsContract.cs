@@ -43,11 +43,11 @@ public interface IAccountsContract
         string emailAddress,
         CancellationToken cancellationToken = default);
 
-    Task<Result<ErrorList>> ValidateAccountPasswordAsync(
+    Task<Result<Guid, ErrorList>> ValidateAccountByEmailAsync(
         ValidateAccountByEmailAddressRequest request,
         CancellationToken cancellationToken = default);
 
-    Task<Result<AccountDto, ErrorList>> GetAccountByEmailAddressHandler(
-        string emailAddress,
+    Task<Result<RefreshSessionDto, ErrorList>> GetRefreshSessionByAccountId(
+        Guid accountId,
         CancellationToken cancellationToken = default);
 }

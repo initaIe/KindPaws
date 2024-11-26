@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Auth.Application.Models;
+﻿namespace KindPaws.Auth.Contracts.Responses;
 
 public record LoginResponse(
     string AccessToken,

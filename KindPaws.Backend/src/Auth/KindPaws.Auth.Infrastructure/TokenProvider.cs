@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using KindPaws.Auth.Application.Abstractions;
+using KindPaws.Auth.Application.Models;
 using KindPaws.Auth.Infrastructure.Factories;
 using KindPaws.Auth.Infrastructure.Options;
 using KindPaws.SharedKernel.Others;
@@ -14,7 +15,8 @@ namespace KindPaws.Auth.Infrastructure;
 public class TokenProvider : ITokenProvider
 {
     private readonly IOptionsMonitor<JwtBearerOptions> _jwtBearerOptions;
-
+    private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new();
+    
     public TokenProvider(IOptionsMonitor<JwtBearerOptions> options)
     {
         _jwtBearerOptions = options;
@@ -41,25 +43,41 @@ public class TokenProvider : ITokenProvider
             expires: expDateTime,
             signingCredentials: signingCredentials);
 
-        return new JwtSecurityTokenHandler().WriteToken(jwtToken);
+        return _jwtSecurityTokenHandler.WriteToken(jwtToken);
     }
     
-    public async Task<Result<IReadOnlyList<Claim>, Error>> GetUserClaimsAsync(
-        string jwtAccessToken,
-        CancellationToken cancellationToken = default)
+    public Result<AccessTokenParseResult, Error> ParseAccessToken(string token)
     {
-        var jwtHandler = new JwtSecurityTokenHandler();
+        var validationResult = _jwtSecurityTokenHandler.ReadJwtToken(
+            token);
 
+        var subClaim = validationResult.Claims.FirstOrDefault(
+            c => c.Type == CustomClaims.Sub)?.Value;
+        
+        if (!Guid.TryParse(subClaim, out var accountId))
+            return Errors.Auth.TokenIsInvalid();
+        
+        var jtiClaim = validationResult.Claims.FirstOrDefault(
+            c => c.Type == CustomClaims.Jti)?.Value;
+        
+        if (!Guid.TryParse(jtiClaim, out var jti))
+            return Errors.Auth.TokenIsInvalid();
+
+        return new AccessTokenParseResult(accountId, jti);
+    }
+    
+    public async Task<Result<Error>> ValidateAccessTokenAsync(string token)
+    {
         var tokenValidationParameters = TokenValidationParametersFactory
-            .CreateWithoutValidationLifeTime(_jwtBearerOptions.CurrentValue);
+            .Create(_jwtBearerOptions.CurrentValue);
 
-        var validationResult = await jwtHandler.ValidateTokenAsync(
-            jwtAccessToken,
+        var validationResult = await _jwtSecurityTokenHandler.ValidateTokenAsync(
+            token,
             tokenValidationParameters);
 
         if (!validationResult.IsValid)
             return Errors.Auth.TokenIsInvalid();
 
-        return validationResult.ClaimsIdentity.Claims.ToList();
+        return true;
     }
 }

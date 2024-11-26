@@ -6,15 +6,15 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Accounts.Application.Features.Accounts.Queries.ValidateAccountPassword;
+namespace KindPaws.Accounts.Application.Features.Accounts.Queries.ValidateAccountByEmail;
 
-public class ValidateAccountPasswordHandler
-    : IQueryHandler<Result<ErrorList>, ValidateAccountPasswordQuery>
+public class ValidateAccountByEmailHandler
+    : IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery>
 {
     private readonly IAccountsReadDbContext _dbContext;
     private readonly IPasswordHashProvider _passwordHashProvider;
 
-    public ValidateAccountPasswordHandler(
+    public ValidateAccountByEmailHandler(
         IAccountsReadDbContext dbContext,
         IPasswordHashProvider passwordHashProvider)
     {
@@ -22,30 +22,26 @@ public class ValidateAccountPasswordHandler
         _passwordHashProvider = passwordHashProvider;
     }
 
-    public async Task<Result<ErrorList>> HandleAsync(
-        ValidateAccountPasswordQuery query,
+    public async Task<Result<Guid, ErrorList>> HandleAsync(
+        ValidateAccountByQuery query,
         CancellationToken cancellationToken = default)
     {
-        var isAccountExist = await _dbContext.Accounts.AnyAsync(
+        var account = await _dbContext.Accounts.FirstOrDefaultAsync(
             a => a.EmailAddress == query.EmailAddress,
             cancellationToken);
 
-        if (!isAccountExist)
+        if (account == null)
             return Errors.General.RecordNotFound(
                     nameof(Account),
                     nameof(AccountId),
                     query.EmailAddress)
                 .ToErrorList();
 
-        var account = await _dbContext.Accounts.FirstOrDefaultAsync(
-            a => a.EmailAddress == query.EmailAddress,
-            cancellationToken);
-
         var isPasswordValid = _passwordHashProvider.ValidateHash(account!.PasswordHash, query.Password);
         
         if (!isPasswordValid)
-            return Errors.General.ValueIsInvalid().ToErrorList(); // TODO: добавить ошибки для аккаунту
+            return Errors.General.ValueIsInvalid("Password").ToErrorList();
 
-        return true;
+        return account.Id;
     }
 }

@@ -15,7 +15,6 @@
 
     <ItemGroup>
       <Folder Include="Features\AccountRoles\Queries\" />
-      <Folder Include="Features\RefreshSessions\Queries\" />
     </ItemGroup>
 
 </Project>

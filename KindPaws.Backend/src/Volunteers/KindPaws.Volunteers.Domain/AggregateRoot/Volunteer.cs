@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.AggregateRoot;
 
-public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
+public class Volunteer : ISoftDeletableEntity<VolunteerId>
 {
     private readonly List<Pet> _pets = [];
     private List<Requisite> _requisites;

@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.Entities;
 
-public class Pet : IEntity<PetId>, ISoftDeletable
+public class Pet : ISoftDeletableEntity<PetId>
 {
     private List<PetPhoto> _photos = [];
 

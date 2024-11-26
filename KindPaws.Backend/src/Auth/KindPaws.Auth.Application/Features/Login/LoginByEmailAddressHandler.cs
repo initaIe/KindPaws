@@ -2,6 +2,7 @@
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Models;
+using KindPaws.Auth.Contracts.Responses;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -26,15 +27,8 @@ public class LoginByEmailAddressHandler : ICommandHandler<LoginResponse, LoginBy
         LoginByEmailAddressCommand command,
         CancellationToken cancellationToken = default)
     {
-        var accountDto = await _accountsContract.GetAccountByEmailAddressHandler(
-            command.EmailAddress,
-            cancellationToken);
-
-        if (accountDto.IsFailure)
-            return Errors.Auth.CredentialsAreInvalid().ToErrorList();
-        
         var validateAccountPasswordRequest = new ValidateAccountByEmailAddressRequest(command.EmailAddress, command.Password);
-        var accountValidationResult = await _accountsContract.ValidateAccountPasswordAsync(
+        var accountValidationResult = await _accountsContract.ValidateAccountByEmailAsync(
             validateAccountPasswordRequest,
             cancellationToken);
 
@@ -45,14 +39,14 @@ public class LoginByEmailAddressHandler : ICommandHandler<LoginResponse, LoginBy
 
         var addRefreshSessionRequest = new AddRefreshSessionRequest(jti.Value);
         var addRefreshSessionResult = await _accountsContract.AddRefreshSessionAsync(
-            accountDto.Value.Id,
+            accountValidationResult.Value,
             addRefreshSessionRequest,
             cancellationToken);
 
         if (addRefreshSessionResult.IsFailure)
             return addRefreshSessionResult.Error;
 
-        var accessToken = _tokenProvider.GenerateAccessToken(accountDto.Value.Id, jti.Value);
+        var accessToken = _tokenProvider.GenerateAccessToken(accountValidationResult.Value, jti.Value);
 
         return new LoginResponse(accessToken, addRefreshSessionResult.Value);
     }
