@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
 
-namespace KindPaws.Auth.Application.Features.Register;
+namespace KindPaws.Auth.Application.Features.Commands.Register;
 
 public record RegisterCommand(
     string UserName,

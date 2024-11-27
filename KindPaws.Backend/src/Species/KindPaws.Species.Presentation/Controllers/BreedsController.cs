@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.Species.Presentation.Controllers;
 
-public class BreedController : ApplicationController
+public class BreedsController : ApplicationController
 {
     [Permission(Permissions.Breeds.GetBreed)]
     [HttpGet]

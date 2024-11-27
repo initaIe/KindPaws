@@ -1,14 +1,13 @@
 ﻿using KindPaws.Accounts.Contracts;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Auth.Application.Abstractions;
-using KindPaws.Auth.Application.Models;
 using KindPaws.Auth.Contracts.Responses;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
-namespace KindPaws.Auth.Application.Features.Login;
+namespace KindPaws.Auth.Application.Features.Commands.Login;
 
 public class LoginByEmailAddressHandler : ICommandHandler<LoginResponse, LoginByEmailAddressCommand>
 {

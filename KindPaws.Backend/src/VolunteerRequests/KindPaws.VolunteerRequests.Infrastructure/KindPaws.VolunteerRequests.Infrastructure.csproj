@@ -7,16 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Accounts\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
-      <ProjectReference Include="..\..\Roles\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
       <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
-      <ProjectReference Include="..\KindPaws.Auth.Contracts\KindPaws.Auth.Contracts.csproj" />
-      <ProjectReference Include="..\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
+      <ProjectReference Include="..\KindPaws.VolunteerRequests.Application\KindPaws.VolunteerRequests.Application.csproj" />
+      <ProjectReference Include="..\KindPaws.VolunteerRequests.Contracts\KindPaws.VolunteerRequests.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.VolunteerRequests.Domain\KindPaws.VolunteerRequests.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     </ItemGroup>
 
 </Project>

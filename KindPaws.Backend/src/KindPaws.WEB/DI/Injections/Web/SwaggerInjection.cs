@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace KindPaws.WEB.DI.Injections.Others;
+namespace KindPaws.WEB.DI.Injections.Web;
 
 public static class SwaggerInjection
 {

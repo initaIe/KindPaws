@@ -51,6 +51,11 @@
       <ProjectReference Include="..\Species\KindPaws.Species.Domain\KindPaws.Species.Domain.csproj" />
       <ProjectReference Include="..\Species\KindPaws.Species.Infrastructure\KindPaws.Species.Infrastructure.csproj" />
       <ProjectReference Include="..\Species\KindPaws.Species.Presentation\KindPaws.Species.Presentation.csproj" />
+      <ProjectReference Include="..\VolunteerRequests\KindPaws.VolunteerRequests.Application\KindPaws.VolunteerRequests.Application.csproj" />
+      <ProjectReference Include="..\VolunteerRequests\KindPaws.VolunteerRequests.Contracts\KindPaws.VolunteerRequests.Contracts.csproj" />
+      <ProjectReference Include="..\VolunteerRequests\KindPaws.VolunteerRequests.Domain\KindPaws.VolunteerRequests.Domain.csproj" />
+      <ProjectReference Include="..\VolunteerRequests\KindPaws.VolunteerRequests.Infrastructure\KindPaws.VolunteerRequests.Infrastructure.csproj" />
+      <ProjectReference Include="..\VolunteerRequests\KindPaws.VolunteerRequests.Presentation\KindPaws.VolunteerRequests.Presentation.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Application\KindPaws.Volunteers.Application.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Contracts\KindPaws.Volunteers.Contracts.csproj" />
       <ProjectReference Include="..\Volunteers\KindPaws.Volunteers.Domain\KindPaws.Volunteers.Domain.csproj" />

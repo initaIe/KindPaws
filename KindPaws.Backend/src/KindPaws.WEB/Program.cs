@@ -8,12 +8,6 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// lower case routing
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCustomSwaggerGen();
-
 // Adding all dependencies
 builder.Services.AddAllDependencies(builder.Configuration);
 

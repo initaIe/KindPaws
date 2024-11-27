@@ -1,6 +1,6 @@
-﻿using KindPaws.Auth.Application.Features.Login;
-using KindPaws.Auth.Application.Features.RefreshTokens;
-using KindPaws.Auth.Application.Features.Register;
+﻿using KindPaws.Auth.Application.Features.Commands.Login;
+using KindPaws.Auth.Application.Features.Commands.RefreshTokens;
+using KindPaws.Auth.Application.Features.Commands.Register;
 using KindPaws.Auth.Contracts.Requests;
 
 namespace KindPaws.Auth.Presentation.Mappers;

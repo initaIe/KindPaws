@@ -6,7 +6,7 @@ using KindPaws.Roles.Contracts;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 
-namespace KindPaws.Auth.Application.Features.Register;
+namespace KindPaws.Auth.Application.Features.Commands.Register;
 
 public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
 {

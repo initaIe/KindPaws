@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Events;
 
-namespace KindPaws.WEB.DI.Injections.Others;
+namespace KindPaws.WEB.DI.Injections.Web;
 
 public static class LoggersInjection
 {
