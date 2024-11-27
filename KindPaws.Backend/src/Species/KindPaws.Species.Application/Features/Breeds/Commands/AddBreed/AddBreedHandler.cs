@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -18,7 +17,6 @@ namespace KindPaws.Species.Application.Features.Breeds.Commands.AddBreed;
 public class AddBreedHandler
     : ICommandHandler<Guid, AddBreedCommand>
 {
-    private readonly IEntitiesExistenceValidator<AddBreedExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<AddBreedHandler> _logger;
     private readonly IRepository<Specie, SpecieId> _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -28,14 +26,12 @@ public class AddBreedHandler
         [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         ILogger<AddBreedHandler> logger,
         IRepository<Specie, SpecieId> speciesRepository,
-        IValidator<AddBreedCommand> validator,
-        IEntitiesExistenceValidator<AddBreedExistenceValidationData> entitiesExistenceValidator)
+        IValidator<AddBreedCommand> validator)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
         _speciesRepository = speciesRepository;
         _validator = validator;
-        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -45,12 +41,6 @@ public class AddBreedHandler
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
-
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);

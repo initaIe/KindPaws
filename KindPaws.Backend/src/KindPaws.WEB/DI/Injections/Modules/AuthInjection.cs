@@ -1,8 +1,5 @@
-﻿using KindPaws.Accounts.Infrastructure.DI;
-using KindPaws.Accounts.Presentation.DI;
-using KindPaws.Auth.Infrastructure.DI;
+﻿using KindPaws.Auth.Infrastructure.DI;
 using KindPaws.Auth.Presentation.DI;
-using KindPaws.Permissions.Presentation.DI;
 
 namespace KindPaws.WEB.DI.Injections.Modules;
 

@@ -4,5 +4,4 @@ namespace KindPaws.Auth.Presentation.Contract;
 
 public class AuthContract : IAuthContract
 {
-    
 }

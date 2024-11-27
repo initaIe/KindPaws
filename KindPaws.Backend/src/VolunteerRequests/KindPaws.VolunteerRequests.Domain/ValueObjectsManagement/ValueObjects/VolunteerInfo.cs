@@ -19,7 +19,7 @@ public record VolunteerInfo
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(VolunteerInfo));
-        
+
         if (!StringValidator.IsInRange(
                 input,
                 VolunteerInfoConstraints.MinLength,

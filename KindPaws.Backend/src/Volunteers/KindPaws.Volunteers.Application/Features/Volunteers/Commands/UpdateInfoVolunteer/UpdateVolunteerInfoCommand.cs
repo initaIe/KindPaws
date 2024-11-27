@@ -9,8 +9,4 @@ public record UpdateVolunteerInfoCommand(
     AddressDto? Address,
     int? YearsOfExperience,
     IEnumerable<RequisiteDto> Requisites)
-    : ICommand
-{
-    public UpdateVolunteerInfoExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId);
-}
+    : ICommand;

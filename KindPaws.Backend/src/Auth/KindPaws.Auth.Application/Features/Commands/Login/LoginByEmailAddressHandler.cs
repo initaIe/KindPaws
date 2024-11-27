@@ -15,7 +15,7 @@ public class LoginByEmailAddressHandler : ICommandHandler<LoginResponse, LoginBy
     private readonly ITokenProvider _tokenProvider;
 
     public LoginByEmailAddressHandler(
-        IAccountsContract accountsContract, 
+        IAccountsContract accountsContract,
         ITokenProvider tokenProvider)
     {
         _accountsContract = accountsContract;
@@ -26,7 +26,8 @@ public class LoginByEmailAddressHandler : ICommandHandler<LoginResponse, LoginBy
         LoginByEmailAddressCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validateAccountPasswordRequest = new ValidateAccountByEmailAddressRequest(command.EmailAddress, command.Password);
+        var validateAccountPasswordRequest =
+            new ValidateAccountByEmailAddressRequest(command.EmailAddress, command.Password);
         var accountValidationResult = await _accountsContract.ValidateAccountByEmailAsync(
             validateAccountPasswordRequest,
             cancellationToken);

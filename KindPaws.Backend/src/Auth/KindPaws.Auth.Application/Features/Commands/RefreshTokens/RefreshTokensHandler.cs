@@ -15,7 +15,7 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, Refre
     private readonly ITokenProvider _tokenProvider;
 
     public RefreshTokensHandler(
-        IAccountsContract accountsContract, 
+        IAccountsContract accountsContract,
         ITokenProvider tokenProvider)
     {
         _accountsContract = accountsContract;
@@ -27,12 +27,12 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, Refre
         CancellationToken cancellationToken = default)
     {
         var isAccessTokenValid = await _tokenProvider.ValidateAccessTokenAsync(command.AccessToken);
-        
+
         if (isAccessTokenValid.IsFailure)
             return isAccessTokenValid.Error.ToErrorList();
-        
+
         var tokenParseResult = _tokenProvider.ParseAccessToken(command.AccessToken);
-        
+
         if (tokenParseResult.IsFailure)
             return tokenParseResult.Error.ToErrorList();
 
@@ -42,15 +42,15 @@ public class RefreshTokensHandler : ICommandHandler<RefreshTokensResponse, Refre
 
         if (refreshSessionGetResult.IsFailure)
             return Errors.Auth.TokenIsInvalid().ToErrorList();
-        
+
         if (tokenParseResult.Value.Jti != refreshSessionGetResult.Value.Jti)
             return Errors.Auth.TokenIsInvalid().ToErrorList();
-           
+
         await _accountsContract.DeleteRefreshSessionAsync(
             refreshSessionGetResult.Value.AccountId,
             refreshSessionGetResult.Value.Id,
             cancellationToken);
-        
+
         var jti = Jti.CreateRandom();
 
         var addRefreshSessionRequest = new AddRefreshSessionRequest(jti.Value);

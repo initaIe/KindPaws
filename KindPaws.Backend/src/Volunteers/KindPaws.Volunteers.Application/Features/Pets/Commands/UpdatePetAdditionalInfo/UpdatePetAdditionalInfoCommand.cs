@@ -12,8 +12,4 @@ public record UpdatePetAdditionalInfoCommand(
     DateTime? Birthday,
     HealthDetailsDto? HealthDetails,
     BiometricDetailsDto? BiometricDetails)
-    : ICommand
-{
-    public UpdatePetAdditionalInfoExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, PetId);
-}
+    : ICommand;

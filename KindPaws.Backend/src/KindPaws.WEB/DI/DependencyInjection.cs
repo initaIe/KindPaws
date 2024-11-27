@@ -31,7 +31,7 @@ public static class DependencyInjection
 
         // Others
         services.AddOptions(configuration);
-        
+
         // Web
         services.AddWeb(configuration);
 

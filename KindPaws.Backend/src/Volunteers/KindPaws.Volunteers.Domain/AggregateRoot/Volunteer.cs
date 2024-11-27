@@ -273,9 +273,9 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
         return true;
     }
-    
+
     public void DeleteExpiredPets(int petLifeTimeAfterDeletionInDays)
     {
-        _pets.RemoveAll(p=>p.SoftDeletionTimestamp < DateTime.UtcNow.AddDays(-petLifeTimeAfterDeletionInDays));
+        _pets.RemoveAll(p => p.SoftDeletionTimestamp < DateTime.UtcNow.AddDays(-petLifeTimeAfterDeletionInDays));
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Accounts.Application.Features.RefreshSessions.Queries.GetRefreshSessionByAccountId;
 
-public class GetRefreshSessionByAccountIdHandler 
+public class GetRefreshSessionByAccountIdHandler
     : IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery>
 {
     private readonly IAccountsReadDbContext _dbContext;
@@ -20,18 +20,18 @@ public class GetRefreshSessionByAccountIdHandler
     }
 
     public async Task<Result<RefreshSessionDto, ErrorList>> HandleAsync(
-        GetRefreshSessionByAccountIdQuery query, 
+        GetRefreshSessionByAccountIdQuery query,
         CancellationToken cancellationToken = default)
     {
         var refreshSession = await _dbContext.RefreshSessions.FirstOrDefaultAsync(
-            rs=>rs.AccountId == query.AccountId, 
+            rs => rs.AccountId == query.AccountId,
             cancellationToken);
-        
+
         if (refreshSession == null)
             return Errors.General.RecordNotFound(
-                nameof(RefreshSession),
-                nameof(AccountId),
-                query.AccountId)
+                    nameof(RefreshSession),
+                    nameof(AccountId),
+                    query.AccountId)
                 .ToErrorList();
 
         return refreshSession;

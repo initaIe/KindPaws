@@ -1,6 +1,4 @@
-﻿using KindPaws.WEB.DI.Injections.Others;
-
-namespace KindPaws.WEB.DI.Injections.Web;
+﻿namespace KindPaws.WEB.DI.Injections.Web;
 
 public static class WebInjection
 {

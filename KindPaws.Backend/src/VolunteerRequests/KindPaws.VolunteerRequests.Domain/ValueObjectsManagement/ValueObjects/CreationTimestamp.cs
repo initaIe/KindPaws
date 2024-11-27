@@ -19,7 +19,7 @@ public record CreationTimestamp
     {
         if (input > DateTime.UtcNow)
             return Errors.General.ValueIsInvalid(nameof(CreationTimestamp));
-        
+
         return new CreationTimestamp(DateTime.UtcNow);
     }
 }

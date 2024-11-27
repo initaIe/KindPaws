@@ -12,7 +12,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
     {
         // TABLE NAMING
         builder.ToTable("volunteer_requests");
-        
+
         // ID
         builder.HasKey(vr => vr.Id);
         builder.Property(vr => vr.Id)
@@ -20,7 +20,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 id => id.Value,
                 value => VolunteerRequestId.Create(value).Value)
             .HasColumnName("id");
-        
+
         // REQUESTER ACCOUNT ID
         builder.Property(vr => vr.RequesterAccountId)
             .HasConversion(
@@ -28,7 +28,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => AccountId.Create(value).Value)
             .HasColumnName("requester_account_id")
             .IsRequired();
-        
+
         // ADMIN REVIEWER ACCOUNT ID
         builder.Property(vr => vr.AdminReviewerAccountId)
             .HasConversion(
@@ -36,7 +36,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => AccountId.Create(value).Value)
             .HasColumnName("admin_reviewer_account_id")
             .IsRequired(false);
-        
+
         // DISCUSSION ID
         builder.Property(vr => vr.DiscussionId)
             .HasConversion(
@@ -44,7 +44,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => DiscussionId.Create(value).Value)
             .HasColumnName("discussion_id")
             .IsRequired(false);
-        
+
         // VOLUNTEER INFO
         builder.Property(vr => vr.VolunteerInfo)
             .HasConversion(
@@ -52,7 +52,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => VolunteerInfo.Create(value).Value)
             .HasColumnName("volunteer_info")
             .IsRequired();
-        
+
         // REJECTION COMMENT
         builder.Property(vr => vr.RejectionComment)
             .HasConversion(
@@ -60,7 +60,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => RejectionComment.Create(value).Value)
             .HasColumnName("rejection_comment")
             .IsRequired(false);
-        
+
         // STATUS
         builder.Property(vr => vr.Status)
             .HasConversion(
@@ -68,7 +68,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => VolunteerRequestStatus.Create(value).Value)
             .HasColumnName("status")
             .IsRequired();
-        
+
         // CREATION TIMESTAMP
         builder.Property(vr => vr.CreationTimestamp)
             .HasConversion(

@@ -1,6 +1,4 @@
-﻿using KindPaws.Accounts.Infrastructure.DI;
-using KindPaws.Accounts.Presentation.DI;
-using KindPaws.VolunteerRequests.Infrastructure.DI;
+﻿using KindPaws.VolunteerRequests.Infrastructure.DI;
 using KindPaws.VolunteerRequests.Presentation.DI;
 
 namespace KindPaws.WEB.DI.Injections.Modules;

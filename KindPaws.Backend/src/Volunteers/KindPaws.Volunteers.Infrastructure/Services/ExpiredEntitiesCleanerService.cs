@@ -15,20 +15,20 @@ public class ExpiredEntitiesCleanerService
 
     public ExpiredEntitiesCleanerService(
         VolunteersWriteDbContext dbContext,
-        ILogger<ExpiredEntitiesCleanerService> logger, 
+        ILogger<ExpiredEntitiesCleanerService> logger,
         IOptions<ExpiredEntitiesCleanerServiceOptions> options)
     {
         _dbContext = dbContext;
         _logger = logger;
         _options = options.Value;
     }
-    
+
     public async Task ProcessAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("ExpiredEntitiesCleanerService starting finding expired entities in db.");
-        
+
         var volunteers = await GetVolunteersIncludePetsAsync(cancellationToken);
-        
+
         foreach (var volunteer in volunteers)
             volunteer.DeleteExpiredPets(_options.PetLifeTimeAfterDeletionInDays);
 
@@ -39,7 +39,7 @@ public class ExpiredEntitiesCleanerService
 
         _logger.LogInformation("ExpiredEntitiesCleanerService finished deleting expired entities files in db.");
     }
-    
+
     private async Task<List<Volunteer>> GetVolunteersIncludePetsAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.Volunteers
@@ -50,7 +50,7 @@ public class ExpiredEntitiesCleanerService
     private List<Volunteer> GetExpiredVolunteers(IEnumerable<Volunteer> volunteers)
     {
         return volunteers.Where(v =>
-            v.SoftDeletionTimestamp > DateTime.UtcNow.AddDays(-_options.VolunteerLifeTimeAfterDeletionInDays))
+                v.SoftDeletionTimestamp > DateTime.UtcNow.AddDays(-_options.VolunteerLifeTimeAfterDeletionInDays))
             .ToList();
     }
 }

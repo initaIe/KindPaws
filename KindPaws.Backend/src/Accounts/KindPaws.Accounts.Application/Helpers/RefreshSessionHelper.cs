@@ -1,5 +1,4 @@
 ﻿using KindPaws.Accounts.Domain.Entities;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Accounts.Application.Helpers;

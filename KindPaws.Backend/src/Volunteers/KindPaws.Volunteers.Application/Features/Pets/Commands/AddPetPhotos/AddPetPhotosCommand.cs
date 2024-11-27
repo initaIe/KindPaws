@@ -7,8 +7,4 @@ public record AddPetPhotosCommand(
     Guid VolunteerId,
     Guid PetId,
     IEnumerable<UploadFileDto> UploadFileDtos)
-    : ICommand
-{
-    public AddPetPhotosExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, PetId);
-}
+    : ICommand;

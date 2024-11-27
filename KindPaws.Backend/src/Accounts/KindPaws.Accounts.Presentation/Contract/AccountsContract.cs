@@ -28,7 +28,8 @@ public class AccountsContract : IAccountsContract
     private readonly ICommandHandler<Guid, AddAccountRoleCommand> _addAccountRoleHandler;
     private readonly ICommandHandler<Guid, DeleteAccountRoleCommand> _deleteAccountRoleHandler;
     private readonly IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> _validateAccountPasswordHandler;
-    private readonly IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery> 
+
+    private readonly IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery>
         _getRefreshSessionByAccountIdHandler;
 
     public AccountsContract(
@@ -37,10 +38,11 @@ public class AccountsContract : IAccountsContract
         ICommandHandler<Guid, DeleteRefreshSessionCommand> deleteRefreshSessionHandler,
         ICommandHandler<Guid, DeleteAccountCommand> deleteAccountHandler,
         ICommandHandler<Guid, AddAccountRoleCommand> addAccountRoleHandler,
-        ICommandHandler<Guid, DeleteAccountRoleCommand> deleteAccountRoleHandler, 
+        ICommandHandler<Guid, DeleteAccountRoleCommand> deleteAccountRoleHandler,
         IAccountsReadDbContext dbContext,
-        IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> validateAccountPasswordHandler, 
-        IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery> getRefreshSessionByAccountIdHandler)
+        IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> validateAccountPasswordHandler,
+        IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery>
+            getRefreshSessionByAccountIdHandler)
     {
         _createAccountHandler = createAccountHandler;
         _addRefreshSessionByIdHandler = addRefreshSessionByIdHandler;
@@ -115,11 +117,11 @@ public class AccountsContract : IAccountsContract
     }
 
     public async Task<bool> IsAccountByEmailAddressExists(
-        string emailAddress, 
+        string emailAddress,
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.Accounts.AnyAsync(
-            a => a.EmailAddress == emailAddress, 
+            a => a.EmailAddress == emailAddress,
             cancellationToken);
     }
 
@@ -132,7 +134,7 @@ public class AccountsContract : IAccountsContract
     }
 
     public async Task<Result<RefreshSessionDto, ErrorList>> GetRefreshSessionByAccountId(
-        Guid accountId, 
+        Guid accountId,
         CancellationToken cancellationToken = default)
     {
         var query = new GetRefreshSessionByAccountIdQuery(accountId);

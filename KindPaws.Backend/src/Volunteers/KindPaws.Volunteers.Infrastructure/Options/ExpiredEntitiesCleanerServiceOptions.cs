@@ -7,6 +7,6 @@ public class ExpiredEntitiesCleanerServiceOptions
     /// </summary>
     public const string SectionName = nameof(ExpiredEntitiesCleanerServiceOptions);
 
-    public int VolunteerLifeTimeAfterDeletionInDays { get; init; } 
-    public int PetLifeTimeAfterDeletionInDays { get; init; } 
+    public int VolunteerLifeTimeAfterDeletionInDays { get; init; }
+    public int PetLifeTimeAfterDeletionInDays { get; init; }
 }

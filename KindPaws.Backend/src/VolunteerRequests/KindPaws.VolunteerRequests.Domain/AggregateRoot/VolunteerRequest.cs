@@ -12,7 +12,7 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
     }
 
     private VolunteerRequest(
-        VolunteerRequestId id, 
+        VolunteerRequestId id,
         AccountId requesterAccountId,
         VolunteerInfo volunteerInfo)
     {
@@ -34,18 +34,18 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
     {
         AdminReviewerAccountId = adminReviewerAccountId;
     }
-    
+
     public void SendOnRevision(RejectionComment rejectionComment)
     {
         Status = VolunteerRequestStatus.RevisionRequired;
         RejectionComment = rejectionComment;
     }
-    
+
     public void Approve()
     {
         Status = VolunteerRequestStatus.Approved;
     }
-    
+
     public void Reject()
     {
         Status = VolunteerRequestStatus.Rejected;

@@ -15,8 +15,8 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
     private readonly IRolesContract _rolesContract;
 
     public RegisterHandler(
-        IAccountsContract accountsContract, 
-        IAuthOptionsProvider authOptionsProvider, 
+        IAccountsContract accountsContract,
+        IAuthOptionsProvider authOptionsProvider,
         IRolesContract rolesContract)
     {
         _accountsContract = accountsContract;
@@ -28,17 +28,17 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         RegisterCommand command,
         CancellationToken cancellationToken = default)
     {
-        var createAccountRequest = new CreateAccountRequest(command.UserName,command.EmailAddress, command.Password);
+        var createAccountRequest = new CreateAccountRequest(command.UserName, command.EmailAddress, command.Password);
         var accountCreationResult = await _accountsContract.CreateAccountAsync(createAccountRequest, cancellationToken);
         if (accountCreationResult.IsFailure)
             return accountCreationResult.Error;
-        
+
         var defaultRoleNameForNewAccount = _authOptionsProvider.GetDefaultAccountRoleName();
 
         var getRoleIdByNameResult = await _rolesContract.GetRoleIdByNameAsync(
-            defaultRoleNameForNewAccount, 
+            defaultRoleNameForNewAccount,
             cancellationToken);
-        
+
         if (getRoleIdByNameResult.IsFailure)
             return getRoleIdByNameResult.Error; // TODO: maybe add method AddRoleIfNotExist
 
@@ -50,7 +50,7 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
 
         if (addAccountRoleResult.IsFailure)
             return addAccountRoleResult.Error; // TODO: сделать так чтобы аккаунт создавался сразу с дефолтной ролью
-        
+
         return accountCreationResult.Value;
     }
 }

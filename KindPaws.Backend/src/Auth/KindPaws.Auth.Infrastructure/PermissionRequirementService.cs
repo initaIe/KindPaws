@@ -37,7 +37,7 @@ public class PermissionRequirementService
 
         if (requiredPermissionId.IsFailure)
             throw new ApplicationException("Required permission is not found.");
-        
+
         var permissionIds = rolePermissions.Select(rp => rp.PermissionId);
 
         return permissionIds.Contains(requiredPermissionId.Value);

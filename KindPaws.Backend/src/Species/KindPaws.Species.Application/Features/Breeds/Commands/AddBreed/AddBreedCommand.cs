@@ -6,8 +6,4 @@ public record AddBreedCommand(
     Guid SpecieId,
     string Name,
     string Description)
-    : ICommand
-{
-    public AddBreedExistenceValidationData ToExistenceValidationData()
-        => new(SpecieId, Name);
-}
+    : ICommand;

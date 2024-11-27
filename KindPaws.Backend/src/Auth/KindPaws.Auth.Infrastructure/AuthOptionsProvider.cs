@@ -6,7 +6,7 @@ namespace KindPaws.Auth.Infrastructure;
 
 public class AuthOptionsProvider : IAuthOptionsProvider
 {
-    private  readonly IOptionsMonitor<AuthOptions> _options;
+    private readonly IOptionsMonitor<AuthOptions> _options;
 
     public AuthOptionsProvider(IOptionsMonitor<AuthOptions> options)
     {

@@ -6,8 +6,4 @@ public record DeletePetPhotosCommand(
     Guid VolunteerId,
     Guid PetId,
     IEnumerable<string> PhotosPaths)
-    : ICommand
-{
-    public DeletePetPhotosExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, PetId);
-}
+    : ICommand;

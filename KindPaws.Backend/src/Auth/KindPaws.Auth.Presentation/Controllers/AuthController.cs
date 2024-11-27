@@ -24,7 +24,7 @@ public class AuthController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPost("accounts")]
     public async Task<IActionResult> Register(
         [FromBody] RegisterRequest request,
@@ -39,7 +39,7 @@ public class AuthController : ApplicationController
 
         return Ok(result.Value);
     }
-    
+
     [HttpPost("sessions/renewal-tokens")]
     public async Task<IActionResult> RefreshTokens(
         [FromBody] RefreshTokensRequest request,

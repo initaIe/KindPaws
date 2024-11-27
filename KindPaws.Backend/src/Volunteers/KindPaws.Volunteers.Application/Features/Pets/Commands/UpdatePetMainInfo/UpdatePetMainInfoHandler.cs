@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -17,7 +16,6 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.UpdatePetMainIn
 public class UpdatePetMainInfoHandler
     : ICommandHandler<Guid, UpdatePetMainInfoCommand>
 {
-    private readonly IEntitiesExistenceValidator<UpdatePetMainInfoExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<UpdatePetMainInfoHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePetMainInfoCommand> _validator;
@@ -28,14 +26,12 @@ public class UpdatePetMainInfoHandler
         IRepository<Volunteer, VolunteerId> volunteersRepository,
         IValidator<UpdatePetMainInfoCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
-        IUnitOfWork unitOfWork,
-        IEntitiesExistenceValidator<UpdatePetMainInfoExistenceValidationData> entitiesExistenceValidator)
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -45,12 +41,6 @@ public class UpdatePetMainInfoHandler
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
-
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);

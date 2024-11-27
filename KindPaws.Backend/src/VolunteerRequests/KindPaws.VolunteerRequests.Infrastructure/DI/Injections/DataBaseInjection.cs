@@ -24,6 +24,6 @@ public static class DataBaseInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        return services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Roles);
+        return services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.VolunteerRequest);
     }
 }

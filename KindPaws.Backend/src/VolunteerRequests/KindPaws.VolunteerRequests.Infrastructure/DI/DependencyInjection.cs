@@ -1,5 +1,4 @@
-﻿using KindPaws.VolunteerRequests.Contracts;
-using KindPaws.VolunteerRequests.Infrastructure.DI.Injections;
+﻿using KindPaws.VolunteerRequests.Infrastructure.DI.Injections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

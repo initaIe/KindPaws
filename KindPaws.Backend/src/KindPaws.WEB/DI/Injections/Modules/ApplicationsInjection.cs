@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 
 namespace KindPaws.WEB.DI.Injections.Modules;
 
@@ -21,6 +20,7 @@ public static class ApplicationsInjection
             typeof(Auth.Application.DI.DependencyInjection).Assembly,
         };
 
+        // CommandHandlers
         services.Scan(scan => scan.FromAssemblies(assemblies)
             .AddClasses(classes => classes.AssignableToAny(
                 typeof(ICommandHandler<>),
@@ -28,16 +28,11 @@ public static class ApplicationsInjection
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 
+        // QueryHandlers
         services.Scan(scan => scan.FromAssemblies(assemblies)
             .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
-
-        services.Scan(scan => scan.FromAssemblies(assemblies)
-            .AddClasses(classes => classes.AssignableTo(typeof(IEntitiesExistenceValidator<>)))
-            .AsSelfWithInterfaces()
-            .WithScopedLifetime());
-
         services.AddValidatorsFromAssemblies(assemblies);
 
         return services;

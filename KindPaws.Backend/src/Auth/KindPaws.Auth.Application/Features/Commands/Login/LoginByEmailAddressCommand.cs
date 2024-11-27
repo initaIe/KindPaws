@@ -4,5 +4,5 @@ namespace KindPaws.Auth.Application.Features.Commands.Login;
 
 public record LoginByEmailAddressCommand(
     string EmailAddress,
-    string Password) 
+    string Password)
     : ICommand;

@@ -34,11 +34,11 @@ public interface IAccountsContract
         Guid accountId,
         Guid accountRoleId,
         CancellationToken cancellationToken = default);
-    
+
     Task<IReadOnlyList<AccountRoleDto>> GetAccountRolesByIdAsync(
         Guid accountId,
         CancellationToken cancellationToken = default);
-    
+
     Task<bool> IsAccountByEmailAddressExists(
         string emailAddress,
         CancellationToken cancellationToken = default);

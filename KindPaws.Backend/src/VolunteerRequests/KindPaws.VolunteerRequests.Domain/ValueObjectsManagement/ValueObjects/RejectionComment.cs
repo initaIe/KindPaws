@@ -18,7 +18,7 @@ public record RejectionComment
     {
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(RejectionComment));
-        
+
         if (!StringValidator.IsInRange(
                 input,
                 RejectionCommentConstraints.MinLength,

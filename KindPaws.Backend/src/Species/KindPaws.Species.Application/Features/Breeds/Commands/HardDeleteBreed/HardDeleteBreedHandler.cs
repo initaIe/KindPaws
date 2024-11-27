@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -13,23 +12,19 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Species.Application.Features.Breeds.Commands.HardDeleteBreed;
 
-public class HardDeleteBreedHandler
-    : ICommandHandler<Guid, HardDeleteBreedCommand>
+public class HardDeleteBreedHandler : ICommandHandler<Guid, HardDeleteBreedCommand>
 {
-    private readonly IEntitiesExistenceValidator<HardDeleteBreedExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<HardDeleteBreedHandler> _logger;
     private readonly IRepository<Specie, SpecieId> _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<HardDeleteBreedCommand> _validator;
 
     public HardDeleteBreedHandler(
-        IEntitiesExistenceValidator<HardDeleteBreedExistenceValidationData> entitiesExistenceValidator,
         ILogger<HardDeleteBreedHandler> logger,
         IRepository<Specie, SpecieId> speciesRepository,
         [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         IValidator<HardDeleteBreedCommand> validator)
     {
-        _entitiesExistenceValidator = entitiesExistenceValidator;
         _logger = logger;
         _speciesRepository = speciesRepository;
         _unitOfWork = unitOfWork;
@@ -43,12 +38,6 @@ public class HardDeleteBreedHandler
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
-
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var specieId = SpecieId.Create(command.SpecieId).Value;
         var specieResult = await _speciesRepository.GetByIdAsync(specieId, cancellationToken);

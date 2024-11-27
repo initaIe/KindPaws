@@ -3,7 +3,6 @@ using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using KindPaws.VolunteerRequests.Application.Abstractions;
 using KindPaws.VolunteerRequests.Contracts.Dtos;
-using KindPaws.VolunteerRequests.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

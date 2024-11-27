@@ -1,5 +1,4 @@
-﻿using KindPaws.Volunteers.Application.Abstractions;
-using KindPaws.Volunteers.Infrastructure.Options;
+﻿using KindPaws.Volunteers.Infrastructure.Options;
 using KindPaws.Volunteers.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,7 +15,7 @@ public class ExpiredEntitiesCleanerBackgroundService : BackgroundService
 
     public ExpiredEntitiesCleanerBackgroundService(
         ILogger<ExpiredEntitiesCleanerBackgroundService> logger,
-        IServiceScopeFactory serviceScopeFactory, 
+        IServiceScopeFactory serviceScopeFactory,
         IOptionsMonitor<ExpiredEntitiesCleanerBackgroundServiceOptions> options)
     {
         _logger = logger;
@@ -31,8 +30,9 @@ public class ExpiredEntitiesCleanerBackgroundService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             await using var scope = _serviceScopeFactory.CreateAsyncScope();
-            var expiredEntitiesCleanerService = scope.ServiceProvider.GetRequiredService<ExpiredEntitiesCleanerService>();
-            
+            var expiredEntitiesCleanerService =
+                scope.ServiceProvider.GetRequiredService<ExpiredEntitiesCleanerService>();
+
             await expiredEntitiesCleanerService.ProcessAsync(stoppingToken);
 
             await Task.Delay(TimeSpan.FromHours(_options.CurrentValue.IntervalInHours), stoppingToken);

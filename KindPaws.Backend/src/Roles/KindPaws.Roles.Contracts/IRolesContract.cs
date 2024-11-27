@@ -22,7 +22,7 @@ public interface IRolesContract
     Task<Result<Guid, ErrorList>> GetRoleIdByNameAsync(
         string roleName,
         CancellationToken cancellationToken = default);
-    
+
     Task<IReadOnlyList<RolePermissionDto>> GetRolePermissionsByIdsAsync(
         IEnumerable<Guid> roleIds,
         CancellationToken cancellationToken = default);

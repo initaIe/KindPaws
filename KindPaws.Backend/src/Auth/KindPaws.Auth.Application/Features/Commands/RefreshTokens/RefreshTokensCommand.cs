@@ -4,5 +4,5 @@ namespace KindPaws.Auth.Application.Features.Commands.RefreshTokens;
 
 public record RefreshTokensCommand(
     string AccessToken,
-    Guid RefreshToken) 
+    Guid RefreshToken)
     : ICommand;

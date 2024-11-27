@@ -6,5 +6,6 @@ public enum Modules
     Species,
     Accounts,
     Roles,
-    Permissions
+    Permissions,
+    VolunteerRequest
 }

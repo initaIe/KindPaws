@@ -7,8 +7,4 @@ public record AddPetCommand(
     Guid SpecieId,
     Guid BreedId,
     string Name)
-    : ICommand
-{
-    public AddPetExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, SpecieId, BreedId);
-}
+    : ICommand;

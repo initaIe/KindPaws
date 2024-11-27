@@ -38,7 +38,7 @@ public class ValidateAccountByEmailHandler
                 .ToErrorList();
 
         var isPasswordValid = _passwordHashProvider.ValidateHash(account!.PasswordHash, query.Password);
-        
+
         if (!isPasswordValid)
             return Errors.General.ValueIsInvalid("Password").ToErrorList();
 

@@ -7,5 +7,5 @@ public class ExpiredEntitiesCleanerBackgroundServiceOptions
     /// </summary>
     public const string SectionName = nameof(ExpiredEntitiesCleanerBackgroundServiceOptions);
 
-    public int IntervalInHours { get; init; } 
+    public int IntervalInHours { get; init; }
 }
