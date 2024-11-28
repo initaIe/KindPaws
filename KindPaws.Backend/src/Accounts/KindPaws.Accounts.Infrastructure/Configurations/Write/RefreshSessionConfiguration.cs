@@ -39,20 +39,20 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
             .HasColumnName("refresh_token")
             .IsRequired();
 
-        // CREATION_TIMESTAMP
+        // CREATED_AT
         builder.Property(rs => rs.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
-        // EXPIRE_TIMESTAMP
+        // EXPIRES_AT
         builder.Property(rs => rs.ExpiresAt)
             .HasConversion(
-                expireTimestamp => expireTimestamp.Value,
+                expiresAt => expiresAt.Value,
                 value => RefreshSessionExpiresAt.Create(value).Value)
-            .HasColumnName("expire_timestamp")
+            .HasColumnName("expires_at")
             .IsRequired();
     }
 }

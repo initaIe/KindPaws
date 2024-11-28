@@ -43,14 +43,14 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
         VolunteerRequestStatus status)
     {
         var id = VolunteerRequestId.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
+        var createdAt = CreatedAt.CreateNew();
 
         return new VolunteerRequest(
             id,
             requesterAccountId,
             volunteerInfo,
             status,
-            creationTimestamp);
+            createdAt);
     }
 
     #endregion

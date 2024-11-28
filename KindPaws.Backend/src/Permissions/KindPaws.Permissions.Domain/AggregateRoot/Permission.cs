@@ -31,9 +31,9 @@ public class Permission : IEntity<PermissionId>
     public static Permission CreateNew(PermissionCode code)
     {
         var id = PermissionId.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
+        var createdAt = CreatedAt.CreateNew();
         
-        return new Permission(id, code, creationTimestamp);
+        return new Permission(id, code, createdAt);
     }
 
     #endregion

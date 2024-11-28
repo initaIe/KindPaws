@@ -8,11 +8,11 @@ public static class RefreshSessionHelper
 {
     public static RefreshSession ForceCreateNewRefreshSession(
         Guid jti,
-        DateTimeOffset expireTimestamp)
+        DateTimeOffset expiresAt)
     {
         var refreshSessionJti = Jti.Create(jti).Value;
-        var refreshSessionExpireTimestamp = RefreshSessionExpiresAt.Create(expireTimestamp).Value;
+        var refreshSessionExpiresAt = RefreshSessionExpiresAt.Create(expiresAt).Value;
         
-        return RefreshSession.CreateNew(refreshSessionJti, refreshSessionExpireTimestamp);
+        return RefreshSession.CreateNew(refreshSessionJti, refreshSessionExpiresAt);
     }
 }

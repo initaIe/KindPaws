@@ -24,13 +24,13 @@ public class RefreshSessionDtoConfiguration : IEntityTypeConfiguration<RefreshSe
         builder.Property(rs => rs.RefreshToken)
             .HasColumnName("refresh_token");
 
-        // CREATION_TIMESTAMP
-        builder.Property(rs => rs.CreationTimestamp)
-            .HasColumnName("creation_timestamp");
+        // CREATED_AT
+        builder.Property(rs => rs.CreatedAt)
+            .HasColumnName("created_at");
 
-        // EXPIRE_TIMESTAMP
-        builder.Property(rs => rs.ExpireTimestamp)
-            .HasColumnName("expire_timestamp");
+        // EXPIRES_AT
+        builder.Property(rs => rs.ExpiresAt)
+            .HasColumnName("expires_at");
 
         // ACCOUNT_ID
         builder.Property(rs => rs.AccountId)

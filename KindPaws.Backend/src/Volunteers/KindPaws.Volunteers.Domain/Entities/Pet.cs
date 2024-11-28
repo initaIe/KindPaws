@@ -28,7 +28,7 @@ public class Pet : ISoftDeletableEntity<PetId>
         CreatedAt = createdAt;
     }
 
-    public PetId Id { get; }
+    public PetId Id { get; private set; }
     public PetName Name { get; private set; }
     public PetType PetType { get; private set; }
     public CreatedAt CreatedAt { get; private set; }
@@ -41,7 +41,7 @@ public class Pet : ISoftDeletableEntity<PetId>
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTimeOffset? SoftDeletionTimestamp { get; private set; }
+    public DateTimeOffset? SoftDeletedAt { get; private set; }
 
     #region Factory methods
 
@@ -50,13 +50,13 @@ public class Pet : ISoftDeletableEntity<PetId>
         PetType petType)
     {
         var id = PetId.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
+        var createdAt = CreatedAt.CreateNew();
 
         return new Pet(
             id,
             name,
             petType,
-            creationTimestamp);
+            createdAt);
     }
 
     #endregion
@@ -77,14 +77,14 @@ public class Pet : ISoftDeletableEntity<PetId>
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? age,
+        Birthday? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
         SupportStatus = supportStatus;
         Description = description;
         Color = petColor;
-        Birthday = age;
+        Birthday = birthday;
         HealthDetails = healthDetails ?? HealthDetails.Empty;
         BiometricDetails = biometricDetails ?? BiometricDetails.Empty;
     }
@@ -149,13 +149,13 @@ public class Pet : ISoftDeletableEntity<PetId>
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTimeOffset.UtcNow;
+        SoftDeletedAt = DateTimeOffset.UtcNow;
     }
 
     internal void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletionTimestamp = null;
+        SoftDeletedAt = null;
         // TODO: give position after restore
     }
 

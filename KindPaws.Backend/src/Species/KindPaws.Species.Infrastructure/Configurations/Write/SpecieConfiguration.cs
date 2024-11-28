@@ -40,20 +40,20 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
         builder.HasIndex(s => s.Name).IsUnique();
 
         // DESCRIPTION
-        builder.ComplexProperty(specie => specie.Description, description =>
-        {
-            description.Property(x => x.Value)
-                .HasMaxLength(SpecieDescriptionConstraints.MaxLength)
-                .HasColumnName("description")
-                .IsRequired();
-        });
-        
-        // CREATION_TIMESTAMP
+        builder.Property(s => s.Description)
+            .HasConversion(
+                description => description.Value,
+                value => SpecieDescription.Create(value).Value)
+            .HasMaxLength(SpecieDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired();
+
+        // CREATED_AT
         builder.Property(s => s.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
         // IS SOFT DELETE
@@ -61,9 +61,9 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(breed => breed.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(breed => breed.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }

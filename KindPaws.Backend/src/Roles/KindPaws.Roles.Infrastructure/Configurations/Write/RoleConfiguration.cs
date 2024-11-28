@@ -32,12 +32,12 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasColumnName("name")
             .IsRequired();
 
-        // CREATION_TIMESTAMP
+        // CREATED_AT
         builder.Property(r => r.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
         // ROLE_PERMISSIONS

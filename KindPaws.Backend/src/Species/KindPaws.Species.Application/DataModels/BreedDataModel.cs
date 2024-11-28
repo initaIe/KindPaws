@@ -2,9 +2,11 @@
 
 public class BreedDataModel
 {
-    public Guid Id { get; init; }
+    public Guid Id { get; private set; }
     public string Name { get; init; } = null!;
     public string Description { get; init; } = null!;
-    public Guid SpecieId { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
     public bool IsSoftDeleted { get; init; }
+    public DateTimeOffset? SoftDeletedAt { get; init; }
+    public Guid SpecieId { get; init; }
 }

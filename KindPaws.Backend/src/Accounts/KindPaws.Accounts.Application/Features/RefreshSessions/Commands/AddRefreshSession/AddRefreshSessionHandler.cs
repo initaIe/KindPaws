@@ -52,8 +52,8 @@ public class AddRefreshSessionHandler : ICommandHandler<Guid, AddRefreshSessionC
             return Errors.General.RecordAlreadyExist(nameof(RefreshSession)).ToErrorList();
 
         var expiresInDays = _refreshSessionOptionsProvider.GetExpireInDays();
-        var expireTimestamp = DateTimeOffset.UtcNow.AddDays(expiresInDays);
-        var refreshSession = RefreshSessionHelper.ForceCreateNewRefreshSession(command.Jti, expireTimestamp);
+        var expiresAt = DateTimeOffset.UtcNow.AddDays(expiresInDays);
+        var refreshSession = RefreshSessionHelper.ForceCreateNewRefreshSession(command.Jti, expiresAt);
 
         var accountId = AccountId.Create(command.AccountId).Value;
 

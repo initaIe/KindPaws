@@ -44,9 +44,9 @@ public class AccountDtoConfiguration : IEntityTypeConfiguration<AccountDataModel
                 json => JsonSerializer.Deserialize<FullName>(json, JsonSerializerOptions.Default)!.ToDto())
             .HasColumnName("full_name");
 
-        // CREATION_TIMESTAMP
-        builder.Property(a => a.CreationTimestamp)
-            .HasColumnName("creation_timestamp")
+        // CREATED_AT
+        builder.Property(a => a.CreatedAt)
+            .HasColumnName("created_at")
             .IsRequired();
 
         // SOCIAL_NETWORKS

@@ -48,12 +48,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("years_of_experience")
             .IsRequired(false);
         
-        // CREATION_TIMESTAMP
+        // CREATED_AT
         builder.Property(v => v.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
         // REQUISITES
@@ -75,9 +75,9 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(v => v.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(v => v.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }

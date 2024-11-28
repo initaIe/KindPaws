@@ -39,8 +39,8 @@ public class VolunteerRequestDtoConfiguration : IEntityTypeConfiguration<Volunte
         builder.Property(vr => vr.Status)
             .HasColumnName("status");
 
-        // CREATION TIMESTAMP
-        builder.Property(vr => vr.CreationTimestamp)
-            .HasColumnName("creation_timestamp");
+        // CREATED_AT
+        builder.Property(vr => vr.CreatedAt)
+            .HasColumnName("created_at");
     }
 }

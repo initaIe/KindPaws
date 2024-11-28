@@ -19,8 +19,8 @@ public class PermissionDtoConfiguration : IEntityTypeConfiguration<PermissionDat
         builder.Property(p => p.Code)
             .HasColumnName("code");
 
-        // CREATION_TIMESTAMP
-        builder.Property(p => p.CreationTimestamp)
-            .HasColumnName("creation_timestamp");
+        // CREATED_AT
+        builder.Property(p => p.CreatedAt)
+            .HasColumnName("created_at");
     }
 }

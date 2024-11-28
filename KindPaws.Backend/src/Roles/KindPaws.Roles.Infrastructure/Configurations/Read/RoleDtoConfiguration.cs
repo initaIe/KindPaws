@@ -20,9 +20,9 @@ public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDataModel>
         builder.Property(r => r.Name)
             .HasColumnName("name");
 
-        // CREATION_TIMESTAMP
-        builder.Property(r => r.CreationTimestamp)
-            .HasColumnName("creation_timestamp");
+        // CREATED_AT
+        builder.Property(r => r.CreatedAt)
+            .HasColumnName("created_at");
 
         // PERMISSIONS
         builder.Property(r => r.Permissions)

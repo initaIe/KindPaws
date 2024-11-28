@@ -28,13 +28,13 @@ public class Specie : ISoftDeletableEntity<SpecieId>
         CreatedAt = createdAt;
     }
 
-    public SpecieId Id { get; }
+    public SpecieId Id { get; private set; }
     public SpecieName Name { get; private set; }
     public SpecieDescription Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
     public CreatedAt CreatedAt { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTimeOffset? SoftDeletionTimestamp { get; private set; }
+    public DateTimeOffset? SoftDeletedAt { get; private set; }
 
     #region Factory methods
 
@@ -43,13 +43,13 @@ public class Specie : ISoftDeletableEntity<SpecieId>
         SpecieDescription description)
     {
         var id = SpecieId.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
+        var createdAt = CreatedAt.CreateNew();
 
         return new Specie(
             id,
             name,
             description,
-            creationTimestamp);
+            createdAt);
     }
 
     #endregion
@@ -125,14 +125,14 @@ public class Specie : ISoftDeletableEntity<SpecieId>
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTimeOffset.UtcNow;
+        SoftDeletedAt = DateTimeOffset.UtcNow;
         _breeds.ForEach(breed => breed.SoftDelete());
     }
 
     public void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletionTimestamp = null;
+        SoftDeletedAt = null;
         _breeds.ForEach(breed => breed.Restore());
     }
 

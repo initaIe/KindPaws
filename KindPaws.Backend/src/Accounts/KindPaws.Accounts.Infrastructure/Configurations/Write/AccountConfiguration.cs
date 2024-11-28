@@ -66,12 +66,12 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasColumnType("jsonb")
             .IsRequired(false);
 
-        // CREATION_TIMESTAMP
+        // CREATED_AT
         builder.Property(a => a.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
         // SOCIAL_NETWORKS

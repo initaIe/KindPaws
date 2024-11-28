@@ -32,20 +32,20 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .IsRequired();
 
         // DESCRIPTION
-        builder.ComplexProperty(breed => breed.Description, description =>
-        {
-            description.Property(x => x.Value)
-                .HasMaxLength(BreedDescriptionConstraints.MaxLength)
-                .HasColumnName("description")
-                .IsRequired();
-        });
-        
-        // CREATION_TIMESTAMP
+        builder.Property(b => b.Description)
+            .HasConversion(
+                description => description.Value,
+                value => BreedDescription.Create(value).Value)
+            .HasMaxLength(BreedDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired();
+
+        // CREATED_AT
         builder.Property(breed => breed.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
         // IS SOFT DELETE
@@ -53,9 +53,9 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(breed => breed.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(breed => breed.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }

@@ -25,7 +25,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         CreatedAt = createdAt;
     }
 
-    public VolunteerId Id { get; }
+    public VolunteerId Id { get; private set; }
     public VolunteerDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
@@ -33,18 +33,18 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
     public IReadOnlyList<Pet> Pets => _pets;
     public CreatedAt CreatedAt { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTimeOffset? SoftDeletionTimestamp { get; private set; }
+    public DateTimeOffset? SoftDeletedAt { get; private set; }
 
     #region Factory methods
 
     public static Volunteer CreateNew()
     {
         var id = VolunteerId.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
+        var createdAt = CreatedAt.CreateNew();
 
         return new Volunteer(
             id,
-            creationTimestamp);
+            createdAt);
     }
 
     #endregion
@@ -163,7 +163,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? age,
+        Birthday? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
@@ -175,7 +175,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
             supportStatus,
             description,
             petColor,
-            age,
+            birthday,
             healthDetails,
             biometricDetails);
         return true;
@@ -184,14 +184,14 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTimeOffset.UtcNow;
+        SoftDeletedAt = DateTimeOffset.UtcNow;
         _pets.ForEach(p => p.SoftDelete());
     }
 
     public void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletionTimestamp = null;
+        SoftDeletedAt = null;
         _pets.ForEach(p => p.Restore());
     }
 
@@ -330,7 +330,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
     public void DeleteExpiredPets(int petLifeTimeAfterDeletionInDays)
     {
-        _pets.RemoveAll(p => p.SoftDeletionTimestamp < DateTime.UtcNow.AddDays(-petLifeTimeAfterDeletionInDays));
+        _pets.RemoveAll(p => p.SoftDeletedAt < DateTimeOffset.UtcNow.AddDays(-petLifeTimeAfterDeletionInDays));
     }
 
     #endregion

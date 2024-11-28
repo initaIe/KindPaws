@@ -30,7 +30,6 @@ public class RefreshSession
     public RefreshToken RefreshToken { get; private set; }
     public CreatedAt CreatedAt { get; private set; }
     public RefreshSessionExpiresAt ExpiresAt { get; private set; }
-    public bool IsExpired => DateTimeOffset.UtcNow > ExpiresAt.Value;
 
     #region Factory methods
 
@@ -40,15 +39,21 @@ public class RefreshSession
     {
         var id = RefreshSessionId.CreateRandom();
         var refreshToken = RefreshToken.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
+        var createdAt = CreatedAt.CreateNew();
 
         return new RefreshSession(
             id,
             jti,
             refreshToken,
-            creationTimestamp,
+            createdAt,
             expiresAt);
     }
+
+    #endregion
+
+    #region CRUD
+
+    public bool IsExpired => DateTimeOffset.UtcNow > ExpiresAt.Value;
 
     #endregion
 }

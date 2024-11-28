@@ -30,12 +30,12 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .HasColumnName("code")
             .IsRequired();
 
-        // CREATION_TIMESTAMP
+        // CREATED_AT
         builder.Property(p => p.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
     }
 }

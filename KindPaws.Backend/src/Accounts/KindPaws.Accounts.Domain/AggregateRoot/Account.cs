@@ -51,8 +51,8 @@ public sealed class Account : IEntity<AccountId>
         PasswordHash passwordHash)
     {
         var id = AccountId.CreateRandom();
-        var creationTimeStamp = CreatedAt.CreateNew();
-        return new Account(id, userName, email, passwordHash, creationTimeStamp);
+        var createdAt = CreatedAt.CreateNew();
+        return new Account(id, userName, email, passwordHash, createdAt);
     }
 
     #endregion

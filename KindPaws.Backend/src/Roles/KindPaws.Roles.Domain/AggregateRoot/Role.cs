@@ -35,8 +35,8 @@ public sealed class Role : IEntity<RoleId>
     public static Role CreateNew(RoleName name)
     {
         var id = RoleId.CreateRandom();
-        var creationTimestamp = CreatedAt.CreateNew();
-        return new Role(id, name, creationTimestamp);
+        var createdAt = CreatedAt.CreateNew();
+        return new Role(id, name, createdAt);
     }
 
     #endregion

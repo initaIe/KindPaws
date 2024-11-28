@@ -8,6 +8,6 @@ public class VolunteerRequestDataModel
     public Guid? DiscussionId { get; init; }
     public string VolunteerInfo { get; init; } = null!;
     public string? RejectionComment { get; init; }
-    public string Status { get; init; } = null!;
-    public DateTime CreationTimestamp { get; init; }
+    public string Status { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
 }

@@ -39,20 +39,20 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // NAME
-        builder.ComplexProperty(pet => pet.Name, name =>
-        {
-            name.Property(pet => pet.Value)
-                .HasColumnName("name")
-                .HasColumnType("citext")
-                .IsRequired();
-        });
+        builder.Property(pet => pet.Name)
+            .HasConversion(
+                name => name.Value,
+                value => PetName.Create(value).Value)
+            .HasColumnName("name")
+            .HasColumnType("citext")
+            .IsRequired();
 
-        // CREATION DATE
+        // CREATED_AT
         builder.Property(p => p.CreatedAt)
             .HasConversion(
-                creationTimestamp => creationTimestamp.Value,
+                createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
-            .HasColumnName("creation_timestamp")
+            .HasColumnName("created_at")
             .IsRequired();
 
         // SUPPORT STATUS
@@ -60,7 +60,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 s => s!.Value,
                 value => SupportStatus.Create(value).Value)
-            .HasMaxLength(SupportStatusConstraints.MaxLength)
             .HasColumnName("support_status")
             .HasColumnType("citext")
             .IsRequired(false);
@@ -70,7 +69,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 d => d!.Value,
                 value => PetDescription.Create(value).Value)
-            .HasMaxLength(PetDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
 
@@ -79,7 +77,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 d => d!.Value,
                 value => PetColor.Create(value).Value)
-            .HasMaxLength(PetColorConstraints.MaxLength)
             .HasColumnName("color")
             .HasColumnType("citext")
             .IsRequired(false);
@@ -87,7 +84,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         // Birthday
         builder.Property(p => p.Birthday)
             .HasConversion(
-                a => a!.Value,
+                birthday => birthday!.Value,
                 value => Birthday.Create(value).Value)
             .HasColumnName("birthday")
             .IsRequired(false);
@@ -114,21 +111,21 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired();
 
         // POSITION
-        builder.ComplexProperty(p => p.Position, pb =>
-        {
-            pb.Property(p => p.Value)
-                .HasColumnName("position")
-                .IsRequired();
-        });
+        builder.Property(p => p.Position)
+            .HasConversion(
+                position => position!.Value,
+                value => Position.Create(value).Value)
+            .HasColumnName("position")
+            .IsRequired();
 
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(p => p.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(p => p.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }
