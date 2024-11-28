@@ -8,6 +8,7 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Application.Features.Volunteers.Commands.CreateVolunteer;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -23,18 +24,21 @@ public class UpdateVolunteerInfoHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateVolunteerInfoCommand> _validator;
     private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
+    private readonly IVolunteersLockService _volunteersLockService;
 
     public UpdateVolunteerInfoHandler(
         IRepository<Volunteer, VolunteerId> volunteersRepository,
         ILogger<CreateVolunteerHandler> logger,
         IValidator<UpdateVolunteerInfoCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, 
+        IVolunteersLockService volunteersLockService)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
         _unitOfWork = unitOfWork;
+        _volunteersLockService = volunteersLockService;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -45,33 +49,47 @@ public class UpdateVolunteerInfoHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
-        var volunteerResult = await _volunteersRepository.GetByIdAsync(
-            volunteerId,
-            cancellationToken);
+        var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
 
-        var description = ValueObjectsHelpers.CreateNullableValueObject(
-            command.Description,
-            VolunteerDescription.Create);
+        try
+        {
+            var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
-        var address = ValueObjectsHelpers.CreateNullableValueObject(
-            command.Address,
-            a => Address.Create(a.City, a.Street));
+            await _volunteersLockService.SetVolunteerLockForUpdateAsync(volunteerId, cancellationToken);
+            
+            var volunteerResult = await _volunteersRepository.GetByIdAsync(
+                volunteerId,
+                cancellationToken);
 
-        var yearsOfExperience = ValueObjectsHelpers.CreateNullableValueObject(
-            command.YearsOfExperience,
-            y => YearsOfExperience.Create(y!.Value));
+            var description = ValueObjectsHelpers.CreateNullableValueObject(
+                command.Description,
+                VolunteerDescription.Create);
 
-        var requisites = ValueObjectsHelpers.CreateNullableValueObjects(
-            command.Requisites,
-            r => Requisite.Create(r.Name, r.Description));
+            var address = ValueObjectsHelpers.CreateNullableValueObject(
+                command.Address,
+                a => Address.Create(a.City, a.Street));
 
-        volunteerResult.Value.UpdateInfo(description, address, yearsOfExperience, requisites);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var yearsOfExperience = ValueObjectsHelpers.CreateNullableValueObject(
+                command.YearsOfExperience,
+                y => YearsOfExperience.Create(y!.Value));
 
-        Log(volunteerId);
+            var requisites = ValueObjectsHelpers.CreateNullableValueObjects(
+                command.Requisites,
+                r => Requisite.Create(r.Name, r.Description));
 
-        return volunteerId.Value;
+            volunteerResult.Value.UpdateInfo(description, address, yearsOfExperience, requisites);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            Log(volunteerId);
+
+            return volunteerId.Value;
+        }
+        catch (Exception e)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 
     private void Log(VolunteerId volunteerId)

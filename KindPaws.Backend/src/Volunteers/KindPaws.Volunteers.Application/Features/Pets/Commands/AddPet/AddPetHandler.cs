@@ -6,6 +6,7 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
@@ -21,18 +22,22 @@ public class AddPetHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetCommand> _validator;
     private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
+    private readonly IVolunteersLockService _volunteersLockService;
+    
 
     public AddPetHandler(
         ILogger<AddPetHandler> logger,
         IRepository<Volunteer, VolunteerId> volunteersRepository,
         IValidator<AddPetCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, 
+        IVolunteersLockService volunteersLockService)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _unitOfWork = unitOfWork;
+        _volunteersLockService = volunteersLockService;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -43,22 +48,33 @@ public class AddPetHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        
+        var transaction = _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
 
-        var pet = PetHelper.ForceCreateNewPet(command.Name, command.SpecieId, command.BreedId);
+        try
+        {
+            var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
+            await _volunteersLockService.SetVolunteerLockForUpdateAsync(volunteerId, cancellationToken);
+            // TODO: 2PC
+            
+            var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
-        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
-        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
+            var pet = PetHelper.ForceCreateNewPet(command.Name, command.SpecieId, command.BreedId);
+            
+            var addPetResult = volunteerResult.Value.AddPet(pet);
+            if (addPetResult.IsFailure)
+                return addPetResult.Error.ToErrorList();
 
-        var addPetResult = volunteerResult.Value.AddPet(pet);
-        if (addPetResult.IsFailure)
-            return addPetResult.Error.ToErrorList();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            Log(pet, volunteerId);
 
-        Log(pet, volunteerId);
-
-        return pet.Id.Value;
+            return pet.Id.Value;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private void Log(Pet pet, VolunteerId volunteerId)

@@ -1,5 +1,6 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Accounts.Application.Abstractions;
+using KindPaws.Accounts.Application.DataModels;
 using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
@@ -17,9 +18,8 @@ public class AccountsReadDbContext : DbContext, IAccountsReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
-    public IQueryable<AccountDto> Accounts => Set<AccountDto>();
-    public IQueryable<RefreshSessionDto> RefreshSessions => Set<RefreshSessionDto>();
-    public IQueryable<AccountRoleDto> AccountRoles => Set<AccountRoleDto>();
+    public IQueryable<AccountDataModel> Accounts => Set<AccountDataModel>();
+    public IQueryable<RefreshSessionDataModel> RefreshSessions => Set<RefreshSessionDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

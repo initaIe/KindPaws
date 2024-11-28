@@ -3,6 +3,7 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Domain.AggregateRoot;
 
@@ -18,33 +19,74 @@ public class Specie : ISoftDeletableEntity<SpecieId>
     public Specie(
         SpecieId id,
         SpecieName name,
-        SpecieDescription description)
+        SpecieDescription description,
+        CreationTimestamp creationTimestamp)
     {
         Id = id;
         Name = name;
         Description = description;
+        CreationTimestamp = creationTimestamp;
     }
 
     public SpecieId Id { get; }
     public SpecieName Name { get; private set; }
     public SpecieDescription Description { get; private set; }
     public IReadOnlyList<Breed> Breeds => _breeds;
+    public CreationTimestamp CreationTimestamp { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletionTimestamp { get; private set; }
+
+    #region Factory methods
+
+    public static Specie CreateNew(
+        SpecieName name,
+        SpecieDescription description)
+    {
+        var id = SpecieId.CreateRandom();
+        var creationTimestamp = CreationTimestamp.CreateNew();
+
+        return new Specie(
+            id,
+            name,
+            description,
+            creationTimestamp);
+    }
+
+    #endregion
+
+    #region CRUD
 
     public void AddBreed(Breed breed)
     {
         _breeds.Add(breed);
     }
 
+    public void AddBreeds(IEnumerable<Breed> breeds)
+    {
+        _breeds.AddRange(breeds);
+    }
+
     public void HardDeleteBreed(BreedId breedId)
     {
-        var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
+        var getBreedResult = GetBreedById(breedId);
 
-        if (breed == null)
+        if (getBreedResult.IsFailure)
             return;
 
-        _breeds.Remove(breed);
+        _breeds.Remove(getBreedResult.Value);
+    }
+
+    public void HardDeleteBreeds(IEnumerable<BreedId> breedIds)
+    {
+        foreach (var breedId in breedIds)
+        {
+            var getBreedResult = GetBreedById(breedId);
+
+            if (getBreedResult.IsFailure)
+                continue;
+
+            _breeds.Remove(getBreedResult.Value);
+        }
     }
 
     public Result<Breed, Error> GetBreedById(BreedId breedId)
@@ -59,12 +101,25 @@ public class Specie : ISoftDeletableEntity<SpecieId>
 
     public void SoftDeleteBreed(BreedId breedId)
     {
-        var breedResult = GetBreedById(breedId);
+        var getBreedResult = GetBreedById(breedId);
 
-        if (breedResult.IsFailure)
+        if (getBreedResult.IsFailure)
             return;
 
-        breedResult.Value.SoftDelete();
+        getBreedResult.Value.SoftDelete();
+    }
+
+    public void SoftDeleteBreeds(IEnumerable<BreedId> breedIds)
+    {
+        foreach (var breedId in breedIds)
+        {
+            var getBreedResult = GetBreedById(breedId);
+
+            if (getBreedResult.IsFailure)
+                continue;
+
+            getBreedResult.Value.SoftDelete();
+        }
     }
 
     public void SoftDelete()
@@ -80,4 +135,6 @@ public class Specie : ISoftDeletableEntity<SpecieId>
         SoftDeletionTimestamp = null;
         _breeds.ForEach(breed => breed.Restore());
     }
+
+    #endregion
 }

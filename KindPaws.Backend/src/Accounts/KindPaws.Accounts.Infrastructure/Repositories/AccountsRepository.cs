@@ -21,7 +21,9 @@ public class AccountsRepository : IRepository<Account, AccountId>
         AccountId accountId,
         CancellationToken cancellationToken = default)
     {
-        var account = await _dbContext.Accounts.FirstOrDefaultAsync(
+        var account = await _dbContext.Accounts
+            .Include(a=>a.RefreshSessions)
+            .FirstOrDefaultAsync(
             u => u.Id == accountId,
             cancellationToken);
 

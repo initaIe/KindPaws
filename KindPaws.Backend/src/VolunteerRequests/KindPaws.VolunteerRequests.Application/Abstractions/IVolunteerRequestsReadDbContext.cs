@@ -1,8 +1,8 @@
-﻿using KindPaws.VolunteerRequests.Contracts.Dtos;
+﻿using KindPaws.VolunteerRequests.Application.DataModels;
 
 namespace KindPaws.VolunteerRequests.Application.Abstractions;
 
 public interface IVolunteerRequestsReadDbContext
 {
-    public IQueryable<VolunteerRequestDto> VolunteerRequests { get; }
+    public IQueryable<VolunteerRequestDataModel> VolunteerRequests { get; }
 }

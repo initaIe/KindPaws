@@ -1,12 +1,13 @@
-﻿using KindPaws.Roles.Contracts.Dtos;
+﻿using KindPaws.Core.Extensions;
+using KindPaws.Roles.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Roles.Infrastructure.Configurations.Read;
 
-public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDto>
+public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDataModel>
 {
-    public void Configure(EntityTypeBuilder<RoleDto> builder)
+    public void Configure(EntityTypeBuilder<RoleDataModel> builder)
     {
         // TABLE NAMING
         builder.ToTable("roles");
@@ -23,9 +24,11 @@ public class RoleDtoConfiguration : IEntityTypeConfiguration<RoleDto>
         builder.Property(r => r.CreationTimestamp)
             .HasColumnName("creation_timestamp");
 
-        // ROLE_PERMISSIONS
-        builder.HasMany(r => r.RolePermissions)
-            .WithOne()
-            .HasForeignKey(r => r.RoleId);
+        // PERMISSIONS
+        builder.Property(r => r.Permissions)
+            .HasJsonConversion()
+            .HasColumnType("jsonb")
+            .HasColumnName("permissions")
+            .IsRequired();
     }
 }

@@ -56,10 +56,7 @@ public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSe
         var account = await _repository.GetByIdAsync(accountId, cancellationToken);
 
         var refreshSessionId = RefreshSessionId.Create(command.RefreshSessionId).Value;
-        var deletionRefreshSessionResult = account.Value.DeleteRefreshSession(refreshSessionId);
-
-        if (deletionRefreshSessionResult.IsFailure)
-            return deletionRefreshSessionResult.Error.ToErrorList();
+        account.Value.DeleteRefreshSessions([refreshSessionId]);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return account.Value.Id.Value;

@@ -1,9 +1,8 @@
-﻿using KindPaws.Roles.Contracts.Dtos;
+﻿using KindPaws.Roles.Application.DataModels;
 
 namespace KindPaws.Roles.Application.Abstractions;
 
 public interface IRolesReadDbContext
 {
-    IQueryable<RoleDto> Roles { get; }
-    IQueryable<RolePermissionDto> RolePermissions { get; }
+    IQueryable<RoleDataModel> Roles { get; }
 }

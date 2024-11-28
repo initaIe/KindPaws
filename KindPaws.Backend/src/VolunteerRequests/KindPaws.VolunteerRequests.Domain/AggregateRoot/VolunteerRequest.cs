@@ -11,14 +11,18 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
     {
     }
 
-    private VolunteerRequest(
+    public VolunteerRequest(
         VolunteerRequestId id,
         AccountId requesterAccountId,
-        VolunteerInfo volunteerInfo)
+        VolunteerInfo volunteerInfo,
+        VolunteerRequestStatus status,
+        CreationTimestamp creationTimestamp)
     {
         Id = id;
         RequesterAccountId = requesterAccountId;
         VolunteerInfo = volunteerInfo;
+        Status = status;
+        CreationTimestamp = creationTimestamp;
     }
 
     public VolunteerRequestId Id { get; private set; }
@@ -27,8 +31,30 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
     public DiscussionId? DiscussionId { get; private set; }
     public VolunteerInfo VolunteerInfo { get; private set; }
     public RejectionComment? RejectionComment { get; private set; }
-    public VolunteerRequestStatus Status { get; private set; } = VolunteerRequestStatus.Submitted;
-    public CreationTimestamp CreationTimestamp { get; private set; } = CreationTimestamp.CreateNew();
+    public VolunteerRequestStatus Status { get; private set; } 
+    public CreationTimestamp CreationTimestamp { get; private set; }
+
+    #region Factory methods
+
+    public static VolunteerRequest CreateNew(
+        AccountId requesterAccountId,
+        VolunteerInfo volunteerInfo,
+        VolunteerRequestStatus status)
+    {
+        var id = VolunteerRequestId.CreateRandom();
+        var creationTimestamp = CreationTimestamp.CreateNew();
+
+        return new VolunteerRequest(
+            id,
+            requesterAccountId,
+            volunteerInfo,
+            status,
+            creationTimestamp);
+    }
+
+    #endregion
+
+    #region CRUD
 
     public void TakeRequestOnReview(AccountId adminReviewerAccountId)
     {
@@ -50,4 +76,6 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
     {
         Status = VolunteerRequestStatus.Rejected;
     }
+
+    #endregion
 }

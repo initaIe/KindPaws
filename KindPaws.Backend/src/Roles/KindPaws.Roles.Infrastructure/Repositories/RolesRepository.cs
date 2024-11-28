@@ -22,7 +22,8 @@ public class RolesRepository : IRepository<Role, RoleId>
         RoleId permissionId,
         CancellationToken cancellationToken = default)
     {
-        var role = await _dbContext.Roles.FirstOrDefaultAsync(
+        var role = await _dbContext.Roles
+            .FirstOrDefaultAsync(
             u => u.Id == permissionId,
             cancellationToken);
 

@@ -2,7 +2,7 @@
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using KindPaws.Permissions.Application.Abstractions;
-using KindPaws.Permissions.Contracts.Dtos;
+using KindPaws.Permissions.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -17,7 +17,7 @@ public class PermissionsReadDbContext : DbContext, IPermissionsReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
-    public IQueryable<PermissionDto> Permissions => Set<PermissionDto>();
+    public IQueryable<PermissionDataModel> Permissions => Set<PermissionDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

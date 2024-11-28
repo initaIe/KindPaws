@@ -1,12 +1,13 @@
-﻿using KindPaws.Accounts.Contracts.Dtos;
+﻿using KindPaws.Accounts.Application.DataModels;
+using KindPaws.Accounts.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Accounts.Infrastructure.Configurations.Read;
 
-public class RefreshSessionDtoConfiguration : IEntityTypeConfiguration<RefreshSessionDto>
+public class RefreshSessionDtoConfiguration : IEntityTypeConfiguration<RefreshSessionDataModel>
 {
-    public void Configure(EntityTypeBuilder<RefreshSessionDto> builder)
+    public void Configure(EntityTypeBuilder<RefreshSessionDataModel> builder)
     {
         // TABLE NAMING
         builder.ToTable("refresh_sessions");

@@ -5,12 +5,12 @@ using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Utilities.Validators;
-using KindPaws.Species.Contracts.Dtos;
+using KindPaws.Species.Application.DataModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Species.Application.Features.Breeds.Queries.GetBreeds;
 
-public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDto>, GetBreedsQuery>
+public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDataModel>, GetBreedsQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -19,7 +19,7 @@ public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDto>, GetBree
         _sqlConnectionFactory = sqlConnectionFactory;
     }
 
-    public async Task<PagedList<BreedDto>> HandleAsync(
+    public async Task<PagedList<BreedDataModel>> HandleAsync(
         GetBreedsQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -66,9 +66,9 @@ public class GetBreedsDapperHandler : IQueryHandler<PagedList<BreedDto>, GetBree
         );
 
         var totalCount = await connection.ExecuteScalarAsync<long>(counter.RawSql, counter.Parameters);
-        var breeds = await connection.QueryAsync<BreedDto>(selector.RawSql, selector.Parameters);
+        var breeds = await connection.QueryAsync<BreedDataModel>(selector.RawSql, selector.Parameters);
 
-        return new PagedList<BreedDto>
+        return new PagedList<BreedDataModel>
         {
             TotalCount = totalCount,
             Items = breeds.ToList(),

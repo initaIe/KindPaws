@@ -1,6 +1,6 @@
-﻿namespace KindPaws.Accounts.Contracts.Dtos;
+﻿namespace KindPaws.Accounts.Application.DataModels;
 
-public class RefreshSessionDto
+public class RefreshSessionDataModel
 {
     public Guid Id { get; init; }
     public Guid Jti { get; init; }

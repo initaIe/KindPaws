@@ -1,12 +1,12 @@
-﻿using KindPaws.Permissions.Contracts.Dtos;
+﻿using KindPaws.Permissions.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Permissions.Infrastructure.Configurations.Read;
 
-public class PermissionDtoConfiguration : IEntityTypeConfiguration<PermissionDto>
+public class PermissionDtoConfiguration : IEntityTypeConfiguration<PermissionDataModel>
 {
-    public void Configure(EntityTypeBuilder<PermissionDto> builder)
+    public void Configure(EntityTypeBuilder<PermissionDataModel> builder)
     {
         // TABLE NAMING
         builder.ToTable("permissions");

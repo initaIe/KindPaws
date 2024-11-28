@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -8,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Volunteers.Infrastructure.Configurations.Read;
 
-public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
+public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDataModel>
 {
-    public void Configure(EntityTypeBuilder<VolunteerDto> builder)
+    public void Configure(EntityTypeBuilder<VolunteerDataModel> builder)
     {
         builder.ToTable("volunteers");
 

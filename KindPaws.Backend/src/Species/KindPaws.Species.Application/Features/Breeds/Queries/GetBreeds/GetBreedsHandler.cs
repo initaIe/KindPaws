@@ -3,12 +3,12 @@ using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.Species.Application.Abstractions;
-using KindPaws.Species.Contracts.Dtos;
+using KindPaws.Species.Application.DataModels;
 
 namespace KindPaws.Species.Application.Features.Breeds.Queries.GetBreeds;
 
 public class GetBreedsHandler
-    : IQueryHandler<PagedList<BreedDto>, GetBreedsQuery>
+    : IQueryHandler<PagedList<BreedDataModel>, GetBreedsQuery>
 {
     private readonly ISpeciesReadDbContext _readDbContext;
 
@@ -17,13 +17,13 @@ public class GetBreedsHandler
         _readDbContext = readDbContext;
     }
 
-    public async Task<PagedList<BreedDto>> HandleAsync(
+    public async Task<PagedList<BreedDataModel>> HandleAsync(
         GetBreedsQuery query,
         CancellationToken cancellationToken = default)
     {
         var breedsQuery = _readDbContext.Breeds;
 
-        Expression<Func<BreedDto, object>> keySelector = query.SortBy?.ToLower() switch
+        Expression<Func<BreedDataModel, object>> keySelector = query.SortBy?.ToLower() switch
         {
             "name" => (breed) => breed.Name,
             "specieid" => (breed) => breed.SpecieId,

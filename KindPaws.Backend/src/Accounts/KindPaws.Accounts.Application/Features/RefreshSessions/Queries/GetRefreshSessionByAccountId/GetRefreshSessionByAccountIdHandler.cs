@@ -1,4 +1,5 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
+using KindPaws.Accounts.Application.DataModels;
 using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Core.Abstractions.Handlers;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace KindPaws.Accounts.Application.Features.RefreshSessions.Queries.GetRefreshSessionByAccountId;
 
 public class GetRefreshSessionByAccountIdHandler
-    : IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery>
+    : IQueryHandler<Result<RefreshSessionDataModel, ErrorList>, GetRefreshSessionByAccountIdQuery>
 {
     private readonly IAccountsReadDbContext _dbContext;
 
@@ -19,7 +20,7 @@ public class GetRefreshSessionByAccountIdHandler
         _dbContext = dbContext;
     }
 
-    public async Task<Result<RefreshSessionDto, ErrorList>> HandleAsync(
+    public async Task<Result<RefreshSessionDataModel, ErrorList>> HandleAsync(
         GetRefreshSessionByAccountIdQuery query,
         CancellationToken cancellationToken = default)
     {

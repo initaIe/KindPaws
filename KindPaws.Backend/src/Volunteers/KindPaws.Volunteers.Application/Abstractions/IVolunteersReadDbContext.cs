@@ -1,9 +1,10 @@
-﻿using KindPaws.Volunteers.Contracts.Dtos;
+﻿using KindPaws.Volunteers.Application.DataModels;
+using KindPaws.Volunteers.Contracts.Dtos;
 
 namespace KindPaws.Volunteers.Application.Abstractions;
 
 public interface IVolunteersReadDbContext
 {
-    IQueryable<VolunteerDto> Volunteers { get; }
-    IQueryable<PetDto> Pets { get; }
+    IQueryable<VolunteerDataModel> Volunteers { get; }
+    IQueryable<PetDataModel> Pets { get; }
 }

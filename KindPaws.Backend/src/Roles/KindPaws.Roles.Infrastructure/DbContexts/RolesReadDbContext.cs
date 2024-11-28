@@ -2,7 +2,7 @@
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using KindPaws.Roles.Application.Abstractions;
-using KindPaws.Roles.Contracts.Dtos;
+using KindPaws.Roles.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -17,8 +17,7 @@ public class RolesReadDbContext : DbContext, IRolesReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
-    public IQueryable<RoleDto> Roles => Set<RoleDto>();
-    public IQueryable<RolePermissionDto> RolePermissions => Set<RolePermissionDto>();
+    public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

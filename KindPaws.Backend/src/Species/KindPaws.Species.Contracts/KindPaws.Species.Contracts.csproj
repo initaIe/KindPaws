@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Dtos\" />
       <Folder Include="Responses\" />
     </ItemGroup>
 

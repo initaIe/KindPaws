@@ -1,12 +1,12 @@
-﻿using KindPaws.VolunteerRequests.Contracts.Dtos;
+﻿using KindPaws.VolunteerRequests.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.VolunteerRequests.Infrastructure.Configurations.Read;
 
-public class VolunteerRequestDtoConfiguration : IEntityTypeConfiguration<VolunteerRequestDto>
+public class VolunteerRequestDtoConfiguration : IEntityTypeConfiguration<VolunteerRequestDataModel>
 {
-    public void Configure(EntityTypeBuilder<VolunteerRequestDto> builder)
+    public void Configure(EntityTypeBuilder<VolunteerRequestDataModel> builder)
     {
         // TABLE NAMING
         builder.ToTable("volunteer_requests");

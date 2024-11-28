@@ -1,21 +1,23 @@
 ﻿using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Accounts.Domain.Entities;
 
 public class RefreshSession
 {
+    // ef core
     private RefreshSession()
     {
     }
 
-    private RefreshSession(
+    public RefreshSession(
         RefreshSessionId id,
         Jti jti,
         RefreshToken refreshToken,
-        DateTime creationTimestamp,
-        DateTime expireTimestamp)
+        CreationTimestamp creationTimestamp,
+        RefreshSessionExpireTimestamp expireTimestamp)
     {
         Id = id;
         Jti = jti;
@@ -27,27 +29,27 @@ public class RefreshSession
     public RefreshSessionId Id { get; private set; }
     public Jti Jti { get; private set; }
     public RefreshToken RefreshToken { get; private set; }
-    public DateTime CreationTimestamp { get; private set; }
-    public DateTime ExpireTimestamp { get; private set; }
-    public bool IsExpired => DateTime.UtcNow > ExpireTimestamp;
+    public CreationTimestamp CreationTimestamp { get; private set; }
+    public RefreshSessionExpireTimestamp ExpireTimestamp { get; private set; }
+    public bool IsExpired => DateTime.UtcNow > ExpireTimestamp.Value;
 
-    public static RefreshSession Create(
-        RefreshSessionId id,
+    #region Factory methods
+
+    public static RefreshSession CreateNew(
         Jti jti,
-        RefreshToken refreshToken,
-        DateTime creationTimestamp,
-        DateTime expireTimestamp)
-    {
-        // TODO add datetime validation
-        return new RefreshSession(id, jti, refreshToken, creationTimestamp, expireTimestamp);
-    }
-
-    public static RefreshSession CreateNew(Jti jti, DateTime expireTimestamp)
+        RefreshSessionExpireTimestamp expireTimestamp)
     {
         var id = RefreshSessionId.CreateRandom();
         var refreshToken = RefreshToken.CreateRandom();
-        var creationTimestamp = DateTime.UtcNow;
+        var creationTimestamp = CreationTimestamp.CreateNew();
 
-        return new RefreshSession(id, jti, refreshToken, creationTimestamp, expireTimestamp);
+        return new RefreshSession(
+            id,
+            jti,
+            refreshToken,
+            creationTimestamp,
+            expireTimestamp);
     }
+
+    #endregion
 }

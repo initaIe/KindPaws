@@ -25,20 +25,6 @@ public interface IAccountsContract
         Guid accountId,
         CancellationToken cancellationToken = default);
 
-    Task<Result<Guid, ErrorList>> AddAccountRoleAsync(
-        Guid accountId,
-        AddAccountRoleRequest request,
-        CancellationToken cancellationToken = default);
-
-    Task<Result<Guid, ErrorList>> DeleteAccountRoleAsync(
-        Guid accountId,
-        Guid accountRoleId,
-        CancellationToken cancellationToken = default);
-
-    Task<IReadOnlyList<AccountRoleDto>> GetAccountRolesByIdAsync(
-        Guid accountId,
-        CancellationToken cancellationToken = default);
-
     Task<bool> IsAccountByEmailAddressExists(
         string emailAddress,
         CancellationToken cancellationToken = default);
@@ -47,7 +33,11 @@ public interface IAccountsContract
         ValidateAccountByEmailAddressRequest request,
         CancellationToken cancellationToken = default);
 
-    Task<Result<RefreshSessionDto, ErrorList>> GetRefreshSessionByAccountId(
+    // Task<Result<RefreshSessionDto, ErrorList>> GetRefreshSessionByAccountId(
+    //     Guid accountId,
+    //     CancellationToken cancellationToken = default);
+
+    Task<Result<IReadOnlyList<Guid>, ErrorList>> GetRolesAsync(
         Guid accountId,
         CancellationToken cancellationToken = default);
 }

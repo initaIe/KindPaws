@@ -1,12 +1,12 @@
-﻿using KindPaws.Species.Contracts.Dtos;
+﻿using KindPaws.Species.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Species.Infrastructure.Configurations.Read;
 
-public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDto>
+public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDataModel>
 {
-    public void Configure(EntityTypeBuilder<BreedDto> builder)
+    public void Configure(EntityTypeBuilder<BreedDataModel> builder)
     {
         builder.ToTable("breeds");
 

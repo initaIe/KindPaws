@@ -1,6 +1,6 @@
-﻿namespace KindPaws.Species.Contracts.Dtos;
+﻿namespace KindPaws.Species.Application.DataModels;
 
-public class BreedDto
+public class BreedDataModel
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = null!;

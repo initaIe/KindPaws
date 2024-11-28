@@ -85,14 +85,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired();
 
         // ACCOUNT_ROLES
-        builder.HasMany(a => a.AccountRoles)
-            .WithOne()
-            .HasForeignKey("account_id")
-            .OnDelete(DeleteBehavior.Cascade)
+        builder.Property(a => a.Roles)
+            .HasJsonConversion()
+            .HasColumnType("jsonb")
+            .HasColumnName("roles")
             .IsRequired();
-
-        // AUTO INCLUDE
-        builder.Navigation(a => a.RefreshSessions).AutoInclude();
-        builder.Navigation(a => a.AccountRoles).AutoInclude();
     }
 }

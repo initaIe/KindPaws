@@ -4,26 +4,27 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Accounts.Domain.AggregateRoot;
 
 public sealed class Account : IEntity<AccountId>
 {
     private readonly List<RefreshSession> _refreshSessions = [];
-    private readonly List<AccountRole> _accountRoles = [];
+    private List<RoleId> _roles = [];
     private List<SocialNetwork> _socialNetworks = [];
 
-    // ef Core
+    // ef core
     private Account()
     {
     }
 
-    private Account(
+    public Account(
         AccountId id,
         UserName userName,
         EmailAddress emailAddress,
         PasswordHash passwordHash,
-        DateTime creationTimestamp)
+        CreationTimestamp creationTimestamp)
     {
         Id = id;
         UserName = userName;
@@ -38,10 +39,12 @@ public sealed class Account : IEntity<AccountId>
     public PasswordHash PasswordHash { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
     public FullName? FullName { get; private set; }
-    public DateTime CreationTimestamp { get; private set; }
+    public CreationTimestamp CreationTimestamp { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<RefreshSession> RefreshSessions => _refreshSessions;
-    public IReadOnlyList<AccountRole> AccountRoles => _accountRoles;
+    public IReadOnlyList<RoleId> Roles => _roles;
+
+    #region Factory methods
 
     public static Account CreateNew(
         UserName userName,
@@ -49,23 +52,13 @@ public sealed class Account : IEntity<AccountId>
         PasswordHash passwordHash)
     {
         var id = AccountId.CreateRandom();
-        var creationTimestamp = DateTime.UtcNow;
-
-        return new Account(id, userName, email, passwordHash, creationTimestamp);
+        var creationTimeStamp = CreationTimestamp.CreateNew();
+        return new Account(id, userName, email, passwordHash, creationTimeStamp);
     }
 
-    public static Result<Account, Error> Create(
-        AccountId id,
-        UserName userName,
-        EmailAddress email,
-        PasswordHash passwordHash,
-        DateTime creationTimestamp)
-    {
-        if (creationTimestamp > DateTime.UtcNow)
-            return Errors.General.ValueIsInvalid(nameof(creationTimestamp));
+    #endregion
 
-        return new Account(id, userName, email, passwordHash, creationTimestamp);
-    }
+    #region CRUD
 
     public Result<RefreshSession, Error> GetRefreshSessionById(RefreshSessionId refreshSessionId)
     {
@@ -80,27 +73,14 @@ public sealed class Account : IEntity<AccountId>
         return refreshSession;
     }
 
-    public Result<AccountRole, Error> GetAccountRoleById(AccountRoleId accountRoleId)
+    public void AddRole(RoleId roleId)
     {
-        var accountRole = _accountRoles.FirstOrDefault(ar => ar.Id == accountRoleId);
-
-        if (accountRole == null)
-            return Errors.General.RecordNotFound(
-                nameof(AccountRole),
-                nameof(AccountRoleId),
-                accountRoleId.Value);
-
-        return accountRole;
+        _roles.Add(roleId);
     }
 
-    public void AddAccountRole(AccountRole accountRole)
+    public void AddRoles(IEnumerable<RoleId> roleIds)
     {
-        _accountRoles.Add(accountRole);
-    }
-
-    public void AddAccountRoles(IEnumerable<AccountRole> accountRoles)
-    {
-        _accountRoles.AddRange(accountRoles);
+        _roles.AddRange(roleIds);
     }
 
     public void AddRefreshSession(RefreshSession refreshSession)
@@ -108,25 +88,46 @@ public sealed class Account : IEntity<AccountId>
         _refreshSessions.Add(refreshSession);
     }
 
-    public Result<Error> DeleteRefreshSession(RefreshSessionId refreshSessionId)
+    public void AddRefreshSessions(IEnumerable<RefreshSession> refreshSessions)
     {
-        var refreshSession = GetRefreshSessionById(refreshSessionId);
-
-        if (refreshSession.IsFailure)
-            return refreshSession.Error;
-
-        _refreshSessions.Remove(refreshSession.Value);
-        return true;
+        _refreshSessions.AddRange(refreshSessions);
     }
 
-    public Result<Error> DeleteAccountRole(AccountRoleId accountRoleId)
+    public void DeleteRefreshSession(RefreshSessionId refreshSessionId)
     {
-        var account = GetAccountRoleById(accountRoleId);
+        var getRefreshSessionResult = GetRefreshSessionById(refreshSessionId);
 
-        if (account.IsFailure)
-            return account.Error;
+        if (getRefreshSessionResult.IsFailure)
+            return;
 
-        _accountRoles.Remove(account.Value);
-        return true;
+        _refreshSessions.Remove(getRefreshSessionResult.Value);
     }
+
+    public void DeleteRefreshSessions(IEnumerable<RefreshSessionId> refreshSessionIds)
+    {
+        foreach (var refreshSessionId in refreshSessionIds)
+        {
+            var getRefreshSessionResult = GetRefreshSessionById(refreshSessionId);
+
+            if (getRefreshSessionResult.IsFailure)
+                continue;
+
+            _refreshSessions.Remove(getRefreshSessionResult.Value);
+        }
+    }
+
+    public void DeleteRole(RoleId roleId)
+    {
+        _roles.Remove(roleId);
+    }
+
+    public void DeleteRoles(IEnumerable<RoleId> roleIds)
+    {
+        foreach (var roleId in roleIds)
+        {
+            _roles.Remove(roleId);
+        }
+    }
+
+    #endregion
 }

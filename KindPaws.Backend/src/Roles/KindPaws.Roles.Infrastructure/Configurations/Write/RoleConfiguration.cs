@@ -1,4 +1,5 @@
-﻿using KindPaws.Roles.Domain.AggregateRoot;
+﻿using KindPaws.Core.Extensions;
+using KindPaws.Roles.Domain.AggregateRoot;
 using KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -37,13 +38,10 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired();
 
         // ROLE_PERMISSIONS
-        builder.HasMany(r => r.RolePermissions)
-            .WithOne()
-            .HasForeignKey("role_id")
-            .OnDelete(DeleteBehavior.Cascade)
+        builder.Property(r=>r.Permissions)
+            .HasJsonConversion()
+            .HasColumnType("jsonb")
+            .HasColumnName("permissions")
             .IsRequired();
-
-        // AUTO INCLUDE
-        builder.Navigation(r => r.RolePermissions).AutoInclude();
     }
 }

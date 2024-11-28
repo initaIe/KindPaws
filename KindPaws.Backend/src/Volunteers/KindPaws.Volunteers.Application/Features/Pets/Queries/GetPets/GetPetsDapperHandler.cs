@@ -6,13 +6,14 @@ using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Utilities.Validators;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Queries.GetPets;
 
-public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuery>
+public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDataModel>, GetPetsQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -21,7 +22,7 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
         _sqlConnectionFactory = sqlConnectionFactory;
     }
 
-    public async Task<PagedList<PetDto>> HandleAsync(
+    public async Task<PagedList<PetDataModel>> HandleAsync(
         GetPetsQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -112,7 +113,7 @@ public class GetPetsDapperHandler : IQueryHandler<PagedList<PetDto>, GetPetsQuer
 
         var petDtos = petDapperDtos.Select(p => p.ToDto());
 
-        return new PagedList<PetDto>
+        return new PagedList<PetDataModel>
         {
             TotalCount = totalCount,
             Items = petDtos.ToList(),

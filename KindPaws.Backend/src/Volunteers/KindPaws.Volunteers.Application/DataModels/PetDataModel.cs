@@ -1,6 +1,8 @@
-﻿namespace KindPaws.Volunteers.Contracts.Dtos;
+﻿using KindPaws.Volunteers.Contracts.Dtos;
 
-public class PetDto
+namespace KindPaws.Volunteers.Application.DataModels;
+
+public class PetDataModel
 {
     public Guid Id { get; init; }
     public Guid SpecieId { get; init; }
@@ -14,7 +16,7 @@ public class PetDto
     public BiometricDetailsDto? BiometricDetails { get; init; }
     public DateTime CreationDateTime { get; init; }
     public int Position { get; init; }
-    public PetPhotoDto[] Photos { get; init; } = [];
+    public IReadOnlyList<PetPhotoDto> Photos { get; init; } = [];
     public Guid VolunteerId { get; init; }
     public bool IsSoftDeleted { get; init; }
 }

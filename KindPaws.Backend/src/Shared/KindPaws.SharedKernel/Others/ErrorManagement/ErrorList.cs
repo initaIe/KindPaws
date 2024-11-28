@@ -11,6 +11,9 @@ public class ErrorList : IEnumerable<Error>
         _errors = [..errors];
     }
 
+    public void Add(Error error)
+        => _errors.Add(error);
+
     public IEnumerator<Error> GetEnumerator()
     {
         return _errors.GetEnumerator();

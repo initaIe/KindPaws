@@ -1,16 +1,18 @@
 ﻿using System.Text.Json;
+using KindPaws.Accounts.Application.DataModels;
 using KindPaws.Accounts.Application.Mappers;
 using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Accounts.Infrastructure.Configurations.Read;
 
-public class AccountDtoConfiguration : IEntityTypeConfiguration<AccountDto>
+public class AccountDtoConfiguration : IEntityTypeConfiguration<AccountDataModel>
 {
-    public void Configure(EntityTypeBuilder<AccountDto> builder)
+    public void Configure(EntityTypeBuilder<AccountDataModel> builder)
     {
         // TABLE NAMING
         builder.ToTable("accounts");
@@ -60,9 +62,11 @@ public class AccountDtoConfiguration : IEntityTypeConfiguration<AccountDto>
             .WithOne()
             .HasForeignKey(rs => rs.AccountId);
 
-        // ACCOUNT_ROLES
-        builder.HasMany(a => a.AccountRoles)
-            .WithOne()
-            .HasForeignKey(rs => rs.AccountId);
+        // ROLES
+        builder.Property(a => a.Roles)
+            .HasJsonConversion()
+            .HasColumnType("jsonb")
+            .HasColumnName("roles")
+            .IsRequired();
     }
 }

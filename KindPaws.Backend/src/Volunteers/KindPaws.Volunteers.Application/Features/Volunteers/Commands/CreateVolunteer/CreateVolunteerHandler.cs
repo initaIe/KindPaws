@@ -13,8 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.CreateVolunteer;
 
-public class CreateVolunteerHandler
-    : ICommandHandler<Guid, CreateVolunteerCommand>
+public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerCommand>
 {
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
@@ -42,11 +41,7 @@ public class CreateVolunteerHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        var volunteer = VolunteerHelper.ForceCreateNewVolunteer(
-            command.Description,
-            command.Address,
-            command.YearsOfExperience,
-            command.Requisites);
+        var volunteer = VolunteerHelper.ForceCreateNewVolunteer();
 
         await _volunteersRepository.AddAsync(volunteer, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

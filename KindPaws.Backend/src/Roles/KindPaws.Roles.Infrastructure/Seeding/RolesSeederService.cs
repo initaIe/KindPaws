@@ -8,6 +8,7 @@ using KindPaws.Roles.Infrastructure.Options;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -121,23 +122,18 @@ public class RolesSeederService
 
             if (permissionIdResults.Any(p => p.IsFailure))
                 throw new ApplicationException($"RolePermissions seeding was failure.");
-
+            
             var rolesPermissions = permissionIdResults
-                .Select(p => p.Value)
-                .Select(RolePermissionHelper.ForceCreateNewRolePermission);
-
-            var existingRolesPermissionsPermissionIds = role.RolePermissions
-                .Select(rp => rp.PermissionId)
-                .ToList();
+                .Select(p => PermissionId.Create(p.Value).Value);
 
             var newRolesPermissions = rolesPermissions
-                .Where(rp => !existingRolesPermissionsPermissionIds.Contains(rp.PermissionId))
-                .DistinctBy(rp => rp.PermissionId)
+                .Where(rp => !role.Permissions.Contains(rp))
+                .Distinct()
                 .ToList();
 
             if (newRolesPermissions.Count != 0)
             {
-                role.AddRolePermissions(newRolesPermissions);
+                role.AddPermissions(newRolesPermissions);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
         }

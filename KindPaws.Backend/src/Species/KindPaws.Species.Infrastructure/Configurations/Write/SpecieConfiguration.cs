@@ -47,9 +47,6 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
                 .IsRequired();
         });
 
-        // Breeds auto include
-        builder.Navigation(specie => specie.Breeds).AutoInclude();
-
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")

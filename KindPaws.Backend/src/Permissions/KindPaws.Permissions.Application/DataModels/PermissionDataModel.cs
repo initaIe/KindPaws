@@ -1,6 +1,6 @@
-﻿namespace KindPaws.Permissions.Contracts.Dtos;
+﻿namespace KindPaws.Permissions.Application.DataModels;
 
-public class PermissionDto
+public class PermissionDataModel
 {
     public Guid Id { get; init; }
     public string Code { get; init; } = null!;

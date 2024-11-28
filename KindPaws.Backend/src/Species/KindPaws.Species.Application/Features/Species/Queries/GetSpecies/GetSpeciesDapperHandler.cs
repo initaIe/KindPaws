@@ -4,12 +4,12 @@ using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.SharedKernel.Enums;
-using KindPaws.Species.Contracts.Dtos;
+using KindPaws.Species.Application.DataModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Species.Application.Features.Species.Queries.GetSpecies;
 
-public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSpeciesQuery>
+public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDataModel>, GetSpeciesQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -18,7 +18,7 @@ public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSp
         _sqlConnectionFactory = sqlConnectionFactory;
     }
 
-    public async Task<PagedList<SpecieDto>> HandleAsync(
+    public async Task<PagedList<SpecieDataModel>> HandleAsync(
         GetSpeciesQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -62,9 +62,9 @@ public class GetSpeciesDapperHandler : IQueryHandler<PagedList<SpecieDto>, GetSp
         );
 
         var totalCount = await connection.ExecuteScalarAsync<long>(counter.RawSql, counter.Parameters);
-        var species = await connection.QueryAsync<SpecieDto>(selector.RawSql, selector.Parameters);
+        var species = await connection.QueryAsync<SpecieDataModel>(selector.RawSql, selector.Parameters);
 
-        return new PagedList<SpecieDto>
+        return new PagedList<SpecieDataModel>
         {
             TotalCount = totalCount,
             Items = species.ToList(),

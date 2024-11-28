@@ -2,6 +2,7 @@
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Domain.Entities;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -10,7 +11,7 @@ namespace KindPaws.Volunteers.Domain.AggregateRoot;
 public class Volunteer : ISoftDeletableEntity<VolunteerId>
 {
     private readonly List<Pet> _pets = [];
-    private List<Requisite> _requisites;
+    private List<Requisite> _requisites = [];
 
     // ef core
     private Volunteer()
@@ -19,16 +20,10 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
     public Volunteer(
         VolunteerId id,
-        VolunteerDescription? description,
-        Address? address,
-        YearsOfExperience? yearsOfExperience,
-        IEnumerable<Requisite> requisites)
+        CreationTimestamp creationTimestamp)
     {
         Id = id;
-        Description = description;
-        Address = address;
-        YearsOfExperience = yearsOfExperience;
-        _requisites = requisites.ToList();
+        CreationTimestamp = creationTimestamp;
     }
 
     public VolunteerId Id { get; }
@@ -37,8 +32,25 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
+    public CreationTimestamp CreationTimestamp { get; private set; }
     public bool IsSoftDeleted { get; private set; }
     public DateTime? SoftDeletionTimestamp { get; private set; }
+
+    #region Factory methods
+
+    public static Volunteer CreateNew()
+    {
+        var id = VolunteerId.CreateRandom();
+        var creationTimestamp = CreationTimestamp.CreateNew();
+
+        return new Volunteer(
+            id,
+            creationTimestamp);
+    }
+
+    #endregion
+
+    #region CRUD
 
     public int GetCountPetsAlreadyFoundHome()
         => _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
@@ -70,6 +82,21 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 
         return pet;
+    }
+
+    public Result<Error> AddPets(IEnumerable<Pet> pets)
+    {
+        foreach (var pet in pets)
+        {
+            var getLastPositionResult = GeneratePositionForNewPet();
+            if (getLastPositionResult.IsFailure)
+                return getLastPositionResult.Error;
+
+            pet.UpdatePosition(getLastPositionResult.Value);
+            _pets.Add(pet);
+        }
+
+        return true;
     }
 
     public Result<Error> AddPet(Pet pet)
@@ -169,6 +196,20 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         _pets.ForEach(p => p.Restore());
     }
 
+    public void HardDeletePets(IEnumerable<PetId> petIds)
+    {
+        foreach (var petId in petIds)
+        {
+            var petResult = GetPetById(petId);
+
+            if (petResult.IsFailure)
+                return;
+
+            _pets.Remove(petResult.Value);
+            AlignPetPositionsAfterDelete(petResult.Value.Position);
+        }
+    }
+
     public void HardDeletePet(PetId petId)
     {
         var petResult = GetPetById(petId);
@@ -178,6 +219,20 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
         _pets.Remove(petResult.Value);
         AlignPetPositionsAfterDelete(petResult.Value.Position);
+    }
+
+    public void SoftDeletePets(IEnumerable<PetId> petIds)
+    {
+        foreach (var petId in petIds)
+        {
+            var petResult = GetPetById(petId);
+
+            if (petResult.IsFailure)
+                return;
+
+            petResult.Value.SoftDelete();
+            AlignPetPositionsAfterDelete(petResult.Value.Position);
+        }
     }
 
     public void SoftDeletePet(PetId petId)
@@ -278,4 +333,6 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
     {
         _pets.RemoveAll(p => p.SoftDeletionTimestamp < DateTime.UtcNow.AddDays(-petLifeTimeAfterDeletionInDays));
     }
+
+    #endregion
 }

@@ -1,10 +1,10 @@
-﻿namespace KindPaws.Species.Contracts.Dtos;
+﻿namespace KindPaws.Species.Application.DataModels;
 
-public class SpecieDto
+public class SpecieDataModel
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = null!;
     public string Description { get; init; } = null!;
-    public BreedDto[] Breeds { get; init; } = [];
+    public IReadOnlyList<BreedDataModel> Breeds { get; init; } = [];
     public bool IsSoftDeleted { get; init; }
 }

@@ -2,7 +2,7 @@
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using KindPaws.Species.Application.Abstractions;
-using KindPaws.Species.Contracts.Dtos;
+using KindPaws.Species.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -17,8 +17,8 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
-    public IQueryable<SpecieDto> Species => Set<SpecieDto>();
-    public IQueryable<BreedDto> Breeds => Set<BreedDto>();
+    public IQueryable<SpecieDataModel> Species => Set<SpecieDataModel>();
+    public IQueryable<BreedDataModel> Breeds => Set<BreedDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

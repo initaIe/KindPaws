@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using KindPaws.Core.Dtos.DapperDtos;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -56,8 +57,8 @@ public static class ToDtoMappers
         => petPhotos.Select(ToDto).ToList();
 
 
-    public static PetDto ToDto(this PetDapperDto petDapperDto)
-        => new PetDto
+    public static PetDataModel ToDto(this PetDapperDto petDapperDto)
+        => new PetDataModel
         {
             Id = petDapperDto.Id,
             SpecieId = petDapperDto.SpecieId,

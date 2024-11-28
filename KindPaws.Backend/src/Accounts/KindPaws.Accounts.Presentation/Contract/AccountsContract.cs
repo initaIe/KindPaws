@@ -1,6 +1,6 @@
-﻿using KindPaws.Accounts.Application.Abstractions;
-using KindPaws.Accounts.Application.Features.AccountRoles.Commands.AddAccountRole;
-using KindPaws.Accounts.Application.Features.AccountRoles.Commands.DeleteAccountRole;
+﻿using EFCore.NamingConventions.Internal;
+using KindPaws.Accounts.Application.Abstractions;
+using KindPaws.Accounts.Application.DataModels;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.DeleteAccount;
 using KindPaws.Accounts.Application.Features.Accounts.Queries.ValidateAccountByEmail;
@@ -14,6 +14,8 @@ using KindPaws.Accounts.Presentation.Mappers;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Accounts.Presentation.Contract;
@@ -25,11 +27,9 @@ public class AccountsContract : IAccountsContract
     private readonly ICommandHandler<Guid, AddRefreshSessionCommand> _addRefreshSessionByIdHandler;
     private readonly ICommandHandler<Guid, DeleteRefreshSessionCommand> _deleteRefreshSessionHandler;
     private readonly ICommandHandler<Guid, DeleteAccountCommand> _deleteAccountHandler;
-    private readonly ICommandHandler<Guid, AddAccountRoleCommand> _addAccountRoleHandler;
-    private readonly ICommandHandler<Guid, DeleteAccountRoleCommand> _deleteAccountRoleHandler;
     private readonly IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> _validateAccountPasswordHandler;
 
-    private readonly IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery>
+    private readonly IQueryHandler<Result<RefreshSessionDataModel, ErrorList>, GetRefreshSessionByAccountIdQuery>
         _getRefreshSessionByAccountIdHandler;
 
     public AccountsContract(
@@ -37,19 +37,15 @@ public class AccountsContract : IAccountsContract
         ICommandHandler<Guid, AddRefreshSessionCommand> addRefreshSessionByIdHandler,
         ICommandHandler<Guid, DeleteRefreshSessionCommand> deleteRefreshSessionHandler,
         ICommandHandler<Guid, DeleteAccountCommand> deleteAccountHandler,
-        ICommandHandler<Guid, AddAccountRoleCommand> addAccountRoleHandler,
-        ICommandHandler<Guid, DeleteAccountRoleCommand> deleteAccountRoleHandler,
         IAccountsReadDbContext dbContext,
         IQueryHandler<Result<Guid, ErrorList>, ValidateAccountByQuery> validateAccountPasswordHandler,
-        IQueryHandler<Result<RefreshSessionDto, ErrorList>, GetRefreshSessionByAccountIdQuery>
+        IQueryHandler<Result<RefreshSessionDataModel, ErrorList>, GetRefreshSessionByAccountIdQuery>
             getRefreshSessionByAccountIdHandler)
     {
         _createAccountHandler = createAccountHandler;
         _addRefreshSessionByIdHandler = addRefreshSessionByIdHandler;
         _deleteRefreshSessionHandler = deleteRefreshSessionHandler;
         _deleteAccountHandler = deleteAccountHandler;
-        _addAccountRoleHandler = addAccountRoleHandler;
-        _deleteAccountRoleHandler = deleteAccountRoleHandler;
         _dbContext = dbContext;
         _validateAccountPasswordHandler = validateAccountPasswordHandler;
         _getRefreshSessionByAccountIdHandler = getRefreshSessionByAccountIdHandler;
@@ -89,33 +85,6 @@ public class AccountsContract : IAccountsContract
         return await _deleteAccountHandler.HandleAsync(command, cancellationToken);
     }
 
-    public async Task<Result<Guid, ErrorList>> AddAccountRoleAsync(
-        Guid accountId,
-        AddAccountRoleRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        var command = request.ToCommand(accountId);
-        return await _addAccountRoleHandler.HandleAsync(command, cancellationToken);
-    }
-
-    public async Task<Result<Guid, ErrorList>> DeleteAccountRoleAsync(
-        Guid accountId,
-        Guid accountRoleId,
-        CancellationToken cancellationToken = default)
-    {
-        var command = new DeleteAccountRoleCommand(accountId, accountRoleId);
-        return await _deleteAccountRoleHandler.HandleAsync(command, cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<AccountRoleDto>> GetAccountRolesByIdAsync(
-        Guid accountId,
-        CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.AccountRoles
-            .Where(ar => ar.AccountId == accountId)
-            .ToListAsync(cancellationToken: cancellationToken);
-    }
-
     public async Task<bool> IsAccountByEmailAddressExists(
         string emailAddress,
         CancellationToken cancellationToken = default)
@@ -133,11 +102,26 @@ public class AccountsContract : IAccountsContract
         return await _validateAccountPasswordHandler.HandleAsync(query, cancellationToken);
     }
 
-    public async Task<Result<RefreshSessionDto, ErrorList>> GetRefreshSessionByAccountId(
+    // public async Task<Result<RefreshSessionDataModel, ErrorList>> GetRefreshSessionByAccountId(
+    //     Guid accountId,
+    //     CancellationToken cancellationToken = default)
+    // {
+    //     var query = new GetRefreshSessionByAccountIdQuery(accountId);
+    //     return await _getRefreshSessionByAccountIdHandler.HandleAsync(query, cancellationToken);
+    // }
+    
+    // TODO: MOVE TO APPLICATION QUERIES
+    public async Task<Result<IReadOnlyList<Guid>, ErrorList>> GetRolesAsync(
         Guid accountId,
         CancellationToken cancellationToken = default)
     {
-        var query = new GetRefreshSessionByAccountIdQuery(accountId);
-        return await _getRefreshSessionByAccountIdHandler.HandleAsync(query, cancellationToken);
+        var account = await _dbContext.Accounts.FirstOrDefaultAsync(
+            a=>a.Id == accountId,
+            cancellationToken);
+
+        if (account == null)
+            return Errors.General.RecordNotFound().ToErrorList();
+        
+        return account.Roles.ToList();
     }
 }

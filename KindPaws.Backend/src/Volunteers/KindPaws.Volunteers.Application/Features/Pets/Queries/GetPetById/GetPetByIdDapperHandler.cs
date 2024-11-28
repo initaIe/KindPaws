@@ -6,6 +6,7 @@ using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.Entities;
@@ -14,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Queries.GetPetById;
 
-public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, GetPetByIdQuery>
+public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDataModel, ErrorList>, GetPetByIdQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -23,7 +24,7 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
         _sqlConnectionFactory = sqlConnectionFactory;
     }
 
-    public async Task<Result<PetDto, ErrorList>> HandleAsync(
+    public async Task<Result<PetDataModel, ErrorList>> HandleAsync(
         GetPetByIdQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -86,7 +87,7 @@ public class GetPetByIdDapperHandler : IQueryHandler<Result<PetDto, ErrorList>, 
         var photos = JsonSerializer.Deserialize<IEnumerable<PetPhoto>>(petResponse.photos)!
             .Select(p => p.ToDto());
 
-        var petDto = new PetDto
+        var petDto = new PetDataModel
         {
             Id = petResponse.id,
             SpecieId = petResponse.specie_id,

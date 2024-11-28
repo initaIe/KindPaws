@@ -1,6 +1,6 @@
-﻿namespace KindPaws.VolunteerRequests.Contracts.Dtos;
+﻿namespace KindPaws.VolunteerRequests.Application.DataModels;
 
-public class VolunteerRequestDto
+public class VolunteerRequestDataModel
 {
     public Guid Id { get; init; }
     public Guid RequesterAccountId { get; init; }

@@ -61,9 +61,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        // PETS AUTO INCLUDE
-        builder.Navigation(v => v.Pets).AutoInclude();
-
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")

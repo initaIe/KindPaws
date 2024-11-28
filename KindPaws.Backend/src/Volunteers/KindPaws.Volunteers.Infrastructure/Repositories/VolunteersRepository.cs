@@ -34,6 +34,7 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
+            .Include(v=>v.Pets)
             .FirstOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
 
         if (volunteer == null)

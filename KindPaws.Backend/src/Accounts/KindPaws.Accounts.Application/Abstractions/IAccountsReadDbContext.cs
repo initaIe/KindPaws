@@ -1,10 +1,10 @@
-﻿using KindPaws.Accounts.Contracts.Dtos;
+﻿using KindPaws.Accounts.Application.DataModels;
+using KindPaws.Accounts.Contracts.Dtos;
 
 namespace KindPaws.Accounts.Application.Abstractions;
 
 public interface IAccountsReadDbContext
 {
-    IQueryable<AccountDto> Accounts { get; }
-    IQueryable<RefreshSessionDto> RefreshSessions { get; }
-    IQueryable<AccountRoleDto> AccountRoles { get; }
+    IQueryable<AccountDataModel> Accounts { get; }
+    IQueryable<RefreshSessionDataModel> RefreshSessions { get; }
 }
