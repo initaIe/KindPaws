@@ -17,13 +17,13 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
         AccountId requesterAccountId,
         VolunteerInfo volunteerInfo,
         VolunteerRequestStatus status,
-        CreationTimestamp creationTimestamp)
+        CreatedAt createdAt)
     {
         Id = id;
         RequesterAccountId = requesterAccountId;
         VolunteerInfo = volunteerInfo;
         Status = status;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public VolunteerRequestId Id { get; private set; }
@@ -33,7 +33,7 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
     public VolunteerInfo VolunteerInfo { get; private set; }
     public RejectionComment? RejectionComment { get; private set; }
     public VolunteerRequestStatus Status { get; private set; } 
-    public CreationTimestamp CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
 
     #region Factory methods
 
@@ -43,7 +43,7 @@ public class VolunteerRequest : IEntity<VolunteerRequestId>
         VolunteerRequestStatus status)
     {
         var id = VolunteerRequestId.CreateRandom();
-        var creationTimestamp = CreationTimestamp.CreateNew();
+        var creationTimestamp = CreatedAt.CreateNew();
 
         return new VolunteerRequest(
             id,

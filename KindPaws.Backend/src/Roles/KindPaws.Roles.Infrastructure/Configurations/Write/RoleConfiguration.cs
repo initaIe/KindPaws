@@ -33,10 +33,10 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired();
 
         // CREATION_TIMESTAMP
-        builder.Property(r => r.CreationTimestamp)
+        builder.Property(r => r.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

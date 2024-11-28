@@ -49,10 +49,10 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
         });
         
         // CREATION_TIMESTAMP
-        builder.Property(s => s.CreationTimestamp)
+        builder.Property(s => s.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

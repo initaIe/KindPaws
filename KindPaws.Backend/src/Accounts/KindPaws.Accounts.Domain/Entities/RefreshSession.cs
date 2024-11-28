@@ -15,39 +15,39 @@ public class RefreshSession
         RefreshSessionId id,
         Jti jti,
         RefreshToken refreshToken,
-        CreationTimestamp creationTimestamp,
-        RefreshSessionExpireTimestamp expireTimestamp)
+        CreatedAt createdAt,
+        RefreshSessionExpiresAt expiresAt)
     {
         Id = id;
         Jti = jti;
         RefreshToken = refreshToken;
-        CreationTimestamp = creationTimestamp;
-        ExpireTimestamp = expireTimestamp;
+        CreatedAt = createdAt;
+        ExpiresAt = expiresAt;
     }
 
     public RefreshSessionId Id { get; private set; }
     public Jti Jti { get; private set; }
     public RefreshToken RefreshToken { get; private set; }
-    public CreationTimestamp CreationTimestamp { get; private set; }
-    public RefreshSessionExpireTimestamp ExpireTimestamp { get; private set; }
-    public bool IsExpired => DateTime.UtcNow > ExpireTimestamp.Value;
+    public CreatedAt CreatedAt { get; private set; }
+    public RefreshSessionExpiresAt ExpiresAt { get; private set; }
+    public bool IsExpired => DateTimeOffset.UtcNow > ExpiresAt.Value;
 
     #region Factory methods
 
     public static RefreshSession CreateNew(
         Jti jti,
-        RefreshSessionExpireTimestamp expireTimestamp)
+        RefreshSessionExpiresAt expiresAt)
     {
         var id = RefreshSessionId.CreateRandom();
         var refreshToken = RefreshToken.CreateRandom();
-        var creationTimestamp = CreationTimestamp.CreateNew();
+        var creationTimestamp = CreatedAt.CreateNew();
 
         return new RefreshSession(
             id,
             jti,
             refreshToken,
             creationTimestamp,
-            expireTimestamp);
+            expiresAt);
     }
 
     #endregion

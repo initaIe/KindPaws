@@ -8,12 +8,12 @@ public record Envelope
     {
         Result = result;
         Errors = ResponseErrorList.FromErrorList(errors);
-        CreationDateTime = DateTime.Now;
+        CreatedAt = DateTimeOffset.UtcNow;
     }
 
     public object? Result { get; }
     public ResponseErrorList? Errors { get; }
-    public DateTime CreationDateTime { get; }
+    public DateTimeOffset CreatedAt { get; }
 
     public static Envelope Ok(object? result = null)
     {

@@ -40,18 +40,18 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
             .IsRequired();
 
         // CREATION_TIMESTAMP
-        builder.Property(rs => rs.CreationTimestamp)
+        builder.Property(rs => rs.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 
         // EXPIRE_TIMESTAMP
-        builder.Property(rs => rs.ExpireTimestamp)
+        builder.Property(rs => rs.ExpiresAt)
             .HasConversion(
                 expireTimestamp => expireTimestamp.Value,
-                value => RefreshSessionExpireTimestamp.Create(value).Value)
+                value => RefreshSessionExpiresAt.Create(value).Value)
             .HasColumnName("expire_timestamp")
             .IsRequired();
     }

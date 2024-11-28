@@ -20,18 +20,18 @@ public class Pet : ISoftDeletableEntity<PetId>
         PetId id,
         PetName name,
         PetType petType,
-        CreationTimestamp creationTimestamp)
+        CreatedAt createdAt)
     {
         Id = id;
         Name = name;
         PetType = petType;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public PetId Id { get; }
     public PetName Name { get; private set; }
     public PetType PetType { get; private set; }
-    public CreationTimestamp CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
     public PetDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
@@ -41,7 +41,7 @@ public class Pet : ISoftDeletableEntity<PetId>
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletionTimestamp { get; private set; }
+    public DateTimeOffset? SoftDeletionTimestamp { get; private set; }
 
     #region Factory methods
 
@@ -50,7 +50,7 @@ public class Pet : ISoftDeletableEntity<PetId>
         PetType petType)
     {
         var id = PetId.CreateRandom();
-        var creationTimestamp = CreationTimestamp.CreateNew();
+        var creationTimestamp = CreatedAt.CreateNew();
 
         return new Pet(
             id,
@@ -63,7 +63,7 @@ public class Pet : ISoftDeletableEntity<PetId>
 
     #region CRUD
 
-    public int? YearsOld => Birthday == null ? null : DateTimeHelpers.CalculateYearsPassed(Birthday.Value);
+    public int? YearsOld => Birthday == null ? null : DateTimeOffsetHelpers.CalculateYearsPassed(Birthday.Value);
 
     internal void UpdateMainInfo(
         PetType petType,
@@ -149,7 +149,7 @@ public class Pet : ISoftDeletableEntity<PetId>
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTime.UtcNow;
+        SoftDeletionTimestamp = DateTimeOffset.UtcNow;
     }
 
     internal void Restore()

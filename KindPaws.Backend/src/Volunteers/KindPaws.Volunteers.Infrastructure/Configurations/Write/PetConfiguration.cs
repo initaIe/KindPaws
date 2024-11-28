@@ -48,10 +48,10 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         });
 
         // CREATION DATE
-        builder.Property(p => p.CreationTimestamp)
+        builder.Property(p => p.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

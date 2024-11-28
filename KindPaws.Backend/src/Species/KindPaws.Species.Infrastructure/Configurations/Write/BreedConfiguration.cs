@@ -41,10 +41,10 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         });
         
         // CREATION_TIMESTAMP
-        builder.Property(breed => breed.CreationTimestamp)
+        builder.Property(breed => breed.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

@@ -50,7 +50,7 @@ public class ExpiredEntitiesCleanerService
     private List<Volunteer> GetExpiredVolunteers(IEnumerable<Volunteer> volunteers)
     {
         return volunteers.Where(v =>
-                v.SoftDeletionTimestamp > DateTime.UtcNow.AddDays(-_options.VolunteerLifeTimeAfterDeletionInDays))
+                v.SoftDeletionTimestamp > DateTimeOffset.UtcNow.AddDays(-_options.VolunteerLifeTimeAfterDeletionInDays))
             .ToList();
     }
 }

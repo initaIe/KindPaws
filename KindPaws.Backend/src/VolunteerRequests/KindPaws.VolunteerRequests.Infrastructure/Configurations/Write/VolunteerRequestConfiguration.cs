@@ -71,10 +71,10 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
             .IsRequired();
 
         // CREATION TIMESTAMP
-        builder.Property(vr => vr.CreationTimestamp)
+        builder.Property(vr => vr.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
     }

@@ -67,10 +67,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired(false);
 
         // CREATION_TIMESTAMP
-        builder.Property(a => a.CreationTimestamp)
+        builder.Property(a => a.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

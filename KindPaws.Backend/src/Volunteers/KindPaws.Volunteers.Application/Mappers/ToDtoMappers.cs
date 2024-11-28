@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using KindPaws.Core.Dtos.DapperDtos;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.Volunteers.Application.DataModels;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
@@ -55,27 +52,4 @@ public static class ToDtoMappers
 
     public static IReadOnlyList<PetPhotoDto> ToDtoCollection(this IEnumerable<PetPhoto> petPhotos)
         => petPhotos.Select(ToDto).ToList();
-
-
-    public static PetDataModel ToDto(this PetDapperDto petDapperDto)
-        => new PetDataModel
-        {
-            Id = petDapperDto.Id,
-            SpecieId = petDapperDto.SpecieId,
-            BreedId = petDapperDto.BreedId,
-            Name = petDapperDto.Name,
-            SupportStatus = petDapperDto.SupportStatus,
-            Description = petDapperDto.Description,
-            Color = petDapperDto.Color,
-            Birthday = petDapperDto.DateBirth,
-            HealthDetails = JsonSerializer.Deserialize<HealthDetails>(petDapperDto.HealthDetails)!.ToDto(),
-            BiometricDetails = JsonSerializer.Deserialize<BiometricDetails>(petDapperDto.BiometricDetails)!.ToDto(),
-            CreationDateTime = petDapperDto.CreationDateTime,
-            Position = petDapperDto.Position,
-            Photos = JsonSerializer.Deserialize<IEnumerable<PetPhoto>>(petDapperDto.Photos,
-                    JsonSerializerOptions.Default)!
-                .Select(petPhoto => petPhoto.ToDto()).ToArray(),
-            VolunteerId = petDapperDto.VolunteerId,
-            IsSoftDeleted = petDapperDto.IsSoftDeleted,
-        };
 }

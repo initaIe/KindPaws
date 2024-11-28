@@ -19,10 +19,10 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
     public Volunteer(
         VolunteerId id,
-        CreationTimestamp creationTimestamp)
+        CreatedAt createdAt)
     {
         Id = id;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public VolunteerId Id { get; }
@@ -31,16 +31,16 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
-    public CreationTimestamp CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletionTimestamp { get; private set; }
+    public DateTimeOffset? SoftDeletionTimestamp { get; private set; }
 
     #region Factory methods
 
     public static Volunteer CreateNew()
     {
         var id = VolunteerId.CreateRandom();
-        var creationTimestamp = CreationTimestamp.CreateNew();
+        var creationTimestamp = CreatedAt.CreateNew();
 
         return new Volunteer(
             id,
@@ -184,7 +184,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTime.UtcNow;
+        SoftDeletionTimestamp = DateTimeOffset.UtcNow;
         _pets.ForEach(p => p.SoftDelete());
     }
 

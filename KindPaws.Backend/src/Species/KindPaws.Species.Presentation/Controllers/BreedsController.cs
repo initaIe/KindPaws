@@ -22,18 +22,4 @@ public class BreedsController : ApplicationController
 
         return Ok(result);
     }
-
-    [Permission(Permissions.Breeds.GetBreed)]
-    [HttpGet("dapper")]
-    public async Task<IActionResult> GetBreedsDapper(
-        [FromQuery] GetBreedsRequest request,
-        [FromServices] GetBreedsDapperHandler handler,
-        CancellationToken token)
-    {
-        var query = request.ToQuery();
-
-        var result = await handler.HandleAsync(query, token);
-
-        return Ok(result);
-    }
 }

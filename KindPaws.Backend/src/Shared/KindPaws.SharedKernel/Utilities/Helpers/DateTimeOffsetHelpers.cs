@@ -1,10 +1,10 @@
 ﻿namespace KindPaws.SharedKernel.Utilities.Helpers;
 
-public static class DateTimeHelpers
+public static class DateTimeOffsetHelpers
 {
-    public static int CalculateYearsPassed(DateTime startDate, DateTime? endDate = null)
+    public static int CalculateYearsPassed(DateTimeOffset startDate, DateTimeOffset? endDate = null)
     {
-        endDate ??= DateTime.UtcNow;
+        endDate ??= DateTimeOffset.UtcNow;
 
         if (endDate < startDate)
             throw new InvalidOperationException("Start date cannot be early than end date");

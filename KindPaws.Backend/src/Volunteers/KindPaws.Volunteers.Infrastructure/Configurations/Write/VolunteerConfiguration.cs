@@ -49,10 +49,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .IsRequired(false);
         
         // CREATION_TIMESTAMP
-        builder.Property(v => v.CreationTimestamp)
+        builder.Property(v => v.CreatedAt)
             .HasConversion(
                 creationTimestamp => creationTimestamp.Value,
-                value => CreationTimestamp.Create(value).Value)
+                value => CreatedAt.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

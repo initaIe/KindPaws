@@ -10,7 +10,7 @@ public class AccountDataModel
     public string PasswordHash { get; init; } = null!;
     public string? PhoneNumber { get; init; }
     public FullNameDto? FullName { get; init; }
-    public DateTime CreationTimestamp { get; init; }
+    public DateTimeOffset CreationTimestamp { get; init; }
     public IReadOnlyList<SocialNetworkDto> SocialNetworks { get; init; } = [];
     public IReadOnlyList<RefreshSessionDataModel> RefreshSessions { get; init; } = [];
     public IReadOnlyList<Guid> Roles { get; init; } = [];

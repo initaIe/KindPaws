@@ -13,9 +13,6 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // Configurations
-        DapperConfiguration.Configure();
-
         // Scrutor
         services.AddRepositories();
         services.AddApplications();

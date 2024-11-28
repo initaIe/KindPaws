@@ -15,23 +15,23 @@ public class Permission : IEntity<PermissionId>
     public Permission(
         PermissionId id, 
         PermissionCode code, 
-        CreationTimestamp creationTimestamp)
+        CreatedAt createdAt)
     {
         Id = id;
         Code = code;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public PermissionId Id { get; private set; }
     public PermissionCode Code { get; private set; }
-    public CreationTimestamp CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
 
     #region Factory methods
 
     public static Permission CreateNew(PermissionCode code)
     {
         var id = PermissionId.CreateRandom();
-        var creationTimestamp = CreationTimestamp.CreateNew();
+        var creationTimestamp = CreatedAt.CreateNew();
         
         return new Permission(id, code, creationTimestamp);
     }

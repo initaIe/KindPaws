@@ -11,10 +11,10 @@ public class PetDataModel
     public string? SupportStatus { get; init; }
     public string? Description { get; init; }
     public string? Color { get; init; }
-    public DateTime? Birthday { get; init; }
+    public DateTimeOffset? Birthday { get; init; }
     public HealthDetailsDto? HealthDetails { get; init; }
     public BiometricDetailsDto? BiometricDetails { get; init; }
-    public DateTime CreationDateTime { get; init; }
+    public DateTimeOffset CreationDateTime { get; init; }
     public int Position { get; init; }
     public IReadOnlyList<PetPhotoDto> Photos { get; init; } = [];
     public Guid VolunteerId { get; init; }

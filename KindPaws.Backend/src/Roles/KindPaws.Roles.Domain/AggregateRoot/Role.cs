@@ -18,16 +18,16 @@ public sealed class Role : IEntity<RoleId>
     public Role(
         RoleId id,
         RoleName name,
-        CreationTimestamp creationTimestamp)
+        CreatedAt createdAt)
     {
         Id = id;
         Name = name;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public RoleId Id { get; private set; }
     public RoleName Name { get; private set; }
-    public CreationTimestamp CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
     public IReadOnlyList<PermissionId> Permissions => _permissions;
 
     #region Factory methods
@@ -35,7 +35,7 @@ public sealed class Role : IEntity<RoleId>
     public static Role CreateNew(RoleName name)
     {
         var id = RoleId.CreateRandom();
-        var creationTimestamp = CreationTimestamp.CreateNew();
+        var creationTimestamp = CreatedAt.CreateNew();
         return new Role(id, name, creationTimestamp);
     }
 

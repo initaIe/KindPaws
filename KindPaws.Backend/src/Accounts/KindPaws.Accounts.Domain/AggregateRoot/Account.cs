@@ -23,13 +23,13 @@ public sealed class Account : IEntity<AccountId>
         UserName userName,
         EmailAddress emailAddress,
         PasswordHash passwordHash,
-        CreationTimestamp creationTimestamp)
+        CreatedAt createdAt)
     {
         Id = id;
         UserName = userName;
         EmailAddress = emailAddress;
         PasswordHash = passwordHash;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public AccountId Id { get; private set; }
@@ -38,7 +38,7 @@ public sealed class Account : IEntity<AccountId>
     public PasswordHash PasswordHash { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
     public FullName? FullName { get; private set; }
-    public CreationTimestamp CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<RefreshSession> RefreshSessions => _refreshSessions;
     public IReadOnlyList<RoleId> Roles => _roles;
@@ -51,7 +51,7 @@ public sealed class Account : IEntity<AccountId>
         PasswordHash passwordHash)
     {
         var id = AccountId.CreateRandom();
-        var creationTimeStamp = CreationTimestamp.CreateNew();
+        var creationTimeStamp = CreatedAt.CreateNew();
         return new Account(id, userName, email, passwordHash, creationTimeStamp);
     }
 

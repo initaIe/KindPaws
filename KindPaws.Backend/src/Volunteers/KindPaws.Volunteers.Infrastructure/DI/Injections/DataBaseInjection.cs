@@ -13,7 +13,6 @@ public static class DataBaseInjection
     {
         return services
             .AddDbContexts()
-            .AddSqlConnectionFactory()
             .AddLockRepositories()
             .AddUnitOfWork();
     }
@@ -23,11 +22,6 @@ public static class DataBaseInjection
         return services
             .AddScoped<VolunteersWriteDbContext>()
             .AddScoped<IVolunteersReadDbContext, VolunteersReadDbContext>();
-    }
-
-    private static IServiceCollection AddSqlConnectionFactory(this IServiceCollection services)
-    {
-        return services.AddKeyedScoped<ISqlConnectionFactory, SqlConnectionFactory>(Modules.Volunteers);
     }
     
     private static IServiceCollection AddLockRepositories(this IServiceCollection services)
