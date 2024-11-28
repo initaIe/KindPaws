@@ -2,6 +2,7 @@
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -67,6 +68,9 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         // CREATION_TIMESTAMP
         builder.Property(a => a.CreationTimestamp)
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

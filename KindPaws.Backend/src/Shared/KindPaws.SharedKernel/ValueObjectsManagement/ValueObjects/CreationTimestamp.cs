@@ -1,7 +1,7 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 
-namespace KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
+namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record CreationTimestamp
 {

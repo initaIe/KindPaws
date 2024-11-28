@@ -1,4 +1,5 @@
 ﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 

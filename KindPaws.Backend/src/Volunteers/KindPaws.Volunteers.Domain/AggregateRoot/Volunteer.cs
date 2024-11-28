@@ -2,7 +2,6 @@
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Domain.Entities;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 

@@ -1,4 +1,5 @@
 ﻿using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -46,6 +47,14 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 y => YearsOfExperience.Create(y).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
+        
+        // CREATION_TIMESTAMP
+        builder.Property(v => v.CreationTimestamp)
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
+            .HasColumnName("creation_timestamp")
+            .IsRequired();
 
         // REQUISITES
         builder.Property(p => p.Requisites)

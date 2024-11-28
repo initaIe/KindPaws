@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.VolunteerRequests.Domain.AggregateRoot;
 using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -72,7 +73,7 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
         // CREATION TIMESTAMP
         builder.Property(vr => vr.CreationTimestamp)
             .HasConversion(
-                creationTimestamp => creationTimestamp!.Value,
+                creationTimestamp => creationTimestamp.Value,
                 value => CreationTimestamp.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();

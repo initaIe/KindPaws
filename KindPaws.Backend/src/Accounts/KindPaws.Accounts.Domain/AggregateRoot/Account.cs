@@ -4,7 +4,6 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Accounts.Domain.AggregateRoot;
 

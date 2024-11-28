@@ -1,6 +1,7 @@
 ﻿using KindPaws.Core.Extensions;
 using KindPaws.Roles.Domain.AggregateRoot;
 using KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -30,10 +31,12 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasColumnType("citext")
             .HasColumnName("name")
             .IsRequired();
-        builder.HasIndex(r => r.Name);
 
         // CREATION_TIMESTAMP
         builder.Property(r => r.CreationTimestamp)
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
             .HasColumnName("creation_timestamp")
             .IsRequired();
 

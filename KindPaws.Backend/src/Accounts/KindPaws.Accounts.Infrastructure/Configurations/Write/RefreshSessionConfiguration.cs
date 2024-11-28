@@ -1,5 +1,6 @@
 ﻿using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -27,21 +28,31 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
             .HasConversion(
                 jti => jti.Value,
                 value => Jti.Create(value).Value)
-            .HasColumnName("jti");
+            .HasColumnName("jti")
+            .IsRequired();
 
         // REFRESH_TOKEN
         builder.Property(rs => rs.RefreshToken)
             .HasConversion(
                 refreshToken => refreshToken.Value,
                 value => RefreshToken.Create(value).Value)
-            .HasColumnName("refresh_token");
+            .HasColumnName("refresh_token")
+            .IsRequired();
 
         // CREATION_TIMESTAMP
         builder.Property(rs => rs.CreationTimestamp)
-            .HasColumnName("creation_timestamp");
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
+            .HasColumnName("creation_timestamp")
+            .IsRequired();
 
         // EXPIRE_TIMESTAMP
         builder.Property(rs => rs.ExpireTimestamp)
-            .HasColumnName("expire_timestamp");
+            .HasConversion(
+                expireTimestamp => expireTimestamp.Value,
+                value => RefreshSessionExpireTimestamp.Create(value).Value)
+            .HasColumnName("expire_timestamp")
+            .IsRequired();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Permissions.Domain.AggregateRoot;
 

@@ -1,5 +1,6 @@
 ﻿using KindPaws.Permissions.Domain.AggregateRoot;
 using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -26,10 +27,15 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .HasConversion(
                 permissionCode => permissionCode.Value,
                 value => PermissionCode.Create(value).Value)
-            .HasColumnName("code");
+            .HasColumnName("code")
+            .IsRequired();
 
         // CREATION_TIMESTAMP
         builder.Property(p => p.CreationTimestamp)
-            .HasColumnName("creation_timestamp");
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
+            .HasColumnName("creation_timestamp")
+            .IsRequired();
     }
 }

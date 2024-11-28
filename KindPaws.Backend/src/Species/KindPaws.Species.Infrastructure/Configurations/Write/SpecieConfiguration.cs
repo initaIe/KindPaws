@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjectsConstraints;
@@ -46,6 +47,14 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
                 .HasColumnName("description")
                 .IsRequired();
         });
+        
+        // CREATION_TIMESTAMP
+        builder.Property(s => s.CreationTimestamp)
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
+            .HasColumnName("creation_timestamp")
+            .IsRequired();
 
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)

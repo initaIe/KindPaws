@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjectsConstraints;
@@ -29,7 +30,6 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasColumnName("name")
             .HasColumnType("citext")
             .IsRequired();
-        builder.HasIndex(b => b.Name).IsUnique();
 
         // DESCRIPTION
         builder.ComplexProperty(breed => breed.Description, description =>
@@ -39,6 +39,14 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 .HasColumnName("description")
                 .IsRequired();
         });
+        
+        // CREATION_TIMESTAMP
+        builder.Property(breed => breed.CreationTimestamp)
+            .HasConversion(
+                creationTimestamp => creationTimestamp.Value,
+                value => CreationTimestamp.Create(value).Value)
+            .HasColumnName("creation_timestamp")
+            .IsRequired();
 
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
