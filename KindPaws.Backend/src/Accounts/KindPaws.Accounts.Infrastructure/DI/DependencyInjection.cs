@@ -14,7 +14,7 @@ public static class DependencyInjection
         services
             .AddDataBase()
             .AddProviders()
-            .AddSeeding()
+            // .AddSeeding()
             .AddOptions(configuration);
 
         return services;

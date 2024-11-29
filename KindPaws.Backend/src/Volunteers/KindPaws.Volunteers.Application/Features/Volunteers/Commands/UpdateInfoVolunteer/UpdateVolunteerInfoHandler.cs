@@ -31,7 +31,7 @@ public class UpdateVolunteerInfoHandler
         ILogger<CreateVolunteerHandler> logger,
         IValidator<UpdateVolunteerInfoCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IVolunteersLockService volunteersLockService)
     {
         _volunteersRepository = volunteersRepository;
@@ -49,47 +49,34 @@ public class UpdateVolunteerInfoHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
-        try
-        {
-            var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
+        var volunteerResult = await _volunteersRepository.GetByIdAsync(
+            volunteerId,
+            cancellationToken);
 
-            await _volunteersLockService.SetVolunteerLockForUpdateAsync(volunteerId, cancellationToken);
-            
-            var volunteerResult = await _volunteersRepository.GetByIdAsync(
-                volunteerId,
-                cancellationToken);
+        var description = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Description,
+            VolunteerDescription.Create);
 
-            var description = ValueObjectsHelpers.CreateNullableValueObject(
-                command.Description,
-                VolunteerDescription.Create);
+        var address = ValueObjectsHelpers.CreateNullableValueObject(
+            command.Address,
+            a => Address.Create(a.City, a.Street));
 
-            var address = ValueObjectsHelpers.CreateNullableValueObject(
-                command.Address,
-                a => Address.Create(a.City, a.Street));
+        var yearsOfExperience = ValueObjectsHelpers.CreateNullableValueObject(
+            command.YearsOfExperience,
+            y => YearsOfExperience.Create(y!.Value));
 
-            var yearsOfExperience = ValueObjectsHelpers.CreateNullableValueObject(
-                command.YearsOfExperience,
-                y => YearsOfExperience.Create(y!.Value));
+        var requisites = ValueObjectsHelpers.CreateNullableValueObjects(
+            command.Requisites,
+            r => Requisite.Create(r.Name, r.Description));
 
-            var requisites = ValueObjectsHelpers.CreateNullableValueObjects(
-                command.Requisites,
-                r => Requisite.Create(r.Name, r.Description));
+        volunteerResult.Value.UpdateInfo(description, address, yearsOfExperience, requisites);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            volunteerResult.Value.UpdateInfo(description, address, yearsOfExperience, requisites);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync(cancellationToken);
+        Log(volunteerId);
 
-            Log(volunteerId);
-
-            return volunteerId.Value;
-        }
-        catch (Exception e)
-        {
-            await transaction.RollbackAsync(cancellationToken);
-            throw;
-        }
+        return volunteerId.Value;
     }
 
     private void Log(VolunteerId volunteerId)

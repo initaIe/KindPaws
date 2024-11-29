@@ -13,8 +13,8 @@ public static class DependencyInjection
     {
         services
             .AddDataBase()
-            .AddOptions(configuration)
-            .AddSeeding();
+            // .AddSeeding()
+            .AddOptions(configuration);
 
         return services;
     }

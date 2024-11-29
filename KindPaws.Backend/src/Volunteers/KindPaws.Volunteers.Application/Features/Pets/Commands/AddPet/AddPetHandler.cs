@@ -23,14 +23,14 @@ public class AddPetHandler
     private readonly IValidator<AddPetCommand> _validator;
     private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
     private readonly IVolunteersLockService _volunteersLockService;
-    
+
 
     public AddPetHandler(
         ILogger<AddPetHandler> logger,
         IRepository<Volunteer, VolunteerId> volunteersRepository,
         IValidator<AddPetCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IVolunteersLockService volunteersLockService)
     {
         _logger = logger;
@@ -48,33 +48,21 @@ public class AddPetHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        var transaction = _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
 
-        try
-        {
-            var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
-            await _volunteersLockService.SetVolunteerLockForUpdateAsync(volunteerId, cancellationToken);
-            // TODO: 2PC
-            
-            var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
+        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
-            var pet = PetHelper.ForceCreateNewPet(command.Name, command.SpecieId, command.BreedId);
-            
-            var addPetResult = volunteerResult.Value.AddPet(pet);
-            if (addPetResult.IsFailure)
-                return addPetResult.Error.ToErrorList();
+        var pet = PetHelper.ForceCreateNewPet(command.Name, command.SpecieId, command.BreedId);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        var addPetResult = volunteerResult.Value.AddPet(pet);
+        if (addPetResult.IsFailure)
+            return addPetResult.Error.ToErrorList();
 
-            Log(pet, volunteerId);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return pet.Id.Value;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        Log(pet, volunteerId);
+
+        return pet.Id.Value;
     }
 
     private void Log(Pet pet, VolunteerId volunteerId)

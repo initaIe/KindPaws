@@ -9,7 +9,6 @@ namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 public record Weight
 {
-    [JsonConstructor]
     private Weight(float value)
     {
         Value = value;

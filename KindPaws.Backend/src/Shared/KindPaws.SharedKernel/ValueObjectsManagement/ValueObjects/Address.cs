@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 
@@ -8,7 +9,6 @@ namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record Address
 {
-    [JsonConstructor]
     private Address(
         string city,
         string street)
@@ -27,7 +27,7 @@ public record Address
         if (string.IsNullOrWhiteSpace(city))
             return Errors.General.ValueIsRequired(nameof(City));
 
-        city = city.Trim();
+        city = city.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(
                 city,
@@ -38,7 +38,7 @@ public record Address
         if (string.IsNullOrWhiteSpace(street))
             return Errors.General.ValueIsRequired(nameof(Street));
 
-        street = street.Trim();
+        street = street.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(
                 street,

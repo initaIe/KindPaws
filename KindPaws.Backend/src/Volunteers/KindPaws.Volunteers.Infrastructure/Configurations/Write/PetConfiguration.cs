@@ -81,7 +81,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnType("citext")
             .IsRequired(false);
 
-        // Birthday
+        // BIRTHDAY
         builder.Property(p => p.Birthday)
             .HasConversion(
                 birthday => birthday!.Value,
@@ -89,19 +89,19 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("birthday")
             .IsRequired(false);
 
-        // HEALTH DETAILS
+        // HEALTH_DETAILS
         builder.Property(p => p.HealthDetails)
             .HasColumnName("health_details")
             .HasColumnType("jsonb")
             .HasJsonConversion()
-            .IsRequired();
+            .IsRequired(false);
 
         // BIOMETRIC DETAILS
         builder.Property(p => p.BiometricDetails)
             .HasColumnName("biometric_details")
             .HasColumnType("jsonb")
             .HasJsonConversion()
-            .IsRequired();
+            .IsRequired(false);
 
         // PHOTOS DETAILS
         builder.Property(p => p.Photos)
@@ -118,7 +118,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("position")
             .IsRequired();
 
-        // IS SOFT DELETE
+        // IS_SOFT_DELETED
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")
             .IsRequired();

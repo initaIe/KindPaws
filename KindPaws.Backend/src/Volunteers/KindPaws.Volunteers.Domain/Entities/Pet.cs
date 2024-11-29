@@ -85,8 +85,8 @@ public class Pet : ISoftDeletableEntity<PetId>
         Description = description;
         Color = petColor;
         Birthday = birthday;
-        HealthDetails = healthDetails ?? HealthDetails.Empty;
-        BiometricDetails = biometricDetails ?? BiometricDetails.Empty;
+        HealthDetails = healthDetails;
+        BiometricDetails = biometricDetails;
     }
 
     internal void AddPhotos(IEnumerable<PetPhoto> photos)

@@ -50,7 +50,7 @@ public class UpdatePetMainInfoHandler
 
         var petName = PetName.Create(command.Name).Value;
         var specieId = SpecieId.Create(command.SpecieId).Value;
-        var petType = new PetType(specieId, command.BreedId);
+        var petType = PetType.Create(specieId, command.BreedId).Value;
 
         volunteer.UpdatePetMainInfo(
             petId,

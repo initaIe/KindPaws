@@ -41,7 +41,7 @@ public class VolunteersController : ApplicationController
         return Ok(result.Value);
     }
 
-    [Permission(Permissions.Volunteers.AddPet)]
+    // [Permission(Permissions.Volunteers.AddPet)]
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> AddPet(
         [FromRoute] Guid volunteerId,

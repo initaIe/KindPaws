@@ -1,10 +1,13 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Validators;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 public record PetType
 {
-    public PetType(SpecieId specieId, Guid breedId)
+    private PetType(SpecieId specieId, Guid breedId)
     {
         SpecieId = specieId;
         BreedId = breedId;
@@ -12,4 +15,12 @@ public record PetType
 
     public SpecieId SpecieId { get; }
     public Guid BreedId { get; }
+
+    public static Result<PetType, Error> Create(SpecieId specieId, Guid breedId)
+    {
+        if (GuidValidator.IsEmpty(breedId))
+            return Errors.General.ValueIsInvalid(nameof(breedId));
+
+        return new PetType(specieId, breedId);
+    }
 }

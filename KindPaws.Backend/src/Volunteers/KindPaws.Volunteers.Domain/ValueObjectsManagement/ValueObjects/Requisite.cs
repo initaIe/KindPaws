@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
@@ -8,7 +9,6 @@ namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 public record Requisite
 {
-    [JsonConstructor]
     private Requisite(
         string name,
         string description)
@@ -27,7 +27,7 @@ public record Requisite
         if (string.IsNullOrWhiteSpace(name))
             return Errors.General.ValueIsRequired(nameof(Name));
 
-        name = name.Trim();
+        name = name.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(
                 name,

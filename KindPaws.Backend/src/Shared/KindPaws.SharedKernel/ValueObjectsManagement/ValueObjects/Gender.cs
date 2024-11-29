@@ -11,7 +11,6 @@ public record Gender
 
     private static readonly Gender[] All = [Male, Female];
 
-    [JsonConstructor]
     private Gender(string value)
     {
         Value = value;

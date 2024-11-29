@@ -9,7 +9,6 @@ namespace KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 // TODO: in future add entity SocialNetwork with ID mb
 public record SocialNetwork
 {
-    [JsonConstructor]
     private SocialNetwork(
         string name,
         string link)

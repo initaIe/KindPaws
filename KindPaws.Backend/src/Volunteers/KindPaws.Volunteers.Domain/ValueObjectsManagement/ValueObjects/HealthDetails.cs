@@ -4,28 +4,16 @@ namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 public record HealthDetails
 {
-    public static readonly HealthDetails Empty = new HealthDetails(
-        null,
-        null,
-        null,
-        null,
-        null);
-
-    [JsonConstructor]
-    private HealthDetails()
-    {
-    }
-
     public HealthDetails(
         HealthDetailsDescription? description,
-        IEnumerable<Vaccine>? vaccines,
-        IEnumerable<Disease>? diseases,
+        IEnumerable<Vaccine> vaccines,
+        IEnumerable<Disease> diseases,
         HealthStatus? healthStatus,
         bool? isNeutered)
     {
         Description = description;
-        Vaccines = vaccines?.ToList() ?? [];
-        Diseases = diseases?.ToList() ?? [];
+        Vaccines = vaccines.ToList();
+        Diseases = diseases.ToList();
         HealthStatus = healthStatus;
         IsNeutered = isNeutered;
     }

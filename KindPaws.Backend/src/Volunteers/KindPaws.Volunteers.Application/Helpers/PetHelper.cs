@@ -10,7 +10,7 @@ public static class PetHelper
     {
         var petName = PetName.Create(name).Value;
         var petSpecieId = SpecieId.Create(specieId).Value;
-        var petType = new PetType(petSpecieId, breedId);
+        var petType = PetType.Create(petSpecieId, breedId).Value;
 
         return Pet.CreateNew(
             petName,
