@@ -4,9 +4,9 @@ env:
   NUGET_SOURCE: ${{ secrets.NUGET_SOURCE }}
   DOTNET_VERSION: 8.0.x
   SOLUTION_PATH: ./KindPaws.Shared/KindPaws.Core
-  PROJECT_PATH: ${{ env.SOLUTION_PATH }}/src/KindPaws.Core
-  PATH_TO_SLN: ${{ env.SOLUTION_PATH }}/KindPaws.Core.sln
-  PATH_TO_CSPROJ: ${{ env.PROJECT_PATH }}/KindPaws.Core.csproj
+  PROJECT_PATH: ./KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
+  PATH_TO_SLN: ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln
+  PATH_TO_CSPROJ: ./KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj
   PACKAGE_EXSTENSION_NAME: nupkg
   PACKAGE_NAME: KindPaws.Core
   
