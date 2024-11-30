@@ -1,0 +1,30 @@
+name: KinPaws.Core
+
+env:
+  NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
+  NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
+
+on:
+  push:
+    branches: ["Dev"]
+  paths:
+      - KindPaws.Shared/KindPaws.Core/**/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln
+
+      - name: Build
+        run: dotnet build ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --configuration Release --no-restore
