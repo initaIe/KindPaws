@@ -19,7 +19,7 @@
 
     <PropertyGroup>
         <PackageId>KindPaws.Core</PackageId>
-        <Version>1.1.3</Version>
+        <Version>1.1.4</Version>
         <Authors>initaIe</Authors>
         <Description>Shared Core for KindPaws project</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

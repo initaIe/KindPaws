@@ -44,7 +44,7 @@ jobs:
 
       - name: Pack NuGet package
         run: >
-          dotnet pack --no-restore --no-build --configuration Release -p:PackageVersion=${{ env.PACKAGE_VERSION }} --output .
+          dotnet pack ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --no-restore --no-build --configuration Release -p:PackageVersion=${{ env.PACKAGE_VERSION }}
 
       - name: Publish
         run: >
