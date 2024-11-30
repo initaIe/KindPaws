@@ -1,4 +1,4 @@
-name: Publish Core NuGet
+name: Publish NuGet Package for KindPaws.Core
 
 on:
   push:
@@ -20,16 +20,24 @@ jobs:
         with:
           dotnet-version: '8.0'  # Убедитесь, что используете правильную версию SDK
 
-      - name: Authenticate with GitHub Packages
-  	run: |
-          dotnet nuget add source --username initaIe --password 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 --name github "https://nuget.pkg.github.com/initaIe/index.json"
+      - name: Restore dependencies
+        run: |
+          dotnet restore KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
 
-      - name: Build
+      - name: Build project
+        run: |
+          dotnet build KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release
+
+      - name: Pack the project
         run: |
           dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts
 
-      - name: Publish
-        env:
-          NUGET_AUTH_TOKEN: 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
+      - name: Authenticate with GitHub Packages
         run: |
-          dotnet nuget push ./artifacts/*.nupkg --api-key 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 --source "github"
+          dotnet nuget add source https://nuget.pkg.github.com/initaIe/index.json --name github --username initaIe --password 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
+
+      - name: Push NuGet package to GitHub Packages
+        env:
+          NUGET_AUTH_TOKEN: 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  # Использование GitHub token для публикации
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json" --api-key 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
