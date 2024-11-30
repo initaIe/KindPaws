@@ -1,8 +1,17 @@
-name: KinPaws.Core
-
 env:
   NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
   NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
+  NUGET_SOURCE: ${{ secrets.NUGET_SOURCE }}
+  DOTNET_VERSION: 8.0.x
+  SOLUTION_PATH: ./KindPaws.Shared/KindPaws.Core
+  PROJECT_PATH: ${{ env.SOLUTION_PATH }}/src/KindPaws.Core
+  PATH_TO_SLN: ${{ env.SOLUTION_PATH }}/KindPaws.Core.sln
+  PATH_TO_CSPROJ: ${{ env.PROJECT_PATH }}/KindPaws.Core.csproj
+  PACKAGE_EXSTENSION_NAME: nupkg
+  PACKAGE_NAME: KindPaws.Core
+  
+
+name: KinPaws.Core  
 
 on:
   push:
@@ -13,7 +22,7 @@ on:
 
 jobs:
   build:
-    name: Build Package
+    name: Build And Publish Package ${{ env.PACKAGE_NAME }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,35 +31,35 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Authenticate with GitHub Packages
         run: >
           dotnet nuget add source
-          https://nuget.pkg.github.com/$NUGET_USERNAME/index.json --name github
-          --username $NUGET_USERNAME --password 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 --store-password-in-clear-text
+          ${{ env.NUGET_SOURCE }} --name github
+          --username ${{ env.NUGET_USERNAME }} --password ${{ env.NUGET_PASSWORD }}
 
       - name: Install xmllint
         run: sudo apt-get install -y libxml2-utils
 
       - name: Restore dependencies
-        run: dotnet restore ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln
+        run: dotnet restore ${{ env.PATH_TO_SLN }}
 
       - name: Get version from .csproj
         id: version
         run: |
-          VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" ./KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj)
+          VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" ${{ env.PATH_TO_CSPROJ }})
           echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Build
-        run: dotnet build ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --configuration Release --no-restore
+        run: dotnet build ${{ env.PATH_TO_SLN }} --configuration Release --no-restore
 
       - name: Pack NuGet package
         run: >
-          dotnet pack ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --no-restore --no-build --configuration Release -p:PackageVersion=${{ env.PACKAGE_VERSION }} -p:PackageId=KindPaws.Core
+          dotnet pack ${{ env.PATH_TO_SLN }} --no-restore --no-build --configuration Release -p:PackageVersion=${{ env.PACKAGE_VERSION }} -p:PackageId=${{ env.PACKAGE_NAME }}
 
       - name: Publish
         run: >
-          dotnet nuget push ./KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/bin/Release/KindPaws.Core.${{ env.PACKAGE_VERSION }}.nupkg
-          -s https://nuget.pkg.github.com/$NUGET_USERNAME/index.json
-          -k $NUGET_PASSWORD
+          dotnet nuget push ${{ env.PROJECT_PATH }}/bin/Release/${{ env.PACKAGE_NAME }}.${{ env.PACKAGE_VERSION }}.${{ env.PACKAGE_EXSTENSION_NAME }}
+          -s ${{ env.NUGET_SOURCE }}
+          -k ${{ env.NUGET_PASSWORD }}
