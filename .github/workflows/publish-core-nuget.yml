@@ -19,7 +19,7 @@ jobs:
         run: >
           dotnet nuget add source
           https://nuget.pkg.github.com/initaIe/index.json --name github
-          --username initaIe --password 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
+          --username initaIe --password ${{ secrets.MY_GITHUB_TOKEN }}
       - name: Restore dependencies
         run: |
           dotnet restore KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
@@ -32,9 +32,7 @@ jobs:
           dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
           --configuration Release --output ./artifacts
       - name: Push NuGet package to GitHub Packages
-        env:
-          NUGET_AUTH_TOKEN: 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
         run: >
           dotnet nuget push ./artifacts/*.nupkg --source
-          "https://nuget.pkg.github.com/initaIe/index.json" --api-key
-          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
+          "https://nuget.pkg.github.com/initaIe/index.json" --api-key ${{
+          secrets.MY_GITHUB_TOKEN }}
