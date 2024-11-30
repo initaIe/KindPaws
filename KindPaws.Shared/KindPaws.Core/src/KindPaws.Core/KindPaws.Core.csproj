@@ -19,7 +19,7 @@
 
     <PropertyGroup>
         <PackageId>KindPaws.Core</PackageId>
-        <Version>1.0.1</Version>
+        <Version>1.0.0</Version>
         <Authors>initaIe</Authors>
         <Description>Shared Core for KindPaws project</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -27,7 +27,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="KindPaws.SharedKernel" Version="1.0.1" />
+        <PackageReference Include="KindPaws.SharedKernel" Version="1.*.*" />
     </ItemGroup>
 
 </Project>
