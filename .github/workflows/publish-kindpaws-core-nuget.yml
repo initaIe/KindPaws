@@ -51,6 +51,6 @@ jobs:
 
       - name: Publish
         run: >
-          dotnet nuget push ./src/KindPaws.Core/bin/Release/KinPaws.Core${{ env.PACKAGE_VERSION }}.nupkg
+          dotnet nuget push ./src/KindPaws.Core/bin/Release/KinPaws.Core.${{ env.PACKAGE_VERSION }}.nupkg
           -s https://nuget.pkg.github.com/$NUGET_USERNAME/index.json
           -k $NUGET_PASSWORD
