@@ -24,6 +24,12 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Authenticate with GitHub Packages
+        run: >
+          dotnet nuget add source
+          https://nuget.pkg.github.com/$NUGET_USERNAME/index.json --name github
+          --username $NUGET_USERNAME --password $NUGET_PASSWORD
+
       - name: Restore dependencies
         run: dotnet restore ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln
 
