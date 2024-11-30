@@ -1,31 +1,44 @@
-name: Publish NuGet Packages
+name: Publish Packages
 
 on:
   push:
-    branches:
-      - dev
     paths:
-      - 'KindPaws/KindPaws.Shared/**/*'
+      - 'KindPaws/KindPaws.Shared/KindPaws.SharedKernel/**'
+      - 'KindPaws/KindPaws.Shared/KindPaws.Core/**'
+      - 'KindPaws/KindPaws.Shared/KindPaws.Framework/**'
+    branches:
+      - main
 
 jobs:
-  publish:
+  build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Check out the repository
+        uses: actions/checkout@v2
 
-      - name: Setup .NET SDK
+      - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'
 
-      - name: Build and Publish NuGet Packages
-        env:
-          NUGET_AUTH_TOKEN: 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
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Release
+
+      - name: Publish KindPaws.Core to GitHub Packages
         run: |
-          echo "Finding projects in KindPaws/KindPaws.Shared"
-          for proj in $(find KindPaws/KindPaws.Shared -name "*.csproj"); do
-            echo "Publishing package for $proj"
-            dotnet pack $proj -c Release --output ./artifacts
-            dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json"
+          dotnet pack KindPaws/KindPaws.Shared/KindPaws.Core/KindPaws.Core.csproj --configuration Release --output ./nupkgs
+          dotnet nuget push ./nupkgs/*.nupkg --source "GitHub" --api-key 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
+
+      - name: Publish KindPaws.SharedKernel to GitHub Packages
+        run: |
+          dotnet pack KindPaws/KindPaws.Shared/KindPaws.SharedKernel/KindPaws.SharedKernel.csproj --configuration Release --output ./nupkgs
+          dotnet nuget push ./nupkgs/*.nupkg --source "GitHub" --api-key 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
+
+      - name: Publish KindPaws.Framework to GitHub Packages
+        run: |
+          dotnet pack KindPaws/KindPaws.Shared/KindPaws.Framework/KindPaws.Framework.csproj --configuration Release --output ./nupkgs
+          dotnet nuget push ./nupkgs/*.nupkg --source "GitHub" --api-key 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
