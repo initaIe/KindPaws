@@ -6,9 +6,10 @@ env:
 
 on:
   push:
-    branches: ["Dev"]
-  paths:
-      - KindPaws.Shared/KindPaws.Core/**/*
+    branches:
+      - Dev
+    paths:
+      - 'KindPaws.Shared/KindPaws.Core/**/*'
 
 jobs:
   build:
