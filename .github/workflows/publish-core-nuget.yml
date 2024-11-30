@@ -20,19 +20,11 @@ jobs:
         with:
           dotnet-version: '8.0'  # Убедитесь, что используете правильную версию SDK
 
-      - name: Restore dependencies
+      - name: Build
         run: |
-          dotnet restore KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
+          dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts
 
-      - name: Build project
-        run: |
-          dotnet build KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release
-
-      - name: Pack the project
-        run: |
-          dotnet pack KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts
-
-      - name: Push NuGet package to GitHub Packages
+      - name: Publish
         env:
           NUGET_AUTH_TOKEN: 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
         run: |
