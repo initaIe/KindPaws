@@ -1,38 +1,43 @@
-name: Publish NuGet Package for KindPaws.Core
-'on':
+name: Publish NuGet Package to GitHub Packages
+
+on:
   push:
     branches:
       - Dev
     paths:
       - KindPaws.Shared/KindPaws.Core/**/*
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Setup .NET SDK
+
+      - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0'
+          dotnet-version: '8.0'  # Убедитесь, что используете нужную версию SDK
+
       - name: Authenticate with GitHub Packages
-        run: >
-          dotnet nuget add source
-          https://nuget.pkg.github.com/initaIe/index.json --name github
-          --username initaIe --password ${{ secrets.MY_GITHUB_TOKEN }}
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/initaIe/index.json --name github --username initaIe --password ${{ secrets.MY_GITHUB_TOKEN }}
+
       - name: Restore dependencies
         run: |
           dotnet restore KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
+
       - name: Build project
-        run: >
-          dotnet build KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
-          --configuration Release
+        run: |
+          dotnet build KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release
+
       - name: Pack the project
-        run: >
-          dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
-          --configuration Release --output ./artifacts
+        run: |
+          dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts      
+
       - name: Push NuGet package to GitHub Packages
-        run: >
-          dotnet nuget push ./artifacts/*.nupkg --source
-          "https://nuget.pkg.github.com/initaIe/index.json" --api-key ${{
-          secrets.MY_GITHUB_TOKEN }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Используем GitHub token для публикации пакетов
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json" --api-key $NUGET_AUTH_TOKEN
