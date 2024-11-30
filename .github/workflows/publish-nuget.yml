@@ -3,7 +3,7 @@ name: Publish NuGet Packages
 on:
   push:
     branches:
-      - Dev
+      - dev
     paths:
       - 'KindPaws/KindPaws.Shared/**/*'
 
@@ -24,8 +24,8 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: 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
         run: |
+          echo "Finding projects in KindPaws/KindPaws.Shared"
           for proj in $(find KindPaws/KindPaws.Shared -name "*.csproj"); do
             echo "Publishing package for $proj"
             dotnet pack $proj -c Release --output ./artifacts
             dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json"
-          done
