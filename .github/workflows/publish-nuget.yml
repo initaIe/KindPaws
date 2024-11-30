@@ -7,7 +7,7 @@ on:
       - 'KindPaws/KindPaws.Shared/KindPaws.Core/**'
       - 'KindPaws/KindPaws.Shared/KindPaws.Framework/**'
     branches:
-      - main
+      - Dev
 
 jobs:
   build-and-publish:
