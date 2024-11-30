@@ -30,13 +30,16 @@ jobs:
           https://nuget.pkg.github.com/$NUGET_USERNAME/index.json --name github
           --username $NUGET_USERNAME --password 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 --store-password-in-clear-text
 
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
+
       - name: Restore dependencies
         run: dotnet restore ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln
 
       - name: Get version from .csproj
         id: version
         run: |
-          VERSION=$(pwsh -Command "[xml](Get-Content './KindPaws.Shared/KindPaws.Core/KindPaws.Core.csproj').Project.PropertyGroup.Version")
+          VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.csproj)
           echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Build
