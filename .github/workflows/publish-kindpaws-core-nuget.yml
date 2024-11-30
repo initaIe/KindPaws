@@ -39,7 +39,7 @@ jobs:
       - name: Get version from .csproj
         id: version
         run: |
-          VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.csproj)
+          VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" ./KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj)
           echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Build
