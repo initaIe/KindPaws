@@ -1,0 +1,33 @@
+name: Publish Core NuGet
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - '**/KindPaws.Shared/KindPaws.Core/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # или другой доступный образ для Windows или Mac
+
+    steps:
+    # Checkout репозитория
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Установка .NET SDK
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0'  # Укажите нужную версию .NET
+
+    # Публикация NuGet пакета
+    - name: Pack Core NuGet package
+      run: |
+        dotnet pack --configuration Release --no-build --output ./output
+
+    # Публикация NuGet пакета на NuGet.org
+    - name: Publish NuGet package
+      run: |
+        dotnet nuget push ./output/*.nupkg --api-key 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 --source "github"
