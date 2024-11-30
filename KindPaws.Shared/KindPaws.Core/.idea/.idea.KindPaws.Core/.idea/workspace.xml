@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f35d7915-4b56-49cc-abdd-9d87340529c7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.KindPaws.Core/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.KindPaws.Core/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KindPaws.Core/KindPaws.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/KindPaws.Core/KindPaws.Core.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,7 @@
       <workItem from="1732917934399" duration="1392000" />
       <workItem from="1732960346139" duration="1277000" />
       <workItem from="1732963303391" duration="703000" />
-      <workItem from="1732965808413" duration="14219000" />
+      <workItem from="1732965808413" duration="14649000" />
     </task>
     <servers />
   </component>
