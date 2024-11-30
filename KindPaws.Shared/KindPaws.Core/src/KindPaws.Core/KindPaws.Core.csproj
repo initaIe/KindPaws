@@ -27,7 +27,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="KindPaws.SharedKernel" Version="1.*.*" />
+        <PackageReference Include="KindPaws.SharedKernel" Version="1.0.*" />
     </ItemGroup>
 
 </Project>
