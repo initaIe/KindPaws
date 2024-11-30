@@ -22,7 +22,7 @@ jobs:
 
       - name: Authenticate with GitHub Packages
   	run: |
-    	  dotnet nuget add source --username initaIe --password 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 --name github "https://nuget.pkg.github.com/initaIe/index.json"
+          dotnet nuget add source --username initaIe --password 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 --name github "https://nuget.pkg.github.com/initaIe/index.json"
 
       - name: Build
         run: |
