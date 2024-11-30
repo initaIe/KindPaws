@@ -3,31 +3,37 @@ name: Publish Core NuGet
 on:
   push:
     branches:
-      - dev
+      - Dev
     paths:
-      - 'KindPaws.Shared/KindPaws.SharedKernel/src/KindPaws.SharedKernel/**/*'
+      - 'KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # или другой доступный образ для Windows или Mac
+  publish:
+    runs-on: ubuntu-latest
 
     steps:
-    # Checkout репозитория
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Установка .NET SDK
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0'  # Укажите нужную версию .NET
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'  # Убедитесь, что используете правильную версию SDK
 
-    # Публикация NuGet пакета
-    - name: Pack Core NuGet package
-      run: |
-        dotnet pack --configuration Release --no-build --output ./output
+      - name: Restore dependencies
+        run: |
+          dotnet restore KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj
 
-    # Публикация NuGet пакета на NuGet.org
-    - name: Publish NuGet package
-      run: |
-        dotnet nuget push ./output/*.nupkg --api-key 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 --source "github"
+      - name: Build project
+        run: |
+          dotnet build KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj --configuration Release
+
+      - name: Pack the project
+        run: |
+          dotnet pack KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj --configuration Release --output ./artifacts
+
+      - name: Push NuGet package to GitHub Packages
+        env:
+          NUGET_AUTH_TOKEN: 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
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json"
