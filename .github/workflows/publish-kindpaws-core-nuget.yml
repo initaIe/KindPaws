@@ -13,19 +13,35 @@ on:
 
 jobs:
   build:
+    name: Build Package
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
         run: dotnet restore ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln
 
+      - name: Get version from .csproj
+        id: version
+        run: |
+          VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.csproj)
+          echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
+
       - name: Build
         run: dotnet build ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --configuration Release --no-restore
+
+      - name: Pack NuGet package
+        run: >
+          dotnet pack --no-restore --no-build --configuration Release -p:PackageVersion=${{ env.PACKAGE_VERSION }} --output .
+
+      - name: Publish
+        run: >
+          dotnet nuget push ./src/KindPaws.Core/bin/Release/${{ env.PACKAGE_VERSION }}.nupkg
+          -s https://nuget.pkg.github.com/$NUGET_USERNAME/index.json
+          -k $NUGET_PASSWORD
