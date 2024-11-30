@@ -3,6 +3,7 @@ name: KinPaws.Core
 env:
   NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
   NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
+  NUGET_NAME: KinPaws.Core
 
 on:
   push:
@@ -47,10 +48,10 @@ jobs:
 
       - name: Pack NuGet package
         run: >
-          dotnet pack ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --no-restore --no-build --configuration Release --output ./nupkgs -p:PackageVersion=${{ env.PACKAGE_VERSION }} -p:PackageId=KinPaws.Core
+          dotnet pack ./KindPaws.Shared/KindPaws.Core/KindPaws.Core.sln --no-restore --no-build --configuration Release --output ./nupkgs -p:PackageVersion=${{ env.PACKAGE_VERSION }} -p:PackageId=$NUGET_NAME
 
       - name: Publish
         run: >
-          dotnet nuget push ./src/KindPaws.Core/bin/Release/${{ env.PACKAGE_VERSION }}.nupkg
+          dotnet nuget push ./src/KindPaws.Core/bin/Release/$NUGET_NAME${{ env.PACKAGE_VERSION }}.nupkg
           -s https://nuget.pkg.github.com/$NUGET_USERNAME/index.json
           -k $NUGET_PASSWORD
