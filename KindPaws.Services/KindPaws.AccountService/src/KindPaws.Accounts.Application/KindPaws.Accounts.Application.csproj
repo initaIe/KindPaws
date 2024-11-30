@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KindPaws.SharedKernel" Version="1.0.1" />
+        <PackageReference Include="KindPaws.Core" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

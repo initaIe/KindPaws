@@ -1,0 +1,31 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'KindPaws.Shared/**/*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Build and Publish NuGet Packages
+        env:
+          NUGET_AUTH_TOKEN: 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
+        run: |
+          for proj in $(find KindPaws.Shared -name "*.csproj"); do
+            echo "Publishing package for $proj"
+            dotnet pack $proj -c Release --output ./artifacts
+            dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json"
+          done
