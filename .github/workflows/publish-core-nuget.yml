@@ -5,7 +5,7 @@ on:
     branches:
       - Dev
     paths:
-      - 'KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj'
+      - 'KindPaws.Shared/KindPaws.Core/**/*'
 
 jobs:
   publish:
