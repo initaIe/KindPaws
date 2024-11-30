@@ -20,6 +20,10 @@ jobs:
         with:
           dotnet-version: '8.0'  # Убедитесь, что используете правильную версию SDK
 
+      - name: Authenticate with GitHub Packages
+  	run: |
+    	  dotnet nuget add source https://nuget.pkg.github.com/initaIe/index.json --name github --username initaIe --password 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
+
       - name: Build
         run: |
           dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts
