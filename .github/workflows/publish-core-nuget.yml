@@ -22,15 +22,15 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          dotnet restore KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj
+          dotnet restore KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
 
       - name: Build project
         run: |
-          dotnet build KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj --configuration Release
+          dotnet build KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release
 
       - name: Pack the project
         run: |
-          dotnet pack KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj --configuration Release --output ./artifacts
+          dotnet pack KindPaws/KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts
 
       - name: Push NuGet package to GitHub Packages
         env:
