@@ -1,43 +1,40 @@
 name: Publish NuGet Package for KindPaws.Core
-
-on:
+'on':
   push:
     branches:
       - Dev
     paths:
-      - 'KindPaws.Shared/KindPaws.Core/**/*'
-
+      - KindPaws.Shared/KindPaws.Core/**/*
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0'  # Убедитесь, что используете правильную версию SDK
-
+          dotnet-version: '8.0'
+      - name: Authenticate with GitHub Packages
+        run: >
+          dotnet nuget add source
+          https://nuget.pkg.github.com/initaIe/index.json --name github
+          --username initaIe --password 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
       - name: Restore dependencies
         run: |
           dotnet restore KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
-
       - name: Build project
-        run: |
-          dotnet build KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release
-
+        run: >
+          dotnet build KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
+          --configuration Release
       - name: Pack the project
-        run: |
-          dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core --configuration Release --output ./artifacts
-
-      - name: Authenticate with GitHub Packages
-        run: |
-          dotnet nuget add source https://nuget.pkg.github.com/initaIe/index.json --name github --username initaIe --password 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
-
+        run: >
+          dotnet pack KindPaws.Shared/KindPaws.Core/src/KindPaws.Core
+          --configuration Release --output ./artifacts
       - name: Push NuGet package to GitHub Packages
         env:
-          NUGET_AUTH_TOKEN: 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  # Использование GitHub token для публикации
-        run: |
-          dotnet nuget push ./artifacts/*.nupkg --source "https://nuget.pkg.github.com/initaIe/index.json" --api-key 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
+          NUGET_AUTH_TOKEN: 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
+        run: >
+          dotnet nuget push ./artifacts/*.nupkg --source
+          "https://nuget.pkg.github.com/initaIe/index.json" --api-key
+          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
