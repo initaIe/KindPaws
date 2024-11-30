@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - 'KindPaws.Shared/KindPaws.Core/**'
+      - 'KindPaws.Shared/KindPaws.SharedKernel/src/KindPaws.SharedKernel/**/*'
 
 jobs:
   build:
