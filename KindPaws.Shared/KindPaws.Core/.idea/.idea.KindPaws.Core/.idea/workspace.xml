@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f35d7915-4b56-49cc-abdd-9d87340529c7" name="Changes" comment="" />
+    <list default="true" id="f35d7915-4b56-49cc-abdd-9d87340529c7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/KindPaws.Core/KindPaws.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/KindPaws.Core/KindPaws.Core.csproj" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +51,7 @@
       <workItem from="1732917934399" duration="1392000" />
       <workItem from="1732960346139" duration="1277000" />
       <workItem from="1732963303391" duration="703000" />
-      <workItem from="1732965808413" duration="10690000" />
+      <workItem from="1732965808413" duration="11022000" />
     </task>
     <servers />
   </component>
