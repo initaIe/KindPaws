@@ -3,7 +3,7 @@ name: Publish NuGet Packages
 on:
   push:
     branches:
-      - dev
+      - Dev
     paths:
       - 'KindPaws.Shared/**/*'
 
