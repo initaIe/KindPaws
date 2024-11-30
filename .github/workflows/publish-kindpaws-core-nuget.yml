@@ -1,3 +1,5 @@
+name: KinPaws.Core
+
 env:
   NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
   NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
@@ -9,9 +11,6 @@ env:
   PATH_TO_CSPROJ: ./KindPaws.Shared/KindPaws.Core/src/KindPaws.Core/KindPaws.Core.csproj
   PACKAGE_EXSTENSION_NAME: nupkg
   PACKAGE_NAME: KindPaws.Core
-  
-
-name: KinPaws.Core  
 
 on:
   push:
@@ -22,7 +21,7 @@ on:
 
 jobs:
   build:
-    name: Build And Publish Package ${{ env.PACKAGE_NAME }}
+    name: Build And Publish Package KinPaws.Core  
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
