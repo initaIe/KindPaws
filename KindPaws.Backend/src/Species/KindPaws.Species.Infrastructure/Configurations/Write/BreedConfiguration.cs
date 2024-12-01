@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.Entities;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjectsConstraints;
@@ -29,25 +30,32 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasColumnName("name")
             .HasColumnType("citext")
             .IsRequired();
-        builder.HasIndex(b => b.Name).IsUnique();
 
         // DESCRIPTION
-        builder.ComplexProperty(breed => breed.Description, description =>
-        {
-            description.Property(x => x.Value)
-                .HasMaxLength(BreedDescriptionConstraints.MaxLength)
-                .HasColumnName("description")
-                .IsRequired();
-        });
+        builder.Property(b => b.Description)
+            .HasConversion(
+                description => description.Value,
+                value => BreedDescription.Create(value).Value)
+            .HasMaxLength(BreedDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired();
+
+        // CREATED_AT
+        builder.Property(breed => breed.CreatedAt)
+            .HasConversion(
+                createdAt => createdAt.Value,
+                value => CreatedAt.Create(value).Value)
+            .HasColumnName("created_at")
+            .IsRequired();
 
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(breed => breed.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(breed => breed.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }

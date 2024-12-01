@@ -22,24 +22,24 @@ public class PermissionRequirementService
 
     public async Task<bool> HasRequiredPermission(Guid accountId, string permissionCode)
     {
-        var accountRoles = await _accountsContract.GetAccountRolesByIdAsync(accountId);
+        var getRolesResult = await _accountsContract.GetRolesAsync(accountId);
 
-        if (accountRoles.Count == 0)
+        if (getRolesResult.IsFailure)
             return false;
 
-        var roleIds = accountRoles.Select(ar => ar.RoleId);
-        var rolePermissions = await _rolesContract.GetRolePermissionsByIdsAsync(roleIds);
+        if (getRolesResult.Value.Count == 0)
+            return false;
 
-        if (rolePermissions.Count == 0)
+        var getPermissions = await _rolesContract.GetPermissionsByRoleIdsAsync(getRolesResult.Value);
+
+        if (getPermissions.Count == 0)
             return false;
 
         var requiredPermissionId = await _permissionsContract.GetPermissionIdByCodeAsync(permissionCode);
 
         if (requiredPermissionId.IsFailure)
             throw new ApplicationException("Required permission is not found.");
-        
-        var permissionIds = rolePermissions.Select(rp => rp.PermissionId);
 
-        return permissionIds.Contains(requiredPermissionId.Value);
+        return getPermissions.Contains(requiredPermissionId.Value);
     }
 }

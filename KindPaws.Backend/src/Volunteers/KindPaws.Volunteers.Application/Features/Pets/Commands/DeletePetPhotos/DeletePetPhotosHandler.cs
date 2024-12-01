@@ -2,7 +2,6 @@
 using KindPaws.Core;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Dtos;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
@@ -21,7 +20,6 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.DeletePetPhotos
 public class DeletePetPhotosHandler
     : ICommandHandler<Guid, DeletePetPhotosCommand>
 {
-    private readonly IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData> _entitiesExistenceValidator;
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<DeletePetPhotosHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
@@ -34,15 +32,13 @@ public class DeletePetPhotosHandler
         IValidator<DeletePetPhotosCommand> validator,
         IFileProvider fileProvider,
         [FromKeyedServices(Modules.Volunteers)]
-        IUnitOfWork unitOfWork,
-        IEntitiesExistenceValidator<DeletePetPhotosExistenceValidationData> entitiesExistenceValidator)
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _fileProvider = fileProvider;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -52,12 +48,6 @@ public class DeletePetPhotosHandler
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
-
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
         var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);

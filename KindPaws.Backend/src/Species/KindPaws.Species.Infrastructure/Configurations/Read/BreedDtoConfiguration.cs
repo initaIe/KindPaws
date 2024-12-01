@@ -1,12 +1,12 @@
-﻿using KindPaws.Species.Contracts.Dtos;
+﻿using KindPaws.Species.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Species.Infrastructure.Configurations.Read;
 
-public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDto>
+public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDataModel>
 {
-    public void Configure(EntityTypeBuilder<BreedDto> builder)
+    public void Configure(EntityTypeBuilder<BreedDataModel> builder)
     {
         builder.ToTable("breeds");
 
@@ -16,20 +16,27 @@ public class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDto>
 
         // NAME
         builder.Property(breed => breed.Name)
-            .HasColumnName("name")
-            .HasColumnType("citext");
+            .HasColumnName("name");
 
         // DESCRIPTION
-        builder.Property(breed => breed.Description)
+        builder.Property(b => b.Description)
             .HasColumnName("description");
+
+        // CREATED_AT
+        builder.Property(breed => breed.CreatedAt)
+            .HasColumnName("created_at");
+
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted");
+
+        // SOFT_DELETED_AT
+        builder.Property(breed => breed.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at");
 
         // SPECIE ID
         builder.Property(breed => breed.SpecieId)
             .HasColumnName("specie_id");
-
-        // IS SOFT DELETED
-        builder.Property(b => b.IsSoftDeleted)
-            .HasColumnName("is_soft_deleted");
 
         // QUERY FILTER IS SOT DELETED
         builder.HasQueryFilter(b => !b.IsSoftDeleted);

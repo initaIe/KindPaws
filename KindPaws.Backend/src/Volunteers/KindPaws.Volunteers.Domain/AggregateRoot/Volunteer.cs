@@ -7,10 +7,10 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.AggregateRoot;
 
-public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
+public class Volunteer : ISoftDeletableEntity<VolunteerId>
 {
     private readonly List<Pet> _pets = [];
-    private List<Requisite> _requisites;
+    private List<Requisite> _requisites = [];
 
     // ef core
     private Volunteer()
@@ -19,26 +19,37 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
 
     public Volunteer(
         VolunteerId id,
-        VolunteerDescription? description,
-        Address? address,
-        YearsOfExperience? yearsOfExperience,
-        IEnumerable<Requisite> requisites)
+        CreatedAt createdAt)
     {
         Id = id;
-        Description = description;
-        Address = address;
-        YearsOfExperience = yearsOfExperience;
-        _requisites = requisites.ToList();
+        CreatedAt = createdAt;
     }
 
-    public VolunteerId Id { get; }
+    public VolunteerId Id { get; private set; }
     public VolunteerDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
+    public CreatedAt CreatedAt { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletionTimestamp { get; private set; }
+    public DateTimeOffset? SoftDeletedAt { get; private set; }
+
+    #region Factory methods
+
+    public static Volunteer CreateNew()
+    {
+        var id = VolunteerId.CreateRandom();
+        var createdAt = CreatedAt.CreateNew();
+
+        return new Volunteer(
+            id,
+            createdAt);
+    }
+
+    #endregion
+
+    #region CRUD
 
     public int GetCountPetsAlreadyFoundHome()
         => _pets.Count(x => x.SupportStatus == SupportStatus.AlreadyFoundHome);
@@ -70,6 +81,21 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
             return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 
         return pet;
+    }
+
+    public Result<Error> AddPets(IEnumerable<Pet> pets)
+    {
+        foreach (var pet in pets)
+        {
+            var getLastPositionResult = GeneratePositionForNewPet();
+            if (getLastPositionResult.IsFailure)
+                return getLastPositionResult.Error;
+
+            pet.UpdatePosition(getLastPositionResult.Value);
+            _pets.Add(pet);
+        }
+
+        return true;
     }
 
     public Result<Error> AddPet(Pet pet)
@@ -137,7 +163,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? age,
+        Birthday? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
@@ -149,7 +175,7 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
             supportStatus,
             description,
             petColor,
-            age,
+            birthday,
             healthDetails,
             biometricDetails);
         return true;
@@ -158,15 +184,29 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
     public void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTime.UtcNow;
+        SoftDeletedAt = DateTimeOffset.UtcNow;
         _pets.ForEach(p => p.SoftDelete());
     }
 
     public void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletionTimestamp = null;
+        SoftDeletedAt = null;
         _pets.ForEach(p => p.Restore());
+    }
+
+    public void HardDeletePets(IEnumerable<PetId> petIds)
+    {
+        foreach (var petId in petIds)
+        {
+            var petResult = GetPetById(petId);
+
+            if (petResult.IsFailure)
+                return;
+
+            _pets.Remove(petResult.Value);
+            AlignPetPositionsAfterDelete(petResult.Value.Position);
+        }
     }
 
     public void HardDeletePet(PetId petId)
@@ -178,6 +218,20 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
 
         _pets.Remove(petResult.Value);
         AlignPetPositionsAfterDelete(petResult.Value.Position);
+    }
+
+    public void SoftDeletePets(IEnumerable<PetId> petIds)
+    {
+        foreach (var petId in petIds)
+        {
+            var petResult = GetPetById(petId);
+
+            if (petResult.IsFailure)
+                return;
+
+            petResult.Value.SoftDelete();
+            AlignPetPositionsAfterDelete(petResult.Value.Position);
+        }
     }
 
     public void SoftDeletePet(PetId petId)
@@ -273,4 +327,11 @@ public class Volunteer : IEntity<VolunteerId>, ISoftDeletable
 
         return true;
     }
+
+    public void DeleteExpiredPets(int petLifeTimeAfterDeletionInDays)
+    {
+        _pets.RemoveAll(p => p.SoftDeletedAt < DateTimeOffset.UtcNow.AddDays(-petLifeTimeAfterDeletionInDays));
+    }
+
+    #endregion
 }

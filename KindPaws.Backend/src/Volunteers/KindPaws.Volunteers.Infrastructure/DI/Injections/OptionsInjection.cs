@@ -10,6 +10,11 @@ public static class OptionsInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.Configure<MinioOptions>(configuration.GetRequiredSection(MinioOptions.SectionName));
+        return services
+            .Configure<MinioOptions>(configuration.GetRequiredSection(MinioOptions.SectionName))
+            .Configure<ExpiredEntitiesCleanerServiceOptions>(
+                configuration.GetRequiredSection(ExpiredEntitiesCleanerServiceOptions.SectionName))
+            .Configure<ExpiredEntitiesCleanerBackgroundServiceOptions>(
+                configuration.GetRequiredSection(ExpiredEntitiesCleanerBackgroundServiceOptions.SectionName));
     }
 }

@@ -9,11 +9,7 @@ public record UpdatePetAdditionalInfoCommand(
     string? SupportStatus,
     string? Description,
     string? Color,
-    DateTime? Birthday,
+    DateTimeOffset? Birthday,
     HealthDetailsDto? HealthDetails,
     BiometricDetailsDto? BiometricDetails)
-    : ICommand
-{
-    public UpdatePetAdditionalInfoExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, PetId);
-}
+    : ICommand;

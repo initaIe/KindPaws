@@ -2,6 +2,7 @@
 using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
 using KindPaws.Volunteers.Application.Abstractions;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -17,8 +18,8 @@ public class VolunteersReadDbContext : DbContext, IVolunteersReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
-    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
-    public IQueryable<PetDto> Pets => Set<PetDto>();
+    public IQueryable<VolunteerDataModel> Volunteers => Set<VolunteerDataModel>();
+    public IQueryable<PetDataModel> Pets => Set<PetDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

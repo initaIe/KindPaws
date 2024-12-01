@@ -1,12 +1,12 @@
-﻿using KindPaws.Species.Contracts.Dtos;
+﻿using KindPaws.Species.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Species.Infrastructure.Configurations.Read;
 
-public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDto>
+public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDataModel>
 {
-    public void Configure(EntityTypeBuilder<SpecieDto> builder)
+    public void Configure(EntityTypeBuilder<SpecieDataModel> builder)
     {
         builder.ToTable("species");
 
@@ -14,23 +14,30 @@ public class SpecieDtoConfiguration : IEntityTypeConfiguration<SpecieDto>
         builder.Property(specie => specie.Id)
             .HasColumnName("id");
 
-        // NAME
-        builder.Property(specie => specie.Name)
-            .HasColumnName("name")
-            .HasColumnType("citext");
-
-        // DESCRIPTION
-        builder.Property(specie => specie.Description)
-            .HasColumnName("description");
-
         // BREEDS
         builder.HasMany(specie => specie.Breeds)
             .WithOne()
             .HasForeignKey(b => b.SpecieId);
 
-        // IS SOFT DELETED
-        builder.Property(s => s.IsSoftDeleted)
+        // NAME
+        builder.Property(specie => specie.Name)
+            .HasColumnName("name");
+
+        // DESCRIPTION
+        builder.Property(s => s.Description)
+            .HasColumnName("description");
+
+        // CREATED_AT
+        builder.Property(s => s.CreatedAt)
+            .HasColumnName("created_at");
+
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted");
+
+        // SOFT_DELETED_AT
+        builder.Property(breed => breed.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at");
 
         // QUERY FILTER IS SOT DELETED
         builder.HasQueryFilter(s => !s.IsSoftDeleted);

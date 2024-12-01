@@ -8,6 +8,7 @@ using KindPaws.Roles.Contracts;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -134,21 +135,16 @@ public class AccountsSeederService
                 throw new ApplicationException($"AccountRoles seeding was failure.");
 
             var accountsRoles = roleIdResults
-                .Select(p => p.Value)
-                .Select(AccountRoleHelper.ForceCreateNewAccountRole);
-
-            var existingAccountsRolesRoleIds = account.AccountRoles
-                .Select(ar => ar.RoleId)
-                .ToList();
+                .Select(p => RoleId.Create(p.Value).Value);
 
             var newAccountsRoles = accountsRoles
-                .Where(ar => !existingAccountsRolesRoleIds.Contains(ar.RoleId))
-                .DistinctBy(ar => ar.RoleId)
+                .Where(ar => !account.Roles.Contains(ar))
+                .Distinct()
                 .ToList();
 
             if (newAccountsRoles.Count != 0)
             {
-                account.AddAccountRoles(newAccountsRoles);
+                account.AddRoles(newAccountsRoles);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
         }

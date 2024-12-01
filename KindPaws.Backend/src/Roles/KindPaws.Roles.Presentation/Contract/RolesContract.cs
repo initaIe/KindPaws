@@ -1,10 +1,10 @@
 ﻿using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Roles.Application.Abstractions;
+using KindPaws.Roles.Application.DataModels;
 using KindPaws.Roles.Application.Features.Roles.Commands.CreateRole;
 using KindPaws.Roles.Application.Features.Roles.Commands.DeleteRole;
 using KindPaws.Roles.Application.Features.Roles.Queries.GetIdByName;
 using KindPaws.Roles.Contracts;
-using KindPaws.Roles.Contracts.Dtos;
 using KindPaws.Roles.Contracts.Requests;
 using KindPaws.Roles.Presentation.Mappers;
 using KindPaws.SharedKernel.Others;
@@ -63,12 +63,13 @@ public class RolesContract : IRolesContract
         return await _getRoleIdByNameHandler.HandleAsync(query, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<RolePermissionDto>> GetRolePermissionsByIdsAsync(
+    public async Task<IReadOnlyList<Guid>> GetPermissionsByRoleIdsAsync(
         IEnumerable<Guid> roleIds,
         CancellationToken cancellationToken = default)
     {
-        return await _dbContext.RolePermissions
-            .Where(rp => roleIds.Contains(rp.RoleId))
+        return await _dbContext.Roles
+            .Where(r=>roleIds.Contains(r.Id))
+            .SelectMany(r=>r.Permissions)
             .ToListAsync(cancellationToken);
     }
 }

@@ -4,11 +4,6 @@ namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 public record BiometricDetails
 {
-    public static readonly BiometricDetails Empty = new BiometricDetails(
-        null,
-        null,
-        null);
-
     public BiometricDetails(
         Height? height,
         Weight? weight,

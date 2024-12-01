@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -8,10 +9,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Volunteers.Infrastructure.Configurations.Read;
 
-public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
+public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDataModel>
 {
-    public void Configure(EntityTypeBuilder<VolunteerDto> builder)
+    public void Configure(EntityTypeBuilder<VolunteerDataModel> builder)
     {
+         // TABLE_NAMING
         builder.ToTable("volunteers");
 
         // ID
@@ -28,10 +30,14 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
             .HasConversion(
                 address => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<Address>(json, JsonSerializerOptions.Default)!.ToDto());
-
+        
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
             .HasColumnName("years_of_experience");
+        
+        // CREATED_AT
+        builder.Property(v => v.CreatedAt)
+            .HasColumnName("created_at");
 
         // REQUISITES
         builder.Property(p => p.Requisites)
@@ -46,9 +52,15 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
             .WithOne()
             .HasForeignKey(p => p.VolunteerId);
 
-        // IS SOFT DELETED
-        builder.Property(v => v.IsSoftDeleted)
-            .HasColumnName("is_soft_deleted");
+        // IS SOFT DELETE
+        builder.Property(b => b.IsSoftDeleted)
+            .HasColumnName("is_soft_deleted")
+            .IsRequired();
+
+        // SOFT_DELETED_AT
+        builder.Property(v => v.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
+            .IsRequired(false);
 
         // QUERY FILTER IS SOT DELETED
         builder.HasQueryFilter(v => !v.IsSoftDeleted);

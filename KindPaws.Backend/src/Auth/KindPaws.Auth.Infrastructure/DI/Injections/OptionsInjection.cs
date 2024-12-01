@@ -10,7 +10,8 @@ public static class OptionsInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.Configure<JwtBearerOptions>(
-            configuration.GetRequiredSection(JwtBearerOptions.SectionName));
+        return services
+            .Configure<JwtBearerOptions>(configuration.GetRequiredSection(JwtBearerOptions.SectionName))
+            .Configure<AuthOptions>(configuration.GetRequiredSection(AuthOptions.SectionName));
     }
 }

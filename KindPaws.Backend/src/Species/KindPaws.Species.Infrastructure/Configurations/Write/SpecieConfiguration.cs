@@ -1,4 +1,5 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjectsConstraints;
@@ -39,25 +40,30 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
         builder.HasIndex(s => s.Name).IsUnique();
 
         // DESCRIPTION
-        builder.ComplexProperty(specie => specie.Description, description =>
-        {
-            description.Property(x => x.Value)
-                .HasMaxLength(SpecieDescriptionConstraints.MaxLength)
-                .HasColumnName("description")
-                .IsRequired();
-        });
+        builder.Property(s => s.Description)
+            .HasConversion(
+                description => description.Value,
+                value => SpecieDescription.Create(value).Value)
+            .HasMaxLength(SpecieDescriptionConstraints.MaxLength)
+            .HasColumnName("description")
+            .IsRequired();
 
-        // Breeds auto include
-        builder.Navigation(specie => specie.Breeds).AutoInclude();
+        // CREATED_AT
+        builder.Property(s => s.CreatedAt)
+            .HasConversion(
+                createdAt => createdAt.Value,
+                value => CreatedAt.Create(value).Value)
+            .HasColumnName("created_at")
+            .IsRequired();
 
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(breed => breed.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(breed => breed.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }

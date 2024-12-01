@@ -12,7 +12,7 @@ public record GetPetsQuery(
     string? Name,
     string? SupportStatus,
     string? Color,
-    DateTime? Age,
+    DateTimeOffset? Age,
     int? PositionFrom,
     int? PositionTo,
     Guid? VolunteerId)

@@ -3,6 +3,7 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Application.Abstractions;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteerById;
 
 public class GetVolunteerByIdHandler
-    : IQueryHandler<Result<VolunteerDto, ErrorList>, GetVolunteerByIdQuery>
+    : IQueryHandler<Result<VolunteerDataModel, ErrorList>, GetVolunteerByIdQuery>
 {
     private readonly IVolunteersReadDbContext _readDbContext;
 
@@ -20,7 +21,7 @@ public class GetVolunteerByIdHandler
         _readDbContext = readDbContext;
     }
 
-    public async Task<Result<VolunteerDto, ErrorList>> HandleAsync(
+    public async Task<Result<VolunteerDataModel, ErrorList>> HandleAsync(
         GetVolunteerByIdQuery query,
         CancellationToken cancellationToken = default)
     {

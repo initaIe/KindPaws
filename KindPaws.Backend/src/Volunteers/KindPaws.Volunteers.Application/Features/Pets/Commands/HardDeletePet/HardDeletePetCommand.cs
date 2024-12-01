@@ -5,8 +5,4 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.HardDeletePet;
 public record HardDeletePetCommand(
     Guid VolunteerId,
     Guid PetId)
-    : ICommand
-{
-    public HardDeletePetExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, PetId);
-}
+    : ICommand;

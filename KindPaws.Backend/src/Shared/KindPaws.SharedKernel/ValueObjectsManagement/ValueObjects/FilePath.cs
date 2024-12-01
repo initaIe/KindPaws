@@ -6,8 +6,6 @@ namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record FilePath
 {
-    //TODO: валидация + сделать приватным
-    [JsonConstructor]
     private FilePath(string value)
     {
         Value = value;

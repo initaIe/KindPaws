@@ -1,5 +1,7 @@
-﻿using KindPaws.Roles.Domain.AggregateRoot;
+﻿using KindPaws.Core.Extensions;
+using KindPaws.Roles.Domain.AggregateRoot;
 using KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -29,21 +31,20 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasColumnType("citext")
             .HasColumnName("name")
             .IsRequired();
-        builder.HasIndex(r => r.Name);
 
-        // CREATION_TIMESTAMP
-        builder.Property(r => r.CreationTimestamp)
-            .HasColumnName("creation_timestamp")
+        // CREATED_AT
+        builder.Property(r => r.CreatedAt)
+            .HasConversion(
+                createdAt => createdAt.Value,
+                value => CreatedAt.Create(value).Value)
+            .HasColumnName("created_at")
             .IsRequired();
 
         // ROLE_PERMISSIONS
-        builder.HasMany(r => r.RolePermissions)
-            .WithOne()
-            .HasForeignKey("role_id")
-            .OnDelete(DeleteBehavior.Cascade)
+        builder.Property(r=>r.Permissions)
+            .HasJsonConversion()
+            .HasColumnType("jsonb")
+            .HasColumnName("permissions")
             .IsRequired();
-
-        // AUTO INCLUDE
-        builder.Navigation(r => r.RolePermissions).AutoInclude();
     }
 }

@@ -2,7 +2,6 @@
 using KindPaws.Core;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Dtos;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Messaging;
@@ -22,7 +21,6 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPetPhotos;
 public class AddPetPhotosHandler
     : ICommandHandler<Guid, AddPetPhotosCommand>
 {
-    private readonly IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> _entitiesExistenceValidator;
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<AddPetPhotosHandler> _logger;
     private readonly IMessageQueue<IEnumerable<DeleteFileData>> _messageQueue;
@@ -37,8 +35,7 @@ public class AddPetPhotosHandler
         IFileProvider fileProvider,
         [FromKeyedServices(Modules.Volunteers)]
         IUnitOfWork unitOfWork,
-        IMessageQueue<IEnumerable<DeleteFileData>> messageQueue,
-        IEntitiesExistenceValidator<AddPetPhotosExistenceValidationData> entitiesExistenceValidator)
+        IMessageQueue<IEnumerable<DeleteFileData>> messageQueue)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
@@ -46,7 +43,6 @@ public class AddPetPhotosHandler
         _fileProvider = fileProvider;
         _unitOfWork = unitOfWork;
         _messageQueue = messageQueue;
-        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -56,12 +52,6 @@ public class AddPetPhotosHandler
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
-
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         List<UploadFileData> uploadFilesData = [];
         foreach (var uploadFileDto in command.UploadFileDtos)

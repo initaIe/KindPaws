@@ -3,12 +3,13 @@ using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.Volunteers.Application.Abstractions;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Contracts.Dtos;
 
 namespace KindPaws.Volunteers.Application.Features.Volunteers.Queries.GetVolunteers;
 
 public class GetVolunteersHandler
-    : IQueryHandler<PagedList<VolunteerDto>, GetVolunteersQuery>
+    : IQueryHandler<PagedList<VolunteerDataModel>, GetVolunteersQuery>
 {
     private readonly IVolunteersReadDbContext _readDbContext;
 
@@ -18,13 +19,13 @@ public class GetVolunteersHandler
         _readDbContext = readDbContext;
     }
 
-    public async Task<PagedList<VolunteerDto>> HandleAsync(
+    public async Task<PagedList<VolunteerDataModel>> HandleAsync(
         GetVolunteersQuery query,
         CancellationToken cancellationToken = default)
     {
         var volunteersQuery = _readDbContext.Volunteers;
 
-        Expression<Func<VolunteerDto, object>> keySelector = query.SortBy?.ToLower() switch
+        Expression<Func<VolunteerDataModel, object>> keySelector = query.SortBy?.ToLower() switch
         {
             "city" => volunteer => volunteer.Address!.City,
             "street" => volunteer => volunteer.Address!.Street,

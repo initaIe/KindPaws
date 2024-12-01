@@ -6,6 +6,6 @@ public record UpdatePetAdditionalInfoRequest(
     string? SupportStatus,
     string? Description,
     string? Color,
-    DateTime? Birthday,
+    DateTimeOffset? Birthday,
     HealthDetailsDto? HealthDetails,
     BiometricDetailsDto? BiometricDetails);

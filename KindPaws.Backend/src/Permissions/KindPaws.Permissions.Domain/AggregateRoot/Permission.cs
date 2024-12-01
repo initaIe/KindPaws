@@ -1,5 +1,6 @@
 ﻿using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Permissions.Domain.AggregateRoot;
@@ -11,33 +12,29 @@ public class Permission : IEntity<PermissionId>
     {
     }
 
-    private Permission(
-        PermissionId id,
-        PermissionCode code,
-        DateTime creationTimestamp)
+    public Permission(
+        PermissionId id, 
+        PermissionCode code, 
+        CreatedAt createdAt)
     {
         Id = id;
         Code = code;
-        CreationTimestamp = creationTimestamp;
+        CreatedAt = createdAt;
     }
 
     public PermissionId Id { get; private set; }
     public PermissionCode Code { get; private set; }
-    public DateTime CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
 
-    public static Permission Create(
-        PermissionId id,
-        PermissionCode code,
-        DateTime creationTimestamp)
-    {
-        // TODO: add validation
-        return new Permission(id, code, creationTimestamp);
-    }
+    #region Factory methods
 
     public static Permission CreateNew(PermissionCode code)
     {
         var id = PermissionId.CreateRandom();
-        var creationTimestamp = DateTime.UtcNow;
-        return new Permission(id, code, creationTimestamp);
+        var createdAt = CreatedAt.CreateNew();
+        
+        return new Permission(id, code, createdAt);
     }
+
+    #endregion
 }

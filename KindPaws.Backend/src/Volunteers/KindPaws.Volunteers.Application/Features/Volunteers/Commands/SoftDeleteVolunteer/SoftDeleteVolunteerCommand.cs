@@ -3,8 +3,4 @@
 namespace KindPaws.Volunteers.Application.Features.Volunteers.Commands.SoftDeleteVolunteer;
 
 public record SoftDeleteVolunteerCommand(Guid VolunteerId)
-    : ICommand
-{
-    public SoftDeleteVolunteerExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId);
-}
+    : ICommand;

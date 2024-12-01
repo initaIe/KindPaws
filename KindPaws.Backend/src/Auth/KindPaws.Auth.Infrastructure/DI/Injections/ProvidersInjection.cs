@@ -7,6 +7,8 @@ public static class ProvidersInjection
 {
     public static IServiceCollection AddProviders(this IServiceCollection services)
     {
-        return services.AddSingleton<ITokenProvider, TokenProvider>(); 
+        return services
+            .AddSingleton<ITokenProvider, TokenProvider>()
+            .AddSingleton<IAuthOptionsProvider, AuthOptionsProvider>();
     }
 }

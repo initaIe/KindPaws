@@ -7,7 +7,7 @@ using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Domain.Entities;
 
-public class Pet : IEntity<PetId>, ISoftDeletable
+public class Pet : ISoftDeletableEntity<PetId>
 {
     private List<PetPhoto> _photos = [];
 
@@ -19,29 +19,51 @@ public class Pet : IEntity<PetId>, ISoftDeletable
     public Pet(
         PetId id,
         PetName name,
-        PetType petType)
+        PetType petType,
+        CreatedAt createdAt)
     {
         Id = id;
         Name = name;
         PetType = petType;
-        CreationTimestamp = DateTime.UtcNow;
+        CreatedAt = createdAt;
     }
 
-    public PetId Id { get; }
+    public PetId Id { get; private set; }
     public PetName Name { get; private set; }
     public PetType PetType { get; private set; }
-    public DateTime CreationTimestamp { get; private set; }
+    public CreatedAt CreatedAt { get; private set; }
     public SupportStatus? SupportStatus { get; private set; }
     public PetDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
     public Birthday? Birthday { get; private set; }
-    public HealthDetails HealthDetails { get; private set; } = HealthDetails.Empty;
-    public BiometricDetails BiometricDetails { get; private set; } = BiometricDetails.Empty;
+    public HealthDetails? HealthDetails { get; private set; }
+    public BiometricDetails? BiometricDetails { get; private set; }
     public IReadOnlyList<PetPhoto> Photos => _photos;
     public Position Position { get; private set; }
     public bool IsSoftDeleted { get; private set; }
-    public DateTime? SoftDeletionTimestamp { get; private set; }
-    public int? YearsOld => Birthday == null ? null : DateTimeHelpers.CalculateYearsPassed(Birthday.Value);
+    public DateTimeOffset? SoftDeletedAt { get; private set; }
+
+    #region Factory methods
+
+    public static Pet CreateNew(
+        PetName name,
+        PetType petType)
+    {
+        var id = PetId.CreateRandom();
+        var createdAt = CreatedAt.CreateNew();
+
+        return new Pet(
+            id,
+            name,
+            petType,
+            createdAt);
+    }
+
+    #endregion
+
+    #region CRUD
+
+    public int? YearsOld => Birthday == null ? null : DateTimeOffsetHelpers.CalculateYearsPassed(Birthday.Value);
 
     internal void UpdateMainInfo(
         PetType petType,
@@ -55,16 +77,16 @@ public class Pet : IEntity<PetId>, ISoftDeletable
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? age,
+        Birthday? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
         SupportStatus = supportStatus;
         Description = description;
         Color = petColor;
-        Birthday = age;
-        HealthDetails = healthDetails ?? HealthDetails.Empty;
-        BiometricDetails = biometricDetails ?? BiometricDetails.Empty;
+        Birthday = birthday;
+        HealthDetails = healthDetails;
+        BiometricDetails = biometricDetails;
     }
 
     internal void AddPhotos(IEnumerable<PetPhoto> photos)
@@ -127,13 +149,15 @@ public class Pet : IEntity<PetId>, ISoftDeletable
     internal void SoftDelete()
     {
         IsSoftDeleted = true;
-        SoftDeletionTimestamp = DateTime.UtcNow;
+        SoftDeletedAt = DateTimeOffset.UtcNow;
     }
 
     internal void Restore()
     {
         IsSoftDeleted = false;
-        SoftDeletionTimestamp = null;
+        SoftDeletedAt = null;
         // TODO: give position after restore
     }
+
+    #endregion
 }

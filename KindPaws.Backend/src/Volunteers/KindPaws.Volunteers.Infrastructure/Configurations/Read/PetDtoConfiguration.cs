@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -7,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Volunteers.Infrastructure.Configurations.Read;
 
-public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
+public class PetDtoConfiguration : IEntityTypeConfiguration<PetDataModel>
 {
-    public void Configure(EntityTypeBuilder<PetDto> builder)
+    public void Configure(EntityTypeBuilder<PetDataModel> builder)
     {
         builder.ToTable("pets");
 
@@ -17,22 +18,21 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Property(p => p.Id)
             .HasColumnName("id");
 
-        // PET TYPE
+        // PET_TYPE
         builder.Property(p => p.SpecieId)
             .HasColumnName("specie_id");
         builder.Property(p => p.BreedId)
             .HasColumnName("breed_id");
 
         // NAME
-        builder.Property(p => p.Name)
-            .HasColumnName("name")
-            .HasColumnType("citext");
+        builder.Property(pet => pet.Name)
+            .HasColumnName("name");
 
-        // CREATION DATE
-        builder.Property(p => p.CreationDateTime)
-            .HasColumnName("creation_date_time");
+        // CREATED_AT
+        builder.Property(p => p.CreatedAt)
+            .HasColumnName("created_at");
 
-        // SUPPORT STATUS
+        // SUPPORT_STATUS
         builder.Property(p => p.SupportStatus)
             .HasColumnName("support_status");
 
@@ -40,15 +40,15 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Property(p => p.Description)
             .HasColumnName("description");
 
-        // PET COLOR
+        // PET_COLOR
         builder.Property(p => p.Color)
             .HasColumnName("color");
 
-        // Birthday
+        // BIRTHDAY
         builder.Property(p => p.Birthday)
             .HasColumnName("birthday");
 
-        // HEALTH DETAILS
+        // HEALTH_DETAILS
         builder.Property(p => p.HealthDetails)
             .HasColumnName("health_details")
             .HasColumnType("jsonb")
@@ -56,7 +56,7 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
                 healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<HealthDetails>(json, JsonSerializerOptions.Default)!.ToDto());
 
-        // BIOMETRIC DETAILS
+        // BIOMETRIC_DETAILS
         builder.Property(p => p.BiometricDetails)
             .HasColumnName("biometric_details")
             .HasColumnType("jsonb")
@@ -64,7 +64,7 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
                 biometricDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<BiometricDetails>(json, JsonSerializerOptions.Default)!.ToDto());
 
-        // PHOTOS DETAILS
+        // PHOTOS_DETAILS
         builder.Property(p => p.Photos)
             .HasColumnName("photos")
             .HasColumnType("jsonb")
@@ -77,14 +77,18 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Property(p => p.Position)
             .HasColumnName("position");
 
-        // VOLUNTEER ID
-        builder.Property(p => p.VolunteerId)
-            .HasColumnName("volunteer_id");
-
-        // IS SOFT DELETED
-        builder.Property(p => p.IsSoftDeleted)
+        // IS_SOFT_DELETED
+        builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted");
 
+        // SOFT_DELETED_AT
+        builder.Property(p => p.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at");
+        
+        // VOLUNTEER_ID
+        builder.Property(p => p.VolunteerId)
+            .HasColumnName("volunteer_id");
+        
         // QUERY FILTER IS SOT DELETED
         builder.HasQueryFilter(p => !p.IsSoftDeleted);
     }

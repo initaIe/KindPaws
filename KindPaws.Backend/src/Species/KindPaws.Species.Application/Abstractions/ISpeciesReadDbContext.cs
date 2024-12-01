@@ -1,9 +1,9 @@
-﻿using KindPaws.Species.Contracts.Dtos;
+﻿using KindPaws.Species.Application.DataModels;
 
 namespace KindPaws.Species.Application.Abstractions;
 
 public interface ISpeciesReadDbContext
 {
-    IQueryable<SpecieDto> Species { get; }
-    IQueryable<BreedDto> Breeds { get; }
+    IQueryable<SpecieDataModel> Species { get; }
+    IQueryable<BreedDataModel> Breeds { get; }
 }

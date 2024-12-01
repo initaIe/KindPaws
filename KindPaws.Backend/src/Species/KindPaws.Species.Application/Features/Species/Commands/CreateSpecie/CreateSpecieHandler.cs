@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -17,7 +16,6 @@ namespace KindPaws.Species.Application.Features.Species.Commands.CreateSpecie;
 public class CreateSpecieHandler
     : ICommandHandler<Guid, CreateSpecieCommand>
 {
-    private readonly IEntitiesExistenceValidator<CreateSpecieExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<CreateSpecieHandler> _logger;
     private readonly IRepository<Specie, SpecieId> _speciesRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -27,14 +25,12 @@ public class CreateSpecieHandler
         ILogger<CreateSpecieHandler> logger,
         [FromKeyedServices(Modules.Species)] IUnitOfWork unitOfWork,
         IValidator<CreateSpecieCommand> validator,
-        IRepository<Specie, SpecieId> speciesRepository,
-        IEntitiesExistenceValidator<CreateSpecieExistenceValidationData> entitiesExistenceValidator)
+        IRepository<Specie, SpecieId> speciesRepository)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
         _speciesRepository = speciesRepository;
-        _entitiesExistenceValidator = entitiesExistenceValidator;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -44,12 +40,6 @@ public class CreateSpecieHandler
         var commandValidationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
-
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
 
         var specie = SpecieHelper.ForceCreateNewSpecie(
             command.Name,

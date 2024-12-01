@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+      <ProjectReference Include="..\KindPaws.VolunteerRequests.Contracts\KindPaws.VolunteerRequests.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.VolunteerRequests.Domain\KindPaws.VolunteerRequests.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\VolunteerRequests\Commands\" />
+      <Folder Include="Features\VolunteerRequests\Queries\" />
+      <Folder Include="Helpers\" />
+    </ItemGroup>
+
+</Project>

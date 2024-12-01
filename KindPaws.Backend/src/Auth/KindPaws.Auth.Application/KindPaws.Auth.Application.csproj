@@ -7,15 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\RefreshTokens\" />
-      <Folder Include="Features\Register\" />
+      <ProjectReference Include="..\..\Accounts\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
+      <ProjectReference Include="..\..\Roles\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Contracts\KindPaws.Auth.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Accounts\KindPaws.Accounts.Contracts\KindPaws.Accounts.Contracts.csproj" />
-      <ProjectReference Include="..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
-      <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
-      <ProjectReference Include="..\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
+      <Folder Include="Features\Commands\" />
     </ItemGroup>
 
 </Project>

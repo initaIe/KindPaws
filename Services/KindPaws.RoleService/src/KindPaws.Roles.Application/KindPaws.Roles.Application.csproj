@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.Roles.Domain\KindPaws.Roles.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

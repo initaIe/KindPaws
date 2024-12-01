@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.Validators;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Application.Helpers;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.Entities;
@@ -18,11 +18,12 @@ namespace KindPaws.Volunteers.Application.Features.Pets.Commands.AddPet;
 public class AddPetHandler
     : ICommandHandler<Guid, AddPetCommand>
 {
-    private readonly IEntitiesExistenceValidator<AddPetExistenceValidationData> _entitiesExistenceValidator;
     private readonly ILogger<AddPetHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetCommand> _validator;
     private readonly IRepository<Volunteer, VolunteerId> _volunteersRepository;
+    private readonly IVolunteersLockService _volunteersLockService;
+
 
     public AddPetHandler(
         ILogger<AddPetHandler> logger,
@@ -30,13 +31,13 @@ public class AddPetHandler
         IValidator<AddPetCommand> validator,
         [FromKeyedServices(Modules.Volunteers)]
         IUnitOfWork unitOfWork,
-        IEntitiesExistenceValidator<AddPetExistenceValidationData> entitiesExistenceValidator)
+        IVolunteersLockService volunteersLockService)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _unitOfWork = unitOfWork;
-        _entitiesExistenceValidator = entitiesExistenceValidator;
+        _volunteersLockService = volunteersLockService;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -47,16 +48,11 @@ public class AddPetHandler
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        var entitiesExistenceValidationData = command.ToExistenceValidationData();
-        var entitiesExistenceValidationResult = await _entitiesExistenceValidator
-            .ValidateAsync(entitiesExistenceValidationData, cancellationToken);
-        if (entitiesExistenceValidationResult.IsFailure)
-            return entitiesExistenceValidationResult.Error.ToErrorList();
+        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
+
+        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
         var pet = PetHelper.ForceCreateNewPet(command.Name, command.SpecieId, command.BreedId);
-
-        var volunteerId = VolunteerId.Create(command.VolunteerId).Value;
-        var volunteerResult = await _volunteersRepository.GetByIdAsync(volunteerId, cancellationToken);
 
         var addPetResult = volunteerResult.Value.AddPet(pet);
         if (addPetResult.IsFailure)

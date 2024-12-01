@@ -1,4 +1,5 @@
 ﻿using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Volunteers.Domain.AggregateRoot;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
@@ -46,6 +47,14 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 y => YearsOfExperience.Create(y).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
+        
+        // CREATED_AT
+        builder.Property(v => v.CreatedAt)
+            .HasConversion(
+                createdAt => createdAt.Value,
+                value => CreatedAt.Create(value).Value)
+            .HasColumnName("created_at")
+            .IsRequired();
 
         // REQUISITES
         builder.Property(p => p.Requisites)
@@ -61,17 +70,14 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        // PETS AUTO INCLUDE
-        builder.Navigation(v => v.Pets).AutoInclude();
-
         // IS SOFT DELETE
         builder.Property(b => b.IsSoftDeleted)
             .HasColumnName("is_soft_deleted")
             .IsRequired();
 
-        // SOFT DELETE DATE TIME
-        builder.Property(v => v.SoftDeletionTimestamp)
-            .HasColumnName("soft_deletion_timestamp")
+        // SOFT_DELETED_AT
+        builder.Property(v => v.SoftDeletedAt)
+            .HasColumnName("soft_deleted_at")
             .IsRequired(false);
     }
 }

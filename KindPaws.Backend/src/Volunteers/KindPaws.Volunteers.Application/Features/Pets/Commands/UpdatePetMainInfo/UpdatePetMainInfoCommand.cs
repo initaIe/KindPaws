@@ -8,8 +8,4 @@ public record UpdatePetMainInfoCommand(
     Guid SpecieId,
     Guid BreedId,
     string Name)
-    : ICommand
-{
-    public UpdatePetMainInfoExistenceValidationData ToExistenceValidationData()
-        => new(VolunteerId, PetId, SpecieId, BreedId);
-}
+    : ICommand;

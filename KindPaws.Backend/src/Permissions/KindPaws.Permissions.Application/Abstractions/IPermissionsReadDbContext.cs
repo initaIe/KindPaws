@@ -1,8 +1,8 @@
-﻿using KindPaws.Permissions.Contracts.Dtos;
+﻿using KindPaws.Permissions.Application.DataModels;
 
 namespace KindPaws.Permissions.Application.Abstractions;
 
 public interface IPermissionsReadDbContext
 {
-    IQueryable<PermissionDto> Permissions { get; }
+    IQueryable<PermissionDataModel> Permissions { get; }
 }

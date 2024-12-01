@@ -25,7 +25,7 @@ namespace KindPaws.Volunteers.Presentation.Controllers;
 
 public class VolunteersController : ApplicationController
 {
-    [Permission(Permissions.Volunteers.CreateVolunteer)]
+    // [Permission(Permissions.Volunteers.CreateVolunteer)]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateVolunteerRequest request,
@@ -41,7 +41,7 @@ public class VolunteersController : ApplicationController
         return Ok(result.Value);
     }
 
-    [Permission(Permissions.Volunteers.AddPet)]
+    // [Permission(Permissions.Volunteers.AddPet)]
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> AddPet(
         [FromRoute] Guid volunteerId,
@@ -114,7 +114,7 @@ public class VolunteersController : ApplicationController
         return Ok(result.Value);
     }
 
-    [Permission(Permissions.Volunteers.UpdateVolunteer)]
+    // [Permission(Permissions.Volunteers.UpdateVolunteer)]
     [HttpPut("{volunteerId:guid}/info")]
     public async Task<IActionResult> UpdateInfo(
         [FromRoute] Guid volunteerId,

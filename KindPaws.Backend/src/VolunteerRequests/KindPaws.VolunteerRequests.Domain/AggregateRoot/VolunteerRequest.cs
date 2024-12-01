@@ -1,0 +1,82 @@
+﻿using KindPaws.SharedKernel.Others;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
+
+namespace KindPaws.VolunteerRequests.Domain.AggregateRoot;
+
+public class VolunteerRequest : IEntity<VolunteerRequestId>
+{
+    // ef core
+    private VolunteerRequest()
+    {
+    }
+
+    public VolunteerRequest(
+        VolunteerRequestId id,
+        AccountId requesterAccountId,
+        VolunteerInfo volunteerInfo,
+        VolunteerRequestStatus status,
+        CreatedAt createdAt)
+    {
+        Id = id;
+        RequesterAccountId = requesterAccountId;
+        VolunteerInfo = volunteerInfo;
+        Status = status;
+        CreatedAt = createdAt;
+    }
+
+    public VolunteerRequestId Id { get; private set; }
+    public AccountId RequesterAccountId { get; private set; }
+    public AccountId? AdminReviewerAccountId { get; private set; }
+    public DiscussionId? DiscussionId { get; private set; }
+    public VolunteerInfo VolunteerInfo { get; private set; }
+    public RejectionComment? RejectionComment { get; private set; }
+    public VolunteerRequestStatus Status { get; private set; } 
+    public CreatedAt CreatedAt { get; private set; }
+
+    #region Factory methods
+
+    public static VolunteerRequest CreateNew(
+        AccountId requesterAccountId,
+        VolunteerInfo volunteerInfo,
+        VolunteerRequestStatus status)
+    {
+        var id = VolunteerRequestId.CreateRandom();
+        var createdAt = CreatedAt.CreateNew();
+
+        return new VolunteerRequest(
+            id,
+            requesterAccountId,
+            volunteerInfo,
+            status,
+            createdAt);
+    }
+
+    #endregion
+
+    #region CRUD
+
+    public void TakeRequestOnReview(AccountId adminReviewerAccountId)
+    {
+        AdminReviewerAccountId = adminReviewerAccountId;
+    }
+
+    public void SendOnRevision(RejectionComment rejectionComment)
+    {
+        Status = VolunteerRequestStatus.RevisionRequired;
+        RejectionComment = rejectionComment;
+    }
+
+    public void Approve()
+    {
+        Status = VolunteerRequestStatus.Approved;
+    }
+
+    public void Reject()
+    {
+        Status = VolunteerRequestStatus.Rejected;
+    }
+
+    #endregion
+}

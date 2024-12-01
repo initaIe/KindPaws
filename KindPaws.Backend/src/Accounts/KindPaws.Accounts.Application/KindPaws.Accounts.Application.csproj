@@ -13,9 +13,4 @@
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\AccountRoles\Queries\" />
-      <Folder Include="Features\RefreshSessions\Queries\" />
-    </ItemGroup>
-
 </Project>

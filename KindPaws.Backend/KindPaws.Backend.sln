@@ -100,6 +100,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Contracts", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.Auth.Domain", "src\Auth\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj", "{3930ACA2-EBEF-43FB-9221-8D616553A2B1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VolunteerRequests", "VolunteerRequests", "{9518ECAC-723A-4610-94C3-9B5BCBCB264E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.Application", "src\VolunteerRequests\KindPaws.VolunteerRequests.Application\KindPaws.VolunteerRequests.Application.csproj", "{274E5DFC-0DB6-49D5-9CD5-1F8B0D8C0041}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.Contracts", "src\VolunteerRequests\KindPaws.VolunteerRequests.Contracts\KindPaws.VolunteerRequests.Contracts.csproj", "{F8FB17DA-774E-41B2-BDC8-1F895CCD5EE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.Domain", "src\VolunteerRequests\KindPaws.VolunteerRequests.Domain\KindPaws.VolunteerRequests.Domain.csproj", "{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.Infrastructure", "src\VolunteerRequests\KindPaws.VolunteerRequests.Infrastructure\KindPaws.VolunteerRequests.Infrastructure.csproj", "{AA2E01D0-EEF1-4706-9802-E7107125315B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.Presentation", "src\VolunteerRequests\KindPaws.VolunteerRequests.Presentation\KindPaws.VolunteerRequests.Presentation.csproj", "{248EB4E9-E68B-4513-9956-86FDA0AC1665}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +269,26 @@ Global
 		{3930ACA2-EBEF-43FB-9221-8D616553A2B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3930ACA2-EBEF-43FB-9221-8D616553A2B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3930ACA2-EBEF-43FB-9221-8D616553A2B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{274E5DFC-0DB6-49D5-9CD5-1F8B0D8C0041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{274E5DFC-0DB6-49D5-9CD5-1F8B0D8C0041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{274E5DFC-0DB6-49D5-9CD5-1F8B0D8C0041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{274E5DFC-0DB6-49D5-9CD5-1F8B0D8C0041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8FB17DA-774E-41B2-BDC8-1F895CCD5EE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8FB17DA-774E-41B2-BDC8-1F895CCD5EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8FB17DA-774E-41B2-BDC8-1F895CCD5EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8FB17DA-774E-41B2-BDC8-1F895CCD5EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA2E01D0-EEF1-4706-9802-E7107125315B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA2E01D0-EEF1-4706-9802-E7107125315B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA2E01D0-EEF1-4706-9802-E7107125315B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA2E01D0-EEF1-4706-9802-E7107125315B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{248EB4E9-E68B-4513-9956-86FDA0AC1665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{248EB4E9-E68B-4513-9956-86FDA0AC1665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{248EB4E9-E68B-4513-9956-86FDA0AC1665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{248EB4E9-E68B-4513-9956-86FDA0AC1665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BB513E3A-65B8-4E96-A27A-82E26640E79B} = {4D24C7AD-6183-4D42-86B7-C9B014AFD4FB}
@@ -303,5 +335,11 @@ Global
 		{C7468BFE-C840-4FF7-AB37-8EB60241394D} = {68BC16A8-9398-49A5-BEDD-30A8E0395798}
 		{02323165-30B7-46D3-ACAA-126CECC1267A} = {68BC16A8-9398-49A5-BEDD-30A8E0395798}
 		{3930ACA2-EBEF-43FB-9221-8D616553A2B1} = {68BC16A8-9398-49A5-BEDD-30A8E0395798}
+		{9518ECAC-723A-4610-94C3-9B5BCBCB264E} = {4D24C7AD-6183-4D42-86B7-C9B014AFD4FB}
+		{274E5DFC-0DB6-49D5-9CD5-1F8B0D8C0041} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
+		{F8FB17DA-774E-41B2-BDC8-1F895CCD5EE8} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
+		{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
+		{AA2E01D0-EEF1-4706-9802-E7107125315B} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
+		{248EB4E9-E68B-4513-9956-86FDA0AC1665} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
 	EndGlobalSection
 EndGlobal

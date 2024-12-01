@@ -8,13 +8,11 @@ public static class PetHelper
 {
     public static Pet ForceCreateNewPet(string name, Guid specieId, Guid breedId)
     {
-        var petId = PetId.CreateRandom();
-        var petSpecieId = SpecieId.Create(specieId).Value;
-        var petType = new PetType(petSpecieId, breedId);
         var petName = PetName.Create(name).Value;
+        var petSpecieId = SpecieId.Create(specieId).Value;
+        var petType = PetType.Create(petSpecieId, breedId).Value;
 
-        return new Pet(
-            petId,
+        return Pet.CreateNew(
             petName,
             petType);
     }

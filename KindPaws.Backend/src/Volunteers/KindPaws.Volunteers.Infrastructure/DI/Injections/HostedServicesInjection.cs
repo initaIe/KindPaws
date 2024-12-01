@@ -7,6 +7,8 @@ public static class HostedServicesInjection
 {
     public static IServiceCollection AddHostedServices(this IServiceCollection services)
     {
-        return services.AddHostedService<FilesCleanerBackgroundService>();
+        return services
+            .AddHostedService<FilesCleanerBackgroundService>()
+            .AddHostedService<ExpiredEntitiesCleanerBackgroundService>();
     }
 }

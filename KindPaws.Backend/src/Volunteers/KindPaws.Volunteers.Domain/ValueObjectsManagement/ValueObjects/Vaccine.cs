@@ -1,5 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Extensions;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
@@ -19,7 +20,7 @@ public record Vaccine
         if (string.IsNullOrWhiteSpace(input))
             return Errors.General.ValueIsRequired(nameof(Vaccine));
 
-        input = input.Trim();
+        input = input.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(input, VaccineConstraints.MinLength, VaccineConstraints.MaxLength))
             return Errors.General.ValueOutOfRange(nameof(input));
