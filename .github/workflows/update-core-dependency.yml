@@ -13,7 +13,7 @@ env:
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Каждую минуту
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
