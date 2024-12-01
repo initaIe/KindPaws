@@ -20,7 +20,7 @@
 
     <PropertyGroup>
         <PackageId>KindPaws.Framework</PackageId>
-        <Version>1.0.9</Version>
+        <Version>1.1.0</Version>
         <Authors>initaIe</Authors>
         <Description>Framework for KindPaws project</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
