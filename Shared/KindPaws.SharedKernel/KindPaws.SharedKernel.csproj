@@ -8,7 +8,11 @@
 
     <PropertyGroup>
         <PackageId>KindPaws.SharedKernel</PackageId>
-        <Version>0.0.1</Version>
+        <Version>1.0.1</Version>
+        <Authors>initaIe</Authors>
+        <Description>Shared Kernel for KindPaws project</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/initaIe/KindPaws</RepositoryUrl>
     </PropertyGroup>
     
 </Project>

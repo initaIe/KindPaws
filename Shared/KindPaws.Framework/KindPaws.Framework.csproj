@@ -6,4 +6,21 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KindPaws.Core" Version="1.0.1" />
+      <PackageReference Include="KindPaws.SharedKernel" Version="1.0.1" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PackageId>KindPaws.Framework</PackageId>
+        <Version>1.0.1</Version>
+        <Authors>initaIe</Authors>
+        <Description>Framework for KindPaws project</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/initaIe/KindPaws</RepositoryUrl>
+    </PropertyGroup>
 </Project>
