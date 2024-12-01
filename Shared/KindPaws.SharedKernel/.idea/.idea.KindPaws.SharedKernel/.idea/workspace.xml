@@ -6,14 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3051bcf4-ea02-451d-ae8b-83679d0cb04b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../KindPaws.Core/KindPaws.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../KindPaws.Core/KindPaws.Core.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../KindPaws.Framework/ApplicationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../KindPaws.Framework/Others/ApplicationController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../KindPaws.Framework/KindPaws.Framework.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../KindPaws.Framework/KindPaws.Framework.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../KindPaws.Framework/ResponseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../KindPaws.Framework/Others/ResponseExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KindPaws.SharedKernel.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/KindPaws.SharedKernel.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ValueObjectsManagement/ValueObjects/Address.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ValueObjectsManagement/ValueObjects/Address.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ValueObjectsManagement/ValueObjects/FilePath.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ValueObjectsManagement/ValueObjects/FilePath.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ValueObjectsManagement/ValueObjects/Gender.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ValueObjectsManagement/ValueObjects/Gender.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/net8.0/KindPaws.SharedKernel.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Release/net8.0/KindPaws.SharedKernel.deps.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +36,11 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "PLAIN_TEXT"
+    ]
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -54,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733048940857</updated>
-      <workItem from="1733048942468" duration="3446000" />
+      <workItem from="1733048942468" duration="7455000" />
     </task>
     <servers />
   </component>
