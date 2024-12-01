@@ -11,4 +11,9 @@
       <ProjectReference Include="..\KindPaws.Accounts.Domain\KindPaws.Accounts.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="KindPaws.Core" Version="1.0.8" />
+      <PackageReference Include="KindPaws.SharedKernel" Version="1.0.8" />
+    </ItemGroup>
+
 </Project>
