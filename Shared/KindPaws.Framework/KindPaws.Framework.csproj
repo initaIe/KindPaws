@@ -11,12 +11,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="KindPaws.Core" Version="1.0.7" />
+      <PackageReference Include="KindPaws.Core" Version="1.0.8" />
     </ItemGroup>
 
     <PropertyGroup>
         <PackageId>KindPaws.Framework</PackageId>
-        <Version>1.0.7</Version>
+        <Version>1.0.8</Version>
         <Authors>initaIe</Authors>
         <Description>Framework for KindPaws project</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
