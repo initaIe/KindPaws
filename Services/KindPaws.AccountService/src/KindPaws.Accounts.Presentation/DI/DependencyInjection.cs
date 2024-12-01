@@ -1,13 +1,22 @@
-﻿using KindPaws.Accounts.Contracts;
-using KindPaws.Accounts.Presentation.Contract;
-using Microsoft.Extensions.DependencyInjection;
+﻿using KindPaws.Accounts.Presentation.DI.Layouts;
+using KindPaws.Accounts.Presentation.DI.Others;
+using KindPaws.Accounts.Presentation.DI.Web;
 
 namespace KindPaws.Accounts.Presentation.DI;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddAccountsPresentation(this IServiceCollection services)
+    /// <summary>
+    /// Добавляет все зависимости в DI.
+    /// </summary>
+    public static IServiceCollection AddDependencyInjections(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        return services.AddScoped<IAccountsContract, AccountsContract>();
+        services.AddLayoutInjections(configuration);
+        services.AddOtherInjections(configuration);
+        services.AddWevInjections(configuration);
+
+        return services;
     }
 }

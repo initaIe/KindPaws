@@ -12,7 +12,7 @@ public static class RefreshSessionHelper
     {
         var refreshSessionJti = Jti.Create(jti).Value;
         var refreshSessionExpiresAt = RefreshSessionExpiresAt.Create(expiresAt).Value;
-        
+
         return RefreshSession.CreateNew(refreshSessionJti, refreshSessionExpiresAt);
     }
 }

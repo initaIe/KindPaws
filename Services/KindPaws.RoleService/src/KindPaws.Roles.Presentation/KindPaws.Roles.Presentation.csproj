@@ -7,13 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="KindPaws.Framework" Version="1.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\KindPaws.Roles.Application\KindPaws.Roles.Application.csproj" />
       <ProjectReference Include="..\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Roles.Domain\KindPaws.Roles.Domain.csproj" />
+      <ProjectReference Include="..\KindPaws.Roles.Infrastructure\KindPaws.Roles.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 ﻿using KindPaws.Accounts.Application.DataModels;
-using KindPaws.Accounts.Contracts.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

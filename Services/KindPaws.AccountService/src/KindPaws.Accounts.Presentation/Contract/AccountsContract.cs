@@ -1,5 +1,4 @@
-﻿using EFCore.NamingConventions.Internal;
-using KindPaws.Accounts.Application.Abstractions;
+﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.DataModels;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.CreateAccount;
 using KindPaws.Accounts.Application.Features.Accounts.Commands.DeleteAccount;
@@ -8,14 +7,11 @@ using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefresh
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.DeleteRefreshSession;
 using KindPaws.Accounts.Application.Features.RefreshSessions.Queries.GetRefreshSessionByAccountId;
 using KindPaws.Accounts.Contracts;
-using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Accounts.Presentation.Mappers;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Accounts.Presentation.Contract;
@@ -109,19 +105,19 @@ public class AccountsContract : IAccountsContract
     //     var query = new GetRefreshSessionByAccountIdQuery(accountId);
     //     return await _getRefreshSessionByAccountIdHandler.HandleAsync(query, cancellationToken);
     // }
-    
+
     // TODO: MOVE TO APPLICATION QUERIES
     public async Task<Result<IReadOnlyList<Guid>, ErrorList>> GetRolesAsync(
         Guid accountId,
         CancellationToken cancellationToken = default)
     {
         var account = await _dbContext.Accounts.FirstOrDefaultAsync(
-            a=>a.Id == accountId,
+            a => a.Id == accountId,
             cancellationToken);
 
         if (account == null)
             return Errors.General.RecordNotFound().ToErrorList();
-        
+
         return account.Roles.ToList();
     }
 }

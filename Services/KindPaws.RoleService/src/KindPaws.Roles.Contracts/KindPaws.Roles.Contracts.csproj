@@ -6,4 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="KindPaws.Core" Version="1.0.8" />
+      <PackageReference Include="KindPaws.SharedKernel" Version="1.0.8" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DTOs\" />
+      <Folder Include="Responses\" />
+    </ItemGroup>
+
 </Project>

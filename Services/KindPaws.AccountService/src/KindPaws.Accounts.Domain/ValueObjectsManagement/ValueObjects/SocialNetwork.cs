@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
+﻿using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;

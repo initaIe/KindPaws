@@ -4,7 +4,6 @@ using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.AddRefresh
 using KindPaws.Accounts.Application.Features.RefreshSessions.Commands.DeleteRefreshSession;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Accounts.Presentation.Mappers;
-using KindPaws.Framework;
 using KindPaws.Framework.Others;
 using Microsoft.AspNetCore.Mvc;
 
