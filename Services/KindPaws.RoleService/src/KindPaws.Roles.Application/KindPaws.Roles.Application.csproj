@@ -7,12 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Responses\" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="KindPaws.SharedKernel" Version="1.0.1" />
-        <PackageReference Include="KindPaws.Core" Version="1.0.0" />
+      <ProjectReference Include="..\KindPaws.Roles.Contracts\KindPaws.Roles.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.Roles.Domain\KindPaws.Roles.Domain.csproj" />
     </ItemGroup>
 
 </Project>
