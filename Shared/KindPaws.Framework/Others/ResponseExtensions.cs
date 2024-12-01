@@ -4,7 +4,7 @@ using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KindPaws.Framework;
+namespace KindPaws.Framework.Others;
 
 public static class ResponseExtensions
 {

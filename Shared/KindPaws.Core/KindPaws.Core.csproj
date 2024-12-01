@@ -10,7 +10,7 @@
         <PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
         <PackageReference Include="FluentValidation" Version="11.11.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-        <PackageReference Include="KindPaws.SharedKernel" Version="1.0.1" />
+        <PackageReference Include="KindPaws.SharedKernel" Version="1.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.11" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
@@ -20,7 +20,7 @@
 
     <PropertyGroup>
         <PackageId>KindPaws.Core</PackageId>
-        <Version>1.0.1</Version>
+        <Version>1.0.7</Version>
         <Authors>initaIe</Authors>
         <Description>Core for KindPaws project</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

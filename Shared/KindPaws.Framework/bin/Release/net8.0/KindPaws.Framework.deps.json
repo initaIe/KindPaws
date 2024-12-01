@@ -6,10 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "KindPaws.Framework/1.0.1": {
+      "KindPaws.Framework/1.0.7": {
         "dependencies": {
-          "KindPaws.Core": "1.0.1",
-          "KindPaws.SharedKernel": "1.0.1"
+          "KindPaws.Core": "1.0.7"
         },
         "runtime": {
           "KindPaws.Framework.dll": {}
@@ -48,12 +47,12 @@
           }
         }
       },
-      "KindPaws.Core/1.0.1": {
+      "KindPaws.Core/1.0.7": {
         "dependencies": {
           "EFCore.NamingConventions": "8.0.3",
           "FluentValidation": "11.11.0",
           "FluentValidation.DependencyInjectionExtensions": "11.11.0",
-          "KindPaws.SharedKernel": "1.0.1",
+          "KindPaws.SharedKernel": "1.0.7",
           "Microsoft.EntityFrameworkCore": "8.0.11",
           "Microsoft.EntityFrameworkCore.Relational": "8.0.11",
           "Microsoft.Extensions.Hosting": "8.0.1",
@@ -62,16 +61,16 @@
         },
         "runtime": {
           "lib/net8.0/KindPaws.Core.dll": {
-            "assemblyVersion": "1.0.1.0",
-            "fileVersion": "1.0.1.0"
+            "assemblyVersion": "1.0.7.0",
+            "fileVersion": "1.0.7.0"
           }
         }
       },
-      "KindPaws.SharedKernel/1.0.1": {
+      "KindPaws.SharedKernel/1.0.7": {
         "runtime": {
           "lib/net8.0/KindPaws.SharedKernel.dll": {
-            "assemblyVersion": "1.0.1.0",
-            "fileVersion": "1.0.1.0"
+            "assemblyVersion": "1.0.7.0",
+            "fileVersion": "1.0.7.0"
           }
         }
       },
@@ -472,7 +471,7 @@
     }
   },
   "libraries": {
-    "KindPaws.Framework/1.0.1": {
+    "KindPaws.Framework/1.0.7": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -498,19 +497,19 @@
       "path": "fluentvalidation.dependencyinjectionextensions/11.11.0",
       "hashPath": "fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512"
     },
-    "KindPaws.Core/1.0.1": {
+    "KindPaws.Core/1.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-g8F0co4comOnctQyiIG5H0ZNVP2UocBZs3LbVxEZ3lo0XHPJJHTCTB36N4fYMIuzdnbOww5FcSwvzWEoFIsS/A==",
-      "path": "kindpaws.core/1.0.1",
-      "hashPath": "kindpaws.core.1.0.1.nupkg.sha512"
+      "sha512": "sha512-3TqQmYKRoAEVLNBs2WRPmmwpsso9iQJd4wF/mblZFNi3NjS/fvwQu6DQmiL6o7npx2arH+IzfB0gwZwMpxAIKQ==",
+      "path": "kindpaws.core/1.0.7",
+      "hashPath": "kindpaws.core.1.0.7.nupkg.sha512"
     },
-    "KindPaws.SharedKernel/1.0.1": {
+    "KindPaws.SharedKernel/1.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vWn13745l3qTlLR4NKxDxdpCEreychikYpT7QBGQglp2er/Ma+hckPGfk85MYzm6hBZe8akWkNYrCPWKntK/Bw==",
-      "path": "kindpaws.sharedkernel/1.0.1",
-      "hashPath": "kindpaws.sharedkernel.1.0.1.nupkg.sha512"
+      "sha512": "sha512-ToLupnwunOFamgLVK+cKukdaJ7KqOJpEyALubAbvi2oUVgbdBdR6ss3btNBiVHd0QimyGkzYuPL0SzoD7N3iMQ==",
+      "path": "kindpaws.sharedkernel/1.0.7",
+      "hashPath": "kindpaws.sharedkernel.1.0.7.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/8.0.11": {
       "type": "package",

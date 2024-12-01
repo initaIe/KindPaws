@@ -1,7 +1,7 @@
 ﻿using KindPaws.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KindPaws.Framework;
+namespace KindPaws.Framework.Others;
 
 [ApiController]
 [Route("[controller]")]
