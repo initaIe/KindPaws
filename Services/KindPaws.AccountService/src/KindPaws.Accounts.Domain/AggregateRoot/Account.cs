@@ -7,8 +7,9 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Accounts.Domain.AggregateRoot;
 
-public sealed class Account : IEntity<AccountId>
+public sealed class Account : IAggregateRoot<AccountId>
 {
+    private readonly List<IDomainEvent> _domainEvents = [];
     private readonly List<RefreshSession> _refreshSessions = [];
     private List<RoleId> _roles = [];
     private List<SocialNetwork> _socialNetworks = [];
@@ -42,6 +43,8 @@ public sealed class Account : IEntity<AccountId>
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<RefreshSession> RefreshSessions => _refreshSessions;
     public IReadOnlyList<RoleId> Roles => _roles;
+    
+    public IReadOnlyList<IDomainEvent> DomainEvents { get; }
 
     #region Factory methods
 
