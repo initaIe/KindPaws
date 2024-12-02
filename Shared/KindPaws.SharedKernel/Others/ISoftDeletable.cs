@@ -2,6 +2,6 @@
 
 public interface ISoftDeletable
 {
-    bool IsSoftDeleted { get; }
-    DateTimeOffset? SoftDeletedAt { get; }
+    bool IsSoftDeleted { get; } 
+    DateTimeOffset? SoftDeletedAt { get; } 
 }
