@@ -112,6 +112,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindPaws.VolunteerRequests.Presentation", "src\VolunteerRequests\KindPaws.VolunteerRequests.Presentation\KindPaws.VolunteerRequests.Presentation.csproj", "{248EB4E9-E68B-4513-9956-86FDA0AC1665}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{87359894-6A8B-42B2-8739-770DC599E78B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -341,5 +343,6 @@ Global
 		{F4DC12DD-A054-4B52-81BC-F20CB5FD2C11} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
 		{AA2E01D0-EEF1-4706-9802-E7107125315B} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
 		{248EB4E9-E68B-4513-9956-86FDA0AC1665} = {9518ECAC-723A-4610-94C3-9B5BCBCB264E}
+		{87359894-6A8B-42B2-8739-770DC599E78B} = {4D24C7AD-6183-4D42-86B7-C9B014AFD4FB}
 	EndGlobalSection
 EndGlobal
