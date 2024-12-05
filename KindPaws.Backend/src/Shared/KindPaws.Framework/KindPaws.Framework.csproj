@@ -15,4 +15,13 @@
       <ProjectReference Include="..\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
     </ItemGroup>
 
+
+
+    <ItemGroup>
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0"/>
+        <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0"/>
+    </ItemGroup>
+
 </Project>

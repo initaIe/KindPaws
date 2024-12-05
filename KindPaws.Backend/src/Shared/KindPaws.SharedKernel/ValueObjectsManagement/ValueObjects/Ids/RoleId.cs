@@ -25,10 +25,4 @@ public record RoleId
 
         return new RoleId(input);
     }
-
-    public static implicit operator Guid(RoleId roleId)
-    {
-        return roleId?.Value
-               ?? throw new ArgumentNullException($"{nameof(roleId)} cannot be null.");
-    }
 }

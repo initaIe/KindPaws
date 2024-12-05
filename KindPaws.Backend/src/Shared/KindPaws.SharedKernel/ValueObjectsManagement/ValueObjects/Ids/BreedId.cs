@@ -25,10 +25,4 @@ public record BreedId
 
         return new BreedId(input);
     }
-
-    public static implicit operator Guid(BreedId breedId)
-    {
-        return breedId?.Value
-               ?? throw new ArgumentNullException($"{nameof(breedId)} cannot be null.");
-    }
 }

@@ -25,10 +25,4 @@ public record VolunteerId
 
         return new VolunteerId(input);
     }
-
-    public static implicit operator Guid(VolunteerId volunteerId)
-    {
-        return volunteerId?.Value
-               ?? throw new ArgumentNullException($"{nameof(volunteerId)} value cannot be null.");
-    }
 }

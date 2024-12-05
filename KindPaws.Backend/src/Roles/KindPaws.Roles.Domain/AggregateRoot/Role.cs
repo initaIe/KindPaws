@@ -6,7 +6,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Roles.Domain.AggregateRoot;
 
-public sealed class Role : IEntity<RoleId>
+public sealed class Role : Entity<RoleId>
 {
     private List<PermissionId> _permissions = [];
 

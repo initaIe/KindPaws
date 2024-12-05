@@ -25,10 +25,4 @@ public record PermissionId
 
         return new PermissionId(input);
     }
-
-    public static implicit operator Guid(PermissionId permissionId)
-    {
-        return permissionId?.Value
-               ?? throw new ArgumentNullException($"{nameof(permissionId)} cannot be null.");
-    }
 }

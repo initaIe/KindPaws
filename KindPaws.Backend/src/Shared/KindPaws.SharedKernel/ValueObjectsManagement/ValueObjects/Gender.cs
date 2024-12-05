@@ -1,15 +1,15 @@
-﻿using System.Text.Json.Serialization;
-using KindPaws.SharedKernel.Others;
+﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record Gender
 {
+    public static readonly Gender Undefined = new(nameof(Undefined));
     public static readonly Gender Male = new(nameof(Male));
     public static readonly Gender Female = new(nameof(Female));
 
-    private static readonly Gender[] All = [Male, Female];
+    private static readonly Gender[] All = [Undefined, Male, Female];
 
     private Gender(string value)
     {

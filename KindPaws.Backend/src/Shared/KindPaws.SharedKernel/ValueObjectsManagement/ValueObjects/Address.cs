@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Extensions;
@@ -10,20 +9,35 @@ namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 public record Address
 {
     private Address(
+        string country,
         string city,
         string street)
     {
+        Country = country;
         City = city;
         Street = street;
     }
 
+    public string Country { get; }
     public string City { get; }
     public string Street { get; }
 
     public static Result<Address, Error> Create(
+        string country,
         string city,
         string street)
     {
+        if (string.IsNullOrWhiteSpace(country))
+            return Errors.General.ValueIsRequired(nameof(country));
+
+        country = country.Trim().ToProperCase();
+
+        if (!StringValidator.IsInRange(
+                country,
+                AddressConstraints.MinCityLength,
+                AddressConstraints.MaxCityLength))
+            return Errors.General.ValueOutOfRange(nameof(country));
+
         if (string.IsNullOrWhiteSpace(city))
             return Errors.General.ValueIsRequired(nameof(City));
 
@@ -46,6 +60,9 @@ public record Address
                 AddressConstraints.MaxStreetLength))
             return Errors.General.ValueOutOfRange(nameof(Street));
 
-        return new Address(city, street);
+        return new Address(
+            country,
+            city,
+            street);
     }
 }

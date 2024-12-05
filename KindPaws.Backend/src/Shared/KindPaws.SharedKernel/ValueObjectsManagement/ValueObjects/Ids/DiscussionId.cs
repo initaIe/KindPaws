@@ -25,10 +25,4 @@ public record DiscussionId
 
         return new DiscussionId(value);
     }
-
-    public static implicit operator Guid(DiscussionId discussionId)
-    {
-        return discussionId?.Value
-               ?? throw new ArgumentNullException($"{nameof(discussionId)} value cannot be null.");
-    }
 }

@@ -163,7 +163,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? birthday,
+        BirthdayAt? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {

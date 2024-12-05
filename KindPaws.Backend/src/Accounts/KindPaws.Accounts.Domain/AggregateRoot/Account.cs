@@ -7,7 +7,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Accounts.Domain.AggregateRoot;
 
-public sealed class Account : IEntity<AccountId>
+public sealed class Account : Entity<AccountId>
 {
     private readonly List<RefreshSession> _refreshSessions = [];
     private List<RoleId> _roles = [];

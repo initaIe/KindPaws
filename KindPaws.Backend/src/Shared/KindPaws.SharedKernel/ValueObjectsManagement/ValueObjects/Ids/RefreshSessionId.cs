@@ -25,10 +25,4 @@ public record RefreshSessionId
 
         return new RefreshSessionId(input);
     }
-
-    public static implicit operator Guid(RefreshSessionId refreshSessionId)
-    {
-        return refreshSessionId?.Value
-               ?? throw new ArgumentNullException($"{nameof(refreshSessionId)} cannot be null.");
-    }
 }

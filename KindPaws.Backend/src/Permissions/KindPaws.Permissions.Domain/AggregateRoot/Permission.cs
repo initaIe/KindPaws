@@ -5,7 +5,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Permissions.Domain.AggregateRoot;
 
-public class Permission : IEntity<PermissionId>
+public class Permission : Entity<PermissionId>
 {
     // ef core
     private Permission()

@@ -25,10 +25,4 @@ public record PetId
 
         return new PetId(input);
     }
-
-    public static implicit operator Guid(PetId petId)
-    {
-        return petId?.Value
-               ?? throw new ArgumentNullException($"{nameof(petId)} cannot be null.");
-    }
 }

@@ -25,10 +25,4 @@ public record SpecieId
 
         return new SpecieId(input);
     }
-
-    public static implicit operator Guid(SpecieId specieId)
-    {
-        return specieId?.Value
-               ?? throw new ArgumentNullException($"{nameof(specieId)} cannot be null.");
-    }
 }

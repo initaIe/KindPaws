@@ -85,7 +85,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Birthday)
             .HasConversion(
                 birthday => birthday!.Value,
-                value => Birthday.Create(value).Value)
+                value => BirthdayAt.Create(value).Value)
             .HasColumnName("birthday")
             .IsRequired(false);
 
