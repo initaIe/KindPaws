@@ -53,6 +53,9 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.ComplexProperty(p => p.Type, type =>
         {
             type.Property(t => t.SpecieId)
+                .HasConversion(
+                    id => id!.Value,
+                    value => SpecieId.Create(value).Value)
                 .HasColumnName("specie_id")
                 .IsRequired();
             

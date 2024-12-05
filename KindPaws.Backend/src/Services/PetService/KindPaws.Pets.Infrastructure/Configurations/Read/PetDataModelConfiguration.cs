@@ -1,4 +1,7 @@
-﻿using KindPaws.Pets.Application.DataModels;
+﻿using System.Text.Json;
+using KindPaws.Pets.Application.DataModels;
+using KindPaws.Pets.Application.Mappers;
+using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -48,17 +51,17 @@ public class PetDataModelConfiguration : IEntityTypeConfiguration<PetDataModel>
             .HasColumnName("birthday_at");
         
         // HEALTH_DETAILS
-        // builder.Property(p => p.HealthDetails)
-        //     .HasJsonConversion()
-        //     .HasColumnType("jsonb")
-        //     .HasColumnName("health_details")
-        //     .IsRequired(false);
-        
+        builder.Property(p => p.HealthDetails)
+            .HasConversion(
+                healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<HealthDetails>(json, JsonSerializerOptions.Default)!.ToDto())
+            .HasColumnName("health_details");
+
         // BIOMETRIC_DETAILS
-        // builder.Property(p => p.BiometricDetails)
-        //     .HasJsonConversion()
-        //     .HasColumnType("jsonb")
-        //     .HasColumnName("biometric_details")
-        //     .IsRequired(false);
+        builder.Property(p => p.BiometricDetails)
+            .HasConversion(
+                healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<BiometricDetails>(json, JsonSerializerOptions.Default)!.ToDto())
+            .HasColumnName("biometric_details");
     }
 }

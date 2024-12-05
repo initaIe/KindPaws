@@ -1,7 +1,10 @@
-﻿using KindPaws.Core.Extensions;
+﻿using System.Text.Json;
+using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.Users.Application.DataModels;
+using KindPaws.Users.Application.Mappers;
 using KindPaws.Users.Domain.UsersManagement.AggregateRoot;
 using KindPaws.Users.Domain.UsersManagement.Entities;
 using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjects;
@@ -11,70 +14,44 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Users.Infrastructure.Configurations.Read;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<UserDataModel>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<UserDataModel> builder)
     {
         // TABLE NAMING
         builder.ToTable("users");
 
         // ID
-        builder.HasKey(u => u.Id);
         builder.Property(u => u.Id)
-            .HasConversion(
-                id => id.Value,
-                value => UserId.Create(value).Value)
             .HasColumnName("id");
 
         // CREATED_AT
         builder.Property(u => u.CreatedAt)
-            .HasConversion(
-                createdAt => createdAt.Value,
-                value => CreatedAt.Create(value).Value)
-            .HasColumnName("created_at")
-            .IsRequired();
+            .HasColumnName("created_at");
 
         // LAST_MODIFIED_AT
         builder.Property(u => u.LastModifiedAt)
-            .HasConversion(
-                lastModifiedAt => lastModifiedAt!.Value,
-                value => LastModifiedAt.Create(value).Value)
-            .HasColumnName("last_modified_at")
-            .IsRequired(false);
+            .HasColumnName("last_modified_at");
 
         // USER_NAME
         builder.Property(u => u.UserName)
-            .HasConversion(
-                userName => userName.Value,
-                value => UserName.Create(value).Value)
-            .HasMaxLength(UserNameConstraints.MaxLength)
-            .HasColumnName("username")
-            .IsRequired();
+            .HasColumnName("username");
 
         // EMAIL_ADDRESS
         builder.Property(u => u.EmailAddress)
-            .HasConversion(
-                emailAddress => emailAddress.Value,
-                value => EmailAddress.Create(value).Value)
-            .HasMaxLength(EmailAddressConstraints.MaxLength)
-            .HasColumnName("email_address")
-            .IsRequired();
+            .HasColumnName("email_address");
 
         // PROFILE
         builder.HasOne(u => u.Profile)
             .WithOne()
-            .HasForeignKey<Profile>("user_id")
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired();
+            .HasForeignKey<ProfileDataModel>(p => p.UserId);
 
         // ROLES
         builder.Property(u => u.Roles)
-            .HasJsonConversion()
-            .HasColumnName("roles")
-            .HasColumnType("jsonb")
-            .IsRequired();
-
-        // IGNORE
-        builder.Ignore(u => u.DomainEvents);
+            .HasConversion(
+                healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<IEnumerable<RoleId>>(json, JsonSerializerOptions.Default)!
+                    .ToDtoCollection())
+            .HasColumnName("roles");
     }
 }

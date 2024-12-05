@@ -1,4 +1,5 @@
 ﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Users.Contracts.Dtos;
 using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjects;
 
@@ -32,4 +33,10 @@ public static class ToDtoMappers
 
     public static IReadOnlyList<SocialNetworkDto> ToDtoCollection(this IEnumerable<SocialNetwork> socialNetworks)
         => socialNetworks.Select(ToDto).ToList();
+
+    public static Guid ToGuid(this RoleId roleId)
+        => roleId.Value;
+    
+    public static IReadOnlyList<Guid> ToDtoCollection(this IEnumerable<RoleId> roles)
+        => roles.Select(ToGuid).ToList();
 }

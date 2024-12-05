@@ -1,25 +1,27 @@
 ﻿using KindPaws.Core.Factories;
 using KindPaws.Core.Options;
-using KindPaws.Users.Application.Abstractions;
-using KindPaws.Users.Application.DataModels;
-using KindPaws.Users.Domain.UsersManagement.Entities;
+using KindPaws.Pets.Application.Abstractions;
+using KindPaws.Pets.Application.DataModels;
+using KindPaws.Pets.Domain.SpeciesManagement.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace KindPaws.Users.Infrastructure.DbContexts;
+namespace KindPaws.Pets.Infrastructure.DbContexts;
 
-public class UsersReadDbContext : DbContext, IUsersReadDbContext
+public class PetsReadDbContext : DbContext, IPetsReadDbContext
 {
     private readonly PostgresOptions _postgresOptions;
 
-    public UsersReadDbContext(IOptions<PostgresOptions> postgresOptions)
+    public PetsReadDbContext(IOptions<PostgresOptions> postgresOptions)
     {
         _postgresOptions = postgresOptions.Value;
     }
 
-    public IQueryable<UserDataModel> Users => Set<UserDataModel>();
-    public IQueryable<ProfileDataModel> Profiles => Set<ProfileDataModel>();
-    public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
+    public IQueryable<VolunteerDataModel> Volunteers => Set<VolunteerDataModel>();
+    public IQueryable<PetDataModel> Pets => Set<PetDataModel>();
+    
+    public IQueryable<SpecieDataModel> Species => Set<SpecieDataModel>();
+    public IQueryable<BreedDataModel> Breeds => Set<BreedDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -36,7 +38,7 @@ public class UsersReadDbContext : DbContext, IUsersReadDbContext
         modelBuilder.HasDefaultSchema("users");
 
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(UsersReadDbContext).Assembly,
+            typeof(PetsReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
     }
 }
