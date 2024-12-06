@@ -12,6 +12,10 @@
 
     <ItemGroup>
       <Folder Include="RolesManagement\Entities\" />
+      <Folder Include="RolesManagement\Events\" />
+      <Folder Include="UsersManagement\Events\" />
+      <Folder Include="VolunteerRequestManagement\Entities\" />
+      <Folder Include="VolunteerRequestManagement\Events\" />
     </ItemGroup>
 
 </Project>

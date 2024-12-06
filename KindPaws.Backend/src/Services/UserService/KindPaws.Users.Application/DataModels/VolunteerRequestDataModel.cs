@@ -1,15 +1,16 @@
-﻿namespace KindPaws.Pets.Application.DataModels;
+﻿namespace KindPaws.Users.Application.DataModels;
 
-public class BreedDataModel
+public class VolunteerRequestDataModel
 {
     public Guid Id { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? LastModifiedAt { get; init; }
+    public Guid RequesterUserId { get; init; }
+    public Guid? ReviewerUserId { get; init; }
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
-    public string Name { get; init; } = null!;
+    public string Status { get; init; } = null!;
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
-    public string Description { get; init; } = null!;
-    public Guid SpeciesId { get; init; }
+    public string Body { get; init; } = null!;
 }

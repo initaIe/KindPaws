@@ -1,8 +1,4 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Users.Application.DataModels;
-using KindPaws.Users.Domain.RolesManagement.AggregateRoot;
-using KindPaws.Users.Domain.RolesManagement.ValueObjectsManagement.ValueObjects;
+﻿using KindPaws.Users.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

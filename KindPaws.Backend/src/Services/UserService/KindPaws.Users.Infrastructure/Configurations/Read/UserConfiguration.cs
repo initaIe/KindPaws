@@ -1,14 +1,7 @@
 ﻿using System.Text.Json;
-using KindPaws.Core.Extensions;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Users.Application.DataModels;
 using KindPaws.Users.Application.Mappers;
-using KindPaws.Users.Domain.UsersManagement.AggregateRoot;
-using KindPaws.Users.Domain.UsersManagement.Entities;
-using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjects;
-using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjectsConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -41,10 +34,22 @@ public class UserConfiguration : IEntityTypeConfiguration<UserDataModel>
         builder.Property(u => u.EmailAddress)
             .HasColumnName("email_address");
 
+        // EMAIL_ADDRESS
+        builder.Property(u => u.PhoneNumber)
+            .HasColumnName("phone_number");
+
         // PROFILE
         builder.HasOne(u => u.Profile)
             .WithOne()
             .HasForeignKey<ProfileDataModel>(p => p.UserId);
+
+        // REPUTATION
+        builder.Property(u => u.Reputation)
+            .HasColumnName("reputation");
+
+        // ACCOUNT_ID
+        builder.Property(u => u.AccountId)
+            .HasColumnName("account_id");
 
         // ROLES
         builder.Property(u => u.Roles)

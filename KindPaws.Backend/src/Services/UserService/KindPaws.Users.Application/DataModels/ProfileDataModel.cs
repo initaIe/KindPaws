@@ -6,11 +6,13 @@ public class ProfileDataModel
 {
     public Guid Id { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
-    public DateTimeOffset LastModifiedAt { get; init; }
+    public DateTimeOffset? LastModifiedAt { get; init; }
+
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string Gender { get; init; } = null!;
     public FullNameDto? FullName { get; init; }
     public DateTimeOffset? BirthdayAt { get; init; }
+
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string? Description { get; init; }
     public AddressDto? Address { get; init; }

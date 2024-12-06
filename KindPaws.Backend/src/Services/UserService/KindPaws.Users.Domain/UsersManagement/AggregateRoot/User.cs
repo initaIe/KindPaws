@@ -7,39 +7,53 @@ using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjects;
 namespace KindPaws.Users.Domain.UsersManagement.AggregateRoot;
 
 // TODO: ADD SOFT DELETE?
+// TODO: MOVE PHONENUMBER AND EMAIL TO VO Contacts
 public sealed class User : AggregateRoot<UserId>
 {
     private List<RoleId> _roles = [];
 
-    // ef core
+    #region EF Core constructor
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private User(
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         UserId id,
-        CreatedAt createdAt)
+        CreatedAt createdAt, AccountId accountId, PhoneNumber phoneNumber)
         : base(id, createdAt)
     {
+        AccountId = accountId;
+        PhoneNumber = phoneNumber;
     }
+
+    #endregion
 
     private User(
         UserId id,
         CreatedAt createdAt,
         UserName userName,
-        EmailAddress emailAddress)
+        EmailAddress emailAddress,
+        AccountId accountId)
         : base(id, createdAt)
     {
         UserName = userName;
         EmailAddress = emailAddress;
+        AccountId = accountId;
     }
 
     public UserName UserName { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
+    public PhoneNumber? PhoneNumber { get; private set; }
     public Profile Profile { get; private set; } = Profile.CreateNew();
+    public UserReputation Reputation { get; private set; } = UserReputation.Default;
+    public AccountId AccountId { get; }
     public IReadOnlyList<RoleId> Roles => _roles;
 
     #region Factory methods
 
     public static User CreateNew(
         UserName userName,
-        EmailAddress emailAddress)
+        EmailAddress emailAddress,
+        AccountId accountId)
     {
         var id = UserId.CreateRandom();
         var createdAt = CreatedAt.CreateNew();
@@ -48,20 +62,24 @@ public sealed class User : AggregateRoot<UserId>
             id,
             createdAt,
             userName,
-            emailAddress);
+            emailAddress,
+            accountId);
     }
 
     public static User Create(
         UserId id,
         CreatedAt createdAt,
         UserName userName,
-        EmailAddress emailAddress)
+        EmailAddress emailAddress,
+        PhoneNumber phoneNumber,
+        AccountId accountId)
     {
         return new User(
             id,
             createdAt,
             userName,
-            emailAddress);
+            emailAddress,
+            accountId);
     }
 
     #endregion

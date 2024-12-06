@@ -5,28 +5,28 @@ using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjectsC
 
 namespace KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjects;
 
-public record UserDescription
+public record ProfileDescription
 {
-    private UserDescription(string value)
+    private ProfileDescription(string value)
     {
         Value = value;
     }
 
     public string Value { get; }
 
-    public static Result<UserDescription, Error> Create(string input)
+    public static Result<ProfileDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(UserDescription));
+            return Errors.General.ValueIsRequired(nameof(ProfileDescription));
 
         input = input.Trim();
 
         if (!StringValidator.IsInRange(
                 input,
-                UserNameConstraints.MinLength,
-                UserNameConstraints.MaxLength))
+                ProfielConstraints.MinLength,
+                ProfielConstraints.MaxLength))
             return Errors.General.ValueOutOfRange();
 
-        return new UserDescription(input);
+        return new ProfileDescription(input);
     }
 }

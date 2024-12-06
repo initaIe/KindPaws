@@ -5,7 +5,6 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Users.Domain.UsersManagement.AggregateRoot;
 using KindPaws.Users.Domain.UsersManagement.Entities;
 using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjects;
-using KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjectsConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -60,11 +59,36 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("email_address")
             .IsRequired();
 
+        // PHONE_NUMBER
+        builder.Property(u => u.PhoneNumber)
+            .HasConversion(
+                phoneNumber => phoneNumber!.Value,
+                value => PhoneNumber.Create(value).Value)
+            .HasMaxLength(PhoneNumberConstraints.MaxLength)
+            .HasColumnName("phone_number")
+            .IsRequired(false);
+
         // PROFILE
         builder.HasOne(u => u.Profile)
             .WithOne()
             .HasForeignKey<Profile>("user_id")
             .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        // REPUTATION
+        builder.Property(u => u.Reputation)
+            .HasConversion(
+                reputation => reputation!.Value,
+                value => UserReputation.Create(value))
+            .HasColumnName("reputation")
+            .IsRequired();
+
+        // ACCOUNT_ID
+        builder.Property(u => u.AccountId)
+            .HasConversion(
+                accountId => accountId.Value,
+                value => AccountId.Create(value).Value)
+            .HasColumnName("account_id")
             .IsRequired();
 
         // ROLES

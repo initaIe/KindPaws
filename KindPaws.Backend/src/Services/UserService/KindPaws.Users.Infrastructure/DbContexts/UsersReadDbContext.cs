@@ -2,7 +2,6 @@
 using KindPaws.Core.Options;
 using KindPaws.Users.Application.Abstractions;
 using KindPaws.Users.Application.DataModels;
-using KindPaws.Users.Domain.UsersManagement.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -20,6 +19,7 @@ public class UsersReadDbContext : DbContext, IUsersReadDbContext
     public IQueryable<UserDataModel> Users => Set<UserDataModel>();
     public IQueryable<ProfileDataModel> Profiles => Set<ProfileDataModel>();
     public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
+    public IQueryable<VolunteerRequestDataModel> VolunteerRequests => Set<VolunteerRequestDataModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

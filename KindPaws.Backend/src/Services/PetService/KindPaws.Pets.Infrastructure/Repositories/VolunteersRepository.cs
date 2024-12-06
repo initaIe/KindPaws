@@ -22,7 +22,7 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .Include(v=>v.Pets)
+            .Include(v => v.Pets)
             .FirstOrDefaultAsync(
                 v => v.Id == volunteerId,
                 cancellationToken);

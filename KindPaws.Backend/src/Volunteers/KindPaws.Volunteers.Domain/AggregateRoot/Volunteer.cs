@@ -261,7 +261,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
     private Result<Position, Error> GeneratePositionForNewPet()
     {
-        var lastPositionNumber = _pets.Count + Position.ChangeUnit;
+        var lastPositionNumber = _pets.Count + Position.UnitOfChange;
         var positionResult = Position.Create(lastPositionNumber);
         return positionResult;
     }

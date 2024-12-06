@@ -22,15 +22,15 @@ public class SpecieDataModelConfiguration : IEntityTypeConfiguration<SpecieDataM
         // LAST_MODIFIED_AT
         builder.Property(s => s.LastModifiedAt)
             .HasColumnName("last_modified_at");
-        
+
         // NAME
         builder.Property(s => s.Name)
             .HasColumnName("name");
-        
+
         // DESCRIPTION
         builder.Property(s => s.Description)
             .HasColumnName("description");
-        
+
         // BREEDS
         builder.HasMany(s => s.Breeds)
             .WithOne()

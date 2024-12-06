@@ -1,12 +1,7 @@
 ﻿using System.Text.Json;
-using KindPaws.Core.Extensions;
 using KindPaws.Pets.Application.DataModels;
 using KindPaws.Pets.Application.Mappers;
-using KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjects;
-using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjectsConstraints;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -30,15 +25,15 @@ public class VolunteerDataModelConfiguration : IEntityTypeConfiguration<Voluntee
         // LAST_MODIFIED_AT
         builder.Property(v => v.LastModifiedAt)
             .HasColumnName("last_modified_at");
-        
+
         // DESCRIPTION
         builder.Property(v => v.Description)
             .HasColumnName("description");
-        
+
         // YEARS_OF_EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
             .HasColumnName("years_of_experience");
-        
+
         // REQUISITES
         builder.Property(p => p.Requisites)
             .HasConversion(
@@ -46,7 +41,7 @@ public class VolunteerDataModelConfiguration : IEntityTypeConfiguration<Voluntee
                 json => JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!
                     .ToDtoCollection())
             .HasColumnName("requisites");
-        
+
         // PETS
         builder.HasMany(v => v.Pets)
             .WithOne()

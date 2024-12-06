@@ -11,13 +11,18 @@ public class Specie : AggregateRoot<SpecieId>
 {
     private readonly List<Breed> _breeds = [];
 
-    // ef core
+    #region EF Core constructor
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private Specie(
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         SpecieId id,
         CreatedAt createdAt)
         : base(id, createdAt)
     {
     }
+
+    #endregion
 
     private Specie(
         SpecieId id,

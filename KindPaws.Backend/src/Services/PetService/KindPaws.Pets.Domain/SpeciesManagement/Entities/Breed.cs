@@ -7,13 +7,18 @@ namespace KindPaws.Pets.Domain.SpeciesManagement.Entities;
 
 public class Breed : Entity<BreedId>
 {
-    // ef core
+    #region EF Core constructor
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private Breed(
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         BreedId id,
         CreatedAt createdAt)
         : base(id, createdAt)
     {
     }
+
+    #endregion
 
     private Breed(
         BreedId id,

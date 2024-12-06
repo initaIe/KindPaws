@@ -36,7 +36,7 @@ public static class ToDtoMappers
 
     public static Guid ToGuid(this RoleId roleId)
         => roleId.Value;
-    
+
     public static IReadOnlyList<Guid> ToDtoCollection(this IEnumerable<RoleId> roles)
         => roles.Select(ToGuid).ToList();
 }

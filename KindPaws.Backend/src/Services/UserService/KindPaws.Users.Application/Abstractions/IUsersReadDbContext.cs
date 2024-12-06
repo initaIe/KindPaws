@@ -7,4 +7,5 @@ public interface IUsersReadDbContext
     IQueryable<UserDataModel> Users { get; }
     IQueryable<ProfileDataModel> Profiles { get; }
     IQueryable<RoleDataModel> Roles { get; }
+    IQueryable<VolunteerRequestDataModel> VolunteerRequests { get; }
 }

@@ -1,4 +1,5 @@
 ﻿using KindPaws.Pets.Domain.VolunteersManagement.Entities;
+using KindPaws.Pets.Domain.VolunteersManagement.Events;
 using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -13,13 +14,16 @@ public class Volunteer : AggregateRoot<VolunteerId>
     private readonly List<Pet> _pets = [];
     private List<Requisite> _requisites = [];
 
-    // ef core
+    #region EF Core constructor
+
     private Volunteer(
         VolunteerId id,
         CreatedAt createdAt)
         : base(id, createdAt)
     {
     }
+
+    #endregion
 
     public VolunteerDescription? Description { get; private set; }
     public YearsOfExperience? YearsOfExperience { get; private set; }
@@ -114,6 +118,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
 
         _pets.Remove(getPetResult.Value);
         UpdateLastModifiedAt();
+        AddDomainEvent(new PetDeletedDomainEvent(Id, petId.Value));
         return true;
     }
 
@@ -177,18 +182,18 @@ public class Volunteer : AggregateRoot<VolunteerId>
         getPetResult.Value.UpdateOtherInfo(
             description,
             birthdayAt,
-            healthDetails, 
+            healthDetails,
             biometricDetails);
         UpdateLastModifiedAt();
         return true;
     }
-    
+
     public Result<Error> UpdatePetsOtherInfo(
         IEnumerable<(PetId petId,
-        PetDescription? description,
-        BirthdayAt birthdayAt,
-        HealthDetails? healthDetails,
-        BiometricDetails? biometricDetails)> updatePetsOtherInfo)
+            PetDescription? description,
+            BirthdayAt birthdayAt,
+            HealthDetails? healthDetails,
+            BiometricDetails? biometricDetails)> updatePetsOtherInfo)
     {
         foreach (var updatePetOtherInfo in updatePetsOtherInfo)
         {
@@ -200,7 +205,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
             getPetResult.Value.UpdateOtherInfo(
                 updatePetOtherInfo.description,
                 updatePetOtherInfo.birthdayAt,
-                updatePetOtherInfo.healthDetails, 
+                updatePetOtherInfo.healthDetails,
                 updatePetOtherInfo.biometricDetails);
         }
 

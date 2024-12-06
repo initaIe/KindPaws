@@ -11,7 +11,8 @@ public sealed class Profile : Entity<ProfileId>
 {
     private List<SocialNetwork> _socialNetworks = [];
 
-    // ef core
+    #region EF Core constructor
+
     private Profile(
         ProfileId id,
         CreatedAt createdAt)
@@ -19,10 +20,12 @@ public sealed class Profile : Entity<ProfileId>
     {
     }
 
+    #endregion
+
     public Gender Gender { get; private set; } = Gender.Undefined;
     public FullName? FullName { get; private set; }
     public BirthdayAt? BirthdayAt { get; private set; }
-    public UserDescription? Description { get; private set; }
+    public ProfileDescription? Description { get; private set; }
     public Address? Address { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
 
@@ -55,7 +58,7 @@ public sealed class Profile : Entity<ProfileId>
         Gender gender,
         FullName? fullName,
         BirthdayAt? birthdayAt,
-        UserDescription? description,
+        ProfileDescription? description,
         Address? address)
     {
         FullName = fullName;

@@ -39,7 +39,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => LastModifiedAt.Create(value).Value)
             .HasColumnName("last_modified_at")
             .IsRequired(false);
-        
+
         // NAME
         builder.Property(p => p.Name)
             .HasConversion(
@@ -48,7 +48,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnType("citext")
             .HasColumnName("name")
             .IsRequired();
-        
+
         // TYPE
         builder.ComplexProperty(p => p.Type, type =>
         {
@@ -58,12 +58,12 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                     value => SpecieId.Create(value).Value)
                 .HasColumnName("specie_id")
                 .IsRequired();
-            
+
             type.Property(t => t.BreedId)
                 .HasColumnName("breed_id")
                 .IsRequired();
         });
-        
+
         // SUPPORT_STATUS
         builder.Property(p => p.SupportStatus)
             .HasConversion(
@@ -72,7 +72,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasMaxLength(SupportStatusConstraints.MaxLength)
             .HasColumnName("support_status")
             .IsRequired();
-        
+
         // DESCRIPTION
         builder.Property(p => p.Description)
             .HasConversion(
@@ -81,7 +81,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasMaxLength(PetDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
-        
+
         // BIRTHDAY_AT
         builder.Property(p => p.BirthdayAt)
             .HasConversion(
@@ -89,14 +89,14 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => BirthdayAt.Create(value).Value)
             .HasColumnName("birthday_at")
             .IsRequired(false);
-        
+
         // HEALTH_DETAILS
         builder.Property(p => p.HealthDetails)
             .HasJsonConversion()
             .HasColumnType("jsonb")
             .HasColumnName("health_details")
             .IsRequired(false);
-        
+
         // BIOMETRIC_DETAILS
         builder.Property(p => p.BiometricDetails)
             .HasJsonConversion()

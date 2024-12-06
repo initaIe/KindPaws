@@ -23,8 +23,8 @@ public record UserName
 
         if (!StringValidator.IsInRange(
                 input,
-                UserNameConstraints.MinLength,
-                UserNameConstraints.MaxLength))
+                ProfielConstraints.MinLength,
+                ProfielConstraints.MaxLength))
             return Errors.General.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabeticWithDigits(input))

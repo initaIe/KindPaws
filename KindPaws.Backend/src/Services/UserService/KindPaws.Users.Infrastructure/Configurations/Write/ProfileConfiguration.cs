@@ -69,7 +69,7 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
         builder.Property(p => p.Description)
             .HasConversion(
                 description => description!.Value,
-                value => UserDescription.Create(value).Value)
+                value => ProfileDescription.Create(value).Value)
             .HasMaxLength(UserDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);

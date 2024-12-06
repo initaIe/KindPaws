@@ -2,6 +2,7 @@
 using KindPaws.Core.Options;
 using KindPaws.Users.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Users.Domain.UsersManagement.AggregateRoot;
+using KindPaws.Users.Domain.VolunteerRequestManagement.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -18,6 +19,7 @@ public class UsersWriteDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<VolunteerRequest> VolunteerRequests => Set<VolunteerRequest>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

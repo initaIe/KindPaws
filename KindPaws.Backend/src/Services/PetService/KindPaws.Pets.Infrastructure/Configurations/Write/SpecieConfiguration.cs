@@ -38,7 +38,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
                 value => LastModifiedAt.Create(value).Value)
             .HasColumnName("last_modified_at")
             .IsRequired(false);
-        
+
         // NAME
         builder.Property(s => s.Name)
             .HasConversion(
@@ -47,7 +47,7 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .HasColumnType("citext")
             .HasColumnName("name")
             .IsRequired();
-        
+
         // DESCRIPTION
         builder.Property(s => s.Description)
             .HasConversion(
@@ -56,14 +56,14 @@ public class SpecieConfiguration : IEntityTypeConfiguration<Specie>
             .HasMaxLength(SpecieDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired();
-        
+
         // BREEDS
         builder.HasMany(s => s.Breeds)
             .WithOne()
             .HasForeignKey("specie_id")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-        
+
         // IGNORE
         builder.Ignore(s => s.DomainEvents);
     }

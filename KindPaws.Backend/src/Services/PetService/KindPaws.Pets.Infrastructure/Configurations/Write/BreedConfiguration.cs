@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Pets.Infrastructure.Configurations.Write;
 
-public class BreedConfiguration: IEntityTypeConfiguration<Breed>
+public class BreedConfiguration : IEntityTypeConfiguration<Breed>
 {
     public void Configure(EntityTypeBuilder<Breed> builder)
     {
@@ -38,7 +38,7 @@ public class BreedConfiguration: IEntityTypeConfiguration<Breed>
                 value => LastModifiedAt.Create(value).Value)
             .HasColumnName("last_modified_at")
             .IsRequired(false);
-        
+
         // NAME
         builder.Property(s => s.Name)
             .HasConversion(
@@ -47,7 +47,7 @@ public class BreedConfiguration: IEntityTypeConfiguration<Breed>
             .HasColumnType("citext")
             .HasColumnName("name")
             .IsRequired();
-        
+
         // DESCRIPTION
         builder.Property(s => s.Description)
             .HasConversion(

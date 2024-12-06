@@ -39,7 +39,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 value => LastModifiedAt.Create(value).Value)
             .HasColumnName("last_modified_at")
             .IsRequired(false);
-        
+
         // DESCRIPTION
         builder.Property(v => v.Description)
             .HasConversion(
@@ -48,7 +48,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasMaxLength(VolunteerDescriptionConstraints.MaxLength)
             .HasColumnName("description")
             .IsRequired(false);
-        
+
         // YEARS_OF_EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
             .HasConversion(
@@ -56,21 +56,21 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 value => YearsOfExperience.Create(value).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
-        
+
         // REQUISITES
         builder.Property(v => v.Requisites)
             .HasJsonConversion()
             .HasColumnType("jsonb")
             .HasColumnName("requisites")
             .IsRequired();
-        
+
         // PETS
         builder.HasMany(v => v.Pets)
             .WithOne()
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-        
+
         // IGNORE
         builder.Ignore(v => v.DomainEvents);
     }

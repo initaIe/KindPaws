@@ -2,7 +2,7 @@
 
 namespace KindPaws.Users.Domain.UsersManagement.ValueObjectsManagement.ValueObjectsConstraints;
 
-public static class UserNameConstraints
+public static class ProfielConstraints
 {
     public const int MinLength = LengthConstraints.Min.Five;
     public const int MaxLength = LengthConstraints.Max.ExtraShort;

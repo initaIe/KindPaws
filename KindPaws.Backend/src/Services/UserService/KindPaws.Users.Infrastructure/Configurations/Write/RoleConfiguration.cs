@@ -47,7 +47,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasMaxLength(RoleNameConstraints.MaxLength)
             .HasColumnName("name")
             .IsRequired();
-        
+
         // IGNORE
         builder.Ignore(r => r.DomainEvents);
     }
