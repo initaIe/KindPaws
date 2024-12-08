@@ -1,6 +1,4 @@
 ﻿using KindPaws.Accounts.Domain.AggregateRoot;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;

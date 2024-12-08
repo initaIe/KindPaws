@@ -29,7 +29,7 @@ public class SpeciesRepository : IRepository<Specie, SpecieId>
                 cancellationToken);
 
         if (specie == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                 nameof(Specie),
                 nameof(SpecieId),
                 specieId.Value);

@@ -2,7 +2,6 @@
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Pets.Domain.VolunteersManagement.Entities;
 

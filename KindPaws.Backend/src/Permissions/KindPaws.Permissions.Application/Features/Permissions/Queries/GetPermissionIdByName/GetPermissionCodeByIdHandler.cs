@@ -26,7 +26,7 @@ public class GetPermissionCodeByIdHandler : IQueryHandler<Result<Guid, ErrorList
             cancellationToken);
 
         if (permissionByCode == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                     nameof(Permission),
                     nameof(PermissionCode),
                     query.PermissionCode)

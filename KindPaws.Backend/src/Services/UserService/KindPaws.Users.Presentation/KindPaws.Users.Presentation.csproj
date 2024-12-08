@@ -27,6 +27,8 @@
     <ItemGroup>
       <Folder Include="Contract\" />
       <Folder Include="Controllers\" />
+      <Folder Include="DI\LayersInjections\" />
+      <Folder Include="DI\Others\" />
     </ItemGroup>
 
 </Project>

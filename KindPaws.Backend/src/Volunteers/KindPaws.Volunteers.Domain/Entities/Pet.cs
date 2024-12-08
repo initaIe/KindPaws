@@ -98,7 +98,7 @@ public class Pet : ISoftDeletableEntity<PetId>
     {
         var petPhoto = _photos.FirstOrDefault(p => p.Photo.FilePath == photoFilePath);
         if (petPhoto == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetPhoto));
+            return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetPhoto));
 
         var oldMainPhoto = _photos.FirstOrDefault(p => p.IsMain);
         if (oldMainPhoto != null)

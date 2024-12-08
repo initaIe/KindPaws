@@ -21,7 +21,7 @@ public record SpecieId
     public static Result<SpecieId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return Errors.General.ValueIsInvalid();
+            return GeneralErrors.General.ValueIsInvalid();
 
         return new SpecieId(input);
     }

@@ -1,5 +1,4 @@
 ﻿using KindPaws.Accounts.Domain.Entities;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
@@ -10,7 +9,7 @@ namespace KindPaws.Accounts.Domain.AggregateRoot;
 public sealed class Account : Entity<AccountId>
 {
     private readonly List<RefreshSession> _refreshSessions = [];
-    private List<RoleId> _roles = [];
+    private List<UserRoleId> _roles = [];
     private List<SocialNetwork> _socialNetworks = [];
 
     // ef core
@@ -41,7 +40,7 @@ public sealed class Account : Entity<AccountId>
     public CreatedAt CreatedAt { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<RefreshSession> RefreshSessions => _refreshSessions;
-    public IReadOnlyList<RoleId> Roles => _roles;
+    public IReadOnlyList<UserRoleId> Roles => _roles;
 
     #region Factory methods
 
@@ -64,7 +63,7 @@ public sealed class Account : Entity<AccountId>
         var refreshSession = _refreshSessions.FirstOrDefault(rs => rs.Id == refreshSessionId);
 
         if (refreshSession == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                 nameof(RefreshSession),
                 nameof(RefreshSessionId),
                 refreshSessionId.Value);
@@ -72,12 +71,12 @@ public sealed class Account : Entity<AccountId>
         return refreshSession;
     }
 
-    public void AddRole(RoleId roleId)
+    public void AddRole(UserRoleId userRoleId)
     {
-        _roles.Add(roleId);
+        _roles.Add(userRoleId);
     }
 
-    public void AddRoles(IEnumerable<RoleId> roleIds)
+    public void AddRoles(IEnumerable<UserRoleId> roleIds)
     {
         _roles.AddRange(roleIds);
     }
@@ -115,12 +114,12 @@ public sealed class Account : Entity<AccountId>
         }
     }
 
-    public void DeleteRole(RoleId roleId)
+    public void DeleteRole(UserRoleId userRoleId)
     {
-        _roles.Remove(roleId);
+        _roles.Remove(userRoleId);
     }
 
-    public void DeleteRoles(IEnumerable<RoleId> roleIds)
+    public void DeleteRoles(IEnumerable<UserRoleId> roleIds)
     {
         foreach (var roleId in roleIds)
         {

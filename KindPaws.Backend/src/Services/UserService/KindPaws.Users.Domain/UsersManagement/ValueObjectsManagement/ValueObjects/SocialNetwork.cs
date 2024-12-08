@@ -24,7 +24,7 @@ public record SocialNetwork
         string link)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return Errors.General.ValueIsRequired(nameof(Name));
+            return GeneralErrors.General.ValueIsRequired(nameof(Name));
 
         name = name.Trim();
 
@@ -32,10 +32,10 @@ public record SocialNetwork
                 name,
                 SocialNetworkConstraints.MinNameLength,
                 SocialNetworkConstraints.MaxNameLength))
-            return Errors.General.ValueOutOfRange(nameof(name));
+            return GeneralErrors.General.ValueOutOfRange(nameof(name));
 
         if (string.IsNullOrWhiteSpace(link))
-            return Errors.General.ValueIsRequired(nameof(Link));
+            return GeneralErrors.General.ValueIsRequired(nameof(Link));
 
         link = link.Trim();
 
@@ -43,7 +43,7 @@ public record SocialNetwork
                 link,
                 SocialNetworkConstraints.MinLinkLength,
                 SocialNetworkConstraints.MaxLinkLength))
-            return Errors.General.ValueOutOfRange(nameof(link));
+            return GeneralErrors.General.ValueOutOfRange(nameof(link));
 
         return new SocialNetwork(name, link);
     }

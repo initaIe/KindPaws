@@ -21,10 +21,10 @@ public record Gender
     public static Result<Gender, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(Gender));
+            return GeneralErrors.General.ValueIsRequired(nameof(Gender));
 
         if (!All.Any(g => string.Equals(g.Value, input, StringComparison.CurrentCultureIgnoreCase)))
-            return Errors.General.ValueIsInvalid(nameof(Gender));
+            return GeneralErrors.General.ValueIsInvalid(nameof(Gender));
 
         return new Gender(input);
     }

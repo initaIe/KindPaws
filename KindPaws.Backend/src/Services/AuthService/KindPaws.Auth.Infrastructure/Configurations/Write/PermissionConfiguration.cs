@@ -1,0 +1,49 @@
+﻿using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
+using KindPaws.Auth.Domain.PermissionsManagement.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace KindPaws.Auth.Infrastructure.Configurations.Write;
+
+public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
+{
+    public void Configure(EntityTypeBuilder<Permission> builder)
+    {
+        // TABLE NAMING
+        builder.ToTable("roles");
+
+        // ID
+        builder.HasKey(r => r.Id);
+        builder.Property(r => r.Id)
+            .HasConversion(
+                id => id.Value,
+                value => PermissionId.Create(value).Value)
+            .HasColumnName("id");
+
+        // CREATED_AT
+        builder.Property(r => r.CreatedAt)
+            .HasConversion(
+                createdAt => createdAt.Value,
+                value => CreatedAt.Create(value).Value)
+            .HasColumnName("created_at")
+            .IsRequired();
+
+        // LAST_MODIFIED_AT
+        builder.Property(r => r.LastModifiedAt)
+            .HasConversion(
+                lastModifiedAt => lastModifiedAt!.Value,
+                value => LastModifiedAt.Create(value).Value)
+            .HasColumnName("last_modified_at")
+            .IsRequired(false);
+
+        // CODE
+        builder.Property(r => r.Code)
+            .HasConversion(
+                code => code!.Value,
+                value => PermissionCode.Create(value).Value)
+            .HasColumnName("code")
+            .IsRequired();
+    }
+}

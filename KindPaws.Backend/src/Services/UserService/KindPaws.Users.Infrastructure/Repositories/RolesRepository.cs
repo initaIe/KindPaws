@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Users.Infrastructure.Repositories;
 
-public class RolesRepository : IRepository<Role, RoleId>
+public class RolesRepository : IRepository<Role, UserRoleId>
 {
     private readonly UsersWriteDbContext _dbContext;
 
@@ -18,19 +18,19 @@ public class RolesRepository : IRepository<Role, RoleId>
     }
 
     public async Task<Result<Role, Error>> GetByIdAsync(
-        RoleId roleId,
+        UserRoleId userRoleId,
         CancellationToken cancellationToken = default)
     {
         var role = await _dbContext.Roles
             .FirstOrDefaultAsync(
-                r => r.Id == roleId,
+                r => r.Id == userRoleId,
                 cancellationToken);
 
         if (role == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                 nameof(Role),
-                nameof(RoleId),
-                roleId.Value);
+                nameof(UserRoleId),
+                userRoleId.Value);
 
         return role;
     }

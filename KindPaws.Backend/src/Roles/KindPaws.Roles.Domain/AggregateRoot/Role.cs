@@ -6,7 +6,7 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Roles.Domain.AggregateRoot;
 
-public sealed class Role : Entity<RoleId>
+public sealed class Role : Entity<UserRoleId>
 {
     private List<PermissionId> _permissions = [];
 
@@ -16,7 +16,7 @@ public sealed class Role : Entity<RoleId>
     }
 
     public Role(
-        RoleId id,
+        UserRoleId id,
         RoleName name,
         CreatedAt createdAt)
     {
@@ -25,7 +25,7 @@ public sealed class Role : Entity<RoleId>
         CreatedAt = createdAt;
     }
 
-    public RoleId Id { get; private set; }
+    public UserRoleId Id { get; private set; }
     public RoleName Name { get; private set; }
     public CreatedAt CreatedAt { get; private set; }
     public IReadOnlyList<PermissionId> Permissions => _permissions;
@@ -34,7 +34,7 @@ public sealed class Role : Entity<RoleId>
 
     public static Role CreateNew(RoleName name)
     {
-        var id = RoleId.CreateRandom();
+        var id = UserRoleId.CreateRandom();
         var createdAt = CreatedAt.CreateNew();
         return new Role(id, name, createdAt);
     }

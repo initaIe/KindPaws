@@ -18,7 +18,7 @@ public record CreatedAt
     public static Result<CreatedAt, Error> Create(DateTimeOffset input)
     {
         if (input > DateTimeOffset.UtcNow)
-            return Errors.General.ValueIsInvalid(nameof(CreatedAt));
+            return GeneralErrors.General.ValueIsInvalid(nameof(CreatedAt));
 
         return new CreatedAt(input);
     }

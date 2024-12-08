@@ -1,7 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.Helpers;
 using KindPaws.Accounts.Domain.AggregateRoot;
-using KindPaws.Accounts.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.Core.Abstractions.DataBase;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Enums;
@@ -42,14 +41,14 @@ public class CreateAccountHandler : ICommandHandler<Guid, CreateAccountCommand>
             cancellationToken);
 
         if (isUserNameAlreadyTaken)
-            return Errors.General.RecordAlreadyExist(nameof(Account), nameof(UserName)).ToErrorList();
+            return GeneralErrors.General.RecordAlreadyExist(nameof(Account), nameof(UserName)).ToErrorList();
 
         var isEmailAddressAlreadyTaken = await _dbContext.Accounts.AnyAsync(
             a => a.EmailAddress == command.EmailAddress,
             cancellationToken);
 
         if (isEmailAddressAlreadyTaken)
-            return Errors.General.RecordAlreadyExist(nameof(Account), nameof(EmailAddress)).ToErrorList();
+            return GeneralErrors.General.RecordAlreadyExist(nameof(Account), nameof(EmailAddress)).ToErrorList();
 
         var passwordHashString = _passwordHashProvider.GenerateHash(command.Password);
         var account = AccountHelper.ForceCreateNewAccount(command.UserName, command.EmailAddress, passwordHashString);

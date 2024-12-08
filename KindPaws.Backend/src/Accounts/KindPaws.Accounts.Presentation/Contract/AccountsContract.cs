@@ -120,7 +120,7 @@ public class AccountsContract : IAccountsContract
             cancellationToken);
 
         if (account == null)
-            return Errors.General.RecordNotFound().ToErrorList();
+            return GeneralErrors.General.RecordNotFound().ToErrorList();
         
         return account.Roles.ToList();
     }

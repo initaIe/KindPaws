@@ -1,8 +1,7 @@
 ﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Users.Domain.RolesManagement.AggregateRoot;
-using KindPaws.Users.Domain.RolesManagement.ValueObjectsManagement.ValueObjects;
-using KindPaws.Users.Domain.RolesManagement.ValueObjectsManagement.ValueObjectsConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,7 +19,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(r => r.Id)
             .HasConversion(
                 id => id.Value,
-                value => RoleId.Create(value).Value)
+                value => UserRoleId.Create(value).Value)
             .HasColumnName("id");
 
         // CREATED_AT

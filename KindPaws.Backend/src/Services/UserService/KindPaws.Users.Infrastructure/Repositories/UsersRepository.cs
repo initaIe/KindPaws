@@ -28,7 +28,7 @@ public class UsersRepository : IRepository<User, UserId>
                 cancellationToken);
 
         if (user == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                 nameof(User),
                 nameof(UserId),
                 userId.Value);

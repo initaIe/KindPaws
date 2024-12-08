@@ -34,9 +34,9 @@ public static class ToDtoMappers
     public static IReadOnlyList<SocialNetworkDto> ToDtoCollection(this IEnumerable<SocialNetwork> socialNetworks)
         => socialNetworks.Select(ToDto).ToList();
 
-    public static Guid ToGuid(this RoleId roleId)
-        => roleId.Value;
+    public static Guid ToGuid(this UserRoleId userRoleId)
+        => userRoleId.Value;
 
-    public static IReadOnlyList<Guid> ToDtoCollection(this IEnumerable<RoleId> roles)
+    public static IReadOnlyList<Guid> ToDtoCollection(this IEnumerable<UserRoleId> roles)
         => roles.Select(ToGuid).ToList();
 }

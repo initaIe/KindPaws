@@ -10,4 +10,9 @@
       <ProjectReference Include="..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ValueObjectsManagement\ValueObjectsConstraints\" />
+      <Folder Include="ValueObjectsManagement\ValueObjects\" />
+    </ItemGroup>
+
 </Project>

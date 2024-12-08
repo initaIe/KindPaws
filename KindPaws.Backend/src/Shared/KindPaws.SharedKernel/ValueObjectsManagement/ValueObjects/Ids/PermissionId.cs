@@ -21,7 +21,7 @@ public record PermissionId
     public static Result<PermissionId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return Errors.General.ValueIsInvalid();
+            return GeneralErrors.General.ValueIsInvalid();
 
         return new PermissionId(input);
     }

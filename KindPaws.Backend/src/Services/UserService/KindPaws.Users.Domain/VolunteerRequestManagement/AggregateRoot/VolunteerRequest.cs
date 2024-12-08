@@ -85,10 +85,10 @@ public class VolunteerRequest : AggregateRoot<VolunteerRequestId>
     public Result<Error> Approve(UserId reviewerUserId)
     {
         if (ReviewerUserId != reviewerUserId)
-            return Errors.General.OperationCanNotBePerformed(
-                "Approve request", 
+            return GeneralErrors.General.OperationCanNotBePerformed(
+                "Approve request",
                 "Reviewer user id is invalid");
-        
+
         Status = VolunteerRequestStatus.Approved;
         return true;
     }
@@ -96,13 +96,13 @@ public class VolunteerRequest : AggregateRoot<VolunteerRequestId>
     public Result<Error> Reject(UserId reviewerUserId)
     {
         if (ReviewerUserId != reviewerUserId)
-            return Errors.General.OperationCanNotBePerformed(
-                "Approve request", 
+            return GeneralErrors.General.OperationCanNotBePerformed(
+                "Approve request",
                 "Reviewer user id is invalid");
-        
+
         Status = VolunteerRequestStatus.Rejected;
         return true;
     }
-    
+
     #endregion
 }

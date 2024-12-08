@@ -33,7 +33,7 @@ public class GetVolunteerByIdHandler
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                     nameof(Volunteer),
                     nameof(VolunteerId),
                     volunteerId.Value)

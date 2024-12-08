@@ -21,10 +21,10 @@ public record VolunteerRequestStatus
     public static Result<VolunteerRequestStatus, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(VolunteerRequestStatus));
+            return GeneralErrors.General.ValueIsRequired(nameof(VolunteerRequestStatus));
 
         if (!All.Any(h => string.Equals(h.Value, input, StringComparison.CurrentCultureIgnoreCase)))
-            return Errors.General.ValueIsInvalid(nameof(VolunteerRequestStatus));
+            return GeneralErrors.General.ValueIsInvalid(nameof(VolunteerRequestStatus));
 
         return new VolunteerRequestStatus(input);
     }

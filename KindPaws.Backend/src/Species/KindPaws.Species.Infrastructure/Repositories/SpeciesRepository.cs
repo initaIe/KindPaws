@@ -38,7 +38,7 @@ public class SpeciesRepository : IRepository<Specie, SpecieId>
             .FirstOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
 
         if (specie == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                 nameof(Specie),
                 nameof(SpecieId),
                 permissionId.Value);

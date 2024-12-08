@@ -17,7 +17,7 @@ public record SpecieDescription
     public static Result<SpecieDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(SpecieDescription));
+            return GeneralErrors.General.ValueIsRequired(nameof(SpecieDescription));
 
         input = input.Trim();
 
@@ -25,7 +25,7 @@ public record SpecieDescription
                 input,
                 SpecieDescriptionConstraints.MinLength,
                 SpecieDescriptionConstraints.MaxLength))
-            return Errors.General.ValueOutOfRange(nameof(SpecieDescription));
+            return GeneralErrors.General.ValueOutOfRange(nameof(SpecieDescription));
 
         return new SpecieDescription(input);
     }

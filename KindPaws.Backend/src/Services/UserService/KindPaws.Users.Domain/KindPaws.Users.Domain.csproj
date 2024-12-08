@@ -13,6 +13,8 @@
     <ItemGroup>
       <Folder Include="RolesManagement\Entities\" />
       <Folder Include="RolesManagement\Events\" />
+      <Folder Include="RolesManagement\ValueObjectsManagement\ValueObjectsConstraints\" />
+      <Folder Include="RolesManagement\ValueObjectsManagement\ValueObjects\" />
       <Folder Include="UsersManagement\Events\" />
       <Folder Include="VolunteerRequestManagement\Entities\" />
       <Folder Include="VolunteerRequestManagement\Events\" />

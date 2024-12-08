@@ -55,13 +55,13 @@ public class TokenProvider : ITokenProvider
             c => c.Type == CustomClaims.Sub)?.Value;
 
         if (!Guid.TryParse(subClaim, out var accountId))
-            return Errors.Auth.TokenIsInvalid();
+            return GeneralErrors.Auth.TokenIsInvalid();
 
         var jtiClaim = validationResult.Claims.FirstOrDefault(
             c => c.Type == CustomClaims.Jti)?.Value;
 
         if (!Guid.TryParse(jtiClaim, out var jti))
-            return Errors.Auth.TokenIsInvalid();
+            return GeneralErrors.Auth.TokenIsInvalid();
 
         return new AccessTokenParseResult(accountId, jti);
     }
@@ -76,7 +76,7 @@ public class TokenProvider : ITokenProvider
             tokenValidationParameters);
 
         if (!validationResult.IsValid)
-            return Errors.Auth.TokenIsInvalid();
+            return GeneralErrors.Auth.TokenIsInvalid();
 
         return true;
     }

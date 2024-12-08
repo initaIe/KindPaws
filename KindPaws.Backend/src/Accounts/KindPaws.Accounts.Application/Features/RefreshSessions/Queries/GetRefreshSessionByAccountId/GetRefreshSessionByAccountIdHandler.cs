@@ -29,7 +29,7 @@ public class GetRefreshSessionByAccountIdHandler
             cancellationToken);
 
         if (refreshSession == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.General.RecordNotFound(
                     nameof(RefreshSession),
                     nameof(AccountId),
                     query.AccountId)

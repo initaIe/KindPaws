@@ -10,7 +10,7 @@ namespace KindPaws.Users.Domain.UsersManagement.AggregateRoot;
 // TODO: MOVE PHONENUMBER AND EMAIL TO VO Contacts
 public sealed class User : AggregateRoot<UserId>
 {
-    private List<RoleId> _roles = [];
+    private List<UserRoleId> _roles = [];
 
     #region EF Core constructor
 
@@ -46,7 +46,7 @@ public sealed class User : AggregateRoot<UserId>
     public Profile Profile { get; private set; } = Profile.CreateNew();
     public UserReputation Reputation { get; private set; } = UserReputation.Default;
     public AccountId AccountId { get; }
-    public IReadOnlyList<RoleId> Roles => _roles;
+    public IReadOnlyList<UserRoleId> Roles => _roles;
 
     #region Factory methods
 
@@ -86,22 +86,22 @@ public sealed class User : AggregateRoot<UserId>
 
     #region CRUD
 
-    public bool IsUserHasRole(RoleId roleId)
-        => _roles.Contains(roleId);
+    public bool IsUserHasRole(UserRoleId userRoleId)
+        => _roles.Contains(userRoleId);
 
     // TODO: ADD LAST MOFIED
-    public void AddRole(RoleId roleId)
+    public void AddRole(UserRoleId userRoleId)
     {
-        var isUserHasRole = IsUserHasRole(roleId);
+        var isUserHasRole = IsUserHasRole(userRoleId);
 
         if (isUserHasRole)
             return;
 
-        _roles.Add(roleId);
+        _roles.Add(userRoleId);
     }
 
-    public void RemoveRole(RoleId roleId)
-        => _roles.Remove(roleId);
+    public void RemoveRole(UserRoleId userRoleId)
+        => _roles.Remove(userRoleId);
 
     public void UpdateEmailAddress(EmailAddress emailAddress)
         => EmailAddress = emailAddress;

@@ -55,7 +55,7 @@ public class UserConfiguration : IEntityTypeConfiguration<UserDataModel>
         builder.Property(u => u.Roles)
             .HasConversion(
                 healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IEnumerable<RoleId>>(json, JsonSerializerOptions.Default)!
+                json => JsonSerializer.Deserialize<IEnumerable<UserRoleId>>(json, JsonSerializerOptions.Default)!
                     .ToDtoCollection())
             .HasColumnName("roles");
     }
