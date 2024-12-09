@@ -18,7 +18,7 @@ public record RoleName
     public static Result<RoleName, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.General.ValueIsRequired(nameof(RoleName));
+            return GeneralErrors.ValueIsRequired(nameof(RoleName));
 
         input = input.Trim().ToProperCase();
 
@@ -26,10 +26,10 @@ public record RoleName
                 input,
                 RoleNameConstraints.MinLength,
                 RoleNameConstraints.MaxLength))
-            return GeneralErrors.General.ValueOutOfRange();
+            return GeneralErrors.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabetic(input))
-            return GeneralErrors.General.ValueCharacterSetIsInvalid(nameof(RoleName));
+            return GeneralErrors.ValueCharacterSetIsInvalid(nameof(RoleName));
 
         return new RoleName(input);
     }

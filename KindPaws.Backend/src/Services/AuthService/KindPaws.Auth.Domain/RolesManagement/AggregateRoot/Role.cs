@@ -81,7 +81,7 @@ public class Role : AggregateRoot<AccountRoleId>
         var isPermissionAlreadyExist = HasPermission(permissionId);
 
         if (isPermissionAlreadyExist)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Permission), nameof(PermissionId));
+            return GeneralErrors.RecordAlreadyExist(nameof(Permission), nameof(PermissionId));
 
         _permissions.Add(permissionId);
         UpdateLastModifiedAt();
@@ -107,7 +107,7 @@ public class Role : AggregateRoot<AccountRoleId>
         var isPermissionExist = HasPermission(permissionId);
 
         if (!isPermissionExist)
-            return GeneralErrors.General.RecordNotFound(nameof(Permission), nameof(PermissionId));
+            return GeneralErrors.RecordNotFound(nameof(Permission), nameof(PermissionId));
 
         _permissions.Remove(permissionId);
         UpdateLastModifiedAt();

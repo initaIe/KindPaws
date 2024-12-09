@@ -39,7 +39,7 @@ public class CreatePermissionHandler : ICommandHandler<Guid, CreatePermissionCom
             cancellationToken);
 
         if (isPermissionCodeAlreadyTaken)
-            return GeneralErrors.General.RecordAlreadyExist(
+            return GeneralErrors.RecordAlreadyExist(
                     nameof(Permission),
                     nameof(PermissionCode))
                 .ToErrorList();

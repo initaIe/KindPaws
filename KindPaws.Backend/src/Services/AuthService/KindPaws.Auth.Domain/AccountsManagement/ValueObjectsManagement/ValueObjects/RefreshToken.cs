@@ -21,7 +21,7 @@ public record RefreshToken
     public static Result<RefreshToken, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))
-            return GeneralErrors.General.ValueIsInvalid(nameof(RefreshToken));
+            return GeneralErrors.ValueIsInvalid(nameof(RefreshToken));
 
         return new RefreshToken(value);
     }

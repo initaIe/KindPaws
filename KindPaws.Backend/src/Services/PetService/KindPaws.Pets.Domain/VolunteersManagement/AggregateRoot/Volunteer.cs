@@ -73,7 +73,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var pet = _pets.FirstOrDefault(p => p.Id == petId);
 
         if (pet == null)
-            return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 
         return pet;
     }
@@ -88,7 +88,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var isPetAlreadyExist = HasPetById(pet.Id);
 
         if (isPetAlreadyExist)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Pet), nameof(PetId));
+            return GeneralErrors.RecordAlreadyExist(nameof(Pet), nameof(PetId));
 
         _pets.Add(pet);
         UpdateLastModifiedAt();
@@ -114,7 +114,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var getPetResult = GetPetById(petId);
 
         if (getPetResult.IsFailure)
-            return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetId));
+            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId));
 
         _pets.Remove(getPetResult.Value);
         UpdateLastModifiedAt();
@@ -144,7 +144,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var getPetResult = GetPetById(petId);
 
         if (getPetResult.IsFailure)
-            return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetId));
+            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId));
 
         getPetResult.Value.UpdateMainInfo(name, type);
         UpdateLastModifiedAt();
@@ -158,7 +158,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
             var getPetResult = GetPetById(updatePetMainInfo.petId);
 
             if (getPetResult.IsFailure)
-                return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetId));
+                return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId));
 
             getPetResult.Value.UpdateMainInfo(updatePetMainInfo.name, updatePetMainInfo.type);
         }
@@ -177,7 +177,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var getPetResult = GetPetById(petId);
 
         if (getPetResult.IsFailure)
-            return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetId));
+            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId));
 
         getPetResult.Value.UpdateOtherInfo(
             description,
@@ -200,7 +200,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
             var getPetResult = GetPetById(updatePetOtherInfo.petId);
 
             if (getPetResult.IsFailure)
-                return GeneralErrors.General.RecordNotFound(nameof(Pet), nameof(PetId));
+                return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId));
 
             getPetResult.Value.UpdateOtherInfo(
                 updatePetOtherInfo.description,
@@ -227,7 +227,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var isRequisiteExist = HasRequisite(requisite);
 
         if (isRequisiteExist)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Requisite));
+            return GeneralErrors.RecordAlreadyExist(nameof(Requisite));
 
         _requisites.Add(requisite);
         UpdateLastModifiedAt();
@@ -253,7 +253,7 @@ public class Volunteer : AggregateRoot<VolunteerId>
         var isRequisiteExist = HasRequisite(requisite);
 
         if (!isRequisiteExist)
-            return GeneralErrors.General.RecordNotFound(nameof(Requisite));
+            return GeneralErrors.RecordNotFound(nameof(Requisite));
 
         _requisites.Remove(requisite);
         UpdateLastModifiedAt();

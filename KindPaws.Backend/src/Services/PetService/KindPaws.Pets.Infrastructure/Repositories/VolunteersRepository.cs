@@ -28,7 +28,7 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
                 cancellationToken);
 
         if (volunteer == null)
-            return GeneralErrors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Volunteer),
                 nameof(VolunteerId),
                 volunteerId.Value);

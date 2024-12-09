@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="AccountsManagement\Entities\" />
-      <Folder Include="AccountsManagement\Events\" />
       <Folder Include="PermissionsManagement\Entities\" />
       <Folder Include="PermissionsManagement\Events\" />
       <Folder Include="RolesManagement\Entities\" />

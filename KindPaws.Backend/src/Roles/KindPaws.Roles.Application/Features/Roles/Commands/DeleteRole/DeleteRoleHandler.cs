@@ -36,7 +36,7 @@ public class DeleteRoleHandler : ICommandHandler<Guid, DeleteRoleCommand>
             cancellationToken);
 
         if (!isRoleExist)
-            return GeneralErrors.General.RecordNotFound(nameof(Role), nameof(UserRoleId), command.RoleId).ToErrorList();
+            return GeneralErrors.RecordNotFound(nameof(Role), nameof(UserRoleId), command.RoleId).ToErrorList();
 
         var roleId = UserRoleId.Create(command.RoleId).Value;
 

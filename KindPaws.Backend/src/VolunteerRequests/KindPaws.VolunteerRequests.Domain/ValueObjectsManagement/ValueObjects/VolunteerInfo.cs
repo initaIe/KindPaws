@@ -18,13 +18,13 @@ public record VolunteerInfo
     public static Result<VolunteerInfo, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.General.ValueIsRequired(nameof(VolunteerInfo));
+            return GeneralErrors.ValueIsRequired(nameof(VolunteerInfo));
 
         if (!StringValidator.IsInRange(
                 input,
                 VolunteerInfoConstraints.MinLength,
                 VolunteerInfoConstraints.MaxLength))
-            return GeneralErrors.General.ValueOutOfRange(nameof(VolunteerInfo));
+            return GeneralErrors.ValueOutOfRange(nameof(VolunteerInfo));
 
         return new VolunteerInfo(input);
     }

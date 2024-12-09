@@ -1,4 +1,5 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
+using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -47,6 +48,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasMaxLength(UserNameConstraints.MaxLength)
             .HasColumnName("user_name")
             .IsRequired();
+        builder.HasIndex(a => a.UserName).IsUnique();
 
         // EMAIL_ADDRESS
         builder.Property(a => a.EmailAddress)
@@ -56,6 +58,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasMaxLength(EmailAddressConstraints.MaxLength)
             .HasColumnName("email_address")
             .IsRequired();
+        builder.HasIndex(a => a.EmailAddress).IsUnique();
 
         // PHONE_NUMBER
         builder.Property(a => a.PhoneNumber)
@@ -64,6 +67,16 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 value => PhoneNumber.Create(value).Value)
             .HasColumnName("phone_number")
             .IsRequired(false);
+        builder.HasIndex(a => a.PhoneNumber).IsUnique();
+        
+        // PASSWORD_HASH
+        builder.Property(a => a.PasswordHash)
+            .HasConversion(
+                passwordHash => passwordHash!.Value,
+                value => PasswordHash.Create(value).Value)
+            .HasColumnType("text")
+            .HasColumnName("password_hash")
+            .IsRequired();
 
         // ROLES
         builder.Property(a => a.Roles)
@@ -78,5 +91,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasColumnType("jsonb")
             .HasColumnName("refresh_sessions")
             .IsRequired();
+        
+        // IGNORE
+        builder.Ignore(a => a.DomainEvents);
     }
 }

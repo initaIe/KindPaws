@@ -17,7 +17,7 @@ public record PermissionCode
     public static Result<PermissionCode, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.General.ValueIsRequired(nameof(PermissionCode));
+            return GeneralErrors.ValueIsRequired(nameof(PermissionCode));
 
         input = input.Trim().ToLower();
 
@@ -25,10 +25,10 @@ public record PermissionCode
                 input,
                 PermissionCodeConstraints.MinLength,
                 PermissionCodeConstraints.MaxLength))
-            return GeneralErrors.General.ValueOutOfRange();
+            return GeneralErrors.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabeticWithDots(input))
-            return GeneralErrors.General.ValueCharacterSetIsInvalid(nameof(PermissionCode));
+            return GeneralErrors.ValueCharacterSetIsInvalid(nameof(PermissionCode));
 
         return new PermissionCode(input);
     }

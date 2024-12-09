@@ -41,14 +41,14 @@ public class CreateAccountHandler : ICommandHandler<Guid, CreateAccountCommand>
             cancellationToken);
 
         if (isUserNameAlreadyTaken)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Account), nameof(UserName)).ToErrorList();
+            return GeneralErrors.RecordAlreadyExist(nameof(Account), nameof(UserName)).ToErrorList();
 
         var isEmailAddressAlreadyTaken = await _dbContext.Accounts.AnyAsync(
             a => a.EmailAddress == command.EmailAddress,
             cancellationToken);
 
         if (isEmailAddressAlreadyTaken)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Account), nameof(EmailAddress)).ToErrorList();
+            return GeneralErrors.RecordAlreadyExist(nameof(Account), nameof(EmailAddress)).ToErrorList();
 
         var passwordHashString = _passwordHashProvider.GenerateHash(command.Password);
         var account = AccountHelper.ForceCreateNewAccount(command.UserName, command.EmailAddress, passwordHashString);

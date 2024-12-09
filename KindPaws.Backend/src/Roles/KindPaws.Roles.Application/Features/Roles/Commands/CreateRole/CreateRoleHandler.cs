@@ -38,7 +38,7 @@ public class CreateRoleHandler : ICommandHandler<Guid, CreateRoleCommand>
             cancellationToken);
 
         if (isRoleNameAlreadyTaken)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Role), nameof(RoleName)).ToErrorList();
+            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(RoleName)).ToErrorList();
 
         var role = RoleHelper.ForceCreateNewRole(command.Name);
 

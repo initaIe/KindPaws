@@ -36,7 +36,7 @@ public class DeleteAccountHandler : ICommandHandler<Guid, DeleteAccountCommand>
             cancellationToken);
 
         if (!isAccountExist)
-            return GeneralErrors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                     nameof(Account),
                     nameof(AccountId),
                     command.AccountId)

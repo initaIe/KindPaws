@@ -15,7 +15,7 @@ public class RefreshSessionExpiresAt
     public static Result<RefreshSessionExpiresAt, Error> Create(DateTimeOffset input)
     {
         if (input < DateTimeOffset.UtcNow)
-            return GeneralErrors.General.ValueIsInvalid(nameof(RefreshSessionExpiresAt));
+            return GeneralErrors.ValueIsInvalid(nameof(RefreshSessionExpiresAt));
 
         return new RefreshSessionExpiresAt(input);
     }

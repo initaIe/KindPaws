@@ -42,14 +42,14 @@ public class AddRefreshSessionHandler : ICommandHandler<Guid, AddRefreshSessionC
             cancellationToken);
 
         if (!isAccountByIdExist)
-            return GeneralErrors.General.RecordNotFound(nameof(Account), nameof(AccountId)).ToErrorList();
+            return GeneralErrors.RecordNotFound(nameof(Account), nameof(AccountId)).ToErrorList();
 
         var isRefreshSessionByJtiAlreadyExist = await _dbContext.RefreshSessions.AnyAsync(
             a => a.Jti == command.Jti,
             cancellationToken);
 
         if (isRefreshSessionByJtiAlreadyExist)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(RefreshSession)).ToErrorList();
+            return GeneralErrors.RecordAlreadyExist(nameof(RefreshSession)).ToErrorList();
 
         var expiresInDays = _refreshSessionOptionsProvider.GetExpireInDays();
         var expiresAt = DateTimeOffset.UtcNow.AddDays(expiresInDays);

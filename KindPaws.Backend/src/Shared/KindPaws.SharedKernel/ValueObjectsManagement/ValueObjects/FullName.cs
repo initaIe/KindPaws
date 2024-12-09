@@ -28,7 +28,7 @@ public record FullName
         string? patronymic)
     {
         if (string.IsNullOrWhiteSpace(firstName))
-            return GeneralErrors.General.ValueIsRequired(nameof(firstName));
+            return GeneralErrors.ValueIsRequired(nameof(firstName));
 
         firstName = firstName.Trim().ToProperCase();
 
@@ -36,13 +36,13 @@ public record FullName
                 firstName,
                 FullNameConstraints.MinFirstNameLength,
                 FullNameConstraints.MaxFirstNameLength))
-            return GeneralErrors.General.ValueOutOfRange(nameof(firstName));
+            return GeneralErrors.ValueOutOfRange(nameof(firstName));
 
         if (!StringValidator.IsAlphabetic(firstName))
-            return GeneralErrors.General.ValueCharacterSetIsInvalid(nameof(firstName));
+            return GeneralErrors.ValueCharacterSetIsInvalid(nameof(firstName));
 
         if (string.IsNullOrWhiteSpace(lastName))
-            return GeneralErrors.General.ValueIsRequired(nameof(lastName));
+            return GeneralErrors.ValueIsRequired(nameof(lastName));
 
         lastName = lastName.Trim().ToProperCase();
 
@@ -50,10 +50,10 @@ public record FullName
                 lastName,
                 FullNameConstraints.MinLastNameLength,
                 FullNameConstraints.MaxLastNameLength))
-            return GeneralErrors.General.ValueOutOfRange(nameof(lastName));
+            return GeneralErrors.ValueOutOfRange(nameof(lastName));
 
         if (!StringValidator.IsAlphabetic(lastName))
-            return GeneralErrors.General.ValueIsInvalid(nameof(lastName));
+            return GeneralErrors.ValueIsInvalid(nameof(lastName));
 
         if (!string.IsNullOrWhiteSpace(patronymic))
         {
@@ -62,10 +62,10 @@ public record FullName
             if (!StringValidator.IsInRange(patronymic,
                     FullNameConstraints.MinPatronymicLength,
                     FullNameConstraints.MaxPatronymicLength))
-                return GeneralErrors.General.ValueOutOfRange(nameof(firstName));
+                return GeneralErrors.ValueOutOfRange(nameof(firstName));
 
             if (!StringValidator.IsAlphabetic(patronymic))
-                return GeneralErrors.General.ValueCharacterSetIsInvalid(nameof(patronymic));
+                return GeneralErrors.ValueCharacterSetIsInvalid(nameof(patronymic));
         }
 
         return new FullName(firstName, lastName, patronymic);

@@ -17,12 +17,12 @@ public record Disease
     public static Result<Disease, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.General.ValueIsRequired(nameof(Disease));
+            return GeneralErrors.ValueIsRequired(nameof(Disease));
 
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, DiseaseConstraints.MinLength, DiseaseConstraints.MaxLength))
-            return GeneralErrors.General.ValueOutOfRange(nameof(input));
+            return GeneralErrors.ValueOutOfRange(nameof(input));
 
         return new Disease(input);
     }

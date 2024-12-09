@@ -16,10 +16,16 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public async Task<IDbContextTransaction> BeginTransactionAsync(
-        IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
+        IsolationLevel isolationLevel,
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
+    }
+    
+    public async Task<IDbContextTransaction> BeginTransactionAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Database.BeginTransactionAsync(cancellationToken);
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

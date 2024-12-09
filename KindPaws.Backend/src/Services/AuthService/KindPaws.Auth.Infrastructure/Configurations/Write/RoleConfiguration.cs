@@ -52,5 +52,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasColumnType("jsonb")
             .HasColumnName("permissions")
             .IsRequired();
+        
+        // IGNORE
+        builder.Ignore(r => r.DomainEvents);
     }
 }

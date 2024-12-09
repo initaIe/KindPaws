@@ -21,7 +21,7 @@ public record ProfileId
     public static Result<ProfileId, Error> Create(Guid value)
     {
         if (GuidValidator.IsEmpty(value))
-            return GeneralErrors.General.ValueIsInvalid();
+            return GeneralErrors.ValueIsInvalid();
 
         return new ProfileId(value);
     }

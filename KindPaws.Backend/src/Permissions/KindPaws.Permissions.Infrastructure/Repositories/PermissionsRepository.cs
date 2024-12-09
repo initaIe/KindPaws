@@ -26,7 +26,7 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
             cancellationToken);
 
         if (permission == null)
-            return GeneralErrors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Permission),
                 nameof(PermissionId),
                 permissionId.Value);

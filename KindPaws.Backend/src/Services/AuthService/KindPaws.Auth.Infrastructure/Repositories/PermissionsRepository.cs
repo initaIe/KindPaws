@@ -29,7 +29,7 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
                 cancellationToken);
 
         if (role == null)
-            return GeneralErrors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Permission),
                 nameof(PermissionId),
                 permissionId.Value);

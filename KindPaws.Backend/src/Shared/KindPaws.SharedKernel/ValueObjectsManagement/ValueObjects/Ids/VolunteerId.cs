@@ -21,7 +21,7 @@ public record VolunteerId
     public static Result<VolunteerId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return GeneralErrors.General.ValueIsInvalid();
+            return GeneralErrors.ValueIsInvalid();
 
         return new VolunteerId(input);
     }

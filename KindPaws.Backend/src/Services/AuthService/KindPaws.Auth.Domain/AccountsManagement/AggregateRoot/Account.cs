@@ -1,4 +1,6 @@
-﻿using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
+﻿using System.Runtime.CompilerServices;
+using KindPaws.Auth.Domain.AccountsManagement.Events;
+using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
@@ -18,9 +20,10 @@ public class Account : AggregateRoot<AccountId>
     private Account(
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         AccountId id,
-        CreatedAt createdAt)
+        CreatedAt createdAt, PasswordHash passwordHash)
         : base(id, createdAt)
     {
+        PasswordHash = passwordHash;
     }
 
     #endregion
@@ -29,16 +32,19 @@ public class Account : AggregateRoot<AccountId>
         AccountId id,
         CreatedAt createdAt,
         UserName userName,
-        EmailAddress emailAddress)
+        EmailAddress emailAddress,
+        PasswordHash passwordHash)
         : base(id, createdAt)
     {
         UserName = userName;
         EmailAddress = emailAddress;
+        PasswordHash = passwordHash;
     }
 
     public UserName UserName { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
+    public PasswordHash PasswordHash { get; private set; }
     public IReadOnlyList<AccountRoleId> Roles => _roles;
     public IReadOnlyList<RefreshSession> RefreshSessions => _refreshSessions;
 
@@ -46,29 +52,39 @@ public class Account : AggregateRoot<AccountId>
 
     public static Account CreateNew(
         UserName userName,
-        EmailAddress emailAddress)
+        EmailAddress emailAddress,
+        PasswordHash passwordHash)
     {
         var id = AccountId.CreateRandom();
         var createdAt = CreatedAt.CreateNew();
 
-        return new Account(
+        var account = new Account(
             id,
             createdAt,
             userName,
-            emailAddress);
+            emailAddress,
+            passwordHash);
+
+        var accountCreatedEvent = new AccountCreatedDomainEvent(id, userName, emailAddress);
+
+        account.AddDomainEvent(accountCreatedEvent);
+
+        return account;
     }
 
     public static Account Create(
         AccountId id,
         CreatedAt createdAt,
         UserName userName,
-        EmailAddress emailAddress)
+        EmailAddress emailAddress,
+        PasswordHash passwordHash)
     {
         return new Account(
             id,
             createdAt,
             userName,
-            emailAddress);
+            emailAddress,
+            passwordHash);
     }
 
     #endregion
@@ -93,6 +109,12 @@ public class Account : AggregateRoot<AccountId>
         PhoneNumber = phoneNumber;
     }
 
+    public void UpdatePassword(PasswordHash passwordHash)
+    {
+        UpdateLastModifiedAt();
+        PasswordHash = passwordHash;
+    }
+
     #endregion
 
     #region Roles CRUD
@@ -105,7 +127,7 @@ public class Account : AggregateRoot<AccountId>
         var isRoleAlreadyExist = HasRole(accountRoleId);
 
         if (isRoleAlreadyExist)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
+            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
 
         _roles.Add(accountRoleId);
         UpdateLastModifiedAt();
@@ -131,7 +153,7 @@ public class Account : AggregateRoot<AccountId>
         var isRoleExist = HasRole(accountRoleId);
 
         if (!isRoleExist)
-            return GeneralErrors.General.RecordNotFound(nameof(Role), nameof(AccountRoleId));
+            return GeneralErrors.RecordNotFound(nameof(Role), nameof(AccountRoleId));
 
         _roles.Remove(accountRoleId);
         UpdateLastModifiedAt();
@@ -164,7 +186,7 @@ public class Account : AggregateRoot<AccountId>
         var isRefreshSessionAlreadyExist = HasRefreshSession(refreshSession);
 
         if (isRefreshSessionAlreadyExist)
-            return GeneralErrors.General.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
+            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
 
         _refreshSessions.Add(refreshSession);
         UpdateLastModifiedAt();
@@ -190,7 +212,7 @@ public class Account : AggregateRoot<AccountId>
         var isRefreshSessionExist = HasRefreshSession(refreshSession);
 
         if (!isRefreshSessionExist)
-            return GeneralErrors.General.RecordNotFound(nameof(RefreshSession));
+            return GeneralErrors.RecordNotFound(nameof(RefreshSession));
 
         _refreshSessions.Remove(refreshSession);
         UpdateLastModifiedAt();

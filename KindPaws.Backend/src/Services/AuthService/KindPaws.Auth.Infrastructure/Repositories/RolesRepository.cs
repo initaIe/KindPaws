@@ -28,7 +28,7 @@ public class RolesRepository : IRepository<Role, AccountRoleId>
                 cancellationToken);
 
         if (role == null)
-            return GeneralErrors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Role),
                 nameof(AccountRoleId),
                 accountRoleId.Value);

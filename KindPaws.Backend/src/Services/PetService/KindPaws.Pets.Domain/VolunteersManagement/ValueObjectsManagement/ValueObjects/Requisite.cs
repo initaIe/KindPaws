@@ -24,7 +24,7 @@ public record Requisite
         string description)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return GeneralErrors.General.ValueIsRequired(nameof(Name));
+            return GeneralErrors.ValueIsRequired(nameof(Name));
 
         name = name.Trim().ToProperCase();
 
@@ -32,10 +32,10 @@ public record Requisite
                 name,
                 RequisiteConstraints.MinNameLength,
                 RequisiteConstraints.MaxNameLength))
-            return GeneralErrors.General.ValueOutOfRange(nameof(name));
+            return GeneralErrors.ValueOutOfRange(nameof(name));
 
         if (string.IsNullOrWhiteSpace(description))
-            return GeneralErrors.General.ValueIsRequired(nameof(Description));
+            return GeneralErrors.ValueIsRequired(nameof(Description));
 
         description = description.Trim();
 
@@ -43,7 +43,7 @@ public record Requisite
                 description,
                 RequisiteConstraints.MinDescriptionLength,
                 RequisiteConstraints.MaxDescriptionLength))
-            return GeneralErrors.General.ValueOutOfRange(nameof(description));
+            return GeneralErrors.ValueOutOfRange(nameof(description));
 
         return new Requisite(name, description);
     }

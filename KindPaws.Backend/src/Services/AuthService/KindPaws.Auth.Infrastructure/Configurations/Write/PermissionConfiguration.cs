@@ -45,5 +45,8 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
                 value => PermissionCode.Create(value).Value)
             .HasColumnName("code")
             .IsRequired();
+        
+        // IGNORE
+        builder.Ignore(p => p.DomainEvents);
     }
 }

@@ -17,7 +17,7 @@ public record UserName
     public static Result<UserName, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.General.ValueIsRequired(nameof(UserName));
+            return GeneralErrors.ValueIsRequired(nameof(UserName));
 
         input = input.Trim();
 
@@ -25,10 +25,10 @@ public record UserName
                 input,
                 UserNameConstraints.MinLength,
                 UserNameConstraints.MaxLength))
-            return GeneralErrors.General.ValueOutOfRange();
+            return GeneralErrors.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabeticWithDigits(input))
-            return GeneralErrors.General.ValueCharacterSetIsInvalid(nameof(UserName));
+            return GeneralErrors.ValueCharacterSetIsInvalid(nameof(UserName));
 
         return new UserName(input);
     }

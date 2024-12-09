@@ -38,6 +38,10 @@ public class AccountDataModelConfiguration : IEntityTypeConfiguration<AccountDat
         // PHONE_NUMBER
         builder.Property(a => a.PhoneNumber)
             .HasColumnName("phone_number");
+        
+        // PASSWORD_HASH
+        builder.Property(a => a.PasswordHash)
+            .HasColumnName("password_hash");
 
         // ROLES
         builder.Property(a => a.Roles)

@@ -17,7 +17,7 @@ public record Position
     public static Result<Position, Error> Create(int input)
     {
         if (input < 1)
-            return GeneralErrors.General.ValueOutOfRange(nameof(Position));
+            return GeneralErrors.ValueOutOfRange(nameof(Position));
 
         return new Position(input);
     }
