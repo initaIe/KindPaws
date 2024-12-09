@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Extensions;
@@ -10,22 +9,37 @@ namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 public record Address
 {
     private Address(
+        string country,
         string city,
         string street)
     {
+        Country = country;
         City = city;
         Street = street;
     }
 
+    public string Country { get; }
     public string City { get; }
     public string Street { get; }
 
     public static Result<Address, Error> Create(
+        string country,
         string city,
         string street)
     {
+        if (string.IsNullOrWhiteSpace(country))
+            return GeneralErrors.ValueIsRequired(nameof(country));
+
+        country = country.Trim().ToProperCase();
+
+        if (!StringValidator.IsInRange(
+                country,
+                AddressConstraints.MinCityLength,
+                AddressConstraints.MaxCityLength))
+            return GeneralErrors.ValueOutOfRange(nameof(country));
+
         if (string.IsNullOrWhiteSpace(city))
-            return Errors.General.ValueIsRequired(nameof(City));
+            return GeneralErrors.ValueIsRequired(nameof(City));
 
         city = city.Trim().ToProperCase();
 
@@ -33,10 +47,10 @@ public record Address
                 city,
                 AddressConstraints.MinCityLength,
                 AddressConstraints.MaxCityLength))
-            return Errors.General.ValueOutOfRange(nameof(City));
+            return GeneralErrors.ValueOutOfRange(nameof(City));
 
         if (string.IsNullOrWhiteSpace(street))
-            return Errors.General.ValueIsRequired(nameof(Street));
+            return GeneralErrors.ValueIsRequired(nameof(Street));
 
         street = street.Trim().ToProperCase();
 
@@ -44,8 +58,11 @@ public record Address
                 street,
                 AddressConstraints.MinStreetLength,
                 AddressConstraints.MaxStreetLength))
-            return Errors.General.ValueOutOfRange(nameof(Street));
+            return GeneralErrors.ValueOutOfRange(nameof(Street));
 
-        return new Address(city, street);
+        return new Address(
+            country,
+            city,
+            street);
     }
 }

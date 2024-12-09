@@ -19,7 +19,7 @@ public record PetType
     public static Result<PetType, Error> Create(SpecieId specieId, Guid breedId)
     {
         if (GuidValidator.IsEmpty(breedId))
-            return Errors.General.ValueIsInvalid(nameof(breedId));
+            return GeneralErrors.ValueIsInvalid(nameof(breedId));
 
         return new PetType(specieId, breedId);
     }

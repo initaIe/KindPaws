@@ -35,7 +35,7 @@ public class Pet : ISoftDeletableEntity<PetId>
     public SupportStatus? SupportStatus { get; private set; }
     public PetDescription? Description { get; private set; }
     public PetColor? Color { get; private set; }
-    public Birthday? Birthday { get; private set; }
+    public BirthdayAt? Birthday { get; private set; }
     public HealthDetails? HealthDetails { get; private set; }
     public BiometricDetails? BiometricDetails { get; private set; }
     public IReadOnlyList<PetPhoto> Photos => _photos;
@@ -77,7 +77,7 @@ public class Pet : ISoftDeletableEntity<PetId>
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? birthday,
+        BirthdayAt? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
@@ -98,7 +98,7 @@ public class Pet : ISoftDeletableEntity<PetId>
     {
         var petPhoto = _photos.FirstOrDefault(p => p.Photo.FilePath == photoFilePath);
         if (petPhoto == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetPhoto));
+            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetPhoto));
 
         var oldMainPhoto = _photos.FirstOrDefault(p => p.IsMain);
         if (oldMainPhoto != null)

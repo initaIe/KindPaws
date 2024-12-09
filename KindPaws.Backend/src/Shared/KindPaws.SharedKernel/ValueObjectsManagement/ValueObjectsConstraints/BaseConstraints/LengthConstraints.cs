@@ -9,7 +9,7 @@ public static class LengthConstraints
         public const int Three = 3;
         public const int Five = 5;
         public const int Six = 6;
-        public const int ExtraShort = 8;
+        public const int Eight = 8;
         public const int Short = 16;
         public const int Medium = 32;
         public const int Long = 64;

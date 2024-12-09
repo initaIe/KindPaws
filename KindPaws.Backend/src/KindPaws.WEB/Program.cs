@@ -1,6 +1,6 @@
 using DotNetEnv;
+using KindPaws.Framework.Middlewares;
 using KindPaws.WEB.DI;
-using KindPaws.WEB.Middlewares;
 using Serilog;
 
 Env.Load();

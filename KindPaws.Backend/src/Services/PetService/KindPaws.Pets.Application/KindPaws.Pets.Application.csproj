@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
+      <ProjectReference Include="..\..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+      <ProjectReference Include="..\KindPaws.Pets.Contracts\KindPaws.Pets.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.Pets.Domain\KindPaws.Pets.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Species\Commands\" />
+      <Folder Include="Features\Species\Queries\" />
+      <Folder Include="Features\Volunteers\Commands\" />
+      <Folder Include="Features\Volunteers\Queries\" />
+    </ItemGroup>
+
+</Project>

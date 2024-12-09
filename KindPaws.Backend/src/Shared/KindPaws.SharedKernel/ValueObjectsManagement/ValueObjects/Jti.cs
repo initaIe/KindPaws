@@ -21,7 +21,7 @@ public record Jti
     public static Result<Jti, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return Errors.General.ValueIsInvalid(nameof(Jti));
+            return GeneralErrors.ValueIsInvalid(nameof(Jti));
 
         return new Jti(input);
     }

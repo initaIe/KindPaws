@@ -78,7 +78,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         var pet = _pets.FirstOrDefault(x => x.Id == petId);
 
         if (pet == null)
-            return Errors.General.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 
         return pet;
     }
@@ -163,7 +163,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? petColor,
-        Birthday? birthday,
+        BirthdayAt? birthday,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails)
     {
@@ -261,7 +261,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
 
     private Result<Position, Error> GeneratePositionForNewPet()
     {
-        var lastPositionNumber = _pets.Count + Position.ChangeUnit;
+        var lastPositionNumber = _pets.Count + Position.UnitOfChange;
         var positionResult = Position.Create(lastPositionNumber);
         return positionResult;
     }

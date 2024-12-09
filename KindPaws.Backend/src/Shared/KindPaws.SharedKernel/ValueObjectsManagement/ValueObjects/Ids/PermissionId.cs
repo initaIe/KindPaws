@@ -21,14 +21,8 @@ public record PermissionId
     public static Result<PermissionId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return Errors.General.ValueIsInvalid();
+            return GeneralErrors.ValueIsInvalid();
 
         return new PermissionId(input);
-    }
-
-    public static implicit operator Guid(PermissionId permissionId)
-    {
-        return permissionId?.Value
-               ?? throw new ArgumentNullException($"{nameof(permissionId)} cannot be null.");
     }
 }

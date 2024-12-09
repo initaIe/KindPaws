@@ -5,7 +5,7 @@ using KindPaws.VolunteerRequests.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.VolunteerRequests.Domain.AggregateRoot;
 
-public class VolunteerRequest : IEntity<VolunteerRequestId>
+public class VolunteerRequest : Entity<VolunteerRequestId>
 {
     // ef core
     private VolunteerRequest()

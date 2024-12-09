@@ -28,7 +28,7 @@ public class AccountsRepository : IRepository<Account, AccountId>
             cancellationToken);
 
         if (account == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Account),
                 nameof(AccountId),
                 accountId);

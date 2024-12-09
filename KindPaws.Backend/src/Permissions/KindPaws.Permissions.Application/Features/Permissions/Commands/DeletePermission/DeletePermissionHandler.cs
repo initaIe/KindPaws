@@ -37,7 +37,7 @@ public class DeletePermissionHandler : ICommandHandler<Guid, DeletePermissionCom
             cancellationToken);
 
         if (!isPermissionExist)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                     nameof(Permission),
                     nameof(PermissionId),
                     command.PermissionId)

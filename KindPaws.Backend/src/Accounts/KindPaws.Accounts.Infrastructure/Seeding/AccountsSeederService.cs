@@ -135,7 +135,7 @@ public class AccountsSeederService
                 throw new ApplicationException($"AccountRoles seeding was failure.");
 
             var accountsRoles = roleIdResults
-                .Select(p => RoleId.Create(p.Value).Value);
+                .Select(p => UserRoleId.Create(p.Value).Value);
 
             var newAccountsRoles = accountsRoles
                 .Where(ar => !account.Roles.Contains(ar))

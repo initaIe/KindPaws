@@ -37,7 +37,7 @@ public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSe
             cancellationToken);
 
         if (!isAccountExist)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Account),
                 nameof(AccountId),
                 command.AccountId).ToErrorList();
@@ -47,7 +47,7 @@ public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSe
             cancellationToken);
 
         if (!isRefreshSessionExist)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(RefreshSession),
                 nameof(RefreshSessionId),
                 command.RefreshSessionId).ToErrorList();

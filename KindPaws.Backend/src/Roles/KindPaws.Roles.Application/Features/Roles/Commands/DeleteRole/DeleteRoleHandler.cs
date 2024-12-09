@@ -14,12 +14,12 @@ namespace KindPaws.Roles.Application.Features.Roles.Commands.DeleteRole;
 public class DeleteRoleHandler : ICommandHandler<Guid, DeleteRoleCommand>
 {
     private readonly IRolesReadDbContext _dbContext;
-    private readonly IRepository<Role, RoleId> _repository;
+    private readonly IRepository<Role, UserRoleId> _repository;
     private readonly IUnitOfWork _unitOfWork;
 
     public DeleteRoleHandler(
         IRolesReadDbContext dbContext,
-        IRepository<Role, RoleId> repository,
+        IRepository<Role, UserRoleId> repository,
         [FromKeyedServices(Modules.Roles)] IUnitOfWork unitOfWork)
     {
         _dbContext = dbContext;
@@ -36,9 +36,9 @@ public class DeleteRoleHandler : ICommandHandler<Guid, DeleteRoleCommand>
             cancellationToken);
 
         if (!isRoleExist)
-            return Errors.General.RecordNotFound(nameof(Role), nameof(RoleId), command.RoleId).ToErrorList();
+            return GeneralErrors.RecordNotFound(nameof(Role), nameof(UserRoleId), command.RoleId).ToErrorList();
 
-        var roleId = RoleId.Create(command.RoleId).Value;
+        var roleId = UserRoleId.Create(command.RoleId).Value;
 
         var role = await _repository.GetByIdAsync(roleId, cancellationToken);
 

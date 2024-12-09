@@ -16,12 +16,12 @@ namespace KindPaws.Roles.Application.Features.Roles.Commands.CreateRole;
 public class CreateRoleHandler : ICommandHandler<Guid, CreateRoleCommand>
 {
     private readonly IRolesReadDbContext _dbContext;
-    private readonly IRepository<Role, RoleId> _repository;
+    private readonly IRepository<Role, UserRoleId> _repository;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateRoleHandler(
         IRolesReadDbContext dbContext,
-        IRepository<Role, RoleId> repository,
+        IRepository<Role, UserRoleId> repository,
         [FromKeyedServices(Modules.Roles)] IUnitOfWork unitOfWork)
     {
         _dbContext = dbContext;
@@ -38,7 +38,7 @@ public class CreateRoleHandler : ICommandHandler<Guid, CreateRoleCommand>
             cancellationToken);
 
         if (isRoleNameAlreadyTaken)
-            return Errors.General.RecordAlreadyExist(nameof(Role), nameof(RoleName)).ToErrorList();
+            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(RoleName)).ToErrorList();
 
         var role = RoleHelper.ForceCreateNewRole(command.Name);
 

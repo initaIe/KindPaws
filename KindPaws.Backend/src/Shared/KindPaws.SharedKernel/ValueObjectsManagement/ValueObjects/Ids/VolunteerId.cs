@@ -21,14 +21,8 @@ public record VolunteerId
     public static Result<VolunteerId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return Errors.General.ValueIsInvalid();
+            return GeneralErrors.ValueIsInvalid();
 
         return new VolunteerId(input);
-    }
-
-    public static implicit operator Guid(VolunteerId volunteerId)
-    {
-        return volunteerId?.Value
-               ?? throw new ArgumentNullException($"{nameof(volunteerId)} value cannot be null.");
     }
 }

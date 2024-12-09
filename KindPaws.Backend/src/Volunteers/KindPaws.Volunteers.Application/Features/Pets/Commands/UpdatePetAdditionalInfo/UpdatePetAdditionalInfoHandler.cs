@@ -58,7 +58,7 @@ public class UpdatePetAdditionalInfoHandler
 
         var birthday = ValueObjectsHelpers.CreateNullableValueObject(
             command.Birthday,
-            b => Birthday.Create(b!.Value));
+            b => BirthdayAt.Create(b!.Value));
 
         var healthDescription = ValueObjectsHelpers.CreateNullableValueObject(
             command.HealthDetails?.Description,
@@ -124,7 +124,7 @@ public class UpdatePetAdditionalInfoHandler
         SupportStatus? supportStatus,
         PetDescription? description,
         PetColor? color,
-        Birthday? age,
+        BirthdayAt? age,
         HealthDetails? healthDetails,
         BiometricDetails? biometricDetails,
         VolunteerId volunteerId)

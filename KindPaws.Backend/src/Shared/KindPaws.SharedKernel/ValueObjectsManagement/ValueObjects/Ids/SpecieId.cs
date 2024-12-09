@@ -21,14 +21,8 @@ public record SpecieId
     public static Result<SpecieId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return Errors.General.ValueIsInvalid();
+            return GeneralErrors.ValueIsInvalid();
 
         return new SpecieId(input);
-    }
-
-    public static implicit operator Guid(SpecieId specieId)
-    {
-        return specieId?.Value
-               ?? throw new ArgumentNullException($"{nameof(specieId)} cannot be null.");
     }
 }

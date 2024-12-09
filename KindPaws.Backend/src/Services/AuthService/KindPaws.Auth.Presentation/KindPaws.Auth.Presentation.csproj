@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\KindPaws.Framework\KindPaws.Framework.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Application\KindPaws.Auth.Application.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Contracts\KindPaws.Auth.Contracts.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Domain\KindPaws.Auth.Domain.csproj" />
+      <ProjectReference Include="..\KindPaws.Auth.Infrastructure\KindPaws.Auth.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+    </ItemGroup>
+
+</Project>

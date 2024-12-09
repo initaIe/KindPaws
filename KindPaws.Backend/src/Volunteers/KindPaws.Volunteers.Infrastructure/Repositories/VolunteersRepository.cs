@@ -38,7 +38,7 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
             .FirstOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
 
         if (volunteer == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                 nameof(Volunteer),
                 nameof(VolunteerId),
                 permissionId.Value);

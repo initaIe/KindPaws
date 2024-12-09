@@ -43,6 +43,11 @@ public record Error
         return new Error(code, message, ErrorType.Conflict);
     }
 
+    public static Error InvalidOperation(string code, string message)
+    {
+        return new Error(code, message, ErrorType.InvalidOperation);
+    }
+    
     public string SerializeToString()
     {
         return string.Join(Separator, Code, Message, Type);

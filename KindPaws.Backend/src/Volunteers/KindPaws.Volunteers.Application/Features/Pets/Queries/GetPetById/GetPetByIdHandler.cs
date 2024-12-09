@@ -31,7 +31,7 @@ public class GetPetByIdHandler : IQueryHandler<Result<PetDataModel, ErrorList>, 
             .FirstOrDefaultAsync(v => v.Id == query.PetId, cancellationToken);
 
         if (pet == null)
-            return Errors.General.RecordNotFound(
+            return GeneralErrors.RecordNotFound(
                     nameof(Pet),
                     nameof(PetId),
                     petId.Value)

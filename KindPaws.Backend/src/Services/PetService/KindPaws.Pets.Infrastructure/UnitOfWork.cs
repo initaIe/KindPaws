@@ -1,0 +1,34 @@
+﻿using System.Data;
+using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Pets.Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+
+namespace KindPaws.Pets.Infrastructure;
+
+public class UnitOfWork : IUnitOfWork
+{
+    private readonly PetsWriteDbContext _dbContext;
+
+    public UnitOfWork(PetsWriteDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task<IDbContextTransaction> BeginTransactionAsync(
+        IsolationLevel isolationLevel,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
+    }
+
+    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+}

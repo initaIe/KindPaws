@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="RolesManagement\Entities\" />
+      <Folder Include="RolesManagement\Events\" />
+      <Folder Include="RolesManagement\ValueObjectsManagement\ValueObjectsConstraints\" />
+      <Folder Include="RolesManagement\ValueObjectsManagement\ValueObjects\" />
+      <Folder Include="UsersManagement\Events\" />
+      <Folder Include="VolunteerRequestManagement\Entities\" />
+      <Folder Include="VolunteerRequestManagement\Events\" />
+    </ItemGroup>
+
+</Project>

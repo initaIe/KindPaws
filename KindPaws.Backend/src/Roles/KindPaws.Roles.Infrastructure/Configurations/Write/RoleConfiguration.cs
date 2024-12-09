@@ -20,7 +20,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(r => r.Id)
             .HasConversion(
                 id => id.Value,
-                value => RoleId.Create(value).Value)
+                value => UserRoleId.Create(value).Value)
             .HasColumnName("id");
 
         // ROLE_NAME

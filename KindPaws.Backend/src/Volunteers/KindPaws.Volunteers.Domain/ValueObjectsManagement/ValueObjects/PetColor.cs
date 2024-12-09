@@ -17,12 +17,12 @@ public record PetColor
     public static Result<PetColor, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return Errors.General.ValueIsRequired(nameof(PetColor));
+            return GeneralErrors.ValueIsRequired(nameof(PetColor));
 
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, PetColorConstraints.MinLength, PetColorConstraints.MaxLength))
-            return Errors.General.ValueOutOfRange(nameof(input));
+            return GeneralErrors.ValueOutOfRange(nameof(input));
 
         return new PetColor(input);
     }

@@ -5,7 +5,7 @@ namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 public record Position
 {
-    public const int ChangeUnit = 1;
+    public const int UnitOfChange = 1;
 
     private Position(int value)
     {
@@ -17,14 +17,14 @@ public record Position
     public static Result<Position, Error> Create(int input)
     {
         if (input < 1)
-            return Errors.General.ValueOutOfRange(nameof(Position));
+            return GeneralErrors.ValueOutOfRange(nameof(Position));
 
         return new Position(input);
     }
 
     public Result<Position, Error> GetDecreased()
     {
-        var decreasedNumber = Value - ChangeUnit;
+        var decreasedNumber = Value - UnitOfChange;
         var decreasePosition = Create(decreasedNumber);
         if (decreasePosition.IsFailure)
             return decreasePosition.Error;
@@ -34,7 +34,7 @@ public record Position
 
     public Result<Position, Error> GetIncreased()
     {
-        var increasedNumber = Value + ChangeUnit;
+        var increasedNumber = Value + UnitOfChange;
         var increasePosition = Create(increasedNumber);
         if (increasePosition.IsFailure)
             return increasePosition.Error;
