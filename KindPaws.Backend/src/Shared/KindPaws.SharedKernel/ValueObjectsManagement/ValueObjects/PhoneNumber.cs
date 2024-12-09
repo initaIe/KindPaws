@@ -17,7 +17,7 @@ public record PhoneNumber
     public static Result<PhoneNumber, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(PhoneNumber));
+            return ErrorsGeneral.ValueIsRequired(nameof(PhoneNumber));
 
         input = input.Trim();
 
@@ -25,10 +25,10 @@ public record PhoneNumber
                 input,
                 PhoneNumberConstraints.MinLength,
                 PhoneNumberConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(PhoneNumber));
+            return ErrorsGeneral.ValueOutOfRange(nameof(PhoneNumber));
 
         if (!PhoneNumberValidator.Validate(input))
-            return GeneralErrors.ValueFormatIsInvalid(nameof(PhoneNumber));
+            return ErrorsGeneral.ValueFormatIsInvalid(nameof(PhoneNumber));
 
         return new PhoneNumber(input);
     }

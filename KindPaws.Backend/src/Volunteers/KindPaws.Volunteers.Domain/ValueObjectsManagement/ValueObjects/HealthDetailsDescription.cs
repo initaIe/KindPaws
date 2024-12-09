@@ -17,7 +17,7 @@ public record HealthDetailsDescription
     public static Result<HealthDetailsDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(HealthDetailsDescription));
+            return ErrorsGeneral.ValueIsRequired(nameof(HealthDetailsDescription));
 
         input = input.Trim();
 
@@ -25,7 +25,7 @@ public record HealthDetailsDescription
                 input,
                 HealthDetailsDescriptionConstraints.MinLength,
                 HealthDetailsDescriptionConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(HealthDetailsDescription));
+            return ErrorsGeneral.ValueOutOfRange(nameof(HealthDetailsDescription));
 
         return new HealthDetailsDescription(input);
     }

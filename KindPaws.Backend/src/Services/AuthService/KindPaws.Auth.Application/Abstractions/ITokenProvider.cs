@@ -1,7 +1,4 @@
-﻿using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
-
-namespace KindPaws.Auth.Application.Abstractions;
+﻿namespace KindPaws.Auth.Application.Abstractions;
 
 public interface ITokenProvider
 {

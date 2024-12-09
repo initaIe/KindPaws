@@ -12,7 +12,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
         // TABLE NAMING
-        builder.ToTable("roles");
+        builder.ToTable("permissions");
 
         // ID
         builder.HasKey(r => r.Id);
@@ -45,7 +45,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
                 value => PermissionCode.Create(value).Value)
             .HasColumnName("code")
             .IsRequired();
-        
+
         // IGNORE
         builder.Ignore(p => p.DomainEvents);
     }

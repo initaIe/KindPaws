@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using KindPaws.Auth.Infrastructure.DbContexts;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -21,7 +21,7 @@ public class UnitOfWork : IUnitOfWork
     {
         return await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
     }
-    
+
     public async Task<IDbContextTransaction> BeginTransactionAsync(
         CancellationToken cancellationToken = default)
     {
@@ -33,4 +33,3 @@ public class UnitOfWork : IUnitOfWork
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
-

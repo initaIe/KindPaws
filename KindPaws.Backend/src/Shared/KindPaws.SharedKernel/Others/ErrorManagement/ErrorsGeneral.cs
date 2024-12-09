@@ -1,6 +1,6 @@
 ﻿namespace KindPaws.SharedKernel.Others.ErrorManagement;
 
-public static class GeneralErrors
+public static class ErrorsGeneral
 {
     public static Error ValueIsInvalid(string? name = null)
     {

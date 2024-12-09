@@ -18,6 +18,7 @@
       <Folder Include="Features\Accounts\Queries\" />
       <Folder Include="Features\Auth\Commands\RefreshTokens\" />
       <Folder Include="Features\Permissions\Commands\" />
+      <Folder Include="Features\Permissions\EventHandlers\" />
       <Folder Include="Features\Permissions\Queries\" />
       <Folder Include="Features\Roles\Commands\" />
       <Folder Include="Features\Roles\Queries\" />

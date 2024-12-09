@@ -28,7 +28,7 @@ public record Address
         string street)
     {
         if (string.IsNullOrWhiteSpace(country))
-            return GeneralErrors.ValueIsRequired(nameof(country));
+            return ErrorsGeneral.ValueIsRequired(nameof(country));
 
         country = country.Trim().ToProperCase();
 
@@ -36,10 +36,10 @@ public record Address
                 country,
                 AddressConstraints.MinCityLength,
                 AddressConstraints.MaxCityLength))
-            return GeneralErrors.ValueOutOfRange(nameof(country));
+            return ErrorsGeneral.ValueOutOfRange(nameof(country));
 
         if (string.IsNullOrWhiteSpace(city))
-            return GeneralErrors.ValueIsRequired(nameof(City));
+            return ErrorsGeneral.ValueIsRequired(nameof(City));
 
         city = city.Trim().ToProperCase();
 
@@ -47,10 +47,10 @@ public record Address
                 city,
                 AddressConstraints.MinCityLength,
                 AddressConstraints.MaxCityLength))
-            return GeneralErrors.ValueOutOfRange(nameof(City));
+            return ErrorsGeneral.ValueOutOfRange(nameof(City));
 
         if (string.IsNullOrWhiteSpace(street))
-            return GeneralErrors.ValueIsRequired(nameof(Street));
+            return ErrorsGeneral.ValueIsRequired(nameof(Street));
 
         street = street.Trim().ToProperCase();
 
@@ -58,7 +58,7 @@ public record Address
                 street,
                 AddressConstraints.MinStreetLength,
                 AddressConstraints.MaxStreetLength))
-            return GeneralErrors.ValueOutOfRange(nameof(Street));
+            return ErrorsGeneral.ValueOutOfRange(nameof(Street));
 
         return new Address(
             country,

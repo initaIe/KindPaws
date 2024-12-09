@@ -65,10 +65,11 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasConversion(
                 phoneNumber => phoneNumber!.Value,
                 value => PhoneNumber.Create(value).Value)
+            .HasMaxLength(PhoneNumberConstraints.MaxLength)
             .HasColumnName("phone_number")
             .IsRequired(false);
         builder.HasIndex(a => a.PhoneNumber).IsUnique();
-        
+
         // PASSWORD_HASH
         builder.Property(a => a.PasswordHash)
             .HasConversion(
@@ -80,18 +81,18 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         // ROLES
         builder.Property(a => a.Roles)
-            .HasJsonConversion()
-            .HasColumnType("jsonb")
-            .HasColumnName("phone_number")
+            .HasUuidArrayConversion<AccountRoleId>(
+                id => id.Value,
+                guid => AccountRoleId.Create(guid).Value)
+            .HasColumnName("roles")
             .IsRequired();
 
         // REFRESH_SESSIONS
         builder.Property(a => a.RefreshSessions)
             .HasJsonConversion()
-            .HasColumnType("jsonb")
             .HasColumnName("refresh_sessions")
             .IsRequired();
-        
+
         // IGNORE
         builder.Ignore(a => a.DomainEvents);
     }

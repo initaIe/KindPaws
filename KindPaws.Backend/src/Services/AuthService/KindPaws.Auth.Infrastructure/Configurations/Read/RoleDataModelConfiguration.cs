@@ -32,10 +32,6 @@ public class RoleDataModelConfiguration : IEntityTypeConfiguration<RoleDataModel
 
         // PERMISSIONS
         builder.Property(r => r.Permissions)
-            .HasConversion(
-                roles => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IEnumerable<PermissionId>>(json, JsonSerializerOptions.Default)!
-                    .ToDtoCollection())
             .HasColumnName("permissions");
     }
 }

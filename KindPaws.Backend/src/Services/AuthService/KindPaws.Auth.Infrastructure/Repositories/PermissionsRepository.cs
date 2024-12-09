@@ -1,8 +1,6 @@
-﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
-using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
-using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
+﻿using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.DbContexts;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -29,7 +27,7 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
                 cancellationToken);
 
         if (role == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Permission),
                 nameof(PermissionId),
                 permissionId.Value);
@@ -38,7 +36,7 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
     }
 
     public async Task AddAsync(
-        Permission permission, 
+        Permission permission,
         CancellationToken cancellationToken = default)
     {
         await _dbContext.Permissions.AddAsync(permission, cancellationToken);
@@ -49,4 +47,3 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
         _dbContext.Permissions.Remove(permission);
     }
 }
-

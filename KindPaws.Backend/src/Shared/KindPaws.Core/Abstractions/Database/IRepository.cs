@@ -1,7 +1,7 @@
 ﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 
-namespace KindPaws.Core.Abstractions.DataBase;
+namespace KindPaws.Core.Abstractions.Database;
 
 public interface IRepository<TEntity, TId>
     where TEntity : Entity<TId>

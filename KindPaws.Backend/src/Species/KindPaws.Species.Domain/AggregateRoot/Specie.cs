@@ -94,7 +94,7 @@ public class Specie : ISoftDeletableEntity<SpecieId>
         var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
 
         if (breed == null)
-            return GeneralErrors.RecordNotFound(nameof(Breed), nameof(BreedId), breedId);
+            return ErrorsGeneral.RecordNotFound(nameof(Breed), nameof(BreedId), breedId);
 
         return breed;
     }

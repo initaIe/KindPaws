@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using KindPaws.Core;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Dtos;
 using KindPaws.Core.Extensions;

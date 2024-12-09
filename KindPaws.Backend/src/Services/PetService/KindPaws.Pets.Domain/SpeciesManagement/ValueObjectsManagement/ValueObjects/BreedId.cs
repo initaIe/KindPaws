@@ -21,7 +21,7 @@ public record BreedId
     public static Result<BreedId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return GeneralErrors.ValueIsInvalid();
+            return ErrorsGeneral.ValueIsInvalid();
 
         return new BreedId(input);
     }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using KindPaws.Auth.Domain.AccountsManagement.Events;
+﻿using KindPaws.Auth.Domain.AccountsManagement.Events;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.SharedKernel.Others;
@@ -127,7 +126,7 @@ public class Account : AggregateRoot<AccountId>
         var isRoleAlreadyExist = HasRole(accountRoleId);
 
         if (isRoleAlreadyExist)
-            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
+            return ErrorsGeneral.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
 
         _roles.Add(accountRoleId);
         UpdateLastModifiedAt();
@@ -153,7 +152,7 @@ public class Account : AggregateRoot<AccountId>
         var isRoleExist = HasRole(accountRoleId);
 
         if (!isRoleExist)
-            return GeneralErrors.RecordNotFound(nameof(Role), nameof(AccountRoleId));
+            return ErrorsGeneral.RecordNotFound(nameof(Role), nameof(AccountRoleId));
 
         _roles.Remove(accountRoleId);
         UpdateLastModifiedAt();
@@ -186,7 +185,7 @@ public class Account : AggregateRoot<AccountId>
         var isRefreshSessionAlreadyExist = HasRefreshSession(refreshSession);
 
         if (isRefreshSessionAlreadyExist)
-            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
+            return ErrorsGeneral.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
 
         _refreshSessions.Add(refreshSession);
         UpdateLastModifiedAt();
@@ -212,7 +211,7 @@ public class Account : AggregateRoot<AccountId>
         var isRefreshSessionExist = HasRefreshSession(refreshSession);
 
         if (!isRefreshSessionExist)
-            return GeneralErrors.RecordNotFound(nameof(RefreshSession));
+            return ErrorsGeneral.RecordNotFound(nameof(RefreshSession));
 
         _refreshSessions.Remove(refreshSession);
         UpdateLastModifiedAt();

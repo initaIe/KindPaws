@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Pets.Domain.SpeciesManagement.AggregateRoot;
 using KindPaws.Pets.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
@@ -29,7 +29,7 @@ public class SpeciesRepository : IRepository<Specie, SpecieId>
                 cancellationToken);
 
         if (specie == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Specie),
                 nameof(SpecieId),
                 specieId.Value);

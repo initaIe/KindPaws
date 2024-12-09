@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Core.Options;
+﻿namespace KindPaws.Auth.Infrastructure.Options;
 
 public class PostgresOptions
 {

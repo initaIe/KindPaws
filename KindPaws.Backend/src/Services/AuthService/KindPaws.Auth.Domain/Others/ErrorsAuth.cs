@@ -1,8 +1,8 @@
 ﻿using KindPaws.SharedKernel.Others.ErrorManagement;
 
-namespace KindPaws.Auth.Domain;
+namespace KindPaws.Auth.Domain.Others;
 
-public static class AuthErrors
+public static class ErrorsAuth
 {
     public static Error CredentialsAreInvalid()
     {
@@ -28,14 +28,14 @@ public static class AuthErrors
             "token.is.invalid",
             $"{tokenName} is invalid");
     }
-    
+
     public static Error RegistrationFailure(Guid errorId)
     {
         return Error.Failure(
             "registration.was.failure",
             $"Failed to register account. Please try again later. (error id: {errorId})");
     }
-    
+
     public static Error LoginFailure(Guid errorId)
     {
         return Error.Failure(

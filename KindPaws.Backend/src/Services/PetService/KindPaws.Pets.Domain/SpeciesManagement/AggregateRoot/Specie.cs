@@ -77,7 +77,7 @@ public class Specie : AggregateRoot<SpecieId>
         var breed = _breeds.FirstOrDefault(b => b.Id == breedId);
 
         if (breed == null)
-            return GeneralErrors.RecordNotFound(nameof(Breed), nameof(BreedId), breedId.Value);
+            return ErrorsGeneral.RecordNotFound(nameof(Breed), nameof(BreedId), breedId.Value);
 
         return breed;
     }
@@ -92,7 +92,7 @@ public class Specie : AggregateRoot<SpecieId>
         var isBreedAlreadyExist = HasBreedById(breed.Id);
 
         if (isBreedAlreadyExist)
-            return GeneralErrors.RecordAlreadyExist(nameof(Breed), nameof(BreedId));
+            return ErrorsGeneral.RecordAlreadyExist(nameof(Breed), nameof(BreedId));
 
         _breeds.Add(breed);
         UpdateLastModifiedAt();
@@ -118,7 +118,7 @@ public class Specie : AggregateRoot<SpecieId>
         var getBreedResult = GetBreedById(breedId);
 
         if (getBreedResult.IsFailure)
-            return GeneralErrors.RecordNotFound(nameof(Breed), nameof(breedId));
+            return ErrorsGeneral.RecordNotFound(nameof(Breed), nameof(breedId));
 
         _breeds.Remove(getBreedResult.Value);
         UpdateLastModifiedAt();
@@ -147,7 +147,7 @@ public class Specie : AggregateRoot<SpecieId>
         var getBreedResult = GetBreedById(breedId);
 
         if (getBreedResult.IsFailure)
-            return GeneralErrors.RecordNotFound(nameof(Breed), nameof(BreedId));
+            return ErrorsGeneral.RecordNotFound(nameof(Breed), nameof(BreedId));
 
         getBreedResult.Value.UpdateInfo(name, description);
         UpdateLastModifiedAt();
@@ -162,7 +162,7 @@ public class Specie : AggregateRoot<SpecieId>
             var getBreedResult = GetBreedById(updateBreedInfo.breedId);
 
             if (getBreedResult.IsFailure)
-                return GeneralErrors.RecordNotFound(nameof(Breed), nameof(BreedId));
+                return ErrorsGeneral.RecordNotFound(nameof(Breed), nameof(BreedId));
 
             getBreedResult.Value.UpdateInfo(updateBreedInfo.name, updateBreedInfo.description);
         }

@@ -18,15 +18,15 @@ public record BreedName
     public static Result<BreedName, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(BreedName));
+            return ErrorsGeneral.ValueIsRequired(nameof(BreedName));
 
         input = input.Trim().ToProperCase();
 
         if (!StringValidator.IsAlphabeticWithWhiteSpaces(input))
-            return GeneralErrors.ValueOutOfRange(nameof(BreedName));
+            return ErrorsGeneral.ValueOutOfRange(nameof(BreedName));
 
         if (!StringValidator.IsInRange(input, BreedNameConstraints.MinLength, BreedNameConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(BreedName));
+            return ErrorsGeneral.ValueOutOfRange(nameof(BreedName));
 
         return new BreedName(input);
     }

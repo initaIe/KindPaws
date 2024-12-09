@@ -17,7 +17,7 @@ public record ProfileDescription
     public static Result<ProfileDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(ProfileDescription));
+            return ErrorsGeneral.ValueIsRequired(nameof(ProfileDescription));
 
         input = input.Trim();
 
@@ -25,7 +25,7 @@ public record ProfileDescription
                 input,
                 ProfielConstraints.MinLength,
                 ProfielConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange();
+            return ErrorsGeneral.ValueOutOfRange();
 
         return new ProfileDescription(input);
     }

@@ -1,6 +1,6 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Domain.AggregateRoot;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -36,7 +36,7 @@ public class DeleteAccountHandler : ICommandHandler<Guid, DeleteAccountCommand>
             cancellationToken);
 
         if (!isAccountExist)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                     nameof(Account),
                     nameof(AccountId),
                     command.AccountId)

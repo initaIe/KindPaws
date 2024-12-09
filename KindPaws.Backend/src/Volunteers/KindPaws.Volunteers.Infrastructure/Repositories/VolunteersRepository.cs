@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -38,7 +38,7 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
             .FirstOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
 
         if (volunteer == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Volunteer),
                 nameof(VolunteerId),
                 permissionId.Value);

@@ -21,7 +21,7 @@ public record PetId
     public static Result<PetId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return GeneralErrors.ValueIsInvalid();
+            return ErrorsGeneral.ValueIsInvalid();
 
         return new PetId(input);
     }

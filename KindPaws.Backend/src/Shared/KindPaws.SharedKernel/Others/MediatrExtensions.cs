@@ -4,7 +4,7 @@ namespace KindPaws.SharedKernel.Others;
 
 public static class MediatrExtensions
 {
-    public static async Task PublishDomainEvents<TId>(
+    public static async Task PublishDomainEventsAsync<TId>(
         this IPublisher publisher,
         AggregateRoot<TId> entity,
         CancellationToken cancellationToken = default)

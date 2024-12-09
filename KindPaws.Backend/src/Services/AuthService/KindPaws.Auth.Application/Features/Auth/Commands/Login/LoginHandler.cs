@@ -5,7 +5,8 @@ using KindPaws.Auth.Contracts.Responses;
 using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Auth.Domain.Others;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Others;
@@ -25,6 +26,7 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHashProvider _passwordHashProvider;
     private readonly ITokenProvider _tokenProvider;
+    private readonly IRefreshSessionOptionsProvider _refreshSessionOptionsProvider;
     private readonly ILogger<RegisterHandler> _logger;
 
     public LoginHandler(
@@ -34,7 +36,8 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         IUnitOfWork unitOfWork,
         IPasswordHashProvider passwordHashProvider,
         ILogger<RegisterHandler> logger,
-        ITokenProvider tokenProvider)
+        ITokenProvider tokenProvider,
+        IRefreshSessionOptionsProvider refreshSessionOptionsProvider)
     {
         _commandValidator = commandValidator;
         _accountRepository = accountRepository;
@@ -43,6 +46,7 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         _passwordHashProvider = passwordHashProvider;
         _logger = logger;
         _tokenProvider = tokenProvider;
+        _refreshSessionOptionsProvider = refreshSessionOptionsProvider;
     }
 
     public async Task<Result<LoginResponse, ErrorList>> HandleAsync(
@@ -62,30 +66,32 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
                 cancellationToken);
 
             if (accountByEmailAddress == null)
-                return AuthErrors.CredentialsAreInvalid().ToErrorList();
+                return ErrorsAuth.CredentialsAreInvalid().ToErrorList();
 
             var isPasswordValid = _passwordHashProvider.IsPasswordValid(
                 accountByEmailAddress.PasswordHash,
                 command.Password);
-            
+
             if (!isPasswordValid)
-                return AuthErrors.CredentialsAreInvalid().ToErrorList();
-            
+                return ErrorsAuth.CredentialsAreInvalid().ToErrorList();
+
             var jti = Jti.CreateRandom();
-            var expiresAt = RefreshSessionExpiresAt.Create(DateTimeOffset.UtcNow.AddDays(60)).Value;
-            
+
+            var expiresInDays = _refreshSessionOptionsProvider.GetExpireInDays();
+            var expiresDateTimeOffset = DateTimeOffset.UtcNow.AddDays(expiresInDays);
+            var expiresAt = RefreshSessionExpiresAt.Create(expiresDateTimeOffset).Value;
+
             var refreshSession = RefreshSession.CreateNew(jti, expiresAt);
             var accessToken = _tokenProvider.GenerateAccessToken(accountByEmailAddress.Id, jti.Value);
             var response = new LoginResponse(accessToken, refreshSession.RefreshToken.Value);
-            
+
             var accountId = AccountId.Create(accountByEmailAddress.Id).Value;
             var getAccountResult = await _accountRepository.GetByIdAsync(accountId, cancellationToken);
             getAccountResult.Value.AddRefreshSession(refreshSession);
-            
-            
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
-            
+
             SuccessLog(accountId.Value);
 
             return response;
@@ -93,20 +99,20 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         catch (Exception exception)
         {
             await transaction.RollbackAsync(cancellationToken);
-            
+
             var errorId = Guid.NewGuid();
-            
+
             ErrorLog(errorId, exception);
-            
-            return AuthErrors.LoginFailure(errorId).ToErrorList();
+
+            return ErrorsAuth.LoginFailure(errorId).ToErrorList();
         }
     }
-    
+
     private void SuccessLog(Guid accountId)
     {
         _logger.LogInformation("Account with id {accountId} was logged in.", accountId);
     }
-    
+
     private void ErrorLog(Guid errorId, Exception exception)
     {
         _logger.LogError("ErrorId: {errorId} | Failed to login | Exception: {exception}", errorId, exception);

@@ -2,7 +2,7 @@
 using KindPaws.Accounts.Application.Helpers;
 using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.Entities;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -42,14 +42,14 @@ public class AddRefreshSessionHandler : ICommandHandler<Guid, AddRefreshSessionC
             cancellationToken);
 
         if (!isAccountByIdExist)
-            return GeneralErrors.RecordNotFound(nameof(Account), nameof(AccountId)).ToErrorList();
+            return ErrorsGeneral.RecordNotFound(nameof(Account), nameof(AccountId)).ToErrorList();
 
         var isRefreshSessionByJtiAlreadyExist = await _dbContext.RefreshSessions.AnyAsync(
             a => a.Jti == command.Jti,
             cancellationToken);
 
         if (isRefreshSessionByJtiAlreadyExist)
-            return GeneralErrors.RecordAlreadyExist(nameof(RefreshSession)).ToErrorList();
+            return ErrorsGeneral.RecordAlreadyExist(nameof(RefreshSession)).ToErrorList();
 
         var expiresInDays = _refreshSessionOptionsProvider.GetExpireInDays();
         var expiresAt = DateTimeOffset.UtcNow.AddDays(expiresInDays);

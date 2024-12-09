@@ -17,7 +17,7 @@ public record VolunteerDescription
     public static Result<VolunteerDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(VolunteerDescription));
+            return ErrorsGeneral.ValueIsRequired(nameof(VolunteerDescription));
 
         input = input.Trim();
 
@@ -25,7 +25,7 @@ public record VolunteerDescription
                 input,
                 VolunteerDescriptionConstraints.MinLength,
                 VolunteerDescriptionConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(input));
+            return ErrorsGeneral.ValueOutOfRange(nameof(input));
 
         return new VolunteerDescription(input);
     }

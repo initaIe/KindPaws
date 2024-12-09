@@ -23,12 +23,12 @@ public record SupportStatus
     public static Result<SupportStatus, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(SupportStatus));
+            return ErrorsGeneral.ValueIsRequired(nameof(SupportStatus));
 
         input = input.Trim().ToProperCase();
 
         if (!All.Any(s => string.Equals(s.Value, input, StringComparison.CurrentCultureIgnoreCase)))
-            return GeneralErrors.ValueIsInvalid(nameof(SupportStatus));
+            return ErrorsGeneral.ValueIsInvalid(nameof(SupportStatus));
 
         return new SupportStatus(input);
     }

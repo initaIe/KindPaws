@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Roles.Application.Abstractions;
 using KindPaws.Roles.Application.Helpers;
@@ -38,7 +38,7 @@ public class CreateRoleHandler : ICommandHandler<Guid, CreateRoleCommand>
             cancellationToken);
 
         if (isRoleNameAlreadyTaken)
-            return GeneralErrors.RecordAlreadyExist(nameof(Role), nameof(RoleName)).ToErrorList();
+            return ErrorsGeneral.RecordAlreadyExist(nameof(Role), nameof(RoleName)).ToErrorList();
 
         var role = RoleHelper.ForceCreateNewRole(command.Name);
 

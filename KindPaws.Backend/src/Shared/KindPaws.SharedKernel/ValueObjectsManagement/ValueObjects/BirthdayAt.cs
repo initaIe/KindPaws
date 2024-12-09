@@ -16,7 +16,7 @@ public record BirthdayAt
     public static Result<BirthdayAt, Error> Create(DateTimeOffset input)
     {
         if (DateTimeOffsetValidator.IsFromFuture(input))
-            return GeneralErrors.ValueOutOfRange(nameof(BirthdayAt));
+            return ErrorsGeneral.ValueOutOfRange(nameof(BirthdayAt));
 
         return new BirthdayAt(input);
     }

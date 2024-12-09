@@ -17,12 +17,12 @@ public record PetDescription
     public static Result<PetDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(PetDescription));
+            return ErrorsGeneral.ValueIsRequired(nameof(PetDescription));
 
         input = input.Trim();
 
         if (!StringValidator.IsInRange(input, PetDescriptionConstraints.MinLength, PetDescriptionConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(PetDescription));
+            return ErrorsGeneral.ValueOutOfRange(nameof(PetDescription));
 
         return new PetDescription(input);
     }

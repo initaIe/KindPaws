@@ -1,8 +1,9 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
+using KindPaws.Auth.Infrastructure.Options;
+using KindPaws.Auth.Infrastructure.OutBox;
 using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -20,6 +21,7 @@ namespace KindPaws.Auth.Infrastructure.DbContexts
         public DbSet<Account> Accounts => Set<Account>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Permission> Permissions => Set<Permission>();
+        public DbSet<OutBoxMessage> OutBoxMessages => Set<OutBoxMessage>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

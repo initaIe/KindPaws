@@ -1,6 +1,6 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.DbContexts;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -27,7 +27,7 @@ public class AccountsRepository : IRepository<Account, AccountId>
                 cancellationToken);
 
         if (account == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Account),
                 nameof(AccountId),
                 accountId.Value);
@@ -47,4 +47,3 @@ public class AccountsRepository : IRepository<Account, AccountId>
         _dbContext.Accounts.Remove(account);
     }
 }
-

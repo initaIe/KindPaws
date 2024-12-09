@@ -23,10 +23,10 @@ public record HealthStatus
     public static Result<HealthStatus, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(HealthStatus));
+            return ErrorsGeneral.ValueIsRequired(nameof(HealthStatus));
 
         if (!All.Any(h => string.Equals(h.Value, input, StringComparison.CurrentCultureIgnoreCase)))
-            return GeneralErrors.ValueIsInvalid(nameof(HealthStatus));
+            return ErrorsGeneral.ValueIsInvalid(nameof(HealthStatus));
 
         return new HealthStatus(input);
     }

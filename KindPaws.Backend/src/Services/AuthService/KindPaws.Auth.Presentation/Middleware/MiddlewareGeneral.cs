@@ -7,12 +7,10 @@ public static class MiddlewareGeneral
 {
     public static WebApplication UseAuthMiddlewares(this WebApplication app)
     {
-        // Exception middleware
         app.UseMiddlewareException();
-        // Serilog middleware for logging
         app.UseSerilogRequestLogging();
 
-        // General
+        
         app.UseHttpsRedirection();
         // app.UseAuthentication();
         // app.UseAuthorization();

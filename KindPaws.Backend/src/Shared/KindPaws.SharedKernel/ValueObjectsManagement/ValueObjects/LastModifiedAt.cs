@@ -18,7 +18,7 @@ public record LastModifiedAt
     public static Result<LastModifiedAt, Error> Create(DateTimeOffset input)
     {
         if (input > DateTimeOffset.UtcNow)
-            return GeneralErrors.ValueIsInvalid(nameof(LastModifiedAt));
+            return ErrorsGeneral.ValueIsInvalid(nameof(LastModifiedAt));
 
         return new LastModifiedAt(input);
     }

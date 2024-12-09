@@ -21,7 +21,7 @@ public record UserRoleId
     public static Result<UserRoleId, Error> Create(Guid input)
     {
         if (GuidValidator.IsEmpty(input))
-            return GeneralErrors.ValueIsInvalid();
+            return ErrorsGeneral.ValueIsInvalid();
 
         return new UserRoleId(input);
     }

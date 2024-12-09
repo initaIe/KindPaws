@@ -63,7 +63,7 @@ public sealed class Account : Entity<AccountId>
         var refreshSession = _refreshSessions.FirstOrDefault(rs => rs.Id == refreshSessionId);
 
         if (refreshSession == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(RefreshSession),
                 nameof(RefreshSessionId),
                 refreshSessionId.Value);

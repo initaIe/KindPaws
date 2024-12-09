@@ -47,7 +47,7 @@ public record Error
     {
         return new Error(code, message, ErrorType.InvalidOperation);
     }
-    
+
     public string SerializeToString()
     {
         return string.Join(Separator, Code, Message, Type);

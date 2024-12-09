@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Permissions.Application.Helpers;
 using KindPaws.Permissions.Domain.AggregateRoot;
 using KindPaws.Permissions.Infrastructure.DbContexts;

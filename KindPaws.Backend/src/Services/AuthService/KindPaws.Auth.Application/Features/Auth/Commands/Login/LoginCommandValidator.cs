@@ -11,7 +11,7 @@ public class LoginCommandValidator : AbstractValidator<LoginCommand>
     {
         RuleFor(rc => rc.EmailAddress)
             .MustBeValueObject(EmailAddress.Create);
-        
+
         RuleFor(rc => rc.Password)
             .MustBeValueObject(Password.Create);
     }

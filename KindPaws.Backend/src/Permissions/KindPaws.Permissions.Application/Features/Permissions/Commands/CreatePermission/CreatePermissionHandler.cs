@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Application.Abstractions;
 using KindPaws.Permissions.Application.Helpers;
@@ -39,7 +39,7 @@ public class CreatePermissionHandler : ICommandHandler<Guid, CreatePermissionCom
             cancellationToken);
 
         if (isPermissionCodeAlreadyTaken)
-            return GeneralErrors.RecordAlreadyExist(
+            return ErrorsGeneral.RecordAlreadyExist(
                     nameof(Permission),
                     nameof(PermissionCode))
                 .ToErrorList();

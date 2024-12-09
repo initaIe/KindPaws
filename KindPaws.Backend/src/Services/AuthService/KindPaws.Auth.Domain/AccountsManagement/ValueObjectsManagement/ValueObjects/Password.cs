@@ -18,14 +18,14 @@ public record Password
     public static Result<Password, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(Password));
+            return ErrorsGeneral.ValueIsRequired(nameof(Password));
 
         if (!StringValidator.IsInRange(
                 input,
                 PermissionCodeConstraints.MinLength,
                 PermissionCodeConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange();
-        
+            return ErrorsGeneral.ValueOutOfRange();
+
         return new Password(input);
     }
 }

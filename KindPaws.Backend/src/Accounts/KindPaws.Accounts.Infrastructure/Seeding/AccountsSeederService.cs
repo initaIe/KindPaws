@@ -3,7 +3,7 @@ using KindPaws.Accounts.Application.Helpers;
 using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Infrastructure.DbContexts;
 using KindPaws.Accounts.Infrastructure.Options;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Roles.Contracts;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;

@@ -3,12 +3,14 @@ using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Factories;
 using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Auth.Domain.Others;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -21,6 +23,7 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
     private readonly IAuthReadDbContext _readDbContext;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHashProvider _passwordHashProvider;
+    private readonly IPublisher _publisher;
     private readonly ILogger<RegisterHandler> _logger;
 
     public RegisterHandler(
@@ -29,7 +32,8 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         IRepository<Account, AccountId> accountRepository,
         IUnitOfWork unitOfWork,
         IPasswordHashProvider passwordHashProvider,
-        ILogger<RegisterHandler> logger)
+        ILogger<RegisterHandler> logger, 
+        IPublisher publisher)
     {
         _commandValidator = commandValidator;
         _readDbContext = readDbContext;
@@ -37,6 +41,7 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         _unitOfWork = unitOfWork;
         _passwordHashProvider = passwordHashProvider;
         _logger = logger;
+        _publisher = publisher;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -56,7 +61,7 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
                 cancellationToken);
 
             if (isUsernameOrEmailAddressAlreadyTaken)
-                return GeneralErrors.RecordAlreadyExist(nameof(Account)).ToErrorList();
+                return ErrorsGeneral.RecordAlreadyExist(nameof(Account)).ToErrorList();
 
             var passwordHash = _passwordHashProvider.GenerateHash(command.Password);
 
@@ -64,22 +69,22 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
             
             await _accountRepository.AddAsync(account, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            
+
             await transaction.CommitAsync(cancellationToken);
-            
+
             SuccessLog(account.Id.Value);
-            
+
             return account.Id.Value;
         }
         catch (Exception exception)
         {
             await transaction.RollbackAsync(cancellationToken);
-            
+
             var errorId = Guid.NewGuid();
-            
+
             ErrorLog(errorId, exception);
-            
-            return AuthErrors.RegistrationFailure(errorId).ToErrorList();
+
+            return ErrorsAuth.RegistrationFailure(errorId).ToErrorList();
         }
     }
 
@@ -87,9 +92,10 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
     {
         _logger.LogInformation("Account with id {accountId} was registered.", accountId);
     }
-    
+
     private void ErrorLog(Guid errorId, Exception exception)
     {
-        _logger.LogError("ErrorId: {errorId} | Failed to register account | Exception: {exception}", errorId, exception);
+        _logger.LogError("ErrorId: {errorId} | Failed to register account | Exception: {exception}", errorId,
+            exception);
     }
 }

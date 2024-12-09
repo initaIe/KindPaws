@@ -18,15 +18,15 @@ public record SpecieName
     public static Result<SpecieName, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(SpecieName));
+            return ErrorsGeneral.ValueIsRequired(nameof(SpecieName));
 
         input = input.Trim().ToProperCase();
 
         if (!StringValidator.IsAlphabeticWithWhiteSpaces(input))
-            return GeneralErrors.ValueOutOfRange(nameof(SpecieName));
+            return ErrorsGeneral.ValueOutOfRange(nameof(SpecieName));
 
         if (!StringValidator.IsInRange(input, SpecieNameConstraints.MinLength, SpecieNameConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(SpecieName));
+            return ErrorsGeneral.ValueOutOfRange(nameof(SpecieName));
 
         return new SpecieName(input);
     }

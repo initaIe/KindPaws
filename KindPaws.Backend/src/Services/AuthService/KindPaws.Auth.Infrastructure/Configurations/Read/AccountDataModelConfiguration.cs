@@ -38,17 +38,13 @@ public class AccountDataModelConfiguration : IEntityTypeConfiguration<AccountDat
         // PHONE_NUMBER
         builder.Property(a => a.PhoneNumber)
             .HasColumnName("phone_number");
-        
+
         // PASSWORD_HASH
         builder.Property(a => a.PasswordHash)
             .HasColumnName("password_hash");
 
         // ROLES
         builder.Property(a => a.Roles)
-            .HasConversion(
-                roles => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IEnumerable<AccountRoleId>>(json, JsonSerializerOptions.Default)!
-                    .ToDtoCollection())
             .HasColumnName("roles");
 
         // REFRESH_SESSIONS

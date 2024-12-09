@@ -17,13 +17,13 @@ public record RejectionComment
     public static Result<RejectionComment, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(RejectionComment));
+            return ErrorsGeneral.ValueIsRequired(nameof(RejectionComment));
 
         if (!StringValidator.IsInRange(
                 input,
                 RejectionCommentConstraints.MinLength,
                 RejectionCommentConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(RejectionComment));
+            return ErrorsGeneral.ValueOutOfRange(nameof(RejectionComment));
 
         return new RejectionComment(input);
     }

@@ -9,7 +9,7 @@ public class PermissionDataModelConfiguration : IEntityTypeConfiguration<Permiss
     public void Configure(EntityTypeBuilder<PermissionDataModel> builder)
     {
         // TABLE NAMING
-        builder.ToTable("roles");
+        builder.ToTable("permissions");
 
         // ID
         builder.Property(r => r.Id)

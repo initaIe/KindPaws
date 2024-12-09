@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Permissions.Domain.AggregateRoot;
 using KindPaws.Permissions.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
@@ -26,7 +26,7 @@ public class PermissionsRepository : IRepository<Permission, PermissionId>
             cancellationToken);
 
         if (permission == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Permission),
                 nameof(PermissionId),
                 permissionId.Value);

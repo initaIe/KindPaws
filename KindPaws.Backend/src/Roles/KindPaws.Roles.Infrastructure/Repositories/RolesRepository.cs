@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Roles.Domain.AggregateRoot;
 using KindPaws.Roles.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
@@ -28,7 +28,7 @@ public class RolesRepository : IRepository<Role, UserRoleId>
             cancellationToken);
 
         if (role == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Role),
                 nameof(UserRoleId),
                 permissionId.Value);

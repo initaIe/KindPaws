@@ -31,7 +31,7 @@ public class ValidateAccountByEmailHandler
             cancellationToken);
 
         if (account == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                     nameof(Account),
                     nameof(AccountId),
                     query.EmailAddress)
@@ -40,7 +40,7 @@ public class ValidateAccountByEmailHandler
         var isPasswordValid = _passwordHashProvider.ValidateHash(account!.PasswordHash, query.Password);
 
         if (!isPasswordValid)
-            return GeneralErrors.ValueIsInvalid("Password").ToErrorList();
+            return ErrorsGeneral.ValueIsInvalid("Password").ToErrorList();
 
         return account.Id;
     }

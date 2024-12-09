@@ -18,13 +18,13 @@ public record VolunteerRequestBody
     public static Result<VolunteerRequestBody, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(VolunteerRequestBody));
+            return ErrorsGeneral.ValueIsRequired(nameof(VolunteerRequestBody));
 
         if (!StringValidator.IsInRange(
                 input,
                 VolunteerRequestBodyConstraints.MinLength,
                 VolunteerRequestBodyConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(VolunteerRequestBody));
+            return ErrorsGeneral.ValueOutOfRange(nameof(VolunteerRequestBody));
 
         return new VolunteerRequestBody(input);
     }

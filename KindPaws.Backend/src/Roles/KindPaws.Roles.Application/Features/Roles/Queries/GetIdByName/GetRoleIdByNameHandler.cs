@@ -26,7 +26,7 @@ public class GetRoleIdByNameHandler : IQueryHandler<Result<Guid, ErrorList>, Get
             cancellationToken);
 
         if (roleByName == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                     nameof(Role),
                     nameof(RoleName),
                     query.RoleName)

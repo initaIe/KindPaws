@@ -33,7 +33,7 @@ public class LoginByEmailAddressHandler : ICommandHandler<LoginResponse, LoginBy
             cancellationToken);
 
         if (accountValidationResult.IsFailure)
-            return GeneralErrors.Auth.CredentialsAreInvalid().ToErrorList();
+            return ErrorsGeneral.Auth.CredentialsAreInvalid().ToErrorList();
 
         var jti = Jti.CreateRandom();
 

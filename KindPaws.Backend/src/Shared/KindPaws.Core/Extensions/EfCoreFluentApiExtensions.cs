@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -27,7 +28,32 @@ public static class EfCoreFluentApiExtensions
         propertyBuilder.HasConversion(converter);
         propertyBuilder.Metadata.SetValueConverter(converter);
         propertyBuilder.Metadata.SetValueComparer(comparer);
+        propertyBuilder.HasColumnType("jsonb");
 
         return propertyBuilder;
     }
+    
+    public static PropertyBuilder<IReadOnlyList<TElement>> HasUuidArrayConversion<TElement>(
+        this PropertyBuilder<IReadOnlyList<TElement>> propertyBuilder,
+        Func<TElement, Guid> toGuidSelector,
+        Func<Guid, TElement> fromGuidSelector)
+    {
+        var converter = new ValueConverter<IReadOnlyList<TElement>, Guid[]>(
+            v => v.Select(toGuidSelector).ToArray(),
+            v => v.Select(fromGuidSelector).ToList()
+        );
+
+        var comparer = new ValueComparer<IReadOnlyList<TElement>>(
+            (l, r) => l!.SequenceEqual(r!),
+            v => v.Aggregate(0, (hash, element) => hash ^ toGuidSelector(element).GetHashCode()),
+            v => v.Select(toGuidSelector).Select(fromGuidSelector).ToList()
+        );
+
+        propertyBuilder.HasConversion(converter);
+        propertyBuilder.Metadata.SetValueComparer(comparer);
+        propertyBuilder.HasColumnType("uuid[]");
+
+        return propertyBuilder;
+    }
+
 }

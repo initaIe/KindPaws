@@ -18,12 +18,12 @@ public record Vaccine
     public static Result<Vaccine, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(Vaccine));
+            return ErrorsGeneral.ValueIsRequired(nameof(Vaccine));
 
         input = input.Trim().ToProperCase();
 
         if (!StringValidator.IsInRange(input, VaccineConstraints.MinLength, VaccineConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(input));
+            return ErrorsGeneral.ValueOutOfRange(nameof(input));
 
         return new Vaccine(input);
     }

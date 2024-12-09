@@ -16,7 +16,7 @@ public record YearsOfExperience
     public static Result<YearsOfExperience, Error> Create(int input)
     {
         if (input is < YearsOfExperienceConstraints.MinValue or > YearsOfExperienceConstraints.MaxValue)
-            return GeneralErrors.ValueOutOfRange(nameof(YearsOfExperience));
+            return ErrorsGeneral.ValueOutOfRange(nameof(YearsOfExperience));
 
         return new YearsOfExperience(input);
     }

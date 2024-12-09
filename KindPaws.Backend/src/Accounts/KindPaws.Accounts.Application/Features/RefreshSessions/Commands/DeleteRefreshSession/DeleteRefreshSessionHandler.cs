@@ -1,7 +1,7 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Accounts.Domain.Entities;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
@@ -37,7 +37,7 @@ public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSe
             cancellationToken);
 
         if (!isAccountExist)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Account),
                 nameof(AccountId),
                 command.AccountId).ToErrorList();
@@ -47,7 +47,7 @@ public class DeleteRefreshSessionHandler : ICommandHandler<Guid, DeleteRefreshSe
             cancellationToken);
 
         if (!isRefreshSessionExist)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(RefreshSession),
                 nameof(RefreshSessionId),
                 command.RefreshSessionId).ToErrorList();

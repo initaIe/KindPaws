@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KindPaws.Auth.Application.DI;
 using KindPaws.Core.Abstractions.Handlers;
 
 namespace KindPaws.Auth.Presentation.DI.LayersInjections.Injections;
@@ -25,6 +26,8 @@ public static class ApplicationInjection
 
         // FluentValidation validators
         services.AddValidatorsFromAssemblies([assembly]);
+
+        services.AddApplicationLayer();
 
         return services;
     }

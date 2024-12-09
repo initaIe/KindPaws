@@ -48,11 +48,12 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         // PERMISSIONS
         builder.Property(r => r.Permissions)
-            .HasJsonConversion()
-            .HasColumnType("jsonb")
+            .HasUuidArrayConversion<PermissionId>(
+                id => id.Value,
+                guid => PermissionId.Create(guid).Value)
             .HasColumnName("permissions")
             .IsRequired();
-        
+
         // IGNORE
         builder.Ignore(r => r.DomainEvents);
     }

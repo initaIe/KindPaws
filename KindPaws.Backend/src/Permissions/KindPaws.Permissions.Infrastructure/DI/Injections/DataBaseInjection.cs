@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Permissions.Application.Abstractions;
 using KindPaws.Permissions.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Enums;

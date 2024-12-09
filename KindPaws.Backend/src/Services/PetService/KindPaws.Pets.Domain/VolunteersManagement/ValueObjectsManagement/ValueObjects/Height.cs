@@ -18,7 +18,7 @@ public record Height
     public static Result<Height, Error> Create(float input)
     {
         if (FloatValidator.IsNotLessThan(input, HeightConstraints.MinValue))
-            return GeneralErrors.ValueOutOfRange(nameof(Height));
+            return ErrorsGeneral.ValueOutOfRange(nameof(Height));
 
         input = input.Round(
             HeightConstraints.Precision,

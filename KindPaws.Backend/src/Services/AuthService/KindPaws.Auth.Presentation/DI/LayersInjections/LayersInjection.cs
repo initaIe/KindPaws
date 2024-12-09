@@ -8,9 +8,9 @@ public static class LayersInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddApplication();
-        services.AddInfrastructure();
+        services.AddInfrastructure(configuration);
         services.AddPresentation();
+        services.AddApplication();
 
         return services;
     }

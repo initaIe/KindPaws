@@ -17,7 +17,7 @@ public record EmailAddress
     public static Result<EmailAddress, Error> Create(string input)
     {
         if (string.IsNullOrEmpty(input))
-            return GeneralErrors.ValueIsRequired(nameof(input));
+            return ErrorsGeneral.ValueIsRequired(nameof(input));
 
         input = input.Trim().ToLower();
 
@@ -25,10 +25,10 @@ public record EmailAddress
                 input,
                 EmailAddressConstraints.MinLength,
                 EmailAddressConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(EmailAddress));
+            return ErrorsGeneral.ValueOutOfRange(nameof(EmailAddress));
 
         if (!EmailAddressValidator.Validate(input))
-            return GeneralErrors.ValueFormatIsInvalid(nameof(EmailAddress));
+            return ErrorsGeneral.ValueFormatIsInvalid(nameof(EmailAddress));
 
         return new EmailAddress(input);
     }

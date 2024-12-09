@@ -17,7 +17,7 @@ public record BreedDescription
     public static Result<BreedDescription, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return GeneralErrors.ValueIsRequired(nameof(BreedDescription));
+            return ErrorsGeneral.ValueIsRequired(nameof(BreedDescription));
 
         input = input.Trim();
 
@@ -25,7 +25,7 @@ public record BreedDescription
                 input,
                 BreedDescriptionConstraints.MinLength,
                 BreedDescriptionConstraints.MaxLength))
-            return GeneralErrors.ValueOutOfRange(nameof(BreedDescription));
+            return ErrorsGeneral.ValueOutOfRange(nameof(BreedDescription));
 
         return new BreedDescription(input);
     }

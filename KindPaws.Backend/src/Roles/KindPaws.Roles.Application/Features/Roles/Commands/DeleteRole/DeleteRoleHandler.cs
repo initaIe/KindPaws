@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Roles.Application.Abstractions;
 using KindPaws.Roles.Domain.AggregateRoot;
@@ -36,7 +36,7 @@ public class DeleteRoleHandler : ICommandHandler<Guid, DeleteRoleCommand>
             cancellationToken);
 
         if (!isRoleExist)
-            return GeneralErrors.RecordNotFound(nameof(Role), nameof(UserRoleId), command.RoleId).ToErrorList();
+            return ErrorsGeneral.RecordNotFound(nameof(Role), nameof(UserRoleId), command.RoleId).ToErrorList();
 
         var roleId = UserRoleId.Create(command.RoleId).Value;
 

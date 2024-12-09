@@ -1,14 +1,19 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using KindPaws.Auth.Infrastructure.DI.Injections;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Auth.Infrastructure.DI;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddRolesInfrastructure(
+    public static IServiceCollection AddInfrastructureLayer(
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddCustomOptions(configuration);
+        services.AddProviders();
+        services.AddDataBase();
+        
         return services;
     }
 }

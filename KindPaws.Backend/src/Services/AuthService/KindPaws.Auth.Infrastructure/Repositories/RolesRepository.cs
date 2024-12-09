@@ -1,7 +1,6 @@
-﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
-using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
+﻿using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.DbContexts;
-using KindPaws.Core.Abstractions.DataBase;
+using KindPaws.Core.Abstractions.Database;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -28,7 +27,7 @@ public class RolesRepository : IRepository<Role, AccountRoleId>
                 cancellationToken);
 
         if (role == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Role),
                 nameof(AccountRoleId),
                 accountRoleId.Value);
@@ -37,7 +36,7 @@ public class RolesRepository : IRepository<Role, AccountRoleId>
     }
 
     public async Task AddAsync(
-        Role role, 
+        Role role,
         CancellationToken cancellationToken = default)
     {
         await _dbContext.Roles.AddAsync(role, cancellationToken);
@@ -48,4 +47,3 @@ public class RolesRepository : IRepository<Role, AccountRoleId>
         _dbContext.Roles.Remove(role);
     }
 }
-

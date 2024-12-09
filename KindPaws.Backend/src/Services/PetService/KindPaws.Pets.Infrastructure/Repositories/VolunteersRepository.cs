@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 using KindPaws.Pets.Infrastructure.DbContexts;
 using KindPaws.SharedKernel.Others;
@@ -28,7 +28,7 @@ public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
                 cancellationToken);
 
         if (volunteer == null)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                 nameof(Volunteer),
                 nameof(VolunteerId),
                 volunteerId.Value);

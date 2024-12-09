@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.DataBase;
+﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Application.Abstractions;
 using KindPaws.Permissions.Domain.AggregateRoot;
@@ -37,7 +37,7 @@ public class DeletePermissionHandler : ICommandHandler<Guid, DeletePermissionCom
             cancellationToken);
 
         if (!isPermissionExist)
-            return GeneralErrors.RecordNotFound(
+            return ErrorsGeneral.RecordNotFound(
                     nameof(Permission),
                     nameof(PermissionId),
                     command.PermissionId)

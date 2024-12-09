@@ -1,48 +1,25 @@
 cd ../..
 
 $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-
-$permissionsMigrationName = "Permissions_$timestamp"
-$accountsMigrationName = "Accounts_$timestamp"
-$rolesMigrationName = "Roles_$timestamp"
-$volunteersMigrationName = "Volunteers_$timestamp"
-$speciesMigrationName = "Species_$timestamp"
-$volunteerRequestsMigrationName = "VolunteerRequests_$timestamp"
+$authMigrationName = "Auth_$timestamp"
+$dbContextName = "AuthWriteDbContext"
+$infrastructurePath = ".\src\Services\AuthService\KindPaws.Auth.Infrastructure\"
+$startupPath = ".\src\Services\AuthService\KindPaws.Auth.Presentation\"
 
 Write-Host "Starting drop db..." -ForegroundColor Yellow
-dotnet ef database drop -f -c VolunteerRequestsWriteDbContext -p .\src\VolunteerRequests\KindPaws.VolunteerRequests.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database drop -f -c PermissionsWriteDbContext -p .\src\Permissions\KindPaws.Permissions.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database drop -f -c AccountsWriteDbContext -p .\src\Accounts\KindPaws.Accounts.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database drop -f -c RolesWriteDbContext -p .\src\Roles\KindPaws.Roles.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database drop -f -c VolunteersWriteDbContext -p .\src\Volunteers\KindPaws.Volunteers.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database drop -f -c SpeciesWriteDbContext -p .\src\Species\KindPaws.Species.Infrastructure\ -s .\src\KindPaws.WEB\
+dotnet ef database drop -f -c $dbContextName -p $infrastructurePath -s $startupPath
 Write-Host "DB was droped..." -ForegroundColor Green
 
 Write-Host "Deleting all migrations..." -ForegroundColor Yellow
-Remove-Item -Path .\src\VolunteerRequests\KindPaws.VolunteerRequests.Infrastructure\Migrations\* -Force
-Remove-Item -Path .\src\Permissions\KindPaws.Permissions.Infrastructure\Migrations\* -Force
-Remove-Item -Path .\src\Accounts\KindPaws.Accounts.Infrastructure\Migrations\* -Force
-Remove-Item -Path .\src\Roles\KindPaws.Roles.Infrastructure\Migrations\* -Force
-Remove-Item -Path .\src\Volunteers\KindPaws.Volunteers.Infrastructure\Migrations\* -Force
-Remove-Item -Path .\src\Species\KindPaws.Species.Infrastructure\Migrations\* -Force
+Remove-Item -Path .\src\Services\AuthService\KindPaws.Auth.Infrastructure\Migrations* -Force
 Write-Host "All migrations were deleted..." -ForegroundColor Green
 
 Write-Host "Starting add migrations..." -ForegroundColor Yellow
-dotnet ef migrations add $volunteerRequestsMigrationName -c VolunteerRequestsWriteDbContext -p .\src\VolunteerRequests\KindPaws.VolunteerRequests.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef migrations add $permissionsMigrationName -c PermissionsWriteDbContext -p .\src\Permissions\KindPaws.Permissions.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef migrations add $accountsMigrationName -c AccountsWriteDbContext -p .\src\Accounts\KindPaws.Accounts.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef migrations add $rolesMigrationName -c RolesWriteDbContext -p .\src\Roles\KindPaws.Roles.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef migrations add $volunteersMigrationName -c VolunteersWriteDbContext -p .\src\Volunteers\KindPaws.Volunteers.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef migrations add $speciesMigrationName -c SpeciesWriteDbContext -p .\src\Species\KindPaws.Species.Infrastructure\ -s .\src\KindPaws.WEB\
+dotnet ef migrations add $authMigrationName -c $dbContextName -p $infrastructurePath -s $startupPath
 Write-Host "Migrations were added..." -ForegroundColor Green
 
 Write-Host "Starting DB update..." -ForegroundColor Yellow
-dotnet ef database update -c VolunteerRequestsWriteDbContext -p .\src\VolunteerRequests\KindPaws.VolunteerRequests.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database update -c PermissionsWriteDbContext -p .\src\Permissions\KindPaws.Permissions.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database update -c AccountsWriteDbContext -p .\src\Accounts\KindPaws.Accounts.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database update -c RolesWriteDbContext -p .\src\Roles\KindPaws.Roles.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database update -c VolunteersWriteDbContext -p .\src\Volunteers\KindPaws.Volunteers.Infrastructure\ -s .\src\KindPaws.WEB\
-dotnet ef database update -c SpeciesWriteDbContext -p .\src\Species\KindPaws.Species.Infrastructure\ -s .\src\KindPaws.WEB\
+dotnet ef database update -c $dbContextName -p $infrastructurePath -s $startupPath
 Write-Host "DB was updated..." -ForegroundColor Green
 
 pause

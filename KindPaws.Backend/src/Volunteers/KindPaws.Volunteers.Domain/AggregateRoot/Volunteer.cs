@@ -78,7 +78,7 @@ public class Volunteer : ISoftDeletableEntity<VolunteerId>
         var pet = _pets.FirstOrDefault(x => x.Id == petId);
 
         if (pet == null)
-            return GeneralErrors.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
+            return ErrorsGeneral.RecordNotFound(nameof(Pet), nameof(PetId), petId.Value);
 
         return pet;
     }

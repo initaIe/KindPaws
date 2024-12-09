@@ -6,18 +6,6 @@ namespace KindPaws.Auth.Application.Mappers;
 
 public static class ToDtoMappers
 {
-    public static Guid ToDto(this PermissionId permissionId)
-        => permissionId.Value;
-
-    public static List<Guid> ToDtoCollection(this IEnumerable<PermissionId> permissionIds)
-        => permissionIds.Select(permissionId => permissionId.ToDto()).ToList();
-
-    public static Guid ToDto(this AccountRoleId accountRoleId)
-        => accountRoleId.Value;
-
-    public static List<Guid> ToDtoCollection(this IEnumerable<AccountRoleId> accountRoleIds)
-        => accountRoleIds.Select(accountRoleId => accountRoleId.ToDto()).ToList();
-
     public static RefreshSessionDto ToDto(this RefreshSession refreshSession)
         => new RefreshSessionDto
         {
