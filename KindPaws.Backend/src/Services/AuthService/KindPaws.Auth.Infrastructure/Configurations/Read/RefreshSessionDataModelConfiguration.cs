@@ -9,7 +9,7 @@ public class RefreshSessionDataModelConfiguration : IEntityTypeConfiguration<Ref
     public void Configure(EntityTypeBuilder<RefreshSessionDataModel> builder)
     {
         // TABLE NAMING
-        builder.ToTable("roles");
+        builder.ToTable("refresh_sessions");
 
         // ID
         builder.Property(refreshSession => refreshSession.Id)

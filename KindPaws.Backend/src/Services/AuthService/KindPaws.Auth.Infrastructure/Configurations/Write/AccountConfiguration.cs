@@ -84,8 +84,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasUuidArrayConversion(
                 id => id.Value,
                 guid => AccountRoleId.Create(guid).Value)
-            .HasColumnName("roles")
-            .IsRequired();
+            .HasColumnName("roles");
 
         // REFRESH_SESSIONS
         builder.HasMany(account => account.RefreshSessions)

@@ -55,6 +55,8 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
 
         try
         {
+            var users = await _readDbContext.Accounts.ToListAsync(cancellationToken);
+            
             var isUsernameOrEmailAddressAlreadyTaken = await _readDbContext.Accounts.AnyAsync(
                 a => a.UserName == command.UserName || a.EmailAddress == command.EmailAddress,
                 cancellationToken);

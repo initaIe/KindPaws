@@ -11,7 +11,7 @@ namespace KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 
 public class Account : AggregateRoot<AccountId>
 {
-    private List<RefreshSession> _refreshSessions = [];
+    private readonly List<RefreshSession> _refreshSessions = [];
     private List<AccountRoleId> _roles = [];
 
     #region EF Core constructor

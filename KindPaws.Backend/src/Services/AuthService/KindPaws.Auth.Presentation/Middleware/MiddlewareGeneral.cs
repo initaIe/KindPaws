@@ -10,7 +10,6 @@ public static class MiddlewareGeneral
         app.UseMiddlewareException();
         app.UseSerilogRequestLogging();
 
-
         app.UseHttpsRedirection();
         // app.UseAuthentication();
         // app.UseAuthorization();

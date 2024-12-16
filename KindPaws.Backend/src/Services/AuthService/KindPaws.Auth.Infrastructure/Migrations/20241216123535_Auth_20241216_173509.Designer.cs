@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Auth.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthWriteDbContext))]
-    [Migration("20241216110400_Initial")]
-    partial class Initial
+    [Migration("20241216123535_Auth_20241216_173509")]
+    partial class Auth_20241216_173509
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

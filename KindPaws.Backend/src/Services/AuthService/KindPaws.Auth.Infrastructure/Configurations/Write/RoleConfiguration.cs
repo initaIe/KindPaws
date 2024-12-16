@@ -51,8 +51,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasUuidArrayConversion(
                 id => id.Value,
                 guid => PermissionId.Create(guid).Value)
-            .HasColumnName("permissions")
-            .IsRequired();
+            .HasColumnName("permissions");
 
         // IGNORE
         builder.Ignore(role => role.DomainEvents);

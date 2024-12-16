@@ -8,5 +8,5 @@ public class RoleDataModel
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string Name { get; init; } = null!;
-    public IReadOnlyList<Guid> Permissions { get; init; } = [];
+    public Guid[] Permissions { get; init; } = [];
 }

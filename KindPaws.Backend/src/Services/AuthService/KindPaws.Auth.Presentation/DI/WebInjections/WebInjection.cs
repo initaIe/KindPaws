@@ -9,6 +9,7 @@ public static class WebInjection
         IConfiguration configuration)
     {
         services.AddRouting(options => options.LowercaseUrls = true);
+        services.AddCustomSwaggerGen();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSerilogLogger(configuration);
