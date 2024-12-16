@@ -15,15 +15,15 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
         builder.ToTable("permissions");
 
         // ID
-        builder.HasKey(r => r.Id);
-        builder.Property(r => r.Id)
+        builder.HasKey(permission => permission.Id);
+        builder.Property(permission => permission.Id)
             .HasConversion(
                 id => id.Value,
                 value => PermissionId.Create(value).Value)
             .HasColumnName("id");
 
         // CREATED_AT
-        builder.Property(r => r.CreatedAt)
+        builder.Property(permission => permission.CreatedAt)
             .HasConversion(
                 createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
@@ -31,7 +31,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .IsRequired();
 
         // LAST_MODIFIED_AT
-        builder.Property(r => r.LastModifiedAt)
+        builder.Property(permission => permission.LastModifiedAt)
             .HasConversion(
                 lastModifiedAt => lastModifiedAt!.Value,
                 value => LastModifiedAt.Create(value).Value)
@@ -39,7 +39,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .IsRequired(false);
 
         // CODE
-        builder.Property(r => r.Code)
+        builder.Property(permission => permission.Code)
             .HasConversion(
                 code => code!.Value,
                 value => PermissionCode.Create(value).Value)
@@ -47,6 +47,6 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .IsRequired();
 
         // IGNORE
-        builder.Ignore(p => p.DomainEvents);
+        builder.Ignore(permission => permission.DomainEvents);
     }
 }

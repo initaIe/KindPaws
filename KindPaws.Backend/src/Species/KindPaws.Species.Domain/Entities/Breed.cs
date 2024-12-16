@@ -1,7 +1,4 @@
-using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Domain.Entities;

@@ -3,7 +3,6 @@ using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Application.Abstractions;
 using KindPaws.Permissions.Application.Helpers;
 using KindPaws.Permissions.Domain.AggregateRoot;
-using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Enums;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;

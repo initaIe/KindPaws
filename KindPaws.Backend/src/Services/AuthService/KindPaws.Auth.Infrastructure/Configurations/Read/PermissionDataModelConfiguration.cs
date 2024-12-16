@@ -12,19 +12,19 @@ public class PermissionDataModelConfiguration : IEntityTypeConfiguration<Permiss
         builder.ToTable("permissions");
 
         // ID
-        builder.Property(r => r.Id)
+        builder.Property(permission => permission.Id)
             .HasColumnName("id");
 
         // CREATED_AT
-        builder.Property(r => r.CreatedAt)
+        builder.Property(permission => permission.CreatedAt)
             .HasColumnName("created_at");
 
         // LAST_MODIFIED_AT
-        builder.Property(r => r.LastModifiedAt)
+        builder.Property(permission => permission.LastModifiedAt)
             .HasColumnName("last_modified_at");
 
         // CODE
-        builder.Property(r => r.Code)
+        builder.Property(permission => permission.Code)
             .HasColumnName("code");
     }
 }

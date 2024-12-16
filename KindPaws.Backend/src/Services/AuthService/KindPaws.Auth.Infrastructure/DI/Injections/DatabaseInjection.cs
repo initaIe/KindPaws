@@ -2,7 +2,6 @@
 using KindPaws.Auth.Infrastructure.DbContexts;
 using KindPaws.Auth.Infrastructure.OutBox;
 using KindPaws.Core.Abstractions.Database;
-using KindPaws.SharedKernel.Enums;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Auth.Infrastructure.DI.Injections;
@@ -27,7 +26,7 @@ public static class DatabaseInjection
     {
         return services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
-    
+
     private static IServiceCollection AddOutBox(this IServiceCollection services)
     {
         return services.AddScoped<IOutBoxRepository, OutBoxRepository>();

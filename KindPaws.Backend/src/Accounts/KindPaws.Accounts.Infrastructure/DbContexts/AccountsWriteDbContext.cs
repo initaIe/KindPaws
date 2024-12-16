@@ -1,7 +1,6 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Accounts.Domain.AggregateRoot;
 using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

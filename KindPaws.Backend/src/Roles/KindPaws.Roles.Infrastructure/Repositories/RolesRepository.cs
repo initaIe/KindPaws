@@ -24,8 +24,8 @@ public class RolesRepository : IRepository<Role, UserRoleId>
     {
         var role = await _dbContext.Roles
             .FirstOrDefaultAsync(
-            u => u.Id == permissionId,
-            cancellationToken);
+                u => u.Id == permissionId,
+                cancellationToken);
 
         if (role == null)
             return ErrorsGeneral.RecordNotFound(

@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 public record HealthDetails

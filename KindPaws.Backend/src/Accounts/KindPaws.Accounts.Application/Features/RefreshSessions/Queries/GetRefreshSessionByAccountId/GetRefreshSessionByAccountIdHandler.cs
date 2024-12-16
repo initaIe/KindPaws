@@ -1,6 +1,5 @@
 ﻿using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.DataModels;
-using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.SharedKernel.Others;

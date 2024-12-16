@@ -1,6 +1,4 @@
-using KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
@@ -42,6 +40,7 @@ public sealed class Role : Entity<UserRoleId>
     #endregion
 
     #region CRUD
+
     public void DeletePermission(PermissionId permissionId)
     {
         _permissions.Remove(permissionId);
@@ -59,11 +58,11 @@ public sealed class Role : Entity<UserRoleId>
     {
         _permissions.Add(permissionId);
     }
-    
+
     public void AddPermissions(IEnumerable<PermissionId> permissionIds)
     {
         _permissions.AddRange(permissionIds);
     }
-    
+
     #endregion
 }

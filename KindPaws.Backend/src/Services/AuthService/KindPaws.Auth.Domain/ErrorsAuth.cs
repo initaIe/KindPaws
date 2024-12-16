@@ -1,6 +1,6 @@
 ﻿using KindPaws.SharedKernel.Others.ErrorManagement;
 
-namespace KindPaws.Auth.Domain.Others;
+namespace KindPaws.Auth.Domain;
 
 public static class ErrorsAuth
 {
@@ -33,13 +33,20 @@ public static class ErrorsAuth
     {
         return Error.Failure(
             "registration.was.failure",
-            $"Failed to register account. Please try again later. (error id: {errorId})");
+            $"Failed to register account (error id: {errorId})");
     }
 
     public static Error LoginFailure(Guid errorId)
     {
         return Error.Failure(
             "login.was.failure",
-            $"Failed to login. Please try again later. (error id: {errorId})");
+            $"Failed to login (error id: {errorId})");
+    }
+
+    public static Error RefreshTokensFailure(Guid errorId)
+    {
+        return Error.Failure(
+            "refresh.tokens.was.failure",
+            $"Failed to refresh tokens (error id: {errorId})");
     }
 }

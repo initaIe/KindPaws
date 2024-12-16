@@ -1,5 +1,4 @@
 ﻿using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using KindPaws.Pets.Application.Abstractions;
 using KindPaws.Pets.Application.DataModels;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,4 @@
-﻿using KindPaws.Volunteers.Contracts.Dtos;
-
-namespace KindPaws.Volunteers.Application.DataModels;
+﻿namespace KindPaws.Volunteers.Application.DataModels;
 
 public class VolunteerDataModel
 {

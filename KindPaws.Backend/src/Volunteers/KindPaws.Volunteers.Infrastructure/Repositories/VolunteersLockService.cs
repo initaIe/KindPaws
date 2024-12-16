@@ -26,7 +26,7 @@ public class VolunteersLockService : IVolunteersLockService
                              FOR UPDATE
                  """, cancellationToken);
     }
-    
+
     public async Task SetPetLockForUpdateAsync(
         PetId petId,
         CancellationToken cancellationToken = default)

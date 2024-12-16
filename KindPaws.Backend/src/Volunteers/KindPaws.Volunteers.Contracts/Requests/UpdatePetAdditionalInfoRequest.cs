@@ -1,6 +1,4 @@
-﻿using KindPaws.Volunteers.Contracts.Dtos;
-
-namespace KindPaws.Volunteers.Contracts.Requests;
+﻿namespace KindPaws.Volunteers.Contracts.Requests;
 
 public record UpdatePetAdditionalInfoRequest(
     string? SupportStatus,

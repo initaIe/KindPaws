@@ -23,7 +23,7 @@ public static class DataBaseInjection
             .AddScoped<VolunteersWriteDbContext>()
             .AddScoped<IVolunteersReadDbContext, VolunteersReadDbContext>();
     }
-    
+
     private static IServiceCollection AddLockRepositories(this IServiceCollection services)
     {
         return services.AddScoped<IVolunteersLockService, VolunteersLockService>();

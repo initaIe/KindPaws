@@ -32,18 +32,18 @@ public static class EfCoreFluentApiExtensions
 
         return propertyBuilder;
     }
-    
-    public static PropertyBuilder<IReadOnlyList<TElement>> HasUuidArrayConversion<TElement>(
-        this PropertyBuilder<IReadOnlyList<TElement>> propertyBuilder,
-        Func<TElement, Guid> toGuidSelector,
-        Func<Guid, TElement> fromGuidSelector)
+
+    public static PropertyBuilder<IReadOnlyList<TIdValueObject>> HasUuidArrayConversion<TIdValueObject>(
+        this PropertyBuilder<IReadOnlyList<TIdValueObject>> propertyBuilder,
+        Func<TIdValueObject, Guid> toGuidSelector,
+        Func<Guid, TIdValueObject> fromGuidSelector)
     {
-        var converter = new ValueConverter<IReadOnlyList<TElement>, Guid[]>(
+        var converter = new ValueConverter<IReadOnlyList<TIdValueObject>, Guid[]>(
             v => v.Select(toGuidSelector).ToArray(),
             v => v.Select(fromGuidSelector).ToList()
         );
 
-        var comparer = new ValueComparer<IReadOnlyList<TElement>>(
+        var comparer = new ValueComparer<IReadOnlyList<TIdValueObject>>(
             (l, r) => l!.SequenceEqual(r!),
             v => v.Aggregate(0, (hash, element) => hash ^ toGuidSelector(element).GetHashCode()),
             v => v.Select(toGuidSelector).Select(fromGuidSelector).ToList()
@@ -55,5 +55,4 @@ public static class EfCoreFluentApiExtensions
 
         return propertyBuilder;
     }
-
 }

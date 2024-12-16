@@ -8,7 +8,7 @@ public class ErrorList : IEnumerable<Error>
 
     public ErrorList(IEnumerable<Error> errors)
     {
-        _errors = [..errors];
+        _errors = errors.ToList();
     }
 
     public void Add(Error error)

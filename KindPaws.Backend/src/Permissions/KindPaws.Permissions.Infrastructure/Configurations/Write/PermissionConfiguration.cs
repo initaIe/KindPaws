@@ -1,5 +1,4 @@
 ﻿using KindPaws.Permissions.Domain.AggregateRoot;
-using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;

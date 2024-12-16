@@ -1,5 +1,4 @@
 ﻿using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using KindPaws.Pets.Domain.SpeciesManagement.AggregateRoot;
 using KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 using Microsoft.EntityFrameworkCore;

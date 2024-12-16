@@ -1,6 +1,4 @@
-﻿using KindPaws.Auth.Contracts.Dtos;
-
-namespace KindPaws.Auth.Application.DataModels;
+﻿namespace KindPaws.Auth.Application.DataModels;
 
 public class AccountDataModel
 {
@@ -20,5 +18,5 @@ public class AccountDataModel
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string PasswordHash { get; init; } = null!;
     public IReadOnlyList<Guid> Roles { get; init; } = [];
-    public IReadOnlyList<RefreshSessionDto> RefreshSessions { get; init; } = [];
+    public IReadOnlyList<RefreshSessionDataModel> RefreshSessions { get; init; } = [];
 }

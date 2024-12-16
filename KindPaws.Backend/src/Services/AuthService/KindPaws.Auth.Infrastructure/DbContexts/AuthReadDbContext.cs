@@ -2,7 +2,6 @@
 using KindPaws.Auth.Application.DataModels;
 using KindPaws.Auth.Infrastructure.Options;
 using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

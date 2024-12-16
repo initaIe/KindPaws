@@ -26,7 +26,7 @@ public class SpeciesLockService : ISpeciesLockService
                              FOR UPDATE
                  """, cancellationToken);
     }
-    
+
     public async Task SetBreedLockForUpdateAsync(
         BreedId breedId,
         CancellationToken cancellationToken = default)

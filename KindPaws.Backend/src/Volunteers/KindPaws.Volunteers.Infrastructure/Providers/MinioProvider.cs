@@ -50,8 +50,7 @@ public class MinioProvider : IFileProvider
             return new ErrorList(pathsResult.Select(p => p.Error));
 
         var results = pathsResult
-            .Select(p => p.Value)
-            .Select(s => FilePath.Create(s).Value).ToList();
+            .Select(p => FilePath.Create(p.Value).Value).ToList();
 
         _logger.LogInformation("MINIO success uploaded files; File names: {fileNames}",
             results.Select(f => f.Value));
@@ -106,7 +105,6 @@ public class MinioProvider : IFileProvider
         if (!isBucketExistsResult.Value)
             return MinioErrors.BucketNotFound(getFileData.BucketName);
 
-
         var isObjectExistResult = await ObjectExistsAsync(
             getFileData.BucketName,
             getFileData.FileName,
@@ -114,7 +112,6 @@ public class MinioProvider : IFileProvider
 
         if (isObjectExistResult.IsFailure)
             return MinioErrors.ObjectNotFound(getFileData.FileName, getFileData.BucketName);
-
 
         var getObjectLinkResult = await GetObjectLink(
             getFileData.BucketName,

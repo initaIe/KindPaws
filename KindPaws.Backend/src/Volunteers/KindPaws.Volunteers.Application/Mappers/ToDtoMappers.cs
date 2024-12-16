@@ -1,5 +1,4 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.Volunteers.Contracts.Dtos;
+﻿using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Volunteers.Application.Mappers;

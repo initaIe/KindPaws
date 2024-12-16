@@ -17,15 +17,15 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.ToTable("accounts");
 
         // ID
-        builder.HasKey(a => a.Id);
-        builder.Property(a => a.Id)
+        builder.HasKey(account => account.Id);
+        builder.Property(account => account.Id)
             .HasConversion(
                 id => id.Value,
                 value => AccountId.Create(value).Value)
             .HasColumnName("id");
 
         // CREATED_AT
-        builder.Property(a => a.CreatedAt)
+        builder.Property(account => account.CreatedAt)
             .HasConversion(
                 createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
@@ -33,7 +33,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired();
 
         // LAST_MODIFIED_AT
-        builder.Property(a => a.LastModifiedAt)
+        builder.Property(account => account.LastModifiedAt)
             .HasConversion(
                 lastModifiedAt => lastModifiedAt!.Value,
                 value => LastModifiedAt.Create(value).Value)
@@ -41,7 +41,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired(false);
 
         // USER_NAME
-        builder.Property(a => a.UserName)
+        builder.Property(account => account.UserName)
             .HasConversion(
                 userName => userName!.Value,
                 value => UserName.Create(value).Value)
@@ -51,27 +51,27 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasIndex(a => a.UserName).IsUnique();
 
         // EMAIL_ADDRESS
-        builder.Property(a => a.EmailAddress)
+        builder.Property(account => account.EmailAddress)
             .HasConversion(
                 emailAddress => emailAddress!.Value,
                 value => EmailAddress.Create(value).Value)
             .HasMaxLength(EmailAddressConstraints.MaxLength)
             .HasColumnName("email_address")
             .IsRequired();
-        builder.HasIndex(a => a.EmailAddress).IsUnique();
+        builder.HasIndex(account => account.EmailAddress).IsUnique();
 
         // PHONE_NUMBER
-        builder.Property(a => a.PhoneNumber)
+        builder.Property(account => account.PhoneNumber)
             .HasConversion(
                 phoneNumber => phoneNumber!.Value,
                 value => PhoneNumber.Create(value).Value)
             .HasMaxLength(PhoneNumberConstraints.MaxLength)
             .HasColumnName("phone_number")
             .IsRequired(false);
-        builder.HasIndex(a => a.PhoneNumber).IsUnique();
+        builder.HasIndex(account => account.PhoneNumber).IsUnique();
 
         // PASSWORD_HASH
-        builder.Property(a => a.PasswordHash)
+        builder.Property(account => account.PasswordHash)
             .HasConversion(
                 passwordHash => passwordHash!.Value,
                 value => PasswordHash.Create(value).Value)
@@ -80,20 +80,21 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired();
 
         // ROLES
-        builder.Property(a => a.Roles)
-            .HasUuidArrayConversion<AccountRoleId>(
+        builder.Property(account => account.Roles)
+            .HasUuidArrayConversion(
                 id => id.Value,
                 guid => AccountRoleId.Create(guid).Value)
             .HasColumnName("roles")
             .IsRequired();
 
         // REFRESH_SESSIONS
-        builder.Property(a => a.RefreshSessions)
-            .HasJsonConversion()
-            .HasColumnName("refresh_sessions")
+        builder.HasMany(account => account.RefreshSessions)
+            .WithOne()
+            .HasForeignKey("account_id")
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
         // IGNORE
-        builder.Ignore(a => a.DomainEvents);
+        builder.Ignore(account => account.DomainEvents);
     }
 }

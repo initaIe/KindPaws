@@ -1,5 +1,4 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Species.Domain.Entities;
+﻿using KindPaws.Species.Domain.Entities;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Application.Helpers;

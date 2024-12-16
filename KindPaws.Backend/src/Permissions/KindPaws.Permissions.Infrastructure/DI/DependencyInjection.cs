@@ -1,5 +1,4 @@
 ﻿using KindPaws.Permissions.Infrastructure.DI.Injections;
-using KindPaws.Permissions.Infrastructure.DI.Injections.Seeding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

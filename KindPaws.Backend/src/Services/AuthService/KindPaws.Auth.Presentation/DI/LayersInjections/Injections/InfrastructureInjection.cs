@@ -15,7 +15,7 @@ public static class InfrastructureInjection
             .AddClasses(classes => classes.AssignableTo(typeof(IRepository<,>)))
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
-        
+
         services.AddInfrastructureLayer(configuration);
 
         return services;

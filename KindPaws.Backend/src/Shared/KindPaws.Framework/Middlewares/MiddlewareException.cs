@@ -25,11 +25,11 @@ public class MiddlewareException
         {
             await _next(context);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            _logger.LogError(e, e.Message);
+            _logger.LogError("Exception: {ex}", ex.Message);
 
-            var error = Error.Failure("server.internal", e.Message);
+            var error = Error.Failure("server.internal", ex.Message);
 
             var envelope = Envelope.Error(error);
 

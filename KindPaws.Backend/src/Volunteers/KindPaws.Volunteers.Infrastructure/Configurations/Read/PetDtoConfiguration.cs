@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Application.Mappers;
-using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -84,11 +83,11 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDataModel>
         // SOFT_DELETED_AT
         builder.Property(p => p.SoftDeletedAt)
             .HasColumnName("soft_deleted_at");
-        
+
         // VOLUNTEER_ID
         builder.Property(p => p.VolunteerId)
             .HasColumnName("volunteer_id");
-        
+
         // QUERY FILTER IS SOT DELETED
         builder.HasQueryFilter(p => !p.IsSoftDeleted);
     }

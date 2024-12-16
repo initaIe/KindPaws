@@ -15,15 +15,15 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.ToTable("roles");
 
         // ID
-        builder.HasKey(r => r.Id);
-        builder.Property(r => r.Id)
+        builder.HasKey(role => role.Id);
+        builder.Property(role => role.Id)
             .HasConversion(
                 id => id.Value,
                 value => AccountRoleId.Create(value).Value)
             .HasColumnName("id");
 
         // CREATED_AT
-        builder.Property(r => r.CreatedAt)
+        builder.Property(role => role.CreatedAt)
             .HasConversion(
                 createdAt => createdAt.Value,
                 value => CreatedAt.Create(value).Value)
@@ -31,7 +31,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired();
 
         // LAST_MODIFIED_AT
-        builder.Property(r => r.LastModifiedAt)
+        builder.Property(role => role.LastModifiedAt)
             .HasConversion(
                 lastModifiedAt => lastModifiedAt!.Value,
                 value => LastModifiedAt.Create(value).Value)
@@ -39,7 +39,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired(false);
 
         // NAME
-        builder.Property(r => r.Name)
+        builder.Property(role => role.Name)
             .HasConversion(
                 lastModifiedAt => lastModifiedAt!.Value,
                 value => RoleName.Create(value).Value)
@@ -47,14 +47,14 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired();
 
         // PERMISSIONS
-        builder.Property(r => r.Permissions)
-            .HasUuidArrayConversion<PermissionId>(
+        builder.Property(role => role.Permissions)
+            .HasUuidArrayConversion(
                 id => id.Value,
                 guid => PermissionId.Create(guid).Value)
             .HasColumnName("permissions")
             .IsRequired();
 
         // IGNORE
-        builder.Ignore(r => r.DomainEvents);
+        builder.Ignore(role => role.DomainEvents);
     }
 }

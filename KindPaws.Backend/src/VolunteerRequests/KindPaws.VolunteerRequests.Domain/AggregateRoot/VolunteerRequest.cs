@@ -32,7 +32,7 @@ public class VolunteerRequest : Entity<VolunteerRequestId>
     public DiscussionId? DiscussionId { get; private set; }
     public VolunteerInfo VolunteerInfo { get; private set; }
     public RejectionComment? RejectionComment { get; private set; }
-    public VolunteerRequestStatus Status { get; private set; } 
+    public VolunteerRequestStatus Status { get; private set; }
     public CreatedAt CreatedAt { get; private set; }
 
     #region Factory methods

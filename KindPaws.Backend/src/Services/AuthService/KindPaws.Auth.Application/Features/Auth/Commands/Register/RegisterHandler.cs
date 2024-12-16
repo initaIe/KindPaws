@@ -3,7 +3,6 @@ using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Factories;
 using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
-using KindPaws.Auth.Domain.Others;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
@@ -32,7 +31,7 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         IRepository<Account, AccountId> accountRepository,
         IUnitOfWork unitOfWork,
         IPasswordHashProvider passwordHashProvider,
-        ILogger<RegisterHandler> logger, 
+        ILogger<RegisterHandler> logger,
         IPublisher publisher)
     {
         _commandValidator = commandValidator;
@@ -66,7 +65,7 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
             var passwordHash = _passwordHashProvider.GenerateHash(command.Password);
 
             var account = AccountFactory.ForceCreateNew(command.UserName, command.EmailAddress, passwordHash);
-            
+
             await _accountRepository.AddAsync(account, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -79,23 +78,24 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         catch (Exception exception)
         {
             await transaction.RollbackAsync(cancellationToken);
-
             var errorId = Guid.NewGuid();
-
             ErrorLog(errorId, exception);
-
             return ErrorsAuth.RegistrationFailure(errorId).ToErrorList();
         }
     }
 
     private void SuccessLog(Guid accountId)
     {
-        _logger.LogInformation("Account with id {accountId} was registered.", accountId);
+        _logger.LogInformation(
+            "Account with id {accountId} was registered.", 
+            accountId);
     }
 
     private void ErrorLog(Guid errorId, Exception exception)
     {
-        _logger.LogError("ErrorId: {errorId} | Failed to register account | Exception: {exception}", errorId,
+        _logger.LogError(
+            "ErrorId: {errorId} | Failed to register account | Exception: {exception}", 
+            errorId,
             exception);
     }
 }

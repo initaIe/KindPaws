@@ -1,5 +1,4 @@
 ﻿using KindPaws.Accounts.Application.DataModels;
-using KindPaws.Accounts.Contracts.Dtos;
 
 namespace KindPaws.Accounts.Application.Abstractions;
 

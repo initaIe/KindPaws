@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="AccountsManagement\Entities\" />
       <Folder Include="PermissionsManagement\Entities\" />
       <Folder Include="PermissionsManagement\Events\" />
       <Folder Include="RolesManagement\Entities\" />

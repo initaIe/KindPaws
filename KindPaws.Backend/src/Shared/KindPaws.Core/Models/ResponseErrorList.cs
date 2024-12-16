@@ -9,7 +9,7 @@ public class ResponseErrorList : IEnumerable<ResponseError>
 
     private ResponseErrorList(IEnumerable<ResponseError> responseErrors)
     {
-        _responseErrors = [..responseErrors];
+        _responseErrors = responseErrors.ToList();
     }
 
     public static ResponseErrorList FromErrorList(ErrorList? errorList)

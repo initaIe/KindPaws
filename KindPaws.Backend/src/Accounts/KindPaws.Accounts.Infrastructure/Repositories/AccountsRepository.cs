@@ -22,10 +22,10 @@ public class AccountsRepository : IRepository<Account, AccountId>
         CancellationToken cancellationToken = default)
     {
         var account = await _dbContext.Accounts
-            .Include(a=>a.RefreshSessions)
+            .Include(a => a.RefreshSessions)
             .FirstOrDefaultAsync(
-            u => u.Id == accountId,
-            cancellationToken);
+                u => u.Id == accountId,
+                cancellationToken);
 
         if (account == null)
             return ErrorsGeneral.RecordNotFound(

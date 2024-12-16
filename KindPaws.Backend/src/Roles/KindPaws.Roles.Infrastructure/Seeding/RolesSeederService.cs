@@ -122,7 +122,7 @@ public class RolesSeederService
 
             if (permissionIdResults.Any(p => p.IsFailure))
                 throw new ApplicationException($"RolePermissions seeding was failure.");
-            
+
             var rolesPermissions = permissionIdResults
                 .Select(p => PermissionId.Create(p.Value).Value);
 

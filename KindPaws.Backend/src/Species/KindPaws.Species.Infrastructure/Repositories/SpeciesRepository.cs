@@ -34,7 +34,7 @@ public class SpeciesRepository : IRepository<Specie, SpecieId>
         CancellationToken cancellationToken = default)
     {
         var specie = await _dbContext.Species
-            .Include(s=>s.Breeds)
+            .Include(s => s.Breeds)
             .FirstOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
 
         if (specie == null)

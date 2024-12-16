@@ -1,4 +1,5 @@
-﻿using KindPaws.Auth.Domain.AccountsManagement.Events;
+﻿using KindPaws.Auth.Domain.AccountsManagement.Entities;
+using KindPaws.Auth.Domain.AccountsManagement.Events;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.SharedKernel.Others;
@@ -185,7 +186,7 @@ public class Account : AggregateRoot<AccountId>
         var isRefreshSessionAlreadyExist = HasRefreshSession(refreshSession);
 
         if (isRefreshSessionAlreadyExist)
-            return ErrorsGeneral.RecordAlreadyExist(nameof(Role), nameof(AccountRoleId));
+            return ErrorsGeneral.RecordAlreadyExist(nameof(RefreshSession));
 
         _refreshSessions.Add(refreshSession);
         UpdateLastModifiedAt();

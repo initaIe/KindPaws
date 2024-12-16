@@ -1,5 +1,4 @@
-﻿using KindPaws.Accounts.Contracts.Dtos;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
+﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Accounts.Application.Mappers;
 

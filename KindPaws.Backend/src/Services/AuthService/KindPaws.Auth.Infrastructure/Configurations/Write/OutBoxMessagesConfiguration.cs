@@ -1,5 +1,4 @@
 ﻿using KindPaws.Auth.Infrastructure.OutBox;
-using KindPaws.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,44 +10,44 @@ public class OutBoxMessagesConfiguration : IEntityTypeConfiguration<OutBoxMessag
     {
         // TABLE NAMING
         builder.ToTable("outbox_messages");
-        
+
         // ID
-        builder.HasKey(d => d.Id);
-        builder.Property(d => d.Id)
+        builder.HasKey(outBoxMessage => outBoxMessage.Id);
+        builder.Property(outBoxMessage => outBoxMessage.Id)
             .HasColumnName("id");
-        
+
         // TYPE
-        builder.Property(d => d.Type)
+        builder.Property(outBoxMessage => outBoxMessage.Type)
             .HasMaxLength(256)
             .HasColumnName("type")
             .IsRequired();
-        
+
         // PAYLOAD
-        builder.Property(d => d.Payload)
+        builder.Property(outBoxMessage => outBoxMessage.Payload)
             .HasColumnType("jsonb")
             .HasColumnName("payload")
             .IsRequired();
-        
+
         // OCCURED_AT
-        builder.Property(d => d.OccuredAt)
+        builder.Property(outBoxMessage => outBoxMessage.OccuredAt)
             .HasColumnName("occured_at")
             .IsRequired();
-        
+
         // PROCESSED_AT
-        builder.Property(d => d.ProcessedAt)
+        builder.Property(outBoxMessage => outBoxMessage.ProcessedAt)
             .HasColumnName("processed_at")
             .IsRequired(false);
-        
+
         // ERROR
-        builder.Property(d => d.Error)
+        builder.Property(outBoxMessage => outBoxMessage.Error)
             .HasColumnName("error")
             .IsRequired(false);
-        
+
         // INDEX
-        builder.HasIndex(o => new
+        builder.HasIndex(outBoxMessage => new
             {
-                o.OccuredAt,
-                o.ProcessedAt,
+                outBoxMessage.OccuredAt,
+                outBoxMessage.ProcessedAt,
             })
             .HasDatabaseName("idx_outbox_messages_unprocessed")
             .HasFilter("processed_at IS NULL");

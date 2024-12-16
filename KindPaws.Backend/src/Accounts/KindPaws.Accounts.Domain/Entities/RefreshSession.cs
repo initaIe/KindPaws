@@ -1,5 +1,4 @@
 ﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Accounts.Domain.Entities;
 

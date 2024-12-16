@@ -1,9 +1,7 @@
 ﻿using EntityFramework.Exceptions.PostgreSQL;
 using KindPaws.Accounts.Application.Abstractions;
 using KindPaws.Accounts.Application.DataModels;
-using KindPaws.Accounts.Contracts.Dtos;
 using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

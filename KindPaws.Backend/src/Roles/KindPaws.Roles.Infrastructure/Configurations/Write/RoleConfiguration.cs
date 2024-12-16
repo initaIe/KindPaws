@@ -1,6 +1,5 @@
 ﻿using KindPaws.Core.Extensions;
 using KindPaws.Roles.Domain.AggregateRoot;
-using KindPaws.Roles.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +40,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired();
 
         // ROLE_PERMISSIONS
-        builder.Property(r=>r.Permissions)
+        builder.Property(r => r.Permissions)
             .HasJsonConversion()
             .HasColumnType("jsonb")
             .HasColumnName("permissions")

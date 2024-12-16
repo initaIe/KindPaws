@@ -47,7 +47,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 y => YearsOfExperience.Create(y).Value)
             .HasColumnName("years_of_experience")
             .IsRequired(false);
-        
+
         // CREATED_AT
         builder.Property(v => v.CreatedAt)
             .HasConversion(

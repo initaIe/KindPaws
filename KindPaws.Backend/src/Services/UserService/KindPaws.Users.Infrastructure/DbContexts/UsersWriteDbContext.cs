@@ -1,5 +1,4 @@
 ﻿using KindPaws.Core.Factories;
-using KindPaws.Core.Options;
 using KindPaws.Users.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Users.Domain.UsersManagement.AggregateRoot;
 using KindPaws.Users.Domain.VolunteerRequestManagement.AggregateRoot;

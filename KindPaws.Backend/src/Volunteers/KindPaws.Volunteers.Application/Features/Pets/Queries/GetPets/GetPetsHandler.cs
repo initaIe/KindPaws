@@ -4,7 +4,6 @@ using KindPaws.Core.Extensions;
 using KindPaws.Core.Models;
 using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Application.DataModels;
-using KindPaws.Volunteers.Contracts.Dtos;
 
 namespace KindPaws.Volunteers.Application.Features.Pets.Queries.GetPets;
 

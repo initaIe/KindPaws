@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Application.DataModels;
-using KindPaws.Volunteers.Application.Mappers;
 using KindPaws.Volunteers.Contracts.Dtos;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,7 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDataM
 {
     public void Configure(EntityTypeBuilder<VolunteerDataModel> builder)
     {
-         // TABLE_NAMING
+        // TABLE_NAMING
         builder.ToTable("volunteers");
 
         // ID
@@ -30,11 +29,11 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDataM
             .HasConversion(
                 address => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<Address>(json, JsonSerializerOptions.Default)!.ToDto());
-        
+
         // YEARS OF EXPERIENCE
         builder.Property(v => v.YearsOfExperience)
             .HasColumnName("years_of_experience");
-        
+
         // CREATED_AT
         builder.Property(v => v.CreatedAt)
             .HasColumnName("created_at");
@@ -44,8 +43,9 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDataM
             .HasColumnName("requisites")
             .HasConversion(
                 requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!
-                    .ToDtoCollection().ToArray());
+                json => Enumerable.ToArray<PetPhotoDto>(
+                    JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!
+                        .ToDtoCollection()));
 
         // PETS
         builder.HasMany(v => v.Pets)

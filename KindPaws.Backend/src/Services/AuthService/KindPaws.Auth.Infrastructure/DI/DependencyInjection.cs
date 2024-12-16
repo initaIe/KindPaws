@@ -13,7 +13,7 @@ public static class DependencyInjection
         services.AddCustomOptions(configuration);
         services.AddProviders();
         services.AddDataBase();
-        
+
         return services;
     }
 }

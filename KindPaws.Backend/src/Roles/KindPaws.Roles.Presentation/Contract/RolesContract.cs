@@ -1,6 +1,5 @@
 ﻿using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Roles.Application.Abstractions;
-using KindPaws.Roles.Application.DataModels;
 using KindPaws.Roles.Application.Features.Roles.Commands.CreateRole;
 using KindPaws.Roles.Application.Features.Roles.Commands.DeleteRole;
 using KindPaws.Roles.Application.Features.Roles.Queries.GetIdByName;
@@ -68,8 +67,8 @@ public class RolesContract : IRolesContract
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.Roles
-            .Where(r=>roleIds.Contains(r.Id))
-            .SelectMany(r=>r.Permissions)
+            .Where(r => roleIds.Contains(r.Id))
+            .SelectMany(r => r.Permissions)
             .ToListAsync(cancellationToken);
     }
 }

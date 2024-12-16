@@ -4,7 +4,7 @@ namespace KindPaws.Volunteers.Application.Abstractions;
 
 public interface IVolunteersLockService
 {
-     Task SetVolunteerLockForUpdateAsync(
+    Task SetVolunteerLockForUpdateAsync(
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default);
 }

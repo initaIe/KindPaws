@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using KindPaws.Auth.Application.DataModels;
-using KindPaws.Auth.Application.Mappers;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
+﻿using KindPaws.Auth.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,23 +12,23 @@ public class RoleDataModelConfiguration : IEntityTypeConfiguration<RoleDataModel
         builder.ToTable("roles");
 
         // ID
-        builder.Property(r => r.Id)
+        builder.Property(role => role.Id)
             .HasColumnName("id");
 
         // CREATED_AT
-        builder.Property(r => r.CreatedAt)
+        builder.Property(role => role.CreatedAt)
             .HasColumnName("created_at");
 
         // LAST_MODIFIED_AT
-        builder.Property(r => r.LastModifiedAt)
+        builder.Property(role => role.LastModifiedAt)
             .HasColumnName("last_modified_at");
 
         // NAME
-        builder.Property(r => r.Name)
+        builder.Property(role => role.Name)
             .HasColumnName("name");
 
         // PERMISSIONS
-        builder.Property(r => r.Permissions)
+        builder.Property(role => role.Permissions)
             .HasColumnName("permissions");
     }
 }

@@ -4,8 +4,8 @@ using KindPaws.Auth.Application.Features.Auth.Commands.Register;
 using KindPaws.Auth.Contracts.Responses;
 using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
+using KindPaws.Auth.Domain.AccountsManagement.Entities;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
-using KindPaws.Auth.Domain.Others;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
@@ -99,22 +99,23 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         catch (Exception exception)
         {
             await transaction.RollbackAsync(cancellationToken);
-
             var errorId = Guid.NewGuid();
-
             ErrorLog(errorId, exception);
-
             return ErrorsAuth.LoginFailure(errorId).ToErrorList();
         }
     }
 
     private void SuccessLog(Guid accountId)
     {
-        _logger.LogInformation("Account with id {accountId} was logged in.", accountId);
+        _logger.LogInformation(
+            "Account with id {accountId} was logged in.",
+            accountId);
     }
 
     private void ErrorLog(Guid errorId, Exception exception)
     {
-        _logger.LogError("ErrorId: {errorId} | Failed to login | Exception: {exception}", errorId, exception);
+        _logger.LogError(
+            "ErrorId: {errorId} | Failed to login | Exception: {exception}",
+            errorId, exception);
     }
 }

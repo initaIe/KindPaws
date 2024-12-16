@@ -1,5 +1,4 @@
-﻿using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using KindPaws.Species.Domain.AggregateRoot;
+﻿using KindPaws.Species.Domain.AggregateRoot;
 using KindPaws.Species.Domain.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Species.Application.Helpers;

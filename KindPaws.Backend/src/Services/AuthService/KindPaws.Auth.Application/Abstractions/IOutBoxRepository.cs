@@ -1,5 +1,4 @@
-﻿using KindPaws.Core.Abstractions;
-using KindPaws.SharedKernel.Others;
+﻿using KindPaws.SharedKernel.Others;
 
 namespace KindPaws.Auth.Application.Abstractions;
 

@@ -1,5 +1,4 @@
-﻿using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
-using KindPaws.SharedKernel.Others;
+﻿using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
@@ -13,8 +12,8 @@ public class Permission : Entity<PermissionId>
     }
 
     public Permission(
-        PermissionId id, 
-        PermissionCode code, 
+        PermissionId id,
+        PermissionCode code,
         CreatedAt createdAt)
     {
         Id = id;
@@ -32,7 +31,7 @@ public class Permission : Entity<PermissionId>
     {
         var id = PermissionId.CreateRandom();
         var createdAt = CreatedAt.CreateNew();
-        
+
         return new Permission(id, code, createdAt);
     }
 

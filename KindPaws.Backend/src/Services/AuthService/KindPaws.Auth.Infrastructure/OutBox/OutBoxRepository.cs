@@ -1,9 +1,7 @@
 ﻿using System.Text.Json;
 using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Infrastructure.DbContexts;
-using KindPaws.Core.Abstractions;
 using KindPaws.SharedKernel.Others;
-using MediatR;
 
 namespace KindPaws.Auth.Infrastructure.OutBox;
 

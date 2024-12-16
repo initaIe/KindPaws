@@ -1,7 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Application.Abstractions;
 using KindPaws.Permissions.Domain.AggregateRoot;
-using KindPaws.Permissions.Domain.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.EntityFrameworkCore;
