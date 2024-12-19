@@ -81,12 +81,12 @@ public class AccountsSeederService
         CancellationToken cancellationToken = default)
     {
         var existingAccountUserNames = await _accountsWriteDbContext.Accounts
-            .Select(a => new { a.UserName, a.EmailAddress })
+            .Select(a => new { UserName = a.Username, a.EmailAddress })
             .ToListAsync(cancellationToken);
 
         var newAccounts = accounts
-            .Where(a => !existingAccountUserNames.Contains(new { a.UserName, a.EmailAddress }))
-            .DistinctBy(a => new { a.UserName, a.EmailAddress })
+            .Where(a => !existingAccountUserNames.Contains(new { UserName = a.Username, a.EmailAddress }))
+            .DistinctBy(a => new { UserName = a.Username, a.EmailAddress })
             .ToList();
 
         if (newAccounts.Count != 0)
@@ -117,7 +117,7 @@ public class AccountsSeederService
         foreach (var accountRoles in accountUserNameRoles)
         {
             var account = addedAccounts.FirstOrDefault(
-                a => a.UserName.Value == accountRoles.Key);
+                a => a.Username.Value == accountRoles.Key);
 
             if (account == null)
                 throw new ApplicationException($"Seed account {accountRoles.Key} does not exist.");

@@ -41,7 +41,7 @@ public class CreateAccountHandler : ICommandHandler<Guid, CreateAccountCommand>
             cancellationToken);
 
         if (isUserNameAlreadyTaken)
-            return ErrorsGeneral.RecordAlreadyExist(nameof(Account), nameof(UserName)).ToErrorList();
+            return ErrorsGeneral.RecordAlreadyExist(nameof(Account), nameof(Username)).ToErrorList();
 
         var isEmailAddressAlreadyTaken = await _dbContext.Accounts.AnyAsync(
             a => a.EmailAddress == command.EmailAddress,

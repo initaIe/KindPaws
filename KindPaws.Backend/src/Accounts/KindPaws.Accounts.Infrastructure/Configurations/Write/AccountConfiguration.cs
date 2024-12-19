@@ -24,10 +24,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasColumnName("id");
 
         // USER_NAME
-        builder.Property(a => a.UserName)
+        builder.Property(a => a.Username)
             .HasConversion(
                 userName => userName.Value,
-                value => UserName.Create(value).Value)
+                value => Username.Create(value).Value)
             .HasColumnName("user_name")
             .HasColumnType("citext")
             .IsRequired();

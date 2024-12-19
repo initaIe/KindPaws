@@ -20,6 +20,7 @@
       <Folder Include="Features\Permissions\EventHandlers\" />
       <Folder Include="Features\Permissions\Queries\" />
       <Folder Include="Features\Roles\Commands\" />
+      <Folder Include="Features\Roles\EventHandlers\" />
       <Folder Include="Features\Roles\Queries\" />
     </ItemGroup>
 

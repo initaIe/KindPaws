@@ -3,36 +3,39 @@ using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Factories;
 using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
+using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Auth.Application.Features.Auth.Commands.Register;
 
-public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
+public class RegisterCommandHandler : ICommandHandler<Guid, RegisterCommand>
 {
+    private readonly IAuthModuleOptionsProvider _authModuleOptionsProvider;
     private readonly IValidator<RegisterCommand> _commandValidator;
     private readonly IRepository<Account, AccountId> _accountRepository;
     private readonly IAuthReadDbContext _readDbContext;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHashProvider _passwordHashProvider;
-    private readonly IPublisher _publisher;
-    private readonly ILogger<RegisterHandler> _logger;
+    private readonly IAuthReadDbContext _authReadDbContext;
+    private readonly ILogger<RegisterCommandHandler> _logger;
 
-    public RegisterHandler(
+    public RegisterCommandHandler(
         IValidator<RegisterCommand> commandValidator,
         IAuthReadDbContext readDbContext,
         IRepository<Account, AccountId> accountRepository,
         IUnitOfWork unitOfWork,
         IPasswordHashProvider passwordHashProvider,
-        ILogger<RegisterHandler> logger,
-        IPublisher publisher)
+        ILogger<RegisterCommandHandler> logger,
+        IAuthModuleOptionsProvider authModuleOptionsProvider,
+        IAuthReadDbContext authReadDbContext)
     {
         _commandValidator = commandValidator;
         _readDbContext = readDbContext;
@@ -40,7 +43,8 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         _unitOfWork = unitOfWork;
         _passwordHashProvider = passwordHashProvider;
         _logger = logger;
-        _publisher = publisher;
+        _authModuleOptionsProvider = authModuleOptionsProvider;
+        _authReadDbContext = authReadDbContext;
     }
 
     public async Task<Result<Guid, ErrorList>> HandleAsync(
@@ -51,12 +55,10 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
+        await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
         try
         {
-            var users = await _readDbContext.Accounts.ToListAsync(cancellationToken);
-            
             var isUsernameOrEmailAddressAlreadyTaken = await _readDbContext.Accounts.AnyAsync(
                 a => a.UserName == command.UserName || a.EmailAddress == command.EmailAddress,
                 cancellationToken);
@@ -66,14 +68,32 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
 
             var passwordHash = _passwordHashProvider.GenerateHash(command.Password);
 
-            var account = AccountFactory.ForceCreateNew(command.UserName, command.EmailAddress, passwordHash);
+            var defaultRoleName = _authModuleOptionsProvider.GetDefaultRoleName();
+            
+            var defaultRoleId = await _authReadDbContext.Roles
+                .Where(r => r.Name == defaultRoleName)
+                .Select(r => r.Id)
+                .FirstOrDefaultAsync(cancellationToken);
+            
+            if (GuidValidator.IsEmpty(defaultRoleId))
+            {
+                var ex = new ApplicationException("Default role by name not found.");
+                LogCritical(Guid.NewGuid(), ex);
+            }
+            
+            var defaultRole = AccountRoleId.Create(defaultRoleId).Value;
+
+            var account = AccountFactory.ForceCreateNew(
+                command.UserName, 
+                command.EmailAddress,
+                passwordHash, 
+                defaultRole);
 
             await _accountRepository.AddAsync(account, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             await transaction.CommitAsync(cancellationToken);
 
-            SuccessLog(account.Id.Value);
+            LogSuccess(account.Id.Value);
 
             return account.Id.Value;
         }
@@ -81,22 +101,33 @@ public class RegisterHandler : ICommandHandler<Guid, RegisterCommand>
         {
             await transaction.RollbackAsync(cancellationToken);
             var errorId = Guid.NewGuid();
-            ErrorLog(errorId, exception);
+            LogError(errorId, exception);
             return ErrorsAuth.RegistrationFailure(errorId).ToErrorList();
         }
     }
 
-    private void SuccessLog(Guid accountId)
+    private void LogSuccess(Guid accountId)
     {
         _logger.LogInformation(
-            "Account with id {accountId} was registered.", 
+            "[{name}] Account with id {accountId} was registered.",
+            nameof(RegisterCommandHandler),
             accountId);
     }
 
-    private void ErrorLog(Guid errorId, Exception exception)
+    private void LogError(Guid errorId, Exception exception)
     {
         _logger.LogError(
-            "ErrorId: {errorId} | Failed to register account | Exception: {exception}", 
+            "[{name}] ErrorId: {errorId} | Failed to register account | Exception: {exception}",
+            nameof(RegisterCommandHandler),
+            errorId,
+            exception);
+    }
+    
+    private void LogCritical(Guid errorId, Exception exception)
+    {
+        _logger.LogError(
+            "[{name}] ErrorId: {errorId} | Failed to add default role at registration | Exception: {exception}",
+            nameof(RegisterCommandHandler),
             errorId,
             exception);
     }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Auth.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthWriteDbContext))]
-    [Migration("20241216123535_Auth_20241216_173509")]
-    partial class Auth_20241216_173509
+    [Migration("20241218192221_Auth_20241219_002132")]
+    partial class Auth_20241219_002132
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace KindPaws.Auth.Infrastructure.Migrations
                         .HasColumnType("uuid[]")
                         .HasColumnName("roles");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
@@ -78,7 +78,7 @@ namespace KindPaws.Auth.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_accounts_phone_number");
 
-                    b.HasIndex("UserName")
+                    b.HasIndex("Username")
                         .IsUnique()
                         .HasDatabaseName("ix_accounts_user_name");
 

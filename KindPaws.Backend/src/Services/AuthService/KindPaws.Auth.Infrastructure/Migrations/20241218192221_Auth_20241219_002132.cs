@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Auth.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Auth_20241216_173509 : Migration
+    public partial class Auth_20241219_002132 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

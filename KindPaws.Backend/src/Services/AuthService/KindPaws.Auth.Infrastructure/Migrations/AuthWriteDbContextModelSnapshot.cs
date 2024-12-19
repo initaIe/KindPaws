@@ -58,7 +58,7 @@ namespace KindPaws.Auth.Infrastructure.Migrations
                         .HasColumnType("uuid[]")
                         .HasColumnName("roles");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
@@ -75,7 +75,7 @@ namespace KindPaws.Auth.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_accounts_phone_number");
 
-                    b.HasIndex("UserName")
+                    b.HasIndex("Username")
                         .IsUnique()
                         .HasDatabaseName("ix_accounts_user_name");
 

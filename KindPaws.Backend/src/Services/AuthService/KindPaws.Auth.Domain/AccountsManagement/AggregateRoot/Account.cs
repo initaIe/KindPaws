@@ -31,17 +31,17 @@ public class Account : AggregateRoot<AccountId>
     private Account(
         AccountId id,
         CreatedAt createdAt,
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
         PasswordHash passwordHash)
         : base(id, createdAt)
     {
-        UserName = userName;
+        Username = username;
         EmailAddress = emailAddress;
         PasswordHash = passwordHash;
     }
 
-    public UserName UserName { get; private set; }
+    public Username Username { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
     public PasswordHash PasswordHash { get; private set; }
@@ -51,9 +51,10 @@ public class Account : AggregateRoot<AccountId>
     #region Factory methods
 
     public static Account CreateNew(
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
-        PasswordHash passwordHash)
+        PasswordHash passwordHash,
+        AccountRoleId defaultRole)
     {
         var id = AccountId.CreateRandom();
         var createdAt = CreatedAt.CreateNew();
@@ -61,11 +62,16 @@ public class Account : AggregateRoot<AccountId>
         var account = new Account(
             id,
             createdAt,
-            userName,
+            username,
             emailAddress,
             passwordHash);
+        
+        account.AddRole(defaultRole);
 
-        var accountCreatedEvent = new AccountCreatedDomainEvent(id, userName, emailAddress);
+        var accountCreatedEvent = new AccountCreatedDomainEvent(
+            id.Value,
+            username.Value,
+            emailAddress.Value);
 
         account.AddDomainEvent(accountCreatedEvent);
 
@@ -75,14 +81,14 @@ public class Account : AggregateRoot<AccountId>
     public static Account Create(
         AccountId id,
         CreatedAt createdAt,
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
         PasswordHash passwordHash)
     {
         return new Account(
             id,
             createdAt,
-            userName,
+            username,
             emailAddress,
             passwordHash);
     }
@@ -91,10 +97,10 @@ public class Account : AggregateRoot<AccountId>
 
     #region Account CRUD
 
-    public void UpdateUserName(UserName userName)
+    public void UpdateUserName(Username username)
     {
         UpdateLastModifiedAt();
-        UserName = userName;
+        Username = username;
     }
 
     public void UpdateEmailAddress(EmailAddress emailAddress)

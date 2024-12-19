@@ -11,7 +11,7 @@ public static class OptionsInjection
         IConfiguration configuration)
     {
         services.Configure<PostgresOptions>(configuration.GetRequiredSection(PostgresOptions.SectionName));
-        services.Configure<RefreshSessionOptions>(configuration.GetRequiredSection(RefreshSessionOptions.SectionName));
+        services.Configure<AuthModuleOptions>(configuration.GetRequiredSection(AuthModuleOptions.SectionName));
 
         return services;
     }

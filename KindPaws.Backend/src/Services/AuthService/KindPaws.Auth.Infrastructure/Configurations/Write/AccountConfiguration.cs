@@ -1,5 +1,6 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
+using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.Core.Extensions;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
@@ -41,14 +42,15 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired(false);
 
         // USER_NAME
-        builder.Property(account => account.UserName)
+        builder.Property(account => account.Username)
             .HasConversion(
                 userName => userName!.Value,
-                value => UserName.Create(value).Value)
-            .HasMaxLength(UserNameConstraints.MaxLength)
+                value => Username.Create(value).Value)
+            .HasMaxLength(UsernameConstraints.MaxLength)
+            .HasColumnType("varchar")
             .HasColumnName("user_name")
             .IsRequired();
-        builder.HasIndex(a => a.UserName).IsUnique();
+        builder.HasIndex(a => a.Username).IsUnique();
 
         // EMAIL_ADDRESS
         builder.Property(account => account.EmailAddress)
@@ -56,6 +58,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 emailAddress => emailAddress!.Value,
                 value => EmailAddress.Create(value).Value)
             .HasMaxLength(EmailAddressConstraints.MaxLength)
+            .HasColumnType("varchar")
             .HasColumnName("email_address")
             .IsRequired();
         builder.HasIndex(account => account.EmailAddress).IsUnique();
@@ -66,6 +69,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 phoneNumber => phoneNumber!.Value,
                 value => PhoneNumber.Create(value).Value)
             .HasMaxLength(PhoneNumberConstraints.MaxLength)
+            .HasColumnType("varchar")
             .HasColumnName("phone_number")
             .IsRequired(false);
         builder.HasIndex(account => account.PhoneNumber).IsUnique();
@@ -75,7 +79,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasConversion(
                 passwordHash => passwordHash!.Value,
                 value => PasswordHash.Create(value).Value)
-            .HasColumnType("text")
+            .HasMaxLength(PasswordHashConstraints.MaxLength)
+            .HasColumnType("varchar")
             .HasColumnName("password_hash")
             .IsRequired();
 

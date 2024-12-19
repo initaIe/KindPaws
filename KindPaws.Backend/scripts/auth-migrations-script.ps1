@@ -1,3 +1,5 @@
+cd ../
+
 $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
 
 $Name = "Auth"

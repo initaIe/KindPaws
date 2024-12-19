@@ -1,6 +1,8 @@
-﻿namespace KindPaws.SharedKernel.Others;
+﻿using MediatR;
 
-public interface IEvent
+namespace KindPaws.SharedKernel.Others;
+
+public interface IEvent : INotification
 {
     Guid EventId => Guid.NewGuid();
     public DateTimeOffset OccurredAt => DateTimeOffset.UtcNow;

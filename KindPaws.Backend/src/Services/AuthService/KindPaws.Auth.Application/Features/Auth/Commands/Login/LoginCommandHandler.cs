@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KindPaws.Auth.Application.Features.Auth.Commands.Login;
 
-public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
+public class LoginCommandHandler : ICommandHandler<LoginResponse, LoginCommand>
 {
     private readonly IValidator<LoginCommand> _commandValidator;
     private readonly IRepository<Account, AccountId> _accountRepository;
@@ -26,18 +26,18 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHashProvider _passwordHashProvider;
     private readonly ITokenProvider _tokenProvider;
-    private readonly IRefreshSessionOptionsProvider _refreshSessionOptionsProvider;
-    private readonly ILogger<RegisterHandler> _logger;
+    private readonly IAuthModuleOptionsProvider _authModuleOptionsProvider;
+    private readonly ILogger<RegisterCommandHandler> _logger;
 
-    public LoginHandler(
+    public LoginCommandHandler(
         IValidator<LoginCommand> commandValidator,
         IRepository<Account, AccountId> accountRepository,
         IAuthReadDbContext readDbContext,
         IUnitOfWork unitOfWork,
         IPasswordHashProvider passwordHashProvider,
-        ILogger<RegisterHandler> logger,
+        ILogger<RegisterCommandHandler> logger,
         ITokenProvider tokenProvider,
-        IRefreshSessionOptionsProvider refreshSessionOptionsProvider)
+        IAuthModuleOptionsProvider authModuleOptionsProvider)
     {
         _commandValidator = commandValidator;
         _accountRepository = accountRepository;
@@ -46,7 +46,7 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         _passwordHashProvider = passwordHashProvider;
         _logger = logger;
         _tokenProvider = tokenProvider;
-        _refreshSessionOptionsProvider = refreshSessionOptionsProvider;
+        _authModuleOptionsProvider = authModuleOptionsProvider;
     }
 
     public async Task<Result<LoginResponse, ErrorList>> HandleAsync(
@@ -57,7 +57,7 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         if (!commandValidationResult.IsValid)
             return commandValidationResult.ToErrorList();
 
-        await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
+        await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
         try
         {
@@ -77,7 +77,7 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
 
             var jti = Jti.CreateRandom();
 
-            var expiresInDays = _refreshSessionOptionsProvider.GetExpireInDays();
+            var expiresInDays = _authModuleOptionsProvider.GetRefreshSessionExpiresInDays();
             var expiresDateTimeOffset = DateTimeOffset.UtcNow.AddDays(expiresInDays);
             var expiresAt = RefreshSessionExpiresAt.Create(expiresDateTimeOffset).Value;
 
@@ -92,7 +92,7 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
 
-            SuccessLog(accountId.Value);
+            LogSuccess(accountId.Value);
 
             return response;
         }
@@ -100,19 +100,19 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
         {
             await transaction.RollbackAsync(cancellationToken);
             var errorId = Guid.NewGuid();
-            ErrorLog(errorId, exception);
+            LogError(errorId, exception);
             return ErrorsAuth.LoginFailure(errorId).ToErrorList();
         }
     }
 
-    private void SuccessLog(Guid accountId)
+    private void LogSuccess(Guid accountId)
     {
         _logger.LogInformation(
             "Account with id {accountId} was logged in.",
             accountId);
     }
 
-    private void ErrorLog(Guid errorId, Exception exception)
+    private void LogError(Guid errorId, Exception exception)
     {
         _logger.LogError(
             "ErrorId: {errorId} | Failed to login | Exception: {exception}",

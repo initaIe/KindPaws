@@ -5,6 +5,7 @@ using KindPaws.Auth.Infrastructure.Options;
 using KindPaws.Auth.Infrastructure.OutBox;
 using KindPaws.Core.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Auth.Infrastructure.DbContexts
@@ -12,9 +13,13 @@ namespace KindPaws.Auth.Infrastructure.DbContexts
     public class AuthWriteDbContext : DbContext
     {
         private readonly PostgresOptions _postgresOptions;
+        private readonly ISaveChangesInterceptor _saveChangesInterceptor;
 
-        public AuthWriteDbContext(IOptions<PostgresOptions> postgresOptions)
+        public AuthWriteDbContext(
+            IOptions<PostgresOptions> postgresOptions,
+            ISaveChangesInterceptor saveChangesInterceptor)
         {
+            _saveChangesInterceptor = saveChangesInterceptor;
             _postgresOptions = postgresOptions.Value;
         }
 
@@ -29,7 +34,8 @@ namespace KindPaws.Auth.Infrastructure.DbContexts
                 .UseNpgsql(_postgresOptions.ConnectionString)
                 .UseSnakeCaseNamingConvention()
                 .UseLoggerFactory(LoggerFactories.CreateConsole())
-                .EnableSensitiveDataLogging();
+                .EnableSensitiveDataLogging()
+                .AddInterceptors(_saveChangesInterceptor);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

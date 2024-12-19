@@ -30,17 +30,17 @@ public sealed class User : AggregateRoot<UserId>
     private User(
         UserId id,
         CreatedAt createdAt,
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
         AccountId accountId)
         : base(id, createdAt)
     {
-        UserName = userName;
+        Username = username;
         EmailAddress = emailAddress;
         AccountId = accountId;
     }
 
-    public UserName UserName { get; private set; }
+    public Username Username { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
     public Profile Profile { get; private set; } = Profile.CreateNew();
@@ -51,7 +51,7 @@ public sealed class User : AggregateRoot<UserId>
     #region Factory methods
 
     public static User CreateNew(
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
         AccountId accountId)
     {
@@ -61,7 +61,7 @@ public sealed class User : AggregateRoot<UserId>
         return new User(
             id,
             createdAt,
-            userName,
+            username,
             emailAddress,
             accountId);
     }
@@ -69,7 +69,7 @@ public sealed class User : AggregateRoot<UserId>
     public static User Create(
         UserId id,
         CreatedAt createdAt,
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
         PhoneNumber phoneNumber,
         AccountId accountId)
@@ -77,7 +77,7 @@ public sealed class User : AggregateRoot<UserId>
         return new User(
             id,
             createdAt,
-            userName,
+            username,
             emailAddress,
             accountId);
     }

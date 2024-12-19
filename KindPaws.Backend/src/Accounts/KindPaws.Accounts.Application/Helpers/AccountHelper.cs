@@ -10,7 +10,7 @@ public static class AccountHelper
         string emailAddress,
         string passwordHash)
     {
-        var accountUserName = UserName.Create(userName).Value;
+        var accountUserName = Username.Create(userName).Value;
         var accountEmailAddress = EmailAddress.Create(emailAddress).Value;
         var accountPasswordHash = PasswordHash.Create(passwordHash).Value;
 

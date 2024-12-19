@@ -14,17 +14,12 @@ public class OutBoxRepository : IOutBoxRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddAsync<T>(T message, CancellationToken cancellationToken = default)
+    public async Task AddRangeAsync<T>(
+        IEnumerable<T> messages,
+        CancellationToken cancellationToken = default)
         where T : IEvent
     {
-        var outboxMessage = new OutBoxMessage
-        {
-            Id = message.EventId,
-            OccuredAt = message.OccurredAt,
-            Type = message.EventType,
-            Payload = JsonSerializer.Serialize(message)
-        };
-
-        await _dbContext.AddAsync(outboxMessage, cancellationToken);
+        var outboxMessages = messages.Select(OutBoxMessage.CreateNew);
+        await _dbContext.AddRangeAsync(outboxMessages, cancellationToken);
     }
 }

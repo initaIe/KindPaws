@@ -1,5 +1,6 @@
 ﻿using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.PermissionsManagement.ValueObjectsManagement.ValueObjects;
+using KindPaws.Auth.Domain.PermissionsManagement.ValueObjectsManagement.ValueObjectsConstraints;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -43,8 +44,12 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .HasConversion(
                 code => code!.Value,
                 value => PermissionCode.Create(value).Value)
+            .HasMaxLength(PermissionCodeConstraints.MaxLength)
+            .HasColumnType("varchar")
             .HasColumnName("code")
             .IsRequired();
+        builder.HasIndex(p => p.Code).IsUnique();
+
 
         // IGNORE
         builder.Ignore(permission => permission.DomainEvents);

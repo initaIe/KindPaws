@@ -5,31 +5,31 @@ using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
-public record UserName
+public record Username
 {
-    private UserName(string value)
+    private Username(string value)
     {
         Value = value;
     }
 
     public string Value { get; }
 
-    public static Result<UserName, Error> Create(string input)
+    public static Result<Username, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            return ErrorsGeneral.ValueIsRequired(nameof(UserName));
+            return ErrorsGeneral.ValueIsRequired(nameof(Username));
 
         input = input.Trim();
 
         if (!StringValidator.IsInRange(
                 input,
-                UserNameConstraints.MinLength,
-                UserNameConstraints.MaxLength))
+                UsernameConstraints.MinLength,
+                UsernameConstraints.MaxLength))
             return ErrorsGeneral.ValueOutOfRange();
 
         if (!StringValidator.IsAlphabeticWithDigits(input))
-            return ErrorsGeneral.ValueCharacterSetIsInvalid(nameof(UserName));
+            return ErrorsGeneral.ValueCharacterSetIsInvalid(nameof(Username));
 
-        return new UserName(input);
+        return new Username(input);
     }
 }

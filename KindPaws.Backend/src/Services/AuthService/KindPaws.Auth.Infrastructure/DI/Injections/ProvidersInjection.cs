@@ -27,6 +27,6 @@ public static class ProvidersInjection
 
     private static IServiceCollection AddRefreshSessionOptionsProvider(this IServiceCollection services)
     {
-        return services.AddSingleton<IRefreshSessionOptionsProvider, RefreshSessionOptionsProvider>();
+        return services.AddSingleton<IAuthModuleOptionsProvider, AuthModuleOptionsProvider>();
     }
 }

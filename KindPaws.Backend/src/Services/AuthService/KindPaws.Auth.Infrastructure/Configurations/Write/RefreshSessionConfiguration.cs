@@ -36,7 +36,7 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
                 value => LastModifiedAt.Create(value).Value)
             .HasColumnName("last_modified_at")
             .IsRequired(false);
-        
+
         // JTI
         builder.Property(refreshSession => refreshSession.Jti)
             .HasConversion(
@@ -44,7 +44,7 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
                 value => Jti.Create(value).Value)
             .HasColumnName("jti")
             .IsRequired();
-        
+
         // REFRESH_TOKEN
         builder.Property(refreshSession => refreshSession.RefreshToken)
             .HasConversion(
@@ -52,7 +52,7 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
                 value => RefreshToken.Create(value).Value)
             .HasColumnName("refresh_token")
             .IsRequired();
-        
+
         // EXPIRES_AT
         builder.Property(refreshSession => refreshSession.ExpiresAt)
             .HasConversion(

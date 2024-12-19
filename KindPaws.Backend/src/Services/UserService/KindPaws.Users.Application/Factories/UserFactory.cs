@@ -11,7 +11,7 @@ public static class UserFactory
         string emailAddress,
         Guid accountId)
     {
-        var userName = UserName.Create(username).Value;
+        var userName = Username.Create(username).Value;
         var userEmailAddress = EmailAddress.Create(emailAddress).Value;
         var userAccountId = AccountId.Create(accountId).Value;
 

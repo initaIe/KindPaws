@@ -19,20 +19,20 @@ public sealed class Account : Entity<AccountId>
 
     public Account(
         AccountId id,
-        UserName userName,
+        Username username,
         EmailAddress emailAddress,
         PasswordHash passwordHash,
         CreatedAt createdAt)
     {
         Id = id;
-        UserName = userName;
+        Username = username;
         EmailAddress = emailAddress;
         PasswordHash = passwordHash;
         CreatedAt = createdAt;
     }
 
     public AccountId Id { get; private set; }
-    public UserName UserName { get; private set; }
+    public Username Username { get; private set; }
     public EmailAddress EmailAddress { get; private set; }
     public PasswordHash PasswordHash { get; private set; }
     public PhoneNumber? PhoneNumber { get; private set; }
@@ -45,13 +45,13 @@ public sealed class Account : Entity<AccountId>
     #region Factory methods
 
     public static Account CreateNew(
-        UserName userName,
+        Username username,
         EmailAddress email,
         PasswordHash passwordHash)
     {
         var id = AccountId.CreateRandom();
         var createdAt = CreatedAt.CreateNew();
-        return new Account(id, userName, email, passwordHash, createdAt);
+        return new Account(id, username, email, passwordHash, createdAt);
     }
 
     #endregion

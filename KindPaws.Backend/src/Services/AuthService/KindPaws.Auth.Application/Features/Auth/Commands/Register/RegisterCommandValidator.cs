@@ -10,7 +10,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     public RegisterCommandValidator()
     {
         RuleFor(rc => rc.UserName)
-            .MustBeValueObject(UserName.Create);
+            .MustBeValueObject(Username.Create);
 
         RuleFor(rc => rc.EmailAddress)
             .MustBeValueObject(EmailAddress.Create);

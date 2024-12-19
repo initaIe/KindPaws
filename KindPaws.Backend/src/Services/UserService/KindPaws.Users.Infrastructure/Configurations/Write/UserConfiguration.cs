@@ -42,10 +42,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false);
 
         // USER_NAME
-        builder.Property(u => u.UserName)
+        builder.Property(u => u.Username)
             .HasConversion(
                 userName => userName.Value,
-                value => UserName.Create(value).Value)
+                value => Username.Create(value).Value)
             .HasColumnType("citext")
             .HasColumnName("username")
             .IsRequired();

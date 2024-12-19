@@ -4,17 +4,27 @@ namespace KindPaws.SharedKernel.Others;
 
 public static class MediatrExtensions
 {
-    public static async Task PublishDomainEventsAsync<TId>(
+    public static async Task PublishDomainEventsAsync(
         this IPublisher publisher,
-        AggregateRoot<TId> entity,
+        IAggregateRoot aggregateRoot,
         CancellationToken cancellationToken = default)
-        where TId : IEquatable<TId>
     {
-        foreach (var domainEvent in entity.DomainEvents)
+        foreach (var domainEvent in aggregateRoot.DomainEvents)
         {
             await publisher.Publish(domainEvent, cancellationToken);
         }
 
-        entity.ClearDomainEvents();
+        aggregateRoot.ClearDomainEvents();
+    }
+
+    public static async Task PublishEventsAsync(
+        this IPublisher publisher,
+        IEnumerable<IEvent> events,
+        CancellationToken cancellationToken = default)
+    {
+        foreach (var domainEvent in events)
+        {
+            await publisher.Publish(domainEvent, cancellationToken);
+        }
     }
 }

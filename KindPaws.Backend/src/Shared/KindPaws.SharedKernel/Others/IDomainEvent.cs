@@ -1,5 +1,3 @@
-﻿using MediatR;
+﻿namespace KindPaws.SharedKernel.Others;
 
-namespace KindPaws.SharedKernel.Others;
-
-public interface IDomainEvent : INotification, IEvent;
+public interface IDomainEvent : IEvent;

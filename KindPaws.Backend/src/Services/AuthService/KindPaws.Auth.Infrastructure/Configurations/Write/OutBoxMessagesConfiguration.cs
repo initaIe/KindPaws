@@ -18,7 +18,8 @@ public class OutBoxMessagesConfiguration : IEntityTypeConfiguration<OutBoxMessag
 
         // TYPE
         builder.Property(outBoxMessage => outBoxMessage.Type)
-            .HasMaxLength(256)
+            .HasMaxLength(512)
+            .HasColumnType("varchar")
             .HasColumnName("type")
             .IsRequired();
 
@@ -40,6 +41,7 @@ public class OutBoxMessagesConfiguration : IEntityTypeConfiguration<OutBoxMessag
 
         // ERROR
         builder.Property(outBoxMessage => outBoxMessage.Error)
+            .HasColumnType("text")
             .HasColumnName("error")
             .IsRequired(false);
 

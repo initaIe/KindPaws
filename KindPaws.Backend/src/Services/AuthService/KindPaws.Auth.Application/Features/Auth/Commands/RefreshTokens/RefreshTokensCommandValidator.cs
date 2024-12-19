@@ -10,7 +10,7 @@ public class RefreshTokensCommandValidator : AbstractValidator<RefreshTokensComm
     {
         RuleFor(rt => rt.RefreshToken)
             .MustBeValueObject(RefreshToken.Create);
-        
+
         // TODO: access token validation
     }
 }

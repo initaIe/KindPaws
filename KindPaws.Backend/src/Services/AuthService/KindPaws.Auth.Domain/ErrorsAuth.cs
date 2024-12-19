@@ -33,20 +33,20 @@ public static class ErrorsAuth
     {
         return Error.Failure(
             "registration.was.failure",
-            $"Failed to register account (error id: {errorId})");
+            $"Failed to register account. Error id: {errorId}");
     }
 
     public static Error LoginFailure(Guid errorId)
     {
         return Error.Failure(
             "login.was.failure",
-            $"Failed to login (error id: {errorId})");
+            $"Failed to login. Error id: {errorId}");
     }
 
     public static Error RefreshTokensFailure(Guid errorId)
     {
         return Error.Failure(
             "refresh.tokens.was.failure",
-            $"Failed to refresh tokens (error id: {errorId})");
+            $"Failed to refresh tokens. Error id: {errorId}");
     }
 }

@@ -2,6 +2,7 @@
 using KindPaws.Auth.Infrastructure.DbContexts;
 using KindPaws.Auth.Infrastructure.OutBox;
 using KindPaws.Core.Abstractions.Database;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Auth.Infrastructure.DI.Injections;
@@ -12,7 +13,9 @@ public static class DatabaseInjection
     {
         return services
             .AddDbContexts()
-            .AddUnitOfWork();
+            .AddUnitOfWork()
+            .AddInterceptors()
+            .AddRepositories();
     }
 
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
@@ -27,7 +30,12 @@ public static class DatabaseInjection
         return services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
-    private static IServiceCollection AddOutBox(this IServiceCollection services)
+    private static IServiceCollection AddInterceptors(this IServiceCollection services)
+    {
+        return services.AddSingleton<ISaveChangesInterceptor, DomainEventsToOutboxInterceptor>();
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services.AddScoped<IOutBoxRepository, OutBoxRepository>();
     }

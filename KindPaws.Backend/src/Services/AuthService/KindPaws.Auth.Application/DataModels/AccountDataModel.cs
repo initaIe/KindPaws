@@ -18,5 +18,5 @@ public class AccountDataModel
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string PasswordHash { get; init; } = null!;
     public Guid[] Roles { get; init; } = [];
-    public RefreshSessionDataModel[] RefreshSessions { get; init; } = [];
+    public IReadOnlyList<RefreshSessionDataModel> RefreshSessions { get; init; } = [];
 }

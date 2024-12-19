@@ -3,7 +3,7 @@
 namespace KindPaws.SharedKernel.Others;
 
 public abstract class AggregateRoot<TId>
-    : Entity<TId>
+    : Entity<TId>, IAggregateRoot<TId>
     where TId : IEquatable<TId>
 {
     private readonly List<IDomainEvent> _domainEvents = [];

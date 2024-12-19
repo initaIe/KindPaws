@@ -1,8 +1,4 @@
-﻿using System.Text.Json;
-using KindPaws.Auth.Application.DataModels;
-using KindPaws.Auth.Application.Mappers;
-using KindPaws.Auth.Domain.AccountsManagement.Entities;
-using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
+﻿using KindPaws.Auth.Application.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

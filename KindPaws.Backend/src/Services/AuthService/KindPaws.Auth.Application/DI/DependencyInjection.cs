@@ -1,6 +1,4 @@
-﻿using KindPaws.Core;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Auth.Application.DI;
 
@@ -17,7 +15,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(
             cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
-       
+
         return services;
     }
 }

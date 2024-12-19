@@ -5,7 +5,6 @@ using KindPaws.Auth.Presentation.Mappers;
 using KindPaws.Framework;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace KindPaws.Auth.Presentation.Controllers;
 
 public class AuthController : ApplicationController
@@ -13,12 +12,12 @@ public class AuthController : ApplicationController
     [HttpPost("sessions")]
     public async Task<IActionResult> Login(
         [FromBody] LoginRequest request,
-        [FromServices] LoginHandler handler,
+        [FromServices] LoginCommandHandler commandHandler,
         CancellationToken token)
     {
         var command = request.ToCommand();
 
-        var result = await handler.HandleAsync(command, token);
+        var result = await commandHandler.HandleAsync(command, token);
         if (result.IsFailure)
             return result.Error.ToResponse();
 
@@ -43,12 +42,12 @@ public class AuthController : ApplicationController
     [HttpPost("users")]
     public async Task<IActionResult> Register(
         [FromBody] RegisterRequest request,
-        [FromServices] RegisterHandler handler,
+        [FromServices] RegisterCommandHandler commandHandler,
         CancellationToken token)
     {
         var command = request.ToCommand();
 
-        var result = await handler.HandleAsync(command, token);
+        var result = await commandHandler.HandleAsync(command, token);
         if (result.IsFailure)
             return result.Error.ToResponse();
 

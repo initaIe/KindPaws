@@ -22,19 +22,19 @@ public class RefreshSessionDataModelConfiguration : IEntityTypeConfiguration<Ref
         // LAST_MODIFIED_AT
         builder.Property(refreshSession => refreshSession.LastModifiedAt)
             .HasColumnName("last_modified_at");
-        
+
         // JTI
         builder.Property(refreshSession => refreshSession.Jti)
             .HasColumnName("jti");
-        
+
         // REFRESH_TOKEN
         builder.Property(refreshSession => refreshSession.RefreshToken)
             .HasColumnName("refresh_token");
-        
+
         // EXPIRES_AT
         builder.Property(refreshSession => refreshSession.ExpiresAt)
             .HasColumnName("expires_at");
-        
+
         // ACCOUNT_ID
         builder.Property(refreshSession => refreshSession.AccountId)
             .HasColumnName("account_id");
