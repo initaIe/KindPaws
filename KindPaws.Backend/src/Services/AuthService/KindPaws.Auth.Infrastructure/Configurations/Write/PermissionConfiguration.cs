@@ -45,11 +45,9 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
                 code => code!.Value,
                 value => PermissionCode.Create(value).Value)
             .HasMaxLength(PermissionCodeConstraints.MaxLength)
-            .HasColumnType("varchar")
             .HasColumnName("code")
             .IsRequired();
         builder.HasIndex(p => p.Code).IsUnique();
-
 
         // IGNORE
         builder.Ignore(permission => permission.DomainEvents);

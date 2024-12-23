@@ -1,4 +1,6 @@
-﻿using KindPaws.Auth.Infrastructure.OutBox;
+﻿using KindPaws.Core.OutBox;
+using KindPaws.Core.OutBox.Abstractions;
+using KindPaws.Core.OutBox.Schedulers;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -15,7 +17,7 @@ public static class SchedulersInjection
 
     private static IServiceCollection AddOutBoxMessagePublisherJob(this IServiceCollection services)
     {
-        services.AddScoped<OutboxMessagePublisherService>();
+        services.AddScoped<IOutboxMessagePublisherService, OutboxMessagePublisherService>();
 
         services.AddQuartz(configure =>
         {

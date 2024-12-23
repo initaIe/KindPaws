@@ -9,7 +9,6 @@ public static class LayersInjection
         IConfiguration configuration)
     {
         services.AddInfrastructure(configuration);
-        services.AddPresentation();
         services.AddApplication();
 
         return services;

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using KindPaws.SharedKernel.DDD;
+using MediatR;
 
 namespace KindPaws.SharedKernel.Others;
 

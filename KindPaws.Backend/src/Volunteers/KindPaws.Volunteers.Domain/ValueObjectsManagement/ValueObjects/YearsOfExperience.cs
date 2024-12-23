@@ -1,5 +1,5 @@
-﻿using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+﻿using KindPaws.SharedKernel.ErrorManagement;
+using KindPaws.SharedKernel.Others;
 using KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.Volunteers.Domain.ValueObjectsManagement.ValueObjects;

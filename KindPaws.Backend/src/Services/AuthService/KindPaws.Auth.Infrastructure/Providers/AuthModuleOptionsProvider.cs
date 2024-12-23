@@ -17,7 +17,7 @@ public class AuthModuleOptionsProvider : IAuthModuleOptionsProvider
     {
         return _options.CurrentValue.RefreshSessionExpiresInDays;
     }
-    
+
     public string GetDefaultRoleName()
     {
         return _options.CurrentValue.DefaultRoleName;

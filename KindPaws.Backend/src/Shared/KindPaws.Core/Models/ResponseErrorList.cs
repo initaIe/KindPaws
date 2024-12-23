@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ErrorManagement;
 
 namespace KindPaws.Core.Models;
 

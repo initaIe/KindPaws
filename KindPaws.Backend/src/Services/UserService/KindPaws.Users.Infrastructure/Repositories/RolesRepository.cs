@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Database;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Users.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Users.Infrastructure.DbContexts;

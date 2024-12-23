@@ -6,8 +6,8 @@ using KindPaws.Roles.Application.Features.Roles.Queries.GetIdByName;
 using KindPaws.Roles.Contracts;
 using KindPaws.Roles.Contracts.Requests;
 using KindPaws.Roles.Presentation.Mappers;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Roles.Presentation.Contract;

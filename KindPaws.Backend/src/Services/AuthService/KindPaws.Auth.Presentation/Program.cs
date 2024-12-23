@@ -6,6 +6,8 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+// var checkCgf = builder.Configuration;
+
 // Adding all dependencies
 builder.Services.AddAuthDependencies(builder.Configuration);
 

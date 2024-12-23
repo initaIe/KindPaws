@@ -3,8 +3,8 @@ using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Contracts.Responses;
 using KindPaws.Core.Abstractions.Handlers;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Auth.Application.Features.Commands.Login;

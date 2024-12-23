@@ -2,8 +2,9 @@
 using KindPaws.Auth.Domain.AccountsManagement.Events;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
+using KindPaws.SharedKernel.DDD;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
@@ -11,8 +12,14 @@ namespace KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 
 public class Account : AggregateRoot<AccountId>
 {
+    #region Private collections
+
     private readonly List<RefreshSession> _refreshSessions = [];
+
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private List<AccountRoleId> _roles = [];
+
+    #endregion
 
     #region EF Core constructor
 
@@ -65,7 +72,7 @@ public class Account : AggregateRoot<AccountId>
             username,
             emailAddress,
             passwordHash);
-        
+
         account.AddRole(defaultRole);
 
         var accountCreatedEvent = new AccountCreatedDomainEvent(
@@ -184,6 +191,16 @@ public class Account : AggregateRoot<AccountId>
 
     #region RefreshSessions CRUD
 
+    public Result<RefreshSession, Error> GetRefreshSessionById(RefreshSessionId refreshSessionId)
+    {
+        var refreshSession = _refreshSessions.FirstOrDefault(rs => rs.Id == refreshSessionId);
+
+        if (refreshSession == null)
+            return ErrorsGeneral.RecordNotFound(nameof(RefreshSession));
+
+        return refreshSession;
+    }
+
     public bool HasRefreshSession(RefreshSession refreshSession)
         => _refreshSessions.Contains(refreshSession);
 
@@ -195,7 +212,6 @@ public class Account : AggregateRoot<AccountId>
             return ErrorsGeneral.RecordAlreadyExist(nameof(RefreshSession));
 
         _refreshSessions.Add(refreshSession);
-        UpdateLastModifiedAt();
         return true;
     }
 
@@ -209,7 +225,6 @@ public class Account : AggregateRoot<AccountId>
                 return addRefreshSessionResult.Error;
         }
 
-        UpdateLastModifiedAt();
         return true;
     }
 
@@ -221,7 +236,6 @@ public class Account : AggregateRoot<AccountId>
             return ErrorsGeneral.RecordNotFound(nameof(RefreshSession));
 
         _refreshSessions.Remove(refreshSession);
-        UpdateLastModifiedAt();
         return true;
     }
 
@@ -235,7 +249,6 @@ public class Account : AggregateRoot<AccountId>
                 return deleteRefreshSessionsResult.Error;
         }
 
-        UpdateLastModifiedAt();
         return true;
     }
 

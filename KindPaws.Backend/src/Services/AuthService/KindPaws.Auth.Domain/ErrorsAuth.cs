@@ -1,4 +1,4 @@
-﻿using KindPaws.SharedKernel.Others.ErrorManagement;
+﻿using KindPaws.SharedKernel.ErrorManagement;
 
 namespace KindPaws.Auth.Domain;
 

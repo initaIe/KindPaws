@@ -1,8 +1,8 @@
 ﻿using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Permissions.Application.Abstractions;
 using KindPaws.Permissions.Domain.AggregateRoot;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Permissions.Application.Features.Permissions.Queries.GetPermissionIdByName;

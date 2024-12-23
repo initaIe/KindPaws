@@ -1,4 +1,5 @@
 ﻿using KindPaws.Auth.Application.Features.Auth.Commands.Login;
+using KindPaws.Auth.Application.Features.Auth.Commands.RefreshTokens;
 using KindPaws.Auth.Application.Features.Auth.Commands.Register;
 using KindPaws.Auth.Contracts.Requests;
 using KindPaws.Auth.Presentation.Mappers;
@@ -24,20 +25,20 @@ public class AuthController : ApplicationController
         return Ok(result.Value);
     }
 
-    // [HttpPost("tokens-renewal")]
-    // public async Task<IActionResult> RefreshTokens(
-    //     [FromBody] RefreshTokensRequest request,
-    //     [FromServices] RefreshTokensHandler handler,
-    //     CancellationToken token)
-    // {
-    //     var command = request.ToCommand();
-    //
-    //     var result = await handler.HandleAsync(command, token);
-    //     if (result.IsFailure)
-    //         return result.Error.ToResponse();
-    //
-    //     return Ok(result.Value);
-    // }
+    [HttpPost("tokens-renewal")]
+    public async Task<IActionResult> RefreshTokens(
+        [FromBody] RefreshTokensRequest request,
+        [FromServices] RefreshTokensHandler handler,
+        CancellationToken token)
+    {
+        var command = request.ToCommand();
+
+        var result = await handler.HandleAsync(command, token);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
 
     [HttpPost("users")]
     public async Task<IActionResult> Register(

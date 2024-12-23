@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Results;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ErrorManagement;
 
 namespace KindPaws.Core.Extensions;
 

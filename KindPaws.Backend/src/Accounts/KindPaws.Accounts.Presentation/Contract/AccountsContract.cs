@@ -10,8 +10,8 @@ using KindPaws.Accounts.Contracts;
 using KindPaws.Accounts.Contracts.Requests;
 using KindPaws.Accounts.Presentation.Mappers;
 using KindPaws.Core.Abstractions.Handlers;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindPaws.Accounts.Presentation.Contract;

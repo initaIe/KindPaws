@@ -2,7 +2,12 @@
 using System.Security.Claims;
 using System.Text;
 using KindPaws.Auth.Application.Abstractions;
+using KindPaws.Auth.Application.Models;
+using KindPaws.Auth.Domain;
+using KindPaws.Auth.Infrastructure.Factories;
 using KindPaws.Auth.Infrastructure.Options;
+using KindPaws.SharedKernel.ErrorManagement;
+using KindPaws.SharedKernel.Others;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -42,38 +47,40 @@ public class TokenProvider : ITokenProvider
         return _jwtSecurityTokenHandler.WriteToken(jwtToken);
     }
 
-    // public Result<AccessTokenParseResult, Error> ParseAccessToken(string token)
-    // {
-    //     var validationResult = _jwtSecurityTokenHandler.ReadJwtToken(
-    //         token);
-    //
-    //     var subClaim = validationResult.Claims.FirstOrDefault(
-    //         c => c.Type == CustomClaims.Sub)?.Value;
-    //
-    //     if (!Guid.TryParse(subClaim, out var accountId))
-    //         return GeneralErrors.Auth.TokenIsInvalid();
-    //
-    //     var jtiClaim = validationResult.Claims.FirstOrDefault(
-    //         c => c.Type == CustomClaims.Jti)?.Value;
-    //
-    //     if (!Guid.TryParse(jtiClaim, out var jti))
-    //         return GeneralErrors.Auth.TokenIsInvalid();
-    //
-    //     return new AccessTokenParseResult(accountId, jti);
-    // }
-    //
-    // public async Task<Result<Error>> ValidateAccessTokenAsync(string token)
-    // {
-    //     var tokenValidationParameters = TokenValidationParametersFactory
-    //         .Create(_jwtBearerOptions.CurrentValue);
-    //
-    //     var validationResult = await _jwtSecurityTokenHandler.ValidateTokenAsync(
-    //         token,
-    //         tokenValidationParameters);
-    //
-    //     if (!validationResult.IsValid)
-    //         return GeneralErrors.Auth.TokenIsInvalid();
-    //
-    //     return true;
-    // }
+    public Result<AccessTokenParseResult, Error> ParseAccessToken(string token)
+    {
+        var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+
+        if (jwtSecurityToken == null)
+            return ErrorsAuth.TokenIsInvalid();
+
+        var subClaim = jwtSecurityToken.Claims.FirstOrDefault(
+            c => c.Type == CustomClaims.Sub)?.Value;
+
+        if (!Guid.TryParse(subClaim, out var accountId))
+            return ErrorsAuth.TokenIsInvalid();
+
+        var jtiClaim = jwtSecurityToken.Claims.FirstOrDefault(
+            c => c.Type == CustomClaims.Jti)?.Value;
+
+        if (!Guid.TryParse(jtiClaim, out var jti))
+            return ErrorsAuth.TokenIsInvalid();
+
+        return new AccessTokenParseResult(accountId, jti);
+    }
+
+    public async Task<Result<Error>> ValidateAccessTokenWithoutLifeTimeAsync(string token)
+    {
+        var tokenValidationParameters = TokenValidationParametersFactory
+            .CreateWithoutValidationLifeTime(_jwtBearerOptions.CurrentValue);
+
+        var validationResult = await _jwtSecurityTokenHandler.ValidateTokenAsync(
+            token,
+            tokenValidationParameters);
+
+        if (!validationResult.IsValid)
+            return ErrorsAuth.TokenIsInvalid();
+
+        return true;
+    }
 }

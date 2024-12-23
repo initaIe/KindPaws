@@ -12,6 +12,8 @@ public static class OptionsInjection
     {
         services.Configure<PostgresOptions>(configuration.GetRequiredSection(PostgresOptions.SectionName));
         services.Configure<AuthModuleOptions>(configuration.GetRequiredSection(AuthModuleOptions.SectionName));
+        services.Configure<JwtBearerAuthOptions>(configuration.GetRequiredSection(JwtBearerAuthOptions.SectionName));
+        services.Configure<RabbitmqOptions>(configuration.GetRequiredSection(RabbitmqOptions.SectionName));
 
         return services;
     }

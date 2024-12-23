@@ -15,15 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\KindPaws.Framework\KindPaws.Framework.csproj" />
       <ProjectReference Include="..\KindPaws.Pets.Application\KindPaws.Pets.Application.csproj" />
       <ProjectReference Include="..\KindPaws.Pets.Contracts\KindPaws.Pets.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Pets.Domain\KindPaws.Pets.Domain.csproj" />
       <ProjectReference Include="..\KindPaws.Pets.Infrastructure\KindPaws.Pets.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Contract\" />
-      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>

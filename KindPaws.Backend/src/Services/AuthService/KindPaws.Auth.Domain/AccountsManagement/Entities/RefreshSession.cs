@@ -1,4 +1,5 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.DDD;
 using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
@@ -37,6 +38,8 @@ public class RefreshSession : Entity<RefreshSessionId>
     public RefreshToken RefreshToken { get; }
     public RefreshSessionExpiresAt ExpiresAt { get; }
 
+    #region Factory methods
+
     public static RefreshSession CreateNew(
         Jti jti,
         RefreshSessionExpiresAt expiresAt)
@@ -67,4 +70,6 @@ public class RefreshSession : Entity<RefreshSessionId>
             refreshToken,
             expiresAt);
     }
+
+    #endregion
 }

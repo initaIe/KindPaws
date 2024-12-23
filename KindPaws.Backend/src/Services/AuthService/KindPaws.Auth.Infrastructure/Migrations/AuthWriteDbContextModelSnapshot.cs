@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace KindPaws.Auth.Infrastructure.Migrations
 {
-    [DbContext(typeof(AuthWriteDbContext))]
+    [DbContext(typeof(AuthWriteWriteDbContext))]
     partial class AuthWriteDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -45,7 +45,8 @@ namespace KindPaws.Auth.Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
                         .HasColumnName("password_hash");
 
                     b.Property<string>("PhoneNumber")
@@ -129,7 +130,8 @@ namespace KindPaws.Auth.Infrastructure.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -142,6 +144,10 @@ namespace KindPaws.Auth.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_permissions");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permissions_code");
 
                     b.ToTable("permissions", "auth");
                 });
@@ -162,7 +168,8 @@ namespace KindPaws.Auth.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
                         .HasColumnName("name");
 
                     b.Property<Guid[]>("Permissions")
@@ -173,7 +180,20 @@ namespace KindPaws.Auth.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_roles");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_roles_name");
+
                     b.ToTable("roles", "auth");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fcab491c-98a8-4ccb-a532-84c2c5145c0b"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 23, 9, 34, 30, 968, DateTimeKind.Unspecified).AddTicks(7057), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "User",
+                            Permissions = new Guid[0]
+                        });
                 });
 
             modelBuilder.Entity("KindPaws.Auth.Infrastructure.OutBox.OutBoxMessage", b =>
@@ -202,8 +222,8 @@ namespace KindPaws.Auth.Infrastructure.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
                         .HasColumnName("type");
 
                     b.HasKey("Id")

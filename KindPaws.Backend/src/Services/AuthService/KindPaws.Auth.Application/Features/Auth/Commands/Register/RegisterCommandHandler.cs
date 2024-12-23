@@ -3,12 +3,11 @@ using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Factories;
 using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
-using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -69,24 +68,24 @@ public class RegisterCommandHandler : ICommandHandler<Guid, RegisterCommand>
             var passwordHash = _passwordHashProvider.GenerateHash(command.Password);
 
             var defaultRoleName = _authModuleOptionsProvider.GetDefaultRoleName();
-            
+
             var defaultRoleId = await _authReadDbContext.Roles
                 .Where(r => r.Name == defaultRoleName)
                 .Select(r => r.Id)
                 .FirstOrDefaultAsync(cancellationToken);
-            
+
             if (GuidValidator.IsEmpty(defaultRoleId))
             {
                 var ex = new ApplicationException("Default role by name not found.");
                 LogCritical(Guid.NewGuid(), ex);
             }
-            
+
             var defaultRole = AccountRoleId.Create(defaultRoleId).Value;
 
             var account = AccountFactory.ForceCreateNew(
-                command.UserName, 
+                command.UserName,
                 command.EmailAddress,
-                passwordHash, 
+                passwordHash,
                 defaultRole);
 
             await _accountRepository.AddAsync(account, cancellationToken);
@@ -122,7 +121,7 @@ public class RegisterCommandHandler : ICommandHandler<Guid, RegisterCommand>
             errorId,
             exception);
     }
-    
+
     private void LogCritical(Guid errorId, Exception exception)
     {
         _logger.LogError(

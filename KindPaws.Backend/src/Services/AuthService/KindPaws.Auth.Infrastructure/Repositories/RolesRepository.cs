@@ -1,8 +1,8 @@
 ﻿using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.DbContexts;
 using KindPaws.Core.Abstractions.Database;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,20 +10,20 @@ namespace KindPaws.Auth.Infrastructure.Repositories;
 
 public class RolesRepository : IRepository<Role, AccountRoleId>
 {
-    private readonly AuthWriteDbContext _dbContext;
+    private readonly AuthWriteWriteDbContext _writeDbContext;
 
-    public RolesRepository(AuthWriteDbContext dbContext)
+    public RolesRepository(AuthWriteWriteDbContext writeDbContext)
     {
-        _dbContext = dbContext;
+        _writeDbContext = writeDbContext;
     }
 
     public async Task<Result<Role, Error>> GetByIdAsync(
         AccountRoleId accountRoleId,
         CancellationToken cancellationToken = default)
     {
-        var role = await _dbContext.Roles
+        var role = await _writeDbContext.Roles
             .FirstOrDefaultAsync(
-                v => v.Id == accountRoleId,
+                role => role.Id == accountRoleId,
                 cancellationToken);
 
         if (role == null)
@@ -39,11 +39,11 @@ public class RolesRepository : IRepository<Role, AccountRoleId>
         Role role,
         CancellationToken cancellationToken = default)
     {
-        await _dbContext.Roles.AddAsync(role, cancellationToken);
+        await _writeDbContext.Roles.AddAsync(role, cancellationToken);
     }
 
     public void Delete(Role role)
     {
-        _dbContext.Roles.Remove(role);
+        _writeDbContext.Roles.Remove(role);
     }
 }

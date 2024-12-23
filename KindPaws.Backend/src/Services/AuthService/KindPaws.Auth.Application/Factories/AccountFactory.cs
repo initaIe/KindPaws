@@ -19,8 +19,8 @@ public static class AccountFactory
 
         return Account.CreateNew(
             accountUsername,
-            accountEmailAddress, 
-            accountPasswordHash, 
+            accountEmailAddress,
+            accountPasswordHash,
             defaultAccountRole);
     }
 }

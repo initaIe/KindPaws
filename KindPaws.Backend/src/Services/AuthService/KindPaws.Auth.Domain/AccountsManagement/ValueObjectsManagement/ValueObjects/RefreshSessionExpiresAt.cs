@@ -1,5 +1,5 @@
-﻿using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+﻿using KindPaws.SharedKernel.ErrorManagement;
+using KindPaws.SharedKernel.Others;
 
 namespace KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 
@@ -18,5 +18,15 @@ public class RefreshSessionExpiresAt
             return ErrorsGeneral.ValueIsInvalid(nameof(RefreshSessionExpiresAt));
 
         return new RefreshSessionExpiresAt(input);
+    }
+
+    public static Result<RefreshSessionExpiresAt, Error> Create(int expiresInDays)
+    {
+        if (expiresInDays < 1)
+            return ErrorsGeneral.ValueIsInvalid(nameof(RefreshSessionExpiresAt));
+
+        var expiresAtDateTimeOffset = DateTimeOffset.UtcNow.AddDays(expiresInDays);
+
+        return new RefreshSessionExpiresAt(expiresAtDateTimeOffset);
     }
 }

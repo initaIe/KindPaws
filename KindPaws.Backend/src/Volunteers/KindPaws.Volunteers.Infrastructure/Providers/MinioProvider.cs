@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Dtos;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.Volunteers.Application.Abstractions;
 using Microsoft.Extensions.Logging;

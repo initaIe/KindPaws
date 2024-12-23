@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Handlers;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.Volunteers.Application.Abstractions;
 using KindPaws.Volunteers.Application.DataModels;
 using KindPaws.Volunteers.Domain.Entities;

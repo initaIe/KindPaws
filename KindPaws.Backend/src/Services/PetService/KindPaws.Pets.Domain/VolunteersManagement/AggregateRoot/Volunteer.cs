@@ -1,14 +1,13 @@
 ﻿using KindPaws.Pets.Domain.VolunteersManagement.Entities;
-using KindPaws.Pets.Domain.VolunteersManagement.Events;
 using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjects;
+using KindPaws.SharedKernel.DDD;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
 namespace KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 
-// TODO: add edit requisite/pet
 public class Volunteer : AggregateRoot<VolunteerId>
 {
     private readonly List<Pet> _pets = [];
@@ -118,7 +117,6 @@ public class Volunteer : AggregateRoot<VolunteerId>
 
         _pets.Remove(getPetResult.Value);
         UpdateLastModifiedAt();
-        AddDomainEvent(new PetDeletedDomainEvent(Id, petId.Value));
         return true;
     }
 

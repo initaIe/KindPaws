@@ -1,8 +1,8 @@
 ﻿using KindPaws.Core.Abstractions.Database;
 using KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 using KindPaws.Pets.Infrastructure.DbContexts;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,5 @@
-﻿using KindPaws.Auth.Infrastructure.OutBox;
+﻿using KindPaws.Core.OutBox;
+using KindPaws.Core.OutBox.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,7 +20,6 @@ public class OutBoxMessagesConfiguration : IEntityTypeConfiguration<OutBoxMessag
         // TYPE
         builder.Property(outBoxMessage => outBoxMessage.Type)
             .HasMaxLength(512)
-            .HasColumnType("varchar")
             .HasColumnName("type")
             .IsRequired();
 

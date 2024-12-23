@@ -47,7 +47,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 userName => userName!.Value,
                 value => Username.Create(value).Value)
             .HasMaxLength(UsernameConstraints.MaxLength)
-            .HasColumnType("varchar")
             .HasColumnName("user_name")
             .IsRequired();
         builder.HasIndex(a => a.Username).IsUnique();
@@ -58,7 +57,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 emailAddress => emailAddress!.Value,
                 value => EmailAddress.Create(value).Value)
             .HasMaxLength(EmailAddressConstraints.MaxLength)
-            .HasColumnType("varchar")
             .HasColumnName("email_address")
             .IsRequired();
         builder.HasIndex(account => account.EmailAddress).IsUnique();
@@ -69,7 +67,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 phoneNumber => phoneNumber!.Value,
                 value => PhoneNumber.Create(value).Value)
             .HasMaxLength(PhoneNumberConstraints.MaxLength)
-            .HasColumnType("varchar")
             .HasColumnName("phone_number")
             .IsRequired(false);
         builder.HasIndex(account => account.PhoneNumber).IsUnique();
@@ -80,7 +77,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 passwordHash => passwordHash!.Value,
                 value => PasswordHash.Create(value).Value)
             .HasMaxLength(PasswordHashConstraints.MaxLength)
-            .HasColumnType("varchar")
             .HasColumnName("password_hash")
             .IsRequired();
 

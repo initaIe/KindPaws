@@ -1,6 +1,7 @@
 ﻿using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
+using KindPaws.SharedKernel.DDD;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 
@@ -8,7 +9,12 @@ namespace KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 
 public class Role : AggregateRoot<AccountRoleId>
 {
+    #region Private collections
+
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private List<PermissionId> _permissions = [];
+
+    #endregion
 
     #region EF Core constructor
 

@@ -45,7 +45,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
                 lastModifiedAt => lastModifiedAt!.Value,
                 value => RoleName.Create(value).Value)
             .HasMaxLength(RoleNameConstraints.MaxLength)
-            .HasColumnType("varchar")
             .HasColumnName("name")
             .IsRequired();
         builder.HasIndex(r => r.Name).IsUnique();

@@ -1,8 +1,8 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.DbContexts;
 using KindPaws.Core.Abstractions.Database;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,20 +10,21 @@ namespace KindPaws.Auth.Infrastructure.Repositories;
 
 public class AccountsRepository : IRepository<Account, AccountId>
 {
-    private readonly AuthWriteDbContext _dbContext;
+    private readonly AuthWriteWriteDbContext _writeDbContext;
 
-    public AccountsRepository(AuthWriteDbContext dbContext)
+    public AccountsRepository(AuthWriteWriteDbContext writeDbContext)
     {
-        _dbContext = dbContext;
+        _writeDbContext = writeDbContext;
     }
 
     public async Task<Result<Account, Error>> GetByIdAsync(
         AccountId accountId,
         CancellationToken cancellationToken = default)
     {
-        var account = await _dbContext.Accounts
+        var account = await _writeDbContext.Accounts
+            .Include(account => account.RefreshSessions)
             .FirstOrDefaultAsync(
-                v => v.Id == accountId,
+                account => account.Id == accountId,
                 cancellationToken);
 
         if (account == null)
@@ -39,11 +40,11 @@ public class AccountsRepository : IRepository<Account, AccountId>
         Account account,
         CancellationToken cancellationToken = default)
     {
-        await _dbContext.Accounts.AddAsync(account, cancellationToken);
+        await _writeDbContext.Accounts.AddAsync(account, cancellationToken);
     }
 
     public void Delete(Account account)
     {
-        _dbContext.Accounts.Remove(account);
+        _writeDbContext.Accounts.Remove(account);
     }
 }

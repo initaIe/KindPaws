@@ -17,6 +17,7 @@ public class AuthReadDbContext : DbContext, IAuthReadDbContext
     }
 
     public IQueryable<AccountDataModel> Accounts => Set<AccountDataModel>();
+    public IQueryable<RefreshSessionDataModel> RefreshSessions => Set<RefreshSessionDataModel>();
     public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
     public IQueryable<PermissionDataModel> Permissions => Set<PermissionDataModel>();
 

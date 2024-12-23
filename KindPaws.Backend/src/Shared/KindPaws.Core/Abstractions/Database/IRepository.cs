@@ -1,5 +1,6 @@
-﻿using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+﻿using KindPaws.SharedKernel.DDD;
+using KindPaws.SharedKernel.ErrorManagement;
+using KindPaws.SharedKernel.Others;
 
 namespace KindPaws.Core.Abstractions.Database;
 

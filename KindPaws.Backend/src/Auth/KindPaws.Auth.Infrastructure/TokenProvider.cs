@@ -5,8 +5,8 @@ using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Models;
 using KindPaws.Auth.Infrastructure.Factories;
 using KindPaws.Auth.Infrastructure.Options;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

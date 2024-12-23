@@ -8,28 +8,28 @@ namespace KindPaws.Auth.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly AuthWriteDbContext _dbContext;
+    private readonly AuthWriteWriteDbContext _writeDbContext;
 
-    public UnitOfWork(AuthWriteDbContext dbContext)
+    public UnitOfWork(AuthWriteWriteDbContext writeDbContext)
     {
-        _dbContext = dbContext;
+        _writeDbContext = writeDbContext;
     }
 
     public async Task<IDbContextTransaction> BeginTransactionAsync(
         IsolationLevel isolationLevel,
         CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
+        return await _writeDbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
     }
 
     public async Task<IDbContextTransaction> BeginTransactionAsync(
         CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        return await _writeDbContext.Database.BeginTransactionAsync(cancellationToken);
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _writeDbContext.SaveChangesAsync(cancellationToken);
     }
 }

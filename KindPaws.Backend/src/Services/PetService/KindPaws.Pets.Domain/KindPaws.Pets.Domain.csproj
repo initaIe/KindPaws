@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <Folder Include="SpeciesManagement\Events\" />
+      <Folder Include="VolunteersManagement\Events\" />
     </ItemGroup>
 
 </Project>

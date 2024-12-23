@@ -1,5 +1,5 @@
 ﻿using KindPaws.Core.Models;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ErrorManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

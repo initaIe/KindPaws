@@ -43,7 +43,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
             .HasConversion(
                 name => name!.Value,
                 value => BreedName.Create(value).Value)
-            .HasColumnType("citext")
+            .HasMaxLength(BreedNameConstraints.MaxLength)
             .HasColumnName("name")
             .IsRequired();
 

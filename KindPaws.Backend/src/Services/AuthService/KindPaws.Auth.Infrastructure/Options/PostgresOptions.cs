@@ -7,5 +7,5 @@ public class PostgresOptions
     /// </summary>
     public const string SectionName = nameof(PostgresOptions);
 
-    public string ConnectionString { get; set; } = null!;
+    public string ConnectionString { get; init; } = null!;
 }

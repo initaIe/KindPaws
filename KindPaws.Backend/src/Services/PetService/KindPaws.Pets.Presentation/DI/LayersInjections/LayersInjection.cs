@@ -1,0 +1,16 @@
+﻿using KindPaws.Pets.Presentation.DI.LayersInjections.Injections;
+
+namespace KindPaws.Pets.Presentation.DI.LayersInjections;
+
+public static class LayersInjection
+{
+    public static IServiceCollection AddLayers(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddInfrastructure(configuration);
+        services.AddApplication();
+
+        return services;
+    }
+}

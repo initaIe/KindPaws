@@ -1,6 +1,6 @@
 ﻿using KindPaws.Roles.Contracts.Requests;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 
 namespace KindPaws.Roles.Contracts;
 

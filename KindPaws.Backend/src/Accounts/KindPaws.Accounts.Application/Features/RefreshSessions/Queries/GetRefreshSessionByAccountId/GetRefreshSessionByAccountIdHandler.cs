@@ -2,8 +2,8 @@
 using KindPaws.Accounts.Application.DataModels;
 using KindPaws.Accounts.Domain.Entities;
 using KindPaws.Core.Abstractions.Handlers;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 

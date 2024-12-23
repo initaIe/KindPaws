@@ -45,7 +45,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 name => name!.Value,
                 value => PetName.Create(value).Value)
-            .HasColumnType("citext")
+            .HasMaxLength(PetNameConstraints.MaxLength)
             .HasColumnName("name")
             .IsRequired();
 

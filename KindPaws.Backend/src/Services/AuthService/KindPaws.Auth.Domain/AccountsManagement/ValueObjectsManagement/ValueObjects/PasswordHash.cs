@@ -1,8 +1,7 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
-using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjectsConstraints;
 
 namespace KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 
@@ -25,7 +24,7 @@ public record PasswordHash
                 PasswordHashConstraints.MinLength,
                 PasswordHashConstraints.MaxLength))
             return ErrorsGeneral.ValueOutOfRange();
-        
+
         return new PasswordHash(input);
     }
 }

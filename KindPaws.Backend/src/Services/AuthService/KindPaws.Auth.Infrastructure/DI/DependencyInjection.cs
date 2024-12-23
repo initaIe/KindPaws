@@ -11,6 +11,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddCustomOptions(configuration);
+        services.AddMessaging(configuration);
         services.AddProviders();
         services.AddDataBase();
         services.AddSchedulers();

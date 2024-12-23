@@ -1,7 +1,10 @@
 ﻿using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Infrastructure.DbContexts;
-using KindPaws.Auth.Infrastructure.OutBox;
 using KindPaws.Core.Abstractions.Database;
+using KindPaws.Core.OutBox;
+using KindPaws.Core.OutBox.Abstractions;
+using KindPaws.Core.OutBox.Database;
+using KindPaws.Core.OutBox.Interceptors;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +24,8 @@ public static class DatabaseInjection
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
     {
         return services
-            .AddScoped<AuthWriteDbContext>()
+            .AddScoped<AuthWriteWriteDbContext>()
+            .AddScoped<IOutBoxWriteDbContext, AuthWriteWriteDbContext>()
             .AddScoped<IAuthReadDbContext, AuthReadDbContext>();
     }
 

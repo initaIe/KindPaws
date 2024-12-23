@@ -1,6 +1,6 @@
 ﻿using KindPaws.Auth.Application.Models;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 
 namespace KindPaws.Auth.Application.Abstractions;
 

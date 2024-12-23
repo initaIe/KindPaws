@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Markers;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 
 namespace KindPaws.Core.Abstractions.Handlers;
 

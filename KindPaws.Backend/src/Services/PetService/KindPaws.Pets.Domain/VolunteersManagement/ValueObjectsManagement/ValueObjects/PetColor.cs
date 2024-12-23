@@ -1,6 +1,6 @@
 ﻿using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjectsConstraints;
+using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
-using KindPaws.SharedKernel.Others.ErrorManagement;
 using KindPaws.SharedKernel.Utilities.Validators;
 
 namespace KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjects;

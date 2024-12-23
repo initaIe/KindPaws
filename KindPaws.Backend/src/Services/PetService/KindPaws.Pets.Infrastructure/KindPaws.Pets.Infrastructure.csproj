@@ -16,7 +16,6 @@
 
     <ItemGroup>
       <Folder Include="DI\Injections\" />
-      <Folder Include="Options\" />
     </ItemGroup>
 
     <ItemGroup>

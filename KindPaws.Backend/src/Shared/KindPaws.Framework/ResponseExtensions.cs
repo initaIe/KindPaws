@@ -1,6 +1,6 @@
 ﻿using KindPaws.Core.Models;
 using KindPaws.SharedKernel.Enums;
-using KindPaws.SharedKernel.Others.ErrorManagement;
+using KindPaws.SharedKernel.ErrorManagement;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
