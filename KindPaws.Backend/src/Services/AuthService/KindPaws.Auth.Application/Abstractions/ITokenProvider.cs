@@ -1,4 +1,4 @@
-﻿using KindPaws.Auth.Application.Models;
+﻿using KindPaws.Auth.Application.Common.Models;
 using KindPaws.SharedKernel.ErrorManagement;
 using KindPaws.SharedKernel.Others;
 

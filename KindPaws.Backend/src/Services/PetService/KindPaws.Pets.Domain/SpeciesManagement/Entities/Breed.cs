@@ -1,6 +1,5 @@
 using KindPaws.Pets.Domain.SpeciesManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.DDD;
-using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Pets.Domain.SpeciesManagement.Entities;

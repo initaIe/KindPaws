@@ -1,5 +1,4 @@
 ﻿using KindPaws.SharedKernel.DDD;
-using KindPaws.SharedKernel.Others;
 
 namespace KindPaws.Auth.Domain.AccountsManagement.Events;
 

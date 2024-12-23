@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+using FluentValidation;
 using KindPaws.Auth.Application.DI;
 using KindPaws.Core.Abstractions.Handlers;
 
@@ -10,7 +11,18 @@ public static class ApplicationInjection
     {
         var assembly = typeof(Application.DI.DependencyInjection).Assembly;
 
-        // CommandHandlers
+        services.AddCommandHandlers(assembly);
+        services.AddQueryHandlers(assembly);
+        services.AddFluentValidationValidators(assembly);
+        services.AddApplicationLayer();
+
+        return services;
+    }
+
+    private static IServiceCollection AddCommandHandlers(
+        this IServiceCollection services,
+        Assembly assembly)
+    {
         services.Scan(scan => scan.FromAssemblies(assembly)
             .AddClasses(classes => classes.AssignableToAny(
                 typeof(ICommandHandler<>),
@@ -18,16 +30,26 @@ public static class ApplicationInjection
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 
-        // QueryHandlers
+        return services;
+    }
+
+    private static IServiceCollection AddQueryHandlers(
+        this IServiceCollection services,
+        Assembly assembly)
+    {
         services.Scan(scan => scan.FromAssemblies(assembly)
             .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 
-        // FluentValidation validators
-        services.AddValidatorsFromAssemblies([assembly]);
+        return services;
+    }
 
-        services.AddApplicationLayer();
+    private static IServiceCollection AddFluentValidationValidators(
+        this IServiceCollection services,
+        Assembly assembly)
+    {
+        services.AddValidatorsFromAssembly(assembly);
 
         return services;
     }

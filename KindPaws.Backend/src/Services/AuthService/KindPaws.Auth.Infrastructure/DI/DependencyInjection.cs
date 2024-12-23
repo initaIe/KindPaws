@@ -1,4 +1,5 @@
 ﻿using KindPaws.Auth.Infrastructure.DI.Injections;
+using KindPaws.Auth.Infrastructure.DI.Injections.MessagingInjections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -2,10 +2,10 @@
 using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Features.Auth.Commands.Register;
 using KindPaws.Auth.Contracts.Responses;
-using KindPaws.Auth.Domain;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.AccountsManagement.Entities;
 using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
+using KindPaws.Auth.Domain.Common;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using KindPaws.Auth.Application.Abstractions;
-using KindPaws.Auth.Application.Factories;
-using KindPaws.Auth.Domain;
+using KindPaws.Auth.Application.Common.Factories;
 using KindPaws.Auth.Domain.AccountsManagement.AggregateRoot;
+using KindPaws.Auth.Domain.Common;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.Abstractions.Handlers;
 using KindPaws.Core.Extensions;

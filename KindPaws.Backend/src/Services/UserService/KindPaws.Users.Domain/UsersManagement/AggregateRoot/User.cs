@@ -1,5 +1,4 @@
 ﻿using KindPaws.SharedKernel.DDD;
-using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using KindPaws.Users.Domain.UsersManagement.Entities;

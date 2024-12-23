@@ -1,4 +1,4 @@
-﻿using KindPaws.Pets.Application.DataModels;
+﻿using KindPaws.Pets.Application.Common.DataModels;
 
 namespace KindPaws.Pets.Application.Abstractions;
 

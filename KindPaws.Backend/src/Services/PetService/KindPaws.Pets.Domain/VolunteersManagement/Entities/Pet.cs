@@ -1,6 +1,5 @@
 ﻿using KindPaws.Pets.Domain.VolunteersManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.DDD;
-using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.Utilities.Helpers;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 

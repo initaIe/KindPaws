@@ -6,4 +6,7 @@ public record AccountCreatedIntegrationEvent(
     Guid AccountId,
     string Username,
     string EmailAddress)
-    : IntegrationEvent;
+    : IntegrationEvent
+{
+    public static string RoutingKey => "account.created";
+}

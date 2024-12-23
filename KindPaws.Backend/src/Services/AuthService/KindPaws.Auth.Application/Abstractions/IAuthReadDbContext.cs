@@ -1,4 +1,4 @@
-﻿using KindPaws.Auth.Application.DataModels;
+﻿using KindPaws.Auth.Application.Common.DataModels;
 
 namespace KindPaws.Auth.Application.Abstractions;
 

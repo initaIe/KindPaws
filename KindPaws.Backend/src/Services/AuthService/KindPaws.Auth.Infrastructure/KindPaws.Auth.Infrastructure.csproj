@@ -20,4 +20,8 @@
       <PackageReference Include="Polly" Version="8.5.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common\" />
+    </ItemGroup>
+
 </Project>

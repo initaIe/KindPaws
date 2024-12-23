@@ -1,6 +1,5 @@
 ﻿using KindPaws.Auth.Domain.PermissionsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.DDD;
-using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 

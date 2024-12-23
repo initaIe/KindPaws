@@ -1,6 +1,5 @@
 ﻿using KindPaws.Auth.Domain.AccountsManagement.ValueObjectsManagement.ValueObjects;
 using KindPaws.SharedKernel.DDD;
-using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects;
 
 namespace KindPaws.Auth.Domain.AccountsManagement.Entities;

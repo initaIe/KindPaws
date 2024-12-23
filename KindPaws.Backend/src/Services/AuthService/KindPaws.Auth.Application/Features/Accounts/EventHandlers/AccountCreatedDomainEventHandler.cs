@@ -2,9 +2,6 @@
 using KindPaws.Auth.Contracts.Messaging;
 using KindPaws.Auth.Domain.AccountsManagement.Events;
 using KindPaws.Core.Abstractions.Handlers;
-using KindPaws.Core.Abstractions.IntegrationEvents;
-using KindPaws.Core.Extensions;
-using KindPaws.SharedKernel.DDD;
 using MassTransit;
 using MassTransit.DependencyInjection;
 
@@ -14,7 +11,7 @@ public class AccountCreatedDomainEventHandler : IDomainEventHandler<AccountCreat
 {
     private readonly IPublishEndpoint _publisher;
 
-    public AccountCreatedDomainEventHandler(Bind<IAuthMessageBus, IPublishEndpoint> publisher)
+    public AccountCreatedDomainEventHandler(Bind<IAccountsMessageBus, IPublishEndpoint> publisher)
     {
         _publisher = publisher.Value;
     }
@@ -27,7 +24,7 @@ public class AccountCreatedDomainEventHandler : IDomainEventHandler<AccountCreat
             domainEvent.AccountId,
             domainEvent.Username,
             domainEvent.EmailAddress);
-        
+
         await _publisher.Publish(integrationEvent, cancellationToken);
     }
 }

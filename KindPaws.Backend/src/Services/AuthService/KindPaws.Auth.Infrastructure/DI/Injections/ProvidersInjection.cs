@@ -1,5 +1,5 @@
 ﻿using KindPaws.Auth.Application.Abstractions;
-using KindPaws.Auth.Infrastructure.Providers;
+using KindPaws.Auth.Infrastructure.Common.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KindPaws.Auth.Infrastructure.DI.Injections;
