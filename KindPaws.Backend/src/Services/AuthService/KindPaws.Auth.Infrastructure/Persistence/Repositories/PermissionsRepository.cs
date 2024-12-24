@@ -6,7 +6,7 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Auth.Infrastructure.Repositories;
+namespace KindPaws.Auth.Infrastructure.Persistence.Repositories;
 
 public class PermissionsRepository : IRepository<Permission, PermissionId>
 {

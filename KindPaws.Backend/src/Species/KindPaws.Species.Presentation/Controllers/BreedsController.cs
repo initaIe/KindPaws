@@ -1,4 +1,5 @@
 ﻿using KindPaws.Framework;
+using KindPaws.Framework.Abstractions;
 using KindPaws.Framework.Authorization;
 using KindPaws.Species.Application.Features.Breeds.Queries.GetBreeds;
 using KindPaws.Species.Contracts.Requests;

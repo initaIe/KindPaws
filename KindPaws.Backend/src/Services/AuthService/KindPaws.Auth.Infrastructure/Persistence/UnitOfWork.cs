@@ -4,7 +4,7 @@ using KindPaws.Core.Abstractions.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace KindPaws.Auth.Infrastructure.Repositories;
+namespace KindPaws.Auth.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {

@@ -2,7 +2,8 @@ $originalDirectory = Get-Location
 
 $scripts = @(
     ".\auth-migrations-script.ps1",
-    ".\pets-migrations-script.ps1"
+    ".\pets-migrations-script.ps1",
+    ".\users-migrations-script.ps1"
 )
 
 foreach ($script in $scripts) {

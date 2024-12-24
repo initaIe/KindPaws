@@ -1,5 +1,6 @@
 ﻿using KindPaws.Auth.Infrastructure.Common.Options;
 using KindPaws.Core.Abstractions.IntegrationEvents;
+using KindPaws.Core.Options;
 using KindPaws.SharedKernel.DDD;
 using MediatR;
 using Microsoft.Extensions.Configuration;

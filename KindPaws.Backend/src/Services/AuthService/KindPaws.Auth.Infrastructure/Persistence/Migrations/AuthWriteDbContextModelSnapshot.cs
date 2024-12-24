@@ -189,8 +189,8 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ef86f22d-56ab-48ea-8353-2eed83ea2dae"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 23, 15, 0, 37, 586, DateTimeKind.Unspecified).AddTicks(5414), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("b6d9ccd7-a17b-4301-9fee-7cc1a2f7b698"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 24, 18, 32, 11, 843, DateTimeKind.Unspecified).AddTicks(5036), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "User",
                             Permissions = new Guid[0]
                         });

@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Factories;
+﻿using KindPaws.Core.Abstractions.Database.DbContexts;
 using KindPaws.Pets.Application.Abstractions;
 using KindPaws.Pets.Application.Common.DataModels;
 using KindPaws.Pets.Infrastructure.Common.Options;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Pets.Infrastructure.Persistence.DbContexts;
 
-public class PetsReadDbContext : DbContext, IPetsReadDbContext
+public class PetsReadDbContext : ReadDbContext, IPetsReadDbContext
 {
     private readonly PostgresOptions _postgresOptions;
 
@@ -16,6 +16,9 @@ public class PetsReadDbContext : DbContext, IPetsReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
+    protected override string SchemaName => "pets";
+    protected override string ConfigurationNamespace => "Persistence.Configurations.Read";
+
     public IQueryable<VolunteerDataModel> Volunteers => Set<VolunteerDataModel>();
     public IQueryable<PetDataModel> Pets => Set<PetDataModel>();
     public IQueryable<SpecieDataModel> Species => Set<SpecieDataModel>();
@@ -23,20 +26,7 @@ public class PetsReadDbContext : DbContext, IPetsReadDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder
-            .UseNpgsql(_postgresOptions.ConnectionString)
-            .UseSnakeCaseNamingConvention()
-            .UseLoggerFactory(LoggerFactories.CreateConsole())
-            .EnableSensitiveDataLogging()
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.HasDefaultSchema("users");
-
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(PetsReadDbContext).Assembly,
-            type => type.FullName?.Contains("Configurations.Read") ?? false);
+        optionsBuilder.UseNpgsql(_postgresOptions.ConnectionString);
+        base.OnConfiguring(optionsBuilder);
     }
 }

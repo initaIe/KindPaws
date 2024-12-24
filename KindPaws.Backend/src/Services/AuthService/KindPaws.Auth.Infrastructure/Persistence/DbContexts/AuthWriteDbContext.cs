@@ -3,55 +3,41 @@ using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.Common.Options;
 using KindPaws.Auth.Infrastructure.Persistence.Seeding;
-using KindPaws.Core.Factories;
-using KindPaws.Core.OutBox.Abstractions;
-using KindPaws.Core.OutBox.Database;
-using KindPaws.Core.OutBox.Entities;
+using KindPaws.Core.Abstractions.Database.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Auth.Infrastructure.Persistence.DbContexts
 {
-    public class AuthWriteDbContext : DbContext, IOutBoxWriteDbContext
+    public class AuthWriteDbContext : OutBoxWriteDbContext
     {
         private readonly PostgresOptions _postgresOptions;
-        private readonly ISaveChangesInterceptor _saveChangesInterceptor;
 
         public AuthWriteDbContext(
-            IOptions<PostgresOptions> postgresOptions,
-            ISaveChangesInterceptor saveChangesInterceptor)
+            ISaveChangesInterceptor saveChangesInterceptor,
+            IOptions<PostgresOptions> postgresOptions)
+            : base(saveChangesInterceptor)
         {
-            _saveChangesInterceptor = saveChangesInterceptor;
             _postgresOptions = postgresOptions.Value;
         }
 
+        protected override string SchemaName => "auth";
+        protected override string ConfigurationNamespace => "Persistence.Configurations.Write";
+
         public DbSet<Account> Accounts => Set<Account>();
         public DbSet<Role> Roles => Set<Role>();
-
         public DbSet<Permission> Permissions => Set<Permission>();
-        public DbSet<OutBoxMessage> OutBoxMessages => Set<OutBoxMessage>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .UseNpgsql(_postgresOptions.ConnectionString)
-                .UseSnakeCaseNamingConvention()
-                .UseLoggerFactory(LoggerFactories.CreateConsole())
-                .EnableSensitiveDataLogging()
-                .AddInterceptors(_saveChangesInterceptor);
+            optionsBuilder.UseNpgsql(_postgresOptions.ConnectionString);
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("auth");
-
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OutBoxMessagesConfiguration).Assembly);
-
-            modelBuilder.ApplyConfigurationsFromAssembly(
-                typeof(AuthWriteDbContext).Assembly,
-                type => type.FullName?.Contains("Persistence.Configurations.Write") ?? false);
-
+            base.OnModelCreating(modelBuilder);
             modelBuilder.SeedRoles();
         }
     }

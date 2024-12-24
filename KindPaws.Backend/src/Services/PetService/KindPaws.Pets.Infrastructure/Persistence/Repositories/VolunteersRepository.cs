@@ -6,7 +6,7 @@ using KindPaws.SharedKernel.Others;
 using KindPaws.SharedKernel.ValueObjectsManagement.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 
-namespace KindPaws.Pets.Infrastructure.Repositories;
+namespace KindPaws.Pets.Infrastructure.Persistence.Repositories;
 
 public class VolunteersRepository : IRepository<Volunteer, VolunteerId>
 {

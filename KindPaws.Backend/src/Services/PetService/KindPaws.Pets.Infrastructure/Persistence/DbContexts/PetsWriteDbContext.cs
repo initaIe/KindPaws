@@ -1,7 +1,4 @@
-﻿using KindPaws.Core.Factories;
-using KindPaws.Core.OutBox.Abstractions;
-using KindPaws.Core.OutBox.Database;
-using KindPaws.Core.OutBox.Entities;
+﻿using KindPaws.Core.Abstractions.Database.DbContexts;
 using KindPaws.Pets.Domain.SpeciesManagement.AggregateRoot;
 using KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 using KindPaws.Pets.Infrastructure.Common.Options;
@@ -11,42 +8,28 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Pets.Infrastructure.Persistence.DbContexts
 {
-    public class PetsWriteDbContext : DbContext, IOutBoxWriteDbContext
+    public class PetsWriteDbContext : OutBoxWriteDbContext
     {
         private readonly PostgresOptions _postgresOptions;
-        private readonly ISaveChangesInterceptor _saveChangesInterceptor;
 
         public PetsWriteDbContext(
-            IOptions<PostgresOptions> postgresOptions,
-            ISaveChangesInterceptor saveChangesInterceptor)
+            ISaveChangesInterceptor saveChangesInterceptor,
+            IOptions<PostgresOptions> postgresOptions)
+            : base(saveChangesInterceptor)
         {
-            _saveChangesInterceptor = saveChangesInterceptor;
             _postgresOptions = postgresOptions.Value;
         }
 
+        protected override string SchemaName => "pets";
+        protected override string ConfigurationNamespace => "Persistence.Configurations.Write";
+
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
         public DbSet<Specie> Species => Set<Specie>();
-        public DbSet<OutBoxMessage> OutBoxMessages => Set<OutBoxMessage>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .UseNpgsql(_postgresOptions.ConnectionString)
-                .UseSnakeCaseNamingConvention()
-                .UseLoggerFactory(LoggerFactories.CreateConsole())
-                .EnableSensitiveDataLogging()
-                .AddInterceptors(_saveChangesInterceptor);
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.HasDefaultSchema("pets");
-
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OutBoxMessagesConfiguration).Assembly);
-
-            modelBuilder.ApplyConfigurationsFromAssembly(
-                typeof(PetsWriteDbContext).Assembly,
-                type => type.FullName?.Contains("Persistence.Configurations.Write") ?? false);
+            optionsBuilder.UseNpgsql(_postgresOptions.ConnectionString);
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

@@ -14,9 +14,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Common\DataModels\" />
+      <Folder Include="Common\Models\" />
       <Folder Include="Features\Roles\Commands\" />
+      <Folder Include="Features\Roles\EventHandlers\" />
       <Folder Include="Features\Roles\Queries\" />
       <Folder Include="Features\Users\Commands\" />
+      <Folder Include="Features\Users\EventHandlers\" />
       <Folder Include="Features\Users\Queries\" />
     </ItemGroup>
 

@@ -11,5 +11,5 @@ public class SpecieDataModel
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string Description { get; init; } = null!;
-    public IReadOnlyList<BreedDataModel> Breeds = [];
+    public IReadOnlyList<BreedDataModel> Breeds { get; init; } = [];
 }

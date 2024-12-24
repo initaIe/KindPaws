@@ -1,13 +1,13 @@
 ﻿using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Common.DataModels;
 using KindPaws.Auth.Infrastructure.Common.Options;
-using KindPaws.Core.Factories;
+using KindPaws.Core.Abstractions.Database.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Auth.Infrastructure.Persistence.DbContexts;
 
-public class AuthReadDbContext : DbContext, IAuthReadDbContext
+public class AuthReadDbContext : ReadDbContext, IAuthReadDbContext
 {
     private readonly PostgresOptions _postgresOptions;
 
@@ -16,6 +16,9 @@ public class AuthReadDbContext : DbContext, IAuthReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
+    protected override string SchemaName => "auth";
+    protected override string ConfigurationNamespace => "Persistence.Configurations.Read";
+
     public IQueryable<AccountDataModel> Accounts => Set<AccountDataModel>();
     public IQueryable<RefreshSessionDataModel> RefreshSessions => Set<RefreshSessionDataModel>();
     public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
@@ -23,20 +26,7 @@ public class AuthReadDbContext : DbContext, IAuthReadDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder
-            .UseNpgsql(_postgresOptions.ConnectionString)
-            .UseSnakeCaseNamingConvention()
-            .UseLoggerFactory(LoggerFactories.CreateConsole())
-            .EnableSensitiveDataLogging()
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.HasDefaultSchema("auth");
-
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(AuthReadDbContext).Assembly,
-            type => type.FullName?.Contains("Configurations.Read") ?? false);
+        optionsBuilder.UseNpgsql(_postgresOptions.ConnectionString);
+        base.OnConfiguring(optionsBuilder);
     }
 }

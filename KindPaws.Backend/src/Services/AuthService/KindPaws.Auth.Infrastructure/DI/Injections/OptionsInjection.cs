@@ -1,4 +1,5 @@
 ﻿using KindPaws.Auth.Infrastructure.Common.Options;
+using KindPaws.Core.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

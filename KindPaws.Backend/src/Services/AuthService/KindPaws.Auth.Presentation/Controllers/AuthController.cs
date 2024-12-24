@@ -3,7 +3,8 @@ using KindPaws.Auth.Application.Features.Auth.Commands.RefreshTokens;
 using KindPaws.Auth.Application.Features.Auth.Commands.Register;
 using KindPaws.Auth.Contracts.Requests;
 using KindPaws.Auth.Presentation.Mappers;
-using KindPaws.Framework;
+using KindPaws.Framework.Abstractions;
+using KindPaws.Framework.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KindPaws.Auth.Presentation.Controllers;

@@ -15,8 +15,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DI\Injections\" />
-      <Folder Include="Options\" />
+      <Folder Include="Common\" />
+      <Folder Include="Persistence\Configurations\Read\" />
+      <Folder Include="Persistence\Configurations\Write\" />
+      <Folder Include="Persistence\DbContexts\" />
     </ItemGroup>
 
     <ItemGroup>

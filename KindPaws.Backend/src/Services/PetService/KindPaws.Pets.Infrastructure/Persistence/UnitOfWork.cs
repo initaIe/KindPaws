@@ -4,7 +4,7 @@ using KindPaws.Pets.Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace KindPaws.Pets.Infrastructure.Repositories;
+namespace KindPaws.Pets.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {

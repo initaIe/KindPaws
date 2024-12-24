@@ -1,6 +1,6 @@
 ﻿using KindPaws.Auth.Application.Abstractions;
+using KindPaws.Auth.Infrastructure.Persistence;
 using KindPaws.Auth.Infrastructure.Persistence.DbContexts;
-using KindPaws.Auth.Infrastructure.Repositories;
 using KindPaws.Core.Abstractions.Database;
 using KindPaws.Core.OutBox.Abstractions;
 using KindPaws.Core.OutBox.Database;

@@ -1,6 +1,7 @@
 ﻿using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Contracts.Messaging;
 using KindPaws.Auth.Infrastructure.Common.Options;
+using KindPaws.Core.Options;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
