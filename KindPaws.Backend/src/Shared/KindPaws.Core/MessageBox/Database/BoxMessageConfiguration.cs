@@ -1,16 +1,16 @@
-﻿using KindPaws.Core.OutBox.Entities;
+﻿using KindPaws.Core.MessageBox.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace KindPaws.Core.OutBox.Database;
+namespace KindPaws.Core.MessageBox.Database;
 
-public class OutBoxMessagesConfiguration : IEntityTypeConfiguration<OutBoxMessage>
+public class BoxMessageConfiguration<T> : IEntityTypeConfiguration<T> 
+    where T : class, IBoxMessage
 {
-    public void Configure(EntityTypeBuilder<OutBoxMessage> builder)
+    public void Configure(EntityTypeBuilder<T> builder)
     {
-        // TABLE NAMING
-        builder.ToTable("outbox_messages");
-
+        builder.ToTable(typeof(T).Name);
+        
         // ID
         builder.HasKey(outBoxMessage => outBoxMessage.Id);
         builder.Property(outBoxMessage => outBoxMessage.Id)

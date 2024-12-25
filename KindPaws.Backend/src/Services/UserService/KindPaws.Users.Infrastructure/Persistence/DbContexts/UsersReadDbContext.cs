@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.Database.DbContexts;
+﻿using KindPaws.Core.Abstractions.Database.DbContexts.AbstractClasses;
 using KindPaws.Users.Application.Abstractions;
 using KindPaws.Users.Application.Common.DataModels;
 using KindPaws.Users.Infrastructure.Common.Options;
@@ -15,9 +15,8 @@ public class UsersReadDbContext : ReadDbContext, IUsersReadDbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
-
-    protected override string SchemaName => "users";
-    protected override string ConfigurationNamespace => "Persistence.Configurations.Read";
+    public override string GetSchemaName() => "users";
+    public override string GetConfigurationNamespace() => "Persistence.Configurations.Read";
 
     public IQueryable<UserDataModel> Users => Set<UserDataModel>();
     public IQueryable<ProfileDataModel> Profiles => Set<ProfileDataModel>();

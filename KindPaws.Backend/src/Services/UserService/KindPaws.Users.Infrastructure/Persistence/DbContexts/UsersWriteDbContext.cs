@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.Database.DbContexts;
+﻿using KindPaws.Core.MessageBox.Abstractions.AbstractClasses;
 using KindPaws.Users.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Users.Domain.UsersManagement.AggregateRoot;
 using KindPaws.Users.Domain.VolunteerRequestManagement.AggregateRoot;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Users.Infrastructure.Persistence.DbContexts
 {
-    public class UsersWriteDbContext : OutBoxWriteDbContext
+    public class UsersWriteDbContext : GeneralBoxDbContext
     {
         private readonly PostgresOptions _postgresOptions;
 
@@ -21,8 +21,8 @@ namespace KindPaws.Users.Infrastructure.Persistence.DbContexts
             _postgresOptions = postgresOptions.Value;
         }
 
-        protected override string SchemaName => "users";
-        protected override string ConfigurationNamespace => "Persistence.Configurations.Write";
+        public override string GetSchemaName() => "users";
+        public override string GetConfigurationNamespace() => "Persistence.Configurations.Write";
 
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Pets_20241225_152900 : Migration
+    public partial class Pets_20241225_193457 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,20 +15,37 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
                 name: "pets");
 
             migrationBuilder.CreateTable(
-                name: "outbox_messages",
+                name: "in_box_messages",
                 schema: "pets",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
-                    payload = table.Column<string>(type: "jsonb", nullable: false),
+                    type = table.Column<string>(type: "text", nullable: false),
+                    payload = table.Column<string>(type: "text", nullable: false),
                     occured_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     processed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     error = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_outbox_messages", x => x.id);
+                    table.PrimaryKey("pk_in_box_messages", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "out_box_messages",
+                schema: "pets",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "text", nullable: false),
+                    payload = table.Column<string>(type: "text", nullable: false),
+                    occured_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    processed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    error = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_out_box_messages", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,13 +142,6 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
                 column: "specie_id");
 
             migrationBuilder.CreateIndex(
-                name: "idx_outbox_messages_unprocessed",
-                schema: "pets",
-                table: "outbox_messages",
-                columns: new[] { "occured_at", "processed_at" },
-                filter: "processed_at IS NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_pets_volunteer_id",
                 schema: "pets",
                 table: "pets",
@@ -146,7 +156,11 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
                 schema: "pets");
 
             migrationBuilder.DropTable(
-                name: "outbox_messages",
+                name: "in_box_messages",
+                schema: "pets");
+
+            migrationBuilder.DropTable(
+                name: "out_box_messages",
                 schema: "pets");
 
             migrationBuilder.DropTable(

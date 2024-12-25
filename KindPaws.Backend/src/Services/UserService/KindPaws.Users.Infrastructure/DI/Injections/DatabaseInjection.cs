@@ -1,7 +1,6 @@
 ﻿using KindPaws.Core.Abstractions.Database;
-using KindPaws.Core.OutBox.Abstractions;
-using KindPaws.Core.OutBox.Database;
-using KindPaws.Core.OutBox.Interceptors;
+using KindPaws.Core.MessageBox.Abstractions.Interfaces;
+using KindPaws.Core.MessageBox.Interceptors;
 using KindPaws.Users.Application.Abstractions;
 using KindPaws.Users.Infrastructure.Persistence;
 using KindPaws.Users.Infrastructure.Persistence.DbContexts;
@@ -17,8 +16,7 @@ public static class DatabaseInjection
         return services
             .AddDbContexts()
             .AddUnitOfWork()
-            .AddInterceptors()
-            .AddRepositories();
+            .AddInterceptors();
     }
 
     private static IServiceCollection AddDbContexts(this IServiceCollection services)
@@ -37,10 +35,5 @@ public static class DatabaseInjection
     private static IServiceCollection AddInterceptors(this IServiceCollection services)
     {
         return services.AddSingleton<ISaveChangesInterceptor, DomainEventsToOutboxInterceptor>();
-    }
-
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
-        return services.AddScoped<IOutBoxRepository, OutBoxRepository>();
     }
 }

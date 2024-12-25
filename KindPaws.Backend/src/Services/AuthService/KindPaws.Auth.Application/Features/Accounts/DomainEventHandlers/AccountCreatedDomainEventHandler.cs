@@ -5,7 +5,7 @@ using KindPaws.Core.Abstractions.Handlers;
 using MassTransit;
 using MassTransit.DependencyInjection;
 
-namespace KindPaws.Auth.Application.Features.Accounts.EventHandlers;
+namespace KindPaws.Auth.Application.Features.Accounts.DomainEventHandlers;
 
 public class AccountCreatedDomainEventHandler : IDomainEventHandler<AccountCreatedDomainEvent>
 {

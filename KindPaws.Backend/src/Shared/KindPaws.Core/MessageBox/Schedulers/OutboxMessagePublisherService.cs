@@ -1,13 +1,13 @@
 ﻿using System.Text.Json;
-using KindPaws.Core.OutBox.Abstractions;
-using KindPaws.Core.OutBox.Entities;
+using KindPaws.Core.MessageBox.Abstractions.Interfaces;
+using KindPaws.Core.MessageBox.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
 
-namespace KindPaws.Core.OutBox.Schedulers;
+namespace KindPaws.Core.MessageBox.Schedulers;
 
 public class OutboxMessagePublisherService : IOutboxMessagePublisherService
 {
@@ -76,7 +76,7 @@ public class OutboxMessagePublisherService : IOutboxMessagePublisherService
     }
 
     private async Task ProcessMessageAsync(
-        OutBoxMessage message,
+        BoxMessage message,
         ResiliencePipeline pipeline,
         CancellationToken cancellationToken = default)
     {

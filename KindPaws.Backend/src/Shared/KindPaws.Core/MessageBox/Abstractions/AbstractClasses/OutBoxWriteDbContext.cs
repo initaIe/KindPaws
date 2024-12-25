@@ -1,10 +1,11 @@
-﻿using KindPaws.Core.OutBox.Abstractions;
-using KindPaws.Core.OutBox.Database;
-using KindPaws.Core.OutBox.Entities;
+﻿using KindPaws.Core.Abstractions.Database.DbContexts.AbstractClasses;
+using KindPaws.Core.MessageBox.Abstractions.Interfaces;
+using KindPaws.Core.MessageBox.Database;
+using KindPaws.Core.MessageBox.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace KindPaws.Core.Abstractions.Database.DbContexts;
+namespace KindPaws.Core.MessageBox.Abstractions.AbstractClasses;
 
 public abstract class OutBoxWriteDbContext : WriteDbContext, IOutBoxWriteDbContext
 {
@@ -23,7 +24,7 @@ public abstract class OutBoxWriteDbContext : WriteDbContext, IOutBoxWriteDbConte
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OutBoxMessagesConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BoxMessageConfiguration<OutBoxMessage>).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 

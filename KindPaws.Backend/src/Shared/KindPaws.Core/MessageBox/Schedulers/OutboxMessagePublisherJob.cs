@@ -1,7 +1,7 @@
-﻿using KindPaws.Core.OutBox.Abstractions;
+﻿using KindPaws.Core.MessageBox.Abstractions.Interfaces;
 using Quartz;
 
-namespace KindPaws.Core.OutBox.Schedulers;
+namespace KindPaws.Core.MessageBox.Schedulers;
 
 [DisallowConcurrentExecution]
 public class OutboxMessagePublisherJob : IJob

@@ -1,7 +1,7 @@
 ﻿using KindPaws.Auth.Application.Abstractions;
 using KindPaws.Auth.Application.Common.DataModels;
 using KindPaws.Auth.Infrastructure.Common.Options;
-using KindPaws.Core.Abstractions.Database.DbContexts;
+using KindPaws.Core.Abstractions.Database.DbContexts.AbstractClasses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -16,13 +16,13 @@ public class AuthReadDbContext : ReadDbContext, IAuthReadDbContext
         _postgresOptions = postgresOptions.Value;
     }
 
-    protected override string SchemaName => "auth";
-    protected override string ConfigurationNamespace => "Persistence.Configurations.Read";
-
     public IQueryable<AccountDataModel> Accounts => Set<AccountDataModel>();
     public IQueryable<RefreshSessionDataModel> RefreshSessions => Set<RefreshSessionDataModel>();
     public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
     public IQueryable<PermissionDataModel> Permissions => Set<PermissionDataModel>();
+    
+    public override string GetSchemaName() => "auth";
+    public override string GetConfigurationNamespace() => "Persistence.Configurations.Read";
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

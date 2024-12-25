@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.Database.DbContexts;
+﻿using KindPaws.Core.MessageBox.Abstractions.AbstractClasses;
 using KindPaws.Pets.Domain.SpeciesManagement.AggregateRoot;
 using KindPaws.Pets.Domain.VolunteersManagement.AggregateRoot;
 using KindPaws.Pets.Infrastructure.Common.Options;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace KindPaws.Pets.Infrastructure.Persistence.DbContexts
 {
-    public class PetsWriteDbContext : OutBoxWriteDbContext
+    public class PetsWriteDbContext : GeneralBoxDbContext
     {
         private readonly PostgresOptions _postgresOptions;
 
@@ -20,8 +20,8 @@ namespace KindPaws.Pets.Infrastructure.Persistence.DbContexts
             _postgresOptions = postgresOptions.Value;
         }
 
-        protected override string SchemaName => "pets";
-        protected override string ConfigurationNamespace => "Persistence.Configurations.Write";
+        public override string GetSchemaName() => "pets";
+        public override string GetConfigurationNamespace() => "Persistence.Configurations.Write";
 
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
         public DbSet<Specie> Species => Set<Specie>();

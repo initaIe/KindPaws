@@ -23,7 +23,7 @@ namespace KindPaws.Users.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("KindPaws.Core.OutBox.Entities.OutBoxMessage", b =>
+            modelBuilder.Entity("KindPaws.Core.MessageBox.Entities.InBoxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace KindPaws.Users.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Payload")
                         .IsRequired()
-                        .HasColumnType("jsonb")
+                        .HasColumnType("text")
                         .HasColumnName("payload");
 
                     b.Property<DateTimeOffset?>("ProcessedAt")
@@ -49,18 +49,48 @@ namespace KindPaws.Users.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
+                        .HasColumnType("text")
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_outbox_messages");
+                        .HasName("pk_in_box_messages");
 
-                    b.HasIndex("OccuredAt", "ProcessedAt")
-                        .HasDatabaseName("idx_outbox_messages_unprocessed")
-                        .HasFilter("processed_at IS NULL");
+                    b.ToTable("in_box_messages", "users");
+                });
 
-                    b.ToTable("outbox_messages", "users");
+            modelBuilder.Entity("KindPaws.Core.MessageBox.Entities.OutBoxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text")
+                        .HasColumnName("error");
+
+                    b.Property<DateTimeOffset>("OccuredAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occured_at");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("payload");
+
+                    b.Property<DateTimeOffset?>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_at");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_out_box_messages");
+
+                    b.ToTable("out_box_messages", "users");
                 });
 
             modelBuilder.Entity("KindPaws.Users.Domain.RolesManagement.AggregateRoot.Role", b =>

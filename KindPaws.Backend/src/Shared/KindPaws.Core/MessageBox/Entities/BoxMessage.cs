@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
 using KindPaws.SharedKernel.DDD;
 
-namespace KindPaws.Core.OutBox.Entities;
+namespace KindPaws.Core.MessageBox.Entities;
 
-public class OutBoxMessage
+public class BoxMessage : IBoxMessage
 {
-    private OutBoxMessage(
+    private protected BoxMessage(
         Guid id,
         string type,
         string payload,
@@ -34,14 +34,14 @@ public class OutBoxMessage
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string? Error { get; set; }
 
-    public static OutBoxMessage CreateNew<T>(T message)
+    public static BoxMessage CreateNew<T>(T message)
         where T : IEvent
     {
         var outBoxMessageId = Guid.NewGuid();
         var outBoxMessageOccuredAt = DateTimeOffset.UtcNow;
 
         var payload = JsonSerializer.Serialize(message, System.Type.GetType(message.EventType)!);
-        return new OutBoxMessage(
+        return new BoxMessage(
             outBoxMessageId,
             message.EventType,
             payload,
@@ -50,7 +50,7 @@ public class OutBoxMessage
             null);
     }
 
-    public static OutBoxMessage Create(
+    public static BoxMessage Create(
         Guid id,
         string type,
         string payload,
@@ -58,7 +58,7 @@ public class OutBoxMessage
         DateTimeOffset? processedAt,
         string? error)
     {
-        return new OutBoxMessage(
+        return new BoxMessage(
             id,
             type,
             payload,

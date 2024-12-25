@@ -3,14 +3,14 @@ using KindPaws.Auth.Domain.PermissionsManagement.AggregateRoot;
 using KindPaws.Auth.Domain.RolesManagement.AggregateRoot;
 using KindPaws.Auth.Infrastructure.Common.Options;
 using KindPaws.Auth.Infrastructure.Persistence.Seeding;
-using KindPaws.Core.Abstractions.Database.DbContexts;
+using KindPaws.Core.MessageBox.Abstractions.AbstractClasses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 
 namespace KindPaws.Auth.Infrastructure.Persistence.DbContexts
 {
-    public class AuthWriteDbContext : OutBoxWriteDbContext
+    public class AuthWriteDbContext : GeneralBoxDbContext
     {
         private readonly PostgresOptions _postgresOptions;
 
@@ -22,8 +22,8 @@ namespace KindPaws.Auth.Infrastructure.Persistence.DbContexts
             _postgresOptions = postgresOptions.Value;
         }
 
-        protected override string SchemaName => "auth";
-        protected override string ConfigurationNamespace => "Persistence.Configurations.Write";
+        public override string GetSchemaName() => "auth";
+        public override string GetConfigurationNamespace() => "Persistence.Configurations.Write";
 
         public DbSet<Account> Accounts => Set<Account>();
         public DbSet<Role> Roles => Set<Role>();

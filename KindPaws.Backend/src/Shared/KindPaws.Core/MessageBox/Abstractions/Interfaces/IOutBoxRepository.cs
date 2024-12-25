@@ -1,6 +1,6 @@
 ﻿using KindPaws.SharedKernel.DDD;
 
-namespace KindPaws.Core.OutBox.Abstractions;
+namespace KindPaws.Core.MessageBox.Abstractions.Interfaces;
 
 public interface IOutBoxRepository
 {

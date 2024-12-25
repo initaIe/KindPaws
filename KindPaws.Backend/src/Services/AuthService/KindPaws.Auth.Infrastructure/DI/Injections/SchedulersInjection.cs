@@ -1,5 +1,5 @@
-﻿using KindPaws.Core.OutBox.Abstractions;
-using KindPaws.Core.OutBox.Schedulers;
+﻿using KindPaws.Core.MessageBox.Abstractions.Interfaces;
+using KindPaws.Core.MessageBox.Schedulers;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 

@@ -1,4 +1,4 @@
-﻿using KindPaws.Core.Abstractions.Database.DbContexts;
+﻿using KindPaws.Core.Abstractions.Database.DbContexts.AbstractClasses;
 using KindPaws.Pets.Application.Abstractions;
 using KindPaws.Pets.Application.Common.DataModels;
 using KindPaws.Pets.Infrastructure.Common.Options;
@@ -15,10 +15,9 @@ public class PetsReadDbContext : ReadDbContext, IPetsReadDbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
-
-    protected override string SchemaName => "pets";
-    protected override string ConfigurationNamespace => "Persistence.Configurations.Read";
-
+    public override string GetSchemaName() => "pets";
+    public override string GetConfigurationNamespace() => "Persistence.Configurations.Read";
+    
     public IQueryable<VolunteerDataModel> Volunteers => Set<VolunteerDataModel>();
     public IQueryable<PetDataModel> Pets => Set<PetDataModel>();
     public IQueryable<SpecieDataModel> Species => Set<SpecieDataModel>();

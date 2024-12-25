@@ -1,9 +1,9 @@
-﻿using KindPaws.Core.OutBox.Entities;
+﻿using KindPaws.Core.MessageBox.Entities;
 using KindPaws.SharedKernel.DDD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace KindPaws.Core.OutBox.Interceptors;
+namespace KindPaws.Core.MessageBox.Interceptors;
 
 public class DomainEventsToOutboxInterceptor : SaveChangesInterceptor
 {
@@ -30,9 +30,9 @@ public class DomainEventsToOutboxInterceptor : SaveChangesInterceptor
         var allDomainEvents = aggregateRoots
             .SelectMany(aggregateRoot => aggregateRoot.DomainEvents);
 
-        var outboxMessages = allDomainEvents.Select(OutBoxMessage.CreateNew);
+        var outboxMessages = allDomainEvents.Select(BoxMessage.CreateNew);
 
-        await context.Set<OutBoxMessage>().AddRangeAsync(outboxMessages, cancellationToken);
+        await context.Set<BoxMessage>().AddRangeAsync(outboxMessages, cancellationToken);
 
         aggregateRoots.ForEach(aggregateRoot => aggregateRoot.ClearDomainEvents());
     }
