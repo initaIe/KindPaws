@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AuthWriteDbContext))]
-    [Migration("20241224183212_Auth_20241224_233141")]
-    partial class Auth_20241224_233141
+    [Migration("20241225102847_Auth_20241225_152813")]
+    partial class Auth_20241225_152813
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,8 +192,8 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b6d9ccd7-a17b-4301-9fee-7cc1a2f7b698"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 24, 18, 32, 11, 843, DateTimeKind.Unspecified).AddTicks(5036), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("58aef96e-b94c-468a-9e45-3b0c0c787e99"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 25, 10, 28, 46, 516, DateTimeKind.Unspecified).AddTicks(7570), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "User",
                             Permissions = new Guid[0]
                         });

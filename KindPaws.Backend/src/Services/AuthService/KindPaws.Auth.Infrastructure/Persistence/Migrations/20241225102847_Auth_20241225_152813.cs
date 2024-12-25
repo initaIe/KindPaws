@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Auth_20241224_233141 : Migration
+    public partial class Auth_20241225_152813 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,7 +110,7 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                 schema: "auth",
                 table: "roles",
                 columns: new[] { "id", "created_at", "last_modified_at", "name", "permissions" },
-                values: new object[] { new Guid("b6d9ccd7-a17b-4301-9fee-7cc1a2f7b698"), new DateTimeOffset(new DateTime(2024, 12, 24, 18, 32, 11, 843, DateTimeKind.Unspecified).AddTicks(5036), new TimeSpan(0, 0, 0, 0, 0)), null, "User", new Guid[0] });
+                values: new object[] { new Guid("58aef96e-b94c-468a-9e45-3b0c0c787e99"), new DateTimeOffset(new DateTime(2024, 12, 25, 10, 28, 46, 516, DateTimeKind.Unspecified).AddTicks(7570), new TimeSpan(0, 0, 0, 0, 0)), null, "User", new Guid[0] });
 
             migrationBuilder.CreateIndex(
                 name: "ix_accounts_email_address",

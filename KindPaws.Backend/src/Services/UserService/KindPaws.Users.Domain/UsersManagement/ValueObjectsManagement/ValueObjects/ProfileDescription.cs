@@ -23,8 +23,8 @@ public record ProfileDescription
 
         if (!StringValidator.IsInRange(
                 input,
-                ProfielConstraints.MinLength,
-                ProfielConstraints.MaxLength))
+                ProfileDescriptionConstraints.MinLength,
+                ProfileDescriptionConstraints.MaxLength))
             return ErrorsGeneral.ValueOutOfRange();
 
         return new ProfileDescription(input);

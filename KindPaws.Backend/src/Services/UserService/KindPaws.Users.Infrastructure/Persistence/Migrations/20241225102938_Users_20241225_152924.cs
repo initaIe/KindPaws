@@ -3,20 +3,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
+namespace KindPaws.Users.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Pets_20241224_233226 : Migration
+    public partial class Users_20241225_152924 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "pets");
+                name: "users");
 
             migrationBuilder.CreateTable(
                 name: "outbox_messages",
-                schema: "pets",
+                schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -32,134 +32,123 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "species",
-                schema: "pets",
+                name: "roles",
+                schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     last_modified_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_species", x => x.id);
+                    table.PrimaryKey("pk_roles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "volunteers",
-                schema: "pets",
+                name: "users",
+                schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
-                    years_of_experience = table.Column<int>(type: "integer", nullable: true),
-                    requisites = table.Column<string>(type: "jsonb", nullable: false),
+                    username = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    email_address = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    reputation = table.Column<int>(type: "integer", nullable: false),
+                    account_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    roles = table.Column<Guid[]>(type: "uuid[]", nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     last_modified_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_volunteers", x => x.id);
+                    table.PrimaryKey("pk_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "breeds",
-                schema: "pets",
+                name: "volunteer_requests",
+                schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
-                    specie_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    requester_user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    reviewer_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    status = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    body = table.Column<string>(type: "character varying(4096)", maxLength: 4096, nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     last_modified_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_breeds", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_breeds_species_specie_id",
-                        column: x => x.specie_id,
-                        principalSchema: "pets",
-                        principalTable: "species",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_volunteer_requests", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "pets",
-                schema: "pets",
+                name: "profiles",
+                schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    support_status = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
+                    gender = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    full_name = table.Column<string>(type: "jsonb", nullable: true),
                     birthday_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    health_details = table.Column<string>(type: "jsonb", nullable: true),
-                    biometric_details = table.Column<string>(type: "jsonb", nullable: true),
-                    volunteer_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    breed_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    specie_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    description = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    address = table.Column<string>(type: "jsonb", nullable: true),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     last_modified_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_pets", x => x.id);
+                    table.PrimaryKey("pk_profiles", x => x.id);
                     table.ForeignKey(
-                        name: "fk_pets_volunteers_volunteer_id",
-                        column: x => x.volunteer_id,
-                        principalSchema: "pets",
-                        principalTable: "volunteers",
+                        name: "fk_profiles_users_user_id",
+                        column: x => x.user_id,
+                        principalSchema: "users",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_breeds_specie_id",
-                schema: "pets",
-                table: "breeds",
-                column: "specie_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_outbox_messages_unprocessed",
-                schema: "pets",
+                schema: "users",
                 table: "outbox_messages",
                 columns: new[] { "occured_at", "processed_at" },
                 filter: "processed_at IS NULL");
 
             migrationBuilder.CreateIndex(
-                name: "ix_pets_volunteer_id",
-                schema: "pets",
-                table: "pets",
-                column: "volunteer_id");
+                name: "ix_profiles_user_id",
+                schema: "users",
+                table: "profiles",
+                column: "user_id",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "breeds",
-                schema: "pets");
-
-            migrationBuilder.DropTable(
                 name: "outbox_messages",
-                schema: "pets");
+                schema: "users");
 
             migrationBuilder.DropTable(
-                name: "pets",
-                schema: "pets");
+                name: "profiles",
+                schema: "users");
 
             migrationBuilder.DropTable(
-                name: "species",
-                schema: "pets");
+                name: "roles",
+                schema: "users");
 
             migrationBuilder.DropTable(
-                name: "volunteers",
-                schema: "pets");
+                name: "volunteer_requests",
+                schema: "users");
+
+            migrationBuilder.DropTable(
+                name: "users",
+                schema: "users");
         }
     }
 }

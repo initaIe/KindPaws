@@ -16,10 +16,12 @@
     <ItemGroup>
       <Folder Include="Common\Models\" />
       <Folder Include="Features\Species\Commands\" />
-      <Folder Include="Features\Species\EventHandlers\" />
+      <Folder Include="Features\Species\DomainEventHandlers\" />
+      <Folder Include="Features\Species\IntegrationEventHandlers\" />
       <Folder Include="Features\Species\Queries\" />
       <Folder Include="Features\Volunteers\Commands\" />
-      <Folder Include="Features\Volunteers\EventHandlers\" />
+      <Folder Include="Features\Volunteers\DomainEventHandlers\" />
+      <Folder Include="Features\Volunteers\IntegrationEventHandlers\" />
       <Folder Include="Features\Volunteers\Queries\" />
     </ItemGroup>
 

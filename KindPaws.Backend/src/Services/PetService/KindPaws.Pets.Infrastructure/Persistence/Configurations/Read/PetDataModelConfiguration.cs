@@ -53,14 +53,14 @@ public class PetDataModelConfiguration : IEntityTypeConfiguration<PetDataModel>
         // HEALTH_DETAILS
         builder.Property(p => p.HealthDetails)
             .HasConversion(
-                healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                healthDetails => string.Empty,
                 json => JsonSerializer.Deserialize<HealthDetails>(json, JsonSerializerOptions.Default)!.ToDto())
             .HasColumnName("health_details");
 
         // BIOMETRIC_DETAILS
         builder.Property(p => p.BiometricDetails)
             .HasConversion(
-                healthDetails => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                healthDetails => string.Empty,
                 json => JsonSerializer.Deserialize<BiometricDetails>(json, JsonSerializerOptions.Default)!.ToDto())
             .HasColumnName("biometric_details");
     }

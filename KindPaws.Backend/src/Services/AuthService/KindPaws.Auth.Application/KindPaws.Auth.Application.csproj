@@ -16,12 +16,18 @@
     <ItemGroup>
       <Folder Include="Common\" />
       <Folder Include="Features\Accounts\Commands\" />
+      <Folder Include="Features\Accounts\IntegrationEventHandlers\" />
       <Folder Include="Features\Accounts\Queries\" />
+      <Folder Include="Features\Auth\DomainEventHandlers\" />
+      <Folder Include="Features\Auth\IntegrationEventHandlers\" />
+      <Folder Include="Features\Auth\Queries\" />
       <Folder Include="Features\Permissions\Commands\" />
-      <Folder Include="Features\Permissions\EventHandlers\" />
+      <Folder Include="Features\Permissions\DomainEventHandlers\" />
+      <Folder Include="Features\Permissions\IntegrationEventHandlers\" />
       <Folder Include="Features\Permissions\Queries\" />
       <Folder Include="Features\Roles\Commands\" />
-      <Folder Include="Features\Roles\EventHandlers\" />
+      <Folder Include="Features\Roles\DomainEventHandlers\" />
+      <Folder Include="Features\Roles\IntegrationEventHandlers\" />
       <Folder Include="Features\Roles\Queries\" />
     </ItemGroup>
 

@@ -37,7 +37,7 @@ public class VolunteerDataModelConfiguration : IEntityTypeConfiguration<Voluntee
         // REQUISITES
         builder.Property(p => p.Requisites)
             .HasConversion(
-                requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                requisites => string.Empty,
                 json => JsonSerializer.Deserialize<IEnumerable<Requisite>>(json, JsonSerializerOptions.Default)!
                     .ToDtoCollection())
             .HasColumnName("requisites");
