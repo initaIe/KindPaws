@@ -1,4 +1,5 @@
 ﻿using KindPaws.Core.MessageBox.Entities;
+using KindPaws.Core.MessageBox.Factories;
 using KindPaws.SharedKernel.DDD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -18,10 +19,10 @@ public class DomainEventsToOutboxInterceptor : SaveChangesInterceptor
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    private static async Task ProcessDomainEventsToOutboxAsync(DbContext context,
+    private static async Task ProcessDomainEventsToOutboxAsync(DbContext dbContext,
         CancellationToken cancellationToken = default)
     {
-        var aggregateRoots = context.ChangeTracker
+        var aggregateRoots = dbContext.ChangeTracker
             .Entries<IAggregateRoot>()
             .Where(e => e.State is not (EntityState.Unchanged or EntityState.Detached))
             .Select(e => e.Entity)
@@ -30,9 +31,9 @@ public class DomainEventsToOutboxInterceptor : SaveChangesInterceptor
         var allDomainEvents = aggregateRoots
             .SelectMany(aggregateRoot => aggregateRoot.DomainEvents);
 
-        var outboxMessages = allDomainEvents.Select(BoxMessage.CreateNew);
+        var outboxMessages = allDomainEvents.Select(MessageFactory.CreateNewOutBoxMessage);
 
-        await context.Set<BoxMessage>().AddRangeAsync(outboxMessages, cancellationToken);
+        await dbContext.Set<OutBoxMessage>().AddRangeAsync(outboxMessages, cancellationToken);
 
         aggregateRoots.ForEach(aggregateRoot => aggregateRoot.ClearDomainEvents());
     }

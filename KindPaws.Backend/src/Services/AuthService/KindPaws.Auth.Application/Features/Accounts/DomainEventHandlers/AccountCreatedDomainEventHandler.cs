@@ -21,6 +21,8 @@ public class AccountCreatedDomainEventHandler : IDomainEventHandler<AccountCreat
         CancellationToken cancellationToken = default)
     {
         var integrationEvent = new AccountCreatedIntegrationEvent(
+            domainEvent.EventId,
+            domainEvent.EventOccurredAt,
             domainEvent.AccountId,
             domainEvent.Username,
             domainEvent.EmailAddress);

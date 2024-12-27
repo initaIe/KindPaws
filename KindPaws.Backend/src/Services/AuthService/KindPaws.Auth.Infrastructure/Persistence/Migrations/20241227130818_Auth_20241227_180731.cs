@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Auth_20241225_193418 : Migration
+    public partial class Auth_20241227_180731 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,37 +34,37 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "in_box_messages",
+                name: "inbox_messages",
                 schema: "auth",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<string>(type: "text", nullable: false),
-                    payload = table.Column<string>(type: "text", nullable: false),
+                    type = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
+                    payload = table.Column<string>(type: "jsonb", nullable: false),
                     occured_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     processed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     error = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_in_box_messages", x => x.id);
+                    table.PrimaryKey("pk_inbox_messages", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "out_box_messages",
+                name: "outbox_messages",
                 schema: "auth",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<string>(type: "text", nullable: false),
-                    payload = table.Column<string>(type: "text", nullable: false),
+                    type = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
+                    payload = table.Column<string>(type: "jsonb", nullable: false),
                     occured_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     processed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     error = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_out_box_messages", x => x.id);
+                    table.PrimaryKey("pk_outbox_messages", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,7 +127,7 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                 schema: "auth",
                 table: "roles",
                 columns: new[] { "id", "created_at", "last_modified_at", "name", "permissions" },
-                values: new object[] { new Guid("80271c27-009d-4fec-938a-d26a424eec92"), new DateTimeOffset(new DateTime(2024, 12, 25, 14, 34, 42, 597, DateTimeKind.Unspecified).AddTicks(4701), new TimeSpan(0, 0, 0, 0, 0)), null, "User", new Guid[0] });
+                values: new object[] { new Guid("6a960434-e25e-4e37-9347-36812908850e"), new DateTimeOffset(new DateTime(2024, 12, 27, 13, 8, 17, 661, DateTimeKind.Unspecified).AddTicks(1432), new TimeSpan(0, 0, 0, 0, 0)), null, "User", new Guid[0] });
 
             migrationBuilder.CreateIndex(
                 name: "ix_accounts_email_address",
@@ -149,6 +149,20 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                 table: "accounts",
                 column: "user_name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_inbox_messages_unprocessed",
+                schema: "auth",
+                table: "inbox_messages",
+                columns: new[] { "occured_at", "processed_at" },
+                filter: "processed_at IS NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_outbox_messages_unprocessed",
+                schema: "auth",
+                table: "outbox_messages",
+                columns: new[] { "occured_at", "processed_at" },
+                filter: "processed_at IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "ix_permissions_code",
@@ -175,11 +189,11 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "in_box_messages",
+                name: "inbox_messages",
                 schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "out_box_messages",
+                name: "outbox_messages",
                 schema: "auth");
 
             migrationBuilder.DropTable(

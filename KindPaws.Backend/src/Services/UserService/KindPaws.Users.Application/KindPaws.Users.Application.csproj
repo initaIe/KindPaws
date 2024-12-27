@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\Shared\KindPaws.Core\KindPaws.Core.csproj" />
       <ProjectReference Include="..\..\..\Shared\KindPaws.SharedKernel\KindPaws.SharedKernel.csproj" />
+      <ProjectReference Include="..\..\AuthService\KindPaws.Auth.Contracts\KindPaws.Auth.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Users.Contracts\KindPaws.Users.Contracts.csproj" />
       <ProjectReference Include="..\KindPaws.Users.Domain\KindPaws.Users.Domain.csproj" />
     </ItemGroup>

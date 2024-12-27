@@ -1,4 +1,4 @@
-﻿namespace KindPaws.Core.MessageBox.Entities;
+﻿namespace KindPaws.Core.MessageBox.Abstractions.Interfaces;
 
 public interface IBoxMessage
 {

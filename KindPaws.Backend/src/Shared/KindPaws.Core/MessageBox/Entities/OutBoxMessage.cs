@@ -1,8 +1,12 @@
-﻿namespace KindPaws.Core.MessageBox.Entities;
+﻿using System.Text.Json;
+using KindPaws.Core.MessageBox.Abstractions.Interfaces;
+using KindPaws.SharedKernel.DDD;
 
-public sealed class OutBoxMessage : BoxMessage
+namespace KindPaws.Core.MessageBox.Entities;
+
+public sealed class OutBoxMessage : BoxMessage, IOutBoxMessage
 {
-    private OutBoxMessage(
+    public OutBoxMessage(
         Guid id,
         string type,
         string payload,
@@ -14,8 +18,8 @@ public sealed class OutBoxMessage : BoxMessage
             type,
             payload,
             occuredAt,
-            processedAt
-            , error)
+            processedAt,
+            error)
     {
     }
 }

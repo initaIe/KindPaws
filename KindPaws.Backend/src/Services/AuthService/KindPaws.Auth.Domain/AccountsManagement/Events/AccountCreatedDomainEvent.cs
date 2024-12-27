@@ -1,9 +1,10 @@
-﻿using KindPaws.SharedKernel.DDD;
+﻿using System.Text.Json.Serialization;
+using KindPaws.SharedKernel.DDD;
 
 namespace KindPaws.Auth.Domain.AccountsManagement.Events;
 
 public record AccountCreatedDomainEvent(
-    Guid AccountId,
+    Guid AccountId, 
     string Username,
     string EmailAddress)
     : DomainEvent;

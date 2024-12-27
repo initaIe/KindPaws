@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindPaws.Users.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Users_20241225_193523 : Migration
+    public partial class Users_20241227_180901 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,37 +15,37 @@ namespace KindPaws.Users.Infrastructure.Persistence.Migrations
                 name: "users");
 
             migrationBuilder.CreateTable(
-                name: "in_box_messages",
+                name: "inbox_messages",
                 schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<string>(type: "text", nullable: false),
-                    payload = table.Column<string>(type: "text", nullable: false),
+                    type = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
+                    payload = table.Column<string>(type: "jsonb", nullable: false),
                     occured_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     processed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     error = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_in_box_messages", x => x.id);
+                    table.PrimaryKey("pk_inbox_messages", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "out_box_messages",
+                name: "outbox_messages",
                 schema: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<string>(type: "text", nullable: false),
-                    payload = table.Column<string>(type: "text", nullable: false),
+                    type = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
+                    payload = table.Column<string>(type: "jsonb", nullable: false),
                     occured_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     processed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     error = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_out_box_messages", x => x.id);
+                    table.PrimaryKey("pk_outbox_messages", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,6 +130,20 @@ namespace KindPaws.Users.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "idx_inbox_messages_unprocessed",
+                schema: "users",
+                table: "inbox_messages",
+                columns: new[] { "occured_at", "processed_at" },
+                filter: "processed_at IS NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_outbox_messages_unprocessed",
+                schema: "users",
+                table: "outbox_messages",
+                columns: new[] { "occured_at", "processed_at" },
+                filter: "processed_at IS NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_profiles_user_id",
                 schema: "users",
                 table: "profiles",
@@ -141,11 +155,11 @@ namespace KindPaws.Users.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "in_box_messages",
+                name: "inbox_messages",
                 schema: "users");
 
             migrationBuilder.DropTable(
-                name: "out_box_messages",
+                name: "outbox_messages",
                 schema: "users");
 
             migrationBuilder.DropTable(

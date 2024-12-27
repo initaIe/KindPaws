@@ -15,9 +15,10 @@ public class PetsReadDbContext : ReadDbContext, IPetsReadDbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
+
     public override string GetSchemaName() => "pets";
     public override string GetConfigurationNamespace() => "Persistence.Configurations.Read";
-    
+
     public IQueryable<VolunteerDataModel> Volunteers => Set<VolunteerDataModel>();
     public IQueryable<PetDataModel> Pets => Set<PetDataModel>();
     public IQueryable<SpecieDataModel> Species => Set<SpecieDataModel>();

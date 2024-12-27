@@ -1,6 +1,5 @@
 ﻿using KindPaws.Core.Abstractions.Database.DbContexts.AbstractClasses;
 using KindPaws.Core.MessageBox.Abstractions.Interfaces;
-using KindPaws.Core.MessageBox.Database;
 using KindPaws.Core.MessageBox.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -24,8 +23,7 @@ public abstract class GeneralBoxDbContext : WriteDbContext, IGeneralBoxDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BoxMessageConfiguration<InBoxMessage>).Assembly);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BoxMessageConfiguration<OutBoxMessage>).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CoreAssemblyReference).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 

@@ -1,11 +1,11 @@
 ﻿namespace KindPaws.Auth.Infrastructure.Common.Options;
 
-public class AccountsMessagingOptions
+public class AccountsProducingOptions
 {
     /// <summary>
     ///     Section name in IConfiguration.
     /// </summary>
-    public const string SectionName = nameof(AccountsMessagingOptions);
+    public const string SectionName = nameof(AccountsProducingOptions);
 
     public string ExchangeName { get; init; } = null!;
     public string ExchangeType { get; init; } = null!;

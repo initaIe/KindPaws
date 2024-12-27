@@ -20,7 +20,7 @@ public class AuthReadDbContext : ReadDbContext, IAuthReadDbContext
     public IQueryable<RefreshSessionDataModel> RefreshSessions => Set<RefreshSessionDataModel>();
     public IQueryable<RoleDataModel> Roles => Set<RoleDataModel>();
     public IQueryable<PermissionDataModel> Permissions => Set<PermissionDataModel>();
-    
+
     public override string GetSchemaName() => "auth";
     public override string GetConfigurationNamespace() => "Persistence.Configurations.Read";
 

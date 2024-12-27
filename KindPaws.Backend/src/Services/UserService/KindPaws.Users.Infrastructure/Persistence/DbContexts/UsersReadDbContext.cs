@@ -15,6 +15,7 @@ public class UsersReadDbContext : ReadDbContext, IUsersReadDbContext
     {
         _postgresOptions = postgresOptions.Value;
     }
+
     public override string GetSchemaName() => "users";
     public override string GetConfigurationNamespace() => "Persistence.Configurations.Read";
 

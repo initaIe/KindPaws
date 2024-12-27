@@ -24,6 +24,8 @@ public static class DatabaseInjection
         return services
             .AddScoped<UsersWriteDbContext>()
             .AddScoped<IOutBoxWriteDbContext, UsersWriteDbContext>()
+            .AddScoped<IInBoxWriteDbContext, UsersWriteDbContext>()
+            .AddScoped<IGeneralBoxDbContext, UsersWriteDbContext>()
             .AddScoped<IUsersReadDbContext, UsersReadDbContext>();
     }
 

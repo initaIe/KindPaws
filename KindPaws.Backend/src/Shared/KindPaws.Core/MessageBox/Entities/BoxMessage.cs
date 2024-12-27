@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
+using KindPaws.Core.MessageBox.Abstractions.Interfaces;
 using KindPaws.SharedKernel.DDD;
 
 namespace KindPaws.Core.MessageBox.Entities;
 
 public class BoxMessage : IBoxMessage
 {
-    private protected BoxMessage(
+    protected BoxMessage(
         Guid id,
         string type,
         string payload,
@@ -21,49 +22,16 @@ public class BoxMessage : IBoxMessage
         Error = error;
     }
 
-    public Guid Id { get; init; }
+    public Guid Id { get; }
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
-    public string Type { get; init; }
+    public string Type { get; }
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
-    public string Payload { get; init; }
-    public DateTimeOffset OccuredAt { get; init; }
+    public string Payload { get; }
+    public DateTimeOffset OccuredAt { get; }
     public DateTimeOffset? ProcessedAt { get; set; }
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string? Error { get; set; }
-
-    public static BoxMessage CreateNew<T>(T message)
-        where T : IEvent
-    {
-        var outBoxMessageId = Guid.NewGuid();
-        var outBoxMessageOccuredAt = DateTimeOffset.UtcNow;
-
-        var payload = JsonSerializer.Serialize(message, System.Type.GetType(message.EventType)!);
-        return new BoxMessage(
-            outBoxMessageId,
-            message.EventType,
-            payload,
-            outBoxMessageOccuredAt,
-            null,
-            null);
-    }
-
-    public static BoxMessage Create(
-        Guid id,
-        string type,
-        string payload,
-        DateTimeOffset occuredAt,
-        DateTimeOffset? processedAt,
-        string? error)
-    {
-        return new BoxMessage(
-            id,
-            type,
-            payload,
-            occuredAt,
-            processedAt,
-            error);
-    }
 }

@@ -2,4 +2,7 @@
 
 namespace KindPaws.Core.Abstractions.IntegrationEvents;
 
-public abstract record IntegrationEvent : Event, IIntegrationEvent;
+public abstract record IntegrationEvent(
+    Guid EventId,
+    DateTimeOffset EventOccurredAt)
+    : IIntegrationEvent;

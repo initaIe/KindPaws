@@ -41,7 +41,7 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Payload")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("payload");
 
                     b.Property<DateTimeOffset?>("ProcessedAt")
@@ -50,13 +50,18 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_in_box_messages");
+                        .HasName("pk_inbox_messages");
 
-                    b.ToTable("in_box_messages", "pets");
+                    b.HasIndex("OccuredAt", "ProcessedAt")
+                        .HasDatabaseName("idx_inbox_messages_unprocessed")
+                        .HasFilter("processed_at IS NULL");
+
+                    b.ToTable("inbox_messages", "pets");
                 });
 
             modelBuilder.Entity("KindPaws.Core.MessageBox.Entities.OutBoxMessage", b =>
@@ -76,7 +81,7 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Payload")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("payload");
 
                     b.Property<DateTimeOffset?>("ProcessedAt")
@@ -85,13 +90,18 @@ namespace KindPaws.Pets.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_out_box_messages");
+                        .HasName("pk_outbox_messages");
 
-                    b.ToTable("out_box_messages", "pets");
+                    b.HasIndex("OccuredAt", "ProcessedAt")
+                        .HasDatabaseName("idx_outbox_messages_unprocessed")
+                        .HasFilter("processed_at IS NULL");
+
+                    b.ToTable("outbox_messages", "pets");
                 });
 
             modelBuilder.Entity("KindPaws.Pets.Domain.SpeciesManagement.AggregateRoot.Specie", b =>

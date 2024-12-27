@@ -1,13 +1,13 @@
-﻿using KindPaws.Auth.Infrastructure.Common.Options;
-using KindPaws.Auth.Infrastructure.DI.Injections.MessagingInjections.ProducingInjection;
-using KindPaws.Core.Abstractions.IntegrationEvents;
+﻿using KindPaws.Core.Abstractions.IntegrationEvents;
 using KindPaws.Core.Options;
 using KindPaws.SharedKernel.DDD;
+using KindPaws.Users.Infrastructure.Common.Options;
+using KindPaws.Users.Infrastructure.DI.Injections.MessagingInjections.ConsumingInjections;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KindPaws.Auth.Infrastructure.DI.Injections.MessagingInjections;
+namespace KindPaws.Users.Infrastructure.DI.Injections.MessagingInjections;
 
 public static class MessagingInjection
 {
@@ -27,13 +27,13 @@ public static class MessagingInjection
             .GetRequiredSection(RabbitmqOptions.SectionName)
             .Get<RabbitmqOptions>()!;
 
-        var accountsMessagingOptions = configuration
-            .GetRequiredSection(AccountsProducingOptions.SectionName)
-            .Get<AccountsProducingOptions>()!;
+        var accountsConsumingOptions = configuration
+            .GetRequiredSection(AccountsConsumingOptions.SectionName)
+            .Get<AccountsConsumingOptions>()!;
 
-        services.AddAccountsProducing(
+        services.AddAccountsConsuming(
             rabbitmqOptions,
-            accountsMessagingOptions,
+            accountsConsumingOptions,
             typesToExclude);
 
         return services;

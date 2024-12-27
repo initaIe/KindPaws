@@ -189,8 +189,8 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80271c27-009d-4fec-938a-d26a424eec92"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 25, 14, 34, 42, 597, DateTimeKind.Unspecified).AddTicks(4701), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("6a960434-e25e-4e37-9347-36812908850e"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 27, 13, 8, 17, 661, DateTimeKind.Unspecified).AddTicks(1432), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "User",
                             Permissions = new Guid[0]
                         });
@@ -213,7 +213,7 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Payload")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("payload");
 
                     b.Property<DateTimeOffset?>("ProcessedAt")
@@ -222,13 +222,18 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_in_box_messages");
+                        .HasName("pk_inbox_messages");
 
-                    b.ToTable("in_box_messages", "auth");
+                    b.HasIndex("OccuredAt", "ProcessedAt")
+                        .HasDatabaseName("idx_inbox_messages_unprocessed")
+                        .HasFilter("processed_at IS NULL");
+
+                    b.ToTable("inbox_messages", "auth");
                 });
 
             modelBuilder.Entity("KindPaws.Core.MessageBox.Entities.OutBoxMessage", b =>
@@ -248,7 +253,7 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Payload")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("payload");
 
                     b.Property<DateTimeOffset?>("ProcessedAt")
@@ -257,13 +262,18 @@ namespace KindPaws.Auth.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_out_box_messages");
+                        .HasName("pk_outbox_messages");
 
-                    b.ToTable("out_box_messages", "auth");
+                    b.HasIndex("OccuredAt", "ProcessedAt")
+                        .HasDatabaseName("idx_outbox_messages_unprocessed")
+                        .HasFilter("processed_at IS NULL");
+
+                    b.ToTable("outbox_messages", "auth");
                 });
 
             modelBuilder.Entity("KindPaws.Auth.Domain.AccountsManagement.Entities.RefreshSession", b =>

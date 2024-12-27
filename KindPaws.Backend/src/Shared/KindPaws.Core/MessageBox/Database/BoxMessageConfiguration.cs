@@ -1,16 +1,14 @@
-﻿using KindPaws.Core.MessageBox.Entities;
+﻿using KindPaws.Core.MessageBox.Abstractions.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KindPaws.Core.MessageBox.Database;
 
-public class BoxMessageConfiguration<T> : IEntityTypeConfiguration<T> 
+public abstract class BoxMessageConfiguration<T> : IEntityTypeConfiguration<T>
     where T : class, IBoxMessage
 {
-    public void Configure(EntityTypeBuilder<T> builder)
+    public virtual void Configure(EntityTypeBuilder<T> builder)
     {
-        builder.ToTable(typeof(T).Name);
-        
         // ID
         builder.HasKey(outBoxMessage => outBoxMessage.Id);
         builder.Property(outBoxMessage => outBoxMessage.Id)
@@ -43,14 +41,5 @@ public class BoxMessageConfiguration<T> : IEntityTypeConfiguration<T>
             .HasColumnType("text")
             .HasColumnName("error")
             .IsRequired(false);
-
-        // INDEX
-        builder.HasIndex(outBoxMessage => new
-            {
-                outBoxMessage.OccuredAt,
-                outBoxMessage.ProcessedAt,
-            })
-            .HasDatabaseName("idx_outbox_messages_unprocessed")
-            .HasFilter("processed_at IS NULL");
     }
 }

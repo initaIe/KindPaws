@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <Folder Include="Common\" />
+      <Folder Include="DI\Injections\MessagingInjections\ConsumingInjections\" />
     </ItemGroup>
 
 </Project>
